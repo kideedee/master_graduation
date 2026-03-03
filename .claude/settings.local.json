@@ -1,0 +1,19 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(wc -l .claude/rules/*.md .claude/commands/*.md CLAUDE.md)",
+      "Bash(pdfinfo \"e:/master/documentation/graduation/document/phabert_cnn.pdf\")",
+      "Bash(pdftotext -f 1 -l 3 \"e:/master/documentation/graduation/document/phabert_cnn.pdf\" -)",
+      "Bash(wc -l /e/master/documentation/graduation/chapters/c2/*.tex /e/master/documentation/graduation/chapters/c3/*.tex)",
+      "Bash(wc -l e:masterdocumentationgraduationchaptersc3*.tex)",
+      "Bash(wc -l e:masterdocumentationgraduationchaptersc2*.tex)",
+      "Bash(find /e/master/documentation/graduation/chapters -name \"*.tex\" -exec wc -l {} +)",
+      "Bash(ls -lh /e/master/documentation/graduation/chapters/c*/)",
+      "Bash(ls -la *.log)",
+      "Bash(pdflatex thesis.tex)",
+      "Bash(bibtex thesis)",
+      "Bash(grep -E \"\\\\\\\\bibdata|\\\\\\\\bibstyle\" thesis.aux)",
+      "Bash(pdflatex -interaction=nonstopmode thesis.tex)"
+    ]
+  }
+}

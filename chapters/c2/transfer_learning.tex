@@ -1,0 +1,110 @@
+\section{Học chuyển giao trong sinh tin học}
+\label{sec:transfer_learning}
+
+\subsection{Khái niệm học chuyển giao}
+
+Học chuyển giao (Transfer Learning) là paradigm học máy trong đó kiến thức học được từ một nhiệm vụ nguồn (source task) được áp dụng để cải thiện hiệu suất trên một nhiệm vụ đích (target task) liên quan. Trong deep learning, transfer learning thường được thực hiện thông qua pre-training và fine-tuning.
+
+\subsection{Pre-training và Fine-tuning}
+
+\subsubsection{Pre-training phase}
+
+Mô hình được huấn luyện trên một nhiệm vụ tự giám sát (self-supervised) với corpus lớn:
+\begin{itemize}
+    \item \textbf{NLP}: Masked language modeling trên text corpus
+    \item \textbf{Genomics}: Masked language modeling trên genome corpus
+    \item \textbf{Computer Vision}: Contrastive learning trên image datasets
+\end{itemize}
+
+Mục tiêu: Học general-purpose representations nắm bắt cấu trúc và patterns của dữ liệu.
+
+\subsubsection{Fine-tuning phase}
+
+Mô hình tiền huấn luyện được điều chỉnh cho nhiệm vụ downstream cụ thể:
+
+\begin{enumerate}
+    \item Thêm task-specific layers (ví dụ: classification head)
+    \item Khởi tạo từ pre-trained weights
+    \item Fine-tune trên labeled data của target task
+    \item Sử dụng learning rate nhỏ hơn pre-training
+\end{enumerate}
+
+\subsection{Chiến lược Fine-tuning}
+
+\subsubsection{Full fine-tuning}
+
+Cập nhật tất cả parameters của mô hình:
+\begin{equation}
+\theta_{\text{fine-tuned}} = \theta_{\text{pre-trained}} - \eta \nabla_\theta \mathcal{L}_{\text{task}}
+\end{equation}
+
+\subsubsection{Feature extraction}
+
+Đóng băng pre-trained layers, chỉ train task-specific layers:
+\begin{itemize}
+    \item Nhanh hơn, ít tài nguyên hơn
+    \item Phù hợp khi dữ liệu target task ít
+    \item Có thể kém hiệu quả nếu source và target tasks khác biệt nhiều
+\end{itemize}
+
+\subsubsection{Discriminative fine-tuning}
+
+Sử dụng learning rates khác nhau cho các layers khác nhau:
+\begin{itemize}
+    \item Lower layers (gần input): Learning rate nhỏ
+    \item Higher layers (gần output): Learning rate lớn hơn
+    \item Rationale: Lower layers học general features, higher layers học task-specific features
+\end{itemize}
+
+PhaBERT-CNN sử dụng chiến lược này với learning rate cho DNABERT-2 là $1 \times 10^{-5}$ và cho task-specific layers là $1 \times 10^{-4}$.
+
+\subsubsection{Gradual unfreezing}
+
+Dần dần unfreeze các layers từ top xuống bottom:
+\begin{enumerate}
+    \item Train chỉ classification head
+    \item Unfreeze top transformer layer, train
+    \item Tiếp tục unfreeze từng layer và train
+\end{enumerate}
+
+PhaBERT-CNN sử dụng biến thể: warm-up phase (freeze DNABERT-2) sau đó full fine-tuning.
+
+\subsection{Lợi ích của Transfer Learning}
+
+\begin{itemize}
+    \item \textbf{Data efficiency}: Đạt hiệu suất tốt với ít labeled data
+    \item \textbf{Faster convergence}: Bắt đầu từ good initialization
+    \item \textbf{Better generalization}: Pre-trained representations robust hơn
+    \item \textbf{Domain adaptation}: Chuyển kiến thức giữa các domains liên quan
+\end{itemize}
+
+\subsection{Transfer Learning trong Genomics}
+
+\subsubsection{Thành công của genome foundation models}
+
+Các mô hình như DNABERT-2, Nucleotide Transformer đã chứng minh hiệu quả của transfer learning cho genomics:
+\begin{itemize}
+    \item Pre-train trên corpus genome lớn, đa dạng
+    \item Fine-tune cho các tasks cụ thể: gene prediction, variant calling, phage classification, etc.
+    \item Đạt SOTA trên nhiều benchmarks
+\end{itemize}
+
+\subsubsection{Challenges}
+
+\begin{itemize}
+    \item \textbf{Domain shift}: Pre-training data có thể khác biệt với target domain
+    \item \textbf{Catastrophic forgetting}: Fine-tuning có thể làm mất kiến thức pre-trained
+    \item \textbf{Computational cost}: Pre-training đòi hỏi tài nguyên lớn
+\end{itemize}
+
+\subsection{PhaBERT-CNN và Transfer Learning}
+
+PhaBERT-CNN tận dụng transfer learning thông qua:
+
+\begin{enumerate}
+    \item \textbf{Pre-trained DNABERT-2}: Mã hóa kiến thức từ multi-species genome corpus
+    \item \textbf{Two-phase fine-tuning}: Warm-up + full fine-tuning với discriminative learning rates
+    \item \textbf{Task-specific architecture}: CNN và attention layers học features phù hợp với phân loại lối sống phage
+\end{enumerate}
+
+Cách tiếp cận này cho phép PhaBERT-CNN đạt hiệu suất tốt ngay cả trên các contig ngắn với dữ liệu huấn luyện hạn chế.

@@ -1,0 +1,77 @@
+\section{BERT và Masked Language Modeling}
+\label{sec:bert}
+
+\subsection{Giới thiệu về BERT}
+
+BERT (Bidirectional Encoder Representations from Transformers) \cite{devlin2019bert} là mô hình ngôn ngữ tiền huấn luyện dựa trên kiến trúc transformer encoder. BERT đã cách mạng hóa NLP bằng cách học bidirectional representations thông qua masked language modeling, cho phép mô hình nắm bắt ngữ cảnh từ cả hai hướng trái và phải.
+
+\subsection{Masked Language Modeling (MLM)}
+
+\subsubsection{Nguyên lý}
+
+MLM là nhiệm vụ tiền huấn luyện chính của BERT:
+
+\begin{enumerate}
+    \item Ngẫu nhiên mask 15\% tokens trong chuỗi đầu vào
+    \item Mô hình dự đoán các tokens bị mask dựa trên ngữ cảnh xung quanh
+    \item Loss function: Cross-entropy trên các masked positions
+\end{enumerate}
+
+\begin{equation}
+\mathcal{L}_{\text{MLM}} = -\sum_{i \in \mathcal{M}} \log P(x_i | \mathbf{x}_{\backslash \mathcal{M}})
+\end{equation}
+
+với $\mathcal{M}$ là tập các vị trí bị mask.
+
+\subsubsection{Masking strategy}
+
+Để tránh mismatch giữa pre-training và fine-tuning, BERT sử dụng chiến lược:
+\begin{itemize}
+    \item 80\%: Thay bằng [MASK] token
+    \item 10\%: Thay bằng random token
+    \item 10\%: Giữ nguyên token gốc
+\end{itemize}
+
+\subsection{Kiến trúc BERT}
+
+BERT sử dụng transformer encoder với:
+\begin{itemize}
+    \item \textbf{BERT-Base}: 12 layers, 768 hidden size, 12 attention heads, 110M parameters
+    \item \textbf{BERT-Large}: 24 layers, 1024 hidden size, 16 attention heads, 340M parameters
+\end{itemize}
+
+\subsubsection{Input representation}
+
+BERT input = Token embeddings + Segment embeddings + Position embeddings
+
+\subsection{Transfer Learning với BERT}
+
+\subsubsection{Pre-training}
+
+BERT được tiền huấn luyện trên corpus lớn (Wikipedia + BookCorpus) với hai nhiệm vụ:
+\begin{itemize}
+    \item Masked Language Modeling (MLM)
+    \item Next Sentence Prediction (NSP)
+\end{itemize}
+
+\subsubsection{Fine-tuning}
+
+Sau pre-training, BERT được fine-tune cho các nhiệm vụ downstream:
+\begin{itemize}
+    \item Thêm task-specific layer (thường là linear classifier)
+    \item Fine-tune toàn bộ mô hình end-to-end
+    \item Sử dụng learning rate nhỏ để tránh catastrophic forgetting
+\end{itemize}
+
+\subsection{Ưu điểm của BERT}
+
+\begin{itemize}
+    \item \textbf{Bidirectional context}: Nắm bắt ngữ cảnh từ cả hai hướng
+    \item \textbf{Transfer learning}: Kiến thức từ pre-training chuyển sang downstream tasks
+    \item \textbf{Versatility}: Áp dụng cho nhiều NLP tasks khác nhau
+    \item \textbf{State-of-the-art performance}: Đạt SOTA trên nhiều benchmarks
+\end{itemize}
+
+\subsection{BERT cho genomics}
+
+Ý tưởng của BERT đã được áp dụng thành công cho dữ liệu genome, dẫn đến sự phát triển của các genome foundation models như DNABERT, DNABERT-2, và Nucleotide Transformer. Các mô hình này thay thế words bằng DNA tokens và học representations từ corpus genome lớn.

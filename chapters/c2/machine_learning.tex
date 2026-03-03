@@ -1,0 +1,97 @@
+\section{Học máy cho phân tích dữ liệu sinh học}
+\label{sec:machine_learning}
+
+\subsection{Giới thiệu về học máy}
+
+Học máy (Machine Learning) là một nhánh của trí tuệ nhân tạo tập trung vào việc phát triển các thuật toán cho phép máy tính học từ dữ liệu và cải thiện hiệu suất thông qua kinh nghiệm mà không cần được lập trình rõ ràng. Trong bối cảnh phân tích dữ liệu sinh học, học máy đã trở thành công cụ không thể thiếu để xử lý khối lượng dữ liệu khổng lồ từ các công nghệ sinh học hiện đại.
+
+\subsection{Các loại học máy}
+
+\subsubsection{Học có giám sát (Supervised Learning)}
+
+Học có giám sát là paradigm học máy trong đó mô hình được huấn luyện trên tập dữ liệu có nhãn (labeled data). Mục tiêu là học một hàm ánh xạ $f: X \rightarrow Y$ từ không gian đầu vào $X$ sang không gian đầu ra $Y$. Bài toán phân loại lối sống thực khuẩn thể là một bài toán học có giám sát điển hình, trong đó:
+
+\begin{itemize}
+    \item \textbf{Input} $X$: Chuỗi DNA của contig phage
+    \item \textbf{Output} $Y$: Nhãn lối sống (virulent hoặc temperate)
+    \item \textbf{Training data}: Tập hợp các cặp $(x_i, y_i)$ với nhãn đã biết
+\end{itemize}
+
+Các thuật toán học có giám sát phổ biến bao gồm:
+\begin{itemize}
+    \item Support Vector Machines (SVM)
+    \item Random Forest
+    \item Gradient Boosting
+    \item Neural Networks
+\end{itemize}
+
+\subsubsection{Học không giám sát (Unsupervised Learning)}
+
+Học không giám sát làm việc với dữ liệu không có nhãn, tìm kiếm các cấu trúc ẩn hoặc patterns trong dữ liệu. Các phương pháp phổ biến bao gồm clustering (K-means, hierarchical clustering) và dimensionality reduction (PCA, t-SNE).
+
+\subsubsection{Học chuyển giao (Transfer Learning)}
+
+Học chuyển giao là paradigm trong đó kiến thức học được từ một nhiệm vụ (source task) được áp dụng cho một nhiệm vụ khác nhưng liên quan (target task). Đây là nền tảng của phương pháp PhaBERT-CNN, trong đó mô hình DNABERT-2 được tiền huấn luyện trên corpus genome đa loài sau đó được tinh chỉnh cho nhiệm vụ phân loại lối sống phage.
+
+\subsection{Các khái niệm cơ bản}
+
+\subsubsection{Overfitting và Underfitting}
+
+\textbf{Overfitting} xảy ra khi mô hình học quá tốt trên dữ liệu huấn luyện, bao gồm cả noise, dẫn đến hiệu suất kém trên dữ liệu mới. \textbf{Underfitting} xảy ra khi mô hình quá đơn giản và không nắm bắt được patterns quan trọng trong dữ liệu.
+
+Các kỹ thuật regularization để giảm overfitting:
+\begin{itemize}
+    \item \textbf{L1/L2 regularization}: Thêm penalty term vào loss function
+    \item \textbf{Dropout}: Ngẫu nhiên tắt một số neurons trong quá trình huấn luyện
+    \item \textbf{Early stopping}: Dừng huấn luyện khi hiệu suất trên validation set bắt đầu giảm
+    \item \textbf{Data augmentation}: Tăng cường dữ liệu huấn luyện
+\end{itemize}
+
+\subsubsection{Cross-validation}
+
+Cross-validation là kỹ thuật đánh giá mô hình bằng cách chia dữ liệu thành nhiều folds, luân phiên sử dụng mỗi fold làm validation set trong khi các folds còn lại làm training set. Stratified k-fold cross-validation đảm bảo tỷ lệ các lớp được duy trì trong mỗi fold, đặc biệt quan trọng khi xử lý dữ liệu mất cân bằng.
+
+\subsubsection{Metrics đánh giá}
+
+Đối với bài toán phân loại nhị phân như phân loại lối sống phage, các metrics quan trọng bao gồm:
+
+\begin{itemize}
+    \item \textbf{Sensitivity (Recall)}: $\text{Sn} = \frac{TP}{TP + FN}$ - Tỷ lệ phage virulent được dự đoán đúng
+
+    \item \textbf{Specificity}: $\text{Sp} = \frac{TN}{TN + FP}$ - Tỷ lệ phage temperate được dự đoán đúng
+
+    \item \textbf{Accuracy}: $\text{Acc} = \frac{TP + TN}{TP + TN + FP + FN}$ - Tỷ lệ dự đoán đúng tổng thể
+
+    \item \textbf{Precision}: $\text{Prec} = \frac{TP}{TP + FP}$ - Tỷ lệ dự đoán virulent chính xác
+
+    \item \textbf{F1-Score}: $F1 = 2 \times \frac{\text{Precision} \times \text{Recall}}{\text{Precision} + \text{Recall}}$ - Trung bình điều hòa của precision và recall
+\end{itemize}
+
+trong đó TP (True Positive), TN (True Negative), FP (False Positive), FN (False Negative) là các giá trị từ confusion matrix.
+
+\subsection{Học máy cho phân tích chuỗi sinh học}
+
+\subsubsection{Feature engineering cho dữ liệu DNA}
+
+Các phương pháp học máy truyền thống đòi hỏi feature engineering thủ công để chuyển đổi chuỗi DNA thành vector số. Các phương pháp phổ biến bao gồm:
+
+\begin{itemize}
+    \item \textbf{Nucleotide composition}: Tần suất của từng nucleotide (A, T, G, C)
+    \item \textbf{k-mer frequency}: Tần suất của tất cả các chuỗi con độ dài k
+    \item \textbf{Codon usage}: Tần suất sử dụng các codon khác nhau
+    \item \textbf{GC content}: Tỷ lệ phần trăm của G và C trong chuỗi
+    \item \textbf{Protein-based features}: Đặc trưng từ các protein được dự đoán
+\end{itemize}
+
+\subsubsection{Hạn chế của phương pháp truyền thống}
+
+Các phương pháp học máy truyền thống có những hạn chế khi áp dụng cho phân loại lối sống phage:
+
+\begin{itemize}
+    \item \textbf{Feature engineering thủ công}: Đòi hỏi kiến thức chuyên môn và có thể bỏ lỡ các patterns quan trọng
+    \item \textbf{Phụ thuộc vào công cụ bên ngoài}: Các features dựa trên protein yêu cầu gene prediction chính xác
+    \item \textbf{Khó xử lý chuỗi ngắn}: Tín hiệu thống kê yếu trên các contig ngắn
+    \item \textbf{Không nắm bắt được long-range dependencies}: Các features cục bộ không thể mô hình hóa mối quan hệ xa trong chuỗi
+\end{itemize}
+
+Những hạn chế này đã thúc đẩy sự phát triển của các phương pháp học sâu có khả năng tự động học representations từ dữ liệu thô.

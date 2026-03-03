@@ -1,0 +1,213 @@
+\section{Các công trình liên quan}
+\label{sec:related_work}
+
+Phần này tổng hợp các phương pháp tính toán hiện có cho phân loại lối sống thực khuẩn thể, phân tích ưu nhược điểm của từng phương pháp, và làm rõ vị trí của PhaBERT-CNN trong bối cảnh nghiên cứu hiện tại.
+
+\subsection{Phương pháp học máy truyền thống}
+
+\subsubsection{PHACTS}
+
+PHACTS (Phage Classification Tool Set) \cite{mcnair2012phacts} là một trong những công cụ đầu tiên sử dụng học máy cho phân loại lối sống phage. PHACTS sử dụng Random Forest với features dựa trên protein:
+
+\textbf{Quy trình:}
+\begin{enumerate}
+    \item Tạo standard protein set từ các phage đã biết
+    \item Sử dụng FASTA để tính similarity vectors cho proteins trong phage query
+    \item Concatenate vectors thành feature vector cuối cùng
+    \item Phân loại bằng Random Forest
+\end{enumerate}
+
+\textbf{Ưu điểm:}
+\begin{itemize}
+    \item Đạt accuracy >90\% trên complete genomes
+    \item Interpretable features dựa trên protein homology
+\end{itemize}
+
+\textbf{Nhược điểm:}
+\begin{itemize}
+    \item Phụ thuộc vào gene prediction chính xác
+    \item Hiệu suất giảm ~30\% trên contig data \cite{wu2021deephage}
+    \item Không xử lý tốt các phage mới với proteins không có trong database
+\end{itemize}
+
+\subsubsection{PhageAI}
+
+PhageAI \cite{tynecki2020phageai} áp dụng kỹ thuật NLP cho dữ liệu genome:
+
+\textbf{Quy trình:}
+\begin{enumerate}
+    \item Chuyển đổi DNA sequences thành k-mers (text format)
+    \item Sử dụng Word2Vec để học embeddings
+    \item Áp dụng RFECV (Recursive Feature Elimination with Cross-Validation) để chọn features
+    \item Phân loại bằng SVM
+\end{enumerate}
+
+\textbf{Ưu điểm:}
+\begin{itemize}
+    \item Hoạt động trực tiếp trên DNA sequences
+    \item Không cần gene prediction
+    \item Đạt hiệu suất tốt trên complete genomes
+\end{itemize}
+
+\textbf{Nhược điểm:}
+\begin{itemize}
+    \item Word2Vec embeddings không nắm bắt được long-range dependencies
+    \item Feature selection thủ công có thể bỏ lỡ patterns quan trọng
+    \item Hiệu suất giảm đáng kể trên short contigs
+\end{itemize}
+
+\subsubsection{BACPHLIP}
+
+BACPHLIP \cite{hockenberry2021bacphlip} tập trung vào conserved protein regions:
+
+\textbf{Quy trình:}
+\begin{enumerate}
+    \item Identify conserved protein regions (functional domains)
+    \item Tạo binary feature vectors biểu diễn sự hiện diện của các regions
+    \item Phân loại bằng Random Forest
+\end{enumerate}
+
+\textbf{Ưu điểm:}
+\begin{itemize}
+    \item Sử dụng biological knowledge về functional domains
+    \item Hiệu suất cạnh tranh trên complete genomes
+\end{itemize}
+
+\textbf{Nhược điểm:}
+\begin{itemize}
+    \item Phụ thuộc vào database của conserved regions (limited availability)
+    \item Không áp dụng được cho phage với novel proteins
+    \item Yêu cầu chuỗi đủ dài để chứa complete domains
+\end{itemize}
+
+\subsection{Phương pháp học sâu}
+
+\subsubsection{DeePhage}
+
+DeePhage \cite{wu2021deephage} là phương pháp học sâu đầu tiên cho phân loại lối sống phage, sử dụng CNN trên one-hot encoded DNA sequences:
+
+\textbf{Kiến trúc:}
+\begin{itemize}
+    \item Input: One-hot encoding của DNA (4 channels: A, T, C, G)
+    \item Multiple convolutional layers với max pooling
+    \item Fully connected layers cho classification
+\end{itemize}
+
+\textbf{Ưu điểm:}
+\begin{itemize}
+    \item Hoạt động trực tiếp trên raw DNA sequences
+    \item Tự động học features, không cần feature engineering
+    \item Hiệu suất tốt hơn đáng kể so với PHACTS trên contig data
+\end{itemize}
+
+\textbf{Nhược điểm:}
+\begin{itemize}
+    \item Trained from scratch, không tận dụng pre-trained knowledge
+    \item CNN có limited receptive field, khó nắm bắt long-range dependencies
+    \item One-hot encoding không mã hóa biological meaning của nucleotides
+    \item Hiệu suất kém hơn các phương pháp dựa trên transformer trên short contigs
+\end{itemize}
+
+\subsubsection{PhaTYP}
+
+PhaTYP \cite{shang2023phatyp} là phương pháp đầu tiên áp dụng BERT cho phân loại phage:
+
+\textbf{Quy trình:}
+\begin{enumerate}
+    \item Sử dụng Prodigal để dự đoán protein-coding genes
+    \item Tokenize dựa trên protein sequences
+    \item Fine-tune BERT cho phân loại
+\end{enumerate}
+
+\textbf{Ưu điểm:}
+\begin{itemize}
+    \item Tận dụng pre-trained BERT representations
+    \item Hiệu suất xuất sắc trên long contigs (>1200 bp)
+    \item Đạt SOTA trên nhiều benchmarks
+\end{itemize}
+
+\textbf{Nhược điểm:}
+\begin{itemize}
+    \item \textbf{Critical dependency on Prodigal}: Gene prediction tools có hiệu suất giảm đáng kể trên fragments <200 bp \cite{trimble2012short}
+    \item Không áp dụng được cho contigs thiếu complete genes
+    \item Hiệu suất giảm trên short contigs do gene prediction không đáng tin cậy
+    \item Protein-based tokenization bỏ lỡ thông tin từ non-coding regions
+\end{itemize}
+
+\subsubsection{DeepPL}
+
+DeepPL \cite{zhang2024deeppl} sử dụng DNABERT (phiên bản đầu tiên) với k-mer tokenization:
+
+\textbf{Ưu điểm:}
+\begin{itemize}
+    \item Hoạt động trực tiếp trên DNA sequences
+    \item Tận dụng pre-trained DNABERT
+\end{itemize}
+
+\textbf{Nhược điểm:}
+\begin{itemize}
+    \item \textbf{Overlapping k-mer tokenization}: Information leakage trong MLM
+    \item \textbf{Computational inefficiency}: Số tokens gần bằng sequence length
+    \item \textbf{Maximum length constraint}: DNABERT giới hạn ở 512 bp do learned positional embeddings
+    \item Không thể đánh giá trên sequences >512 bp trong nghiên cứu này
+\end{itemize}
+
+\subsubsection{ProkBERT}
+
+ProkBERT \cite{ligeti2024prokbert} sử dụng Local Context-Aware (LCA) tokenization:
+
+\textbf{Ưu điểm:}
+\begin{itemize}
+    \item Pre-trained trên prokaryotic genomes
+    \item Hiệu suất tốt trên một số tasks
+\end{itemize}
+
+\textbf{Nhược điểm:}
+\begin{itemize}
+    \item LCA tokenization vẫn sử dụng overlapping k-mers, dẫn đến information leakage
+    \item Kém hiệu quả tính toán tương tự DNABERT
+    \item \textbf{Performance stagnation}: Không cải thiện với longer contigs, accuracy đạt đỉnh ở Group B (400-800 bp) rồi giảm
+    \item Hiệu suất kém hơn PhaBERT-CNN trên tất cả các nhóm độ dài
+\end{itemize}
+
+\subsection{So sánh tổng quan}
+
+\begin{table}[h]
+\centering
+\caption{So sánh các phương pháp phân loại lối sống phage}
+\label{tab:method_comparison}
+\resizebox{\textwidth}{!}{%
+\begin{tabular}{lcccccc}
+\toprule
+\textbf{Phương pháp} & \textbf{Loại} & \textbf{Input} & \textbf{Gene Pred.} & \textbf{Pre-trained} & \textbf{Short Contigs} & \textbf{Năm} \\
+\midrule
+PHACTS & ML & Protein & Có & Không & Kém & 2012 \\
+PhageAI & ML & DNA & Không & Không & Trung bình & 2020 \\
+BACPHLIP & ML & Protein & Có & Không & Kém & 2021 \\
+DeePhage & DL (CNN) & DNA & Không & Không & Trung bình & 2021 \\
+PhaTYP & DL (BERT) & Protein & Có & Có & Kém & 2023 \\
+DeepPL & DL (BERT) & DNA & Không & Có & Giới hạn & 2024 \\
+ProkBERT & DL (BERT) & DNA & Không & Có & Trung bình & 2024 \\
+\textbf{PhaBERT-CNN} & \textbf{DL (Hybrid)} & \textbf{DNA} & \textbf{Không} & \textbf{Có} & \textbf{Tốt} & \textbf{2025} \\
+\bottomrule
+\end{tabular}%
+}
+\end{table}
+
+\subsection{Vị trí của PhaBERT-CNN}
+
+PhaBERT-CNN giải quyết các hạn chế chính của các phương pháp hiện có:
+
+\begin{enumerate}
+    \item \textbf{Khắc phục hạn chế của PhaTYP}: Không phụ thuộc vào gene prediction, hoạt động hiệu quả trên short contigs
+
+    \item \textbf{Vượt trội hơn DeePhage}: Tận dụng pre-trained DNABERT-2 thay vì training from scratch
+
+    \item \textbf{Cải thiện so với DNABERT/ProkBERT}: Sử dụng DNABERT-2 với BPE tokenization (no information leakage) và ALiBi (flexible sequence length)
+
+    \item \textbf{Hybrid architecture}: Kết hợp transformer (global context) và CNN (local patterns) để trích xuất đặc trưng đa tỷ lệ
+
+    \item \textbf{Hiệu suất cân bằng}: Đạt hiệu suất tốt trên toàn bộ phạm vi độ dài contig (100-1800 bp), không chỉ tối ưu cho một nhóm cụ thể
+\end{enumerate}
+
+PhaBERT-CNN đại diện cho sự tiến bộ trong việc kết hợp genome foundation models với task-specific architectures để giải quyết các thách thức thực tế trong phân tích metagenomic.

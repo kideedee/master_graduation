@@ -1,0 +1,117 @@
+\section{Học sâu và mạng nơ-ron}
+\label{sec:deep_learning}
+
+\subsection{Giới thiệu về học sâu}
+
+Học sâu (Deep Learning) là một nhánh của học máy sử dụng mạng nơ-ron nhân tạo với nhiều lớp (deep neural networks) để học các biểu diễn phân cấp của dữ liệu. Khác với học máy truyền thống đòi hỏi feature engineering thủ công, học sâu có khả năng tự động học các features từ dữ liệu thô thông qua quá trình huấn luyện end-to-end.
+
+\subsection{Mạng nơ-ron nhân tạo}
+
+\subsubsection{Perceptron và Multi-layer Perceptron}
+
+Perceptron là đơn vị tính toán cơ bản của mạng nơ-ron, thực hiện phép biến đổi tuyến tính theo sau bởi hàm kích hoạt phi tuyến:
+
+\begin{equation}
+y = f\left(\sum_{i=1}^{n} w_i x_i + b\right) = f(\mathbf{w}^T \mathbf{x} + b)
+\end{equation}
+
+trong đó $\mathbf{x}$ là vector đầu vào, $\mathbf{w}$ là vector trọng số, $b$ là bias, và $f$ là hàm kích hoạt.
+
+Multi-layer Perceptron (MLP) xếp chồng nhiều lớp perceptrons, cho phép học các hàm phức tạp:
+
+\begin{equation}
+\mathbf{h}^{(l)} = f^{(l)}\left(\mathbf{W}^{(l)} \mathbf{h}^{(l-1)} + \mathbf{b}^{(l)}\right)
+\end{equation}
+
+với $\mathbf{h}^{(l)}$ là hidden state ở lớp $l$, $\mathbf{W}^{(l)}$ là ma trận trọng số, và $f^{(l)}$ là hàm kích hoạt.
+
+\subsubsection{Hàm kích hoạt}
+
+Các hàm kích hoạt phổ biến:
+
+\begin{itemize}
+    \item \textbf{ReLU}: $f(x) = \max(0, x)$ - Đơn giản, hiệu quả, giảm vanishing gradient
+    \item \textbf{Sigmoid}: $f(x) = \frac{1}{1 + e^{-x}}$ - Đầu ra trong khoảng (0,1)
+    \item \textbf{Tanh}: $f(x) = \frac{e^x - e^{-x}}{e^x + e^{-x}}$ - Đầu ra trong khoảng (-1,1)
+    \item \textbf{GELU}: $f(x) = x \cdot \Phi(x)$ - Sử dụng trong BERT và transformers
+\end{itemize}
+
+\subsection{Backpropagation và tối ưu hóa}
+
+\subsubsection{Backpropagation}
+
+Backpropagation là thuật toán tính gradient của loss function theo các tham số mạng bằng chain rule:
+
+\begin{equation}
+\frac{\partial \mathcal{L}}{\partial w_{ij}^{(l)}} = \frac{\partial \mathcal{L}}{\partial h_j^{(l)}} \cdot \frac{\partial h_j^{(l)}}{\partial z_j^{(l)}} \cdot \frac{\partial z_j^{(l)}}{\partial w_{ij}^{(l)}}
+\end{equation}
+
+\subsubsection{Gradient Descent và biến thể}
+
+\textbf{Stochastic Gradient Descent (SGD)}:
+\begin{equation}
+\mathbf{w}_{t+1} = \mathbf{w}_t - \eta \nabla_{\mathbf{w}} \mathcal{L}(\mathbf{w}_t)
+\end{equation}
+
+\textbf{Adam Optimizer}: Kết hợp momentum và adaptive learning rates:
+\begin{align}
+\mathbf{m}_t &= \beta_1 \mathbf{m}_{t-1} + (1-\beta_1) \nabla_{\mathbf{w}} \mathcal{L}(\mathbf{w}_t) \\
+\mathbf{v}_t &= \beta_2 \mathbf{v}_{t-1} + (1-\beta_2) (\nabla_{\mathbf{w}} \mathcal{L}(\mathbf{w}_t))^2 \\
+\mathbf{w}_{t+1} &= \mathbf{w}_t - \eta \frac{\hat{\mathbf{m}}_t}{\sqrt{\hat{\mathbf{v}}_t} + \epsilon}
+\end{align}
+
+\textbf{AdamW}: Biến thể của Adam với weight decay được tách riêng \cite{loshchilov2017decoupled}, được sử dụng trong PhaBERT-CNN.
+
+\subsection{Regularization techniques}
+
+\subsubsection{Dropout}
+
+Dropout ngẫu nhiên tắt một tỷ lệ neurons trong quá trình huấn luyện:
+
+\begin{equation}
+\mathbf{h}_{\text{dropout}} = \mathbf{m} \odot \mathbf{h}
+\end{equation}
+
+với $\mathbf{m} \sim \text{Bernoulli}(p)$ là mask vector. Dropout giảm overfitting bằng cách ngăn co-adaptation giữa các neurons.
+
+\subsubsection{Batch Normalization}
+
+Batch Normalization chuẩn hóa activations trong mỗi mini-batch:
+
+\begin{equation}
+\hat{\mathbf{x}} = \frac{\mathbf{x} - \mathbb{E}[\mathbf{x}]}{\sqrt{\text{Var}[\mathbf{x}] + \epsilon}}
+\end{equation}
+
+giúp ổn định quá trình huấn luyện và cho phép sử dụng learning rate cao hơn.
+
+\subsubsection{Layer Normalization}
+
+Layer Normalization chuẩn hóa theo chiều features thay vì batch dimension, phù hợp hơn cho sequence models:
+
+\begin{equation}
+\text{LayerNorm}(\mathbf{x}) = \gamma \odot \frac{\mathbf{x} - \mu}{\sqrt{\sigma^2 + \epsilon}} + \beta
+\end{equation}
+
+với $\mu$ và $\sigma^2$ được tính trên chiều features.
+
+\subsection{Loss functions}
+
+\subsubsection{Binary Cross-Entropy Loss}
+
+Cho bài toán phân loại nhị phân như phân loại lối sống phage:
+
+\begin{equation}
+\mathcal{L}_{\text{BCE}} = -\frac{1}{N}\sum_{i=1}^{N} \left[y_i \log(\hat{y}_i) + (1-y_i)\log(1-\hat{y}_i)\right]
+\end{equation}
+
+với $y_i \in \{0,1\}$ là nhãn thực và $\hat{y}_i \in (0,1)$ là xác suất dự đoán.
+
+\subsection{Ưu điểm của học sâu cho dữ liệu sinh học}
+
+\begin{itemize}
+    \item \textbf{Automatic feature learning}: Không cần feature engineering thủ công
+    \item \textbf{Hierarchical representations}: Học các features từ low-level đến high-level
+    \item \textbf{End-to-end learning}: Tối ưu hóa toàn bộ pipeline cùng lúc
+    \item \textbf{Transfer learning}: Tận dụng kiến thức từ các nhiệm vụ liên quan
+    \item \textbf{Scalability}: Hiệu suất cải thiện với lượng dữ liệu lớn
+\end{itemize}

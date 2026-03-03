@@ -1,0 +1,130 @@
+\section{Kiến trúc PhaBERT-CNN}
+\label{sec:architecture}
+
+\subsection{Tổng quan kiến trúc}
+
+PhaBERT-CNN xây dựng trên DNABERT-2 backbone với hai nhánh trích xuất đặc trưng song song và một classification head. Kiến trúc được thiết kế để kết hợp global context từ transformer và local patterns từ CNN.
+
+\subsection{Multi-scale CNN Feature Extractor}
+
+\subsubsection{Động lực thiết kế}
+
+Lấy cảm hứng từ Inception architecture \cite{szegedy2015going}, multi-scale CNN sử dụng ba nhánh song song với kernel sizes khác nhau để nắm bắt patterns ở nhiều tỷ lệ:
+
+\begin{itemize}
+    \item \textbf{Kernel size 3}: Fine-grained local motifs (3 tokens $\approx$ 15 bp)
+    \item \textbf{Kernel size 5}: Medium-range patterns (5 tokens $\approx$ 25 bp)
+    \item \textbf{Kernel size 7}: Broader functional domains (7 tokens $\approx$ 35 bp)
+\end{itemize}
+
+\subsubsection{Kiến trúc từng nhánh}
+
+Mỗi nhánh CNN có cấu trúc giống nhau:
+
+\begin{align}
+\mathbf{h}_1^{(k)} &= \text{ReLU}(\text{BatchNorm}(\text{Conv1d}_{k}(\mathbf{H}))) \\
+\mathbf{h}_2^{(k)} &= \text{ReLU}(\text{BatchNorm}(\text{Conv1d}_{k}(\mathbf{h}_1^{(k)}))) \\
+\mathbf{f}_{\text{CNN}}^{(k)} &= \text{AdaptiveMaxPool1d}(\mathbf{h}_2^{(k)})
+\end{align}
+
+với:
+\begin{itemize}
+    \item Input: $\mathbf{H} \in \mathbb{R}^{L \times 768}$ (DNABERT-2 embeddings)
+    \item Conv1d layer 1: $768 \rightarrow 256$ channels, kernel size $k$
+    \item Conv1d layer 2: $256 \rightarrow 128$ channels, kernel size $k$
+    \item AdaptiveMaxPool1d: Reduce sequence dimension to 1
+    \item Output: $\mathbf{f}_{\text{CNN}}^{(k)} \in \mathbb{R}^{128}$
+\end{itemize}
+
+\subsubsection{Feature fusion}
+
+Ba feature vectors được concatenate:
+
+\begin{equation}
+\mathbf{f}_{\text{CNN}} = [\mathbf{f}_{\text{CNN}}^{(3)}; \mathbf{f}_{\text{CNN}}^{(5)}; \mathbf{f}_{\text{CNN}}^{(7)}] \in \mathbb{R}^{384}
+\end{equation}
+
+\subsection{Attention-based Global Feature Extractor}
+
+\subsubsection{Self-attention pooling}
+
+Attention mechanism học trọng số quan trọng của từng token position:
+
+\begin{align}
+\mathbf{u}_t &= \tanh(\mathbf{W}_a \mathbf{h}_t + \mathbf{b}_a) \in \mathbb{R}^{64} \\
+\alpha_t &= \frac{\exp(\mathbf{u}_t^T \mathbf{u}_s)}{\sum_{t'} \exp(\mathbf{u}_{t'}^T \mathbf{u}_s)} \\
+\mathbf{v} &= \sum_t \alpha_t \mathbf{h}_t \in \mathbb{R}^{768}
+\end{align}
+
+với:
+\begin{itemize}
+    \item $\mathbf{h}_t$: Token embedding tại vị trí $t$
+    \item $\mathbf{W}_a \in \mathbb{R}^{64 \times 768}$: Attention projection matrix
+    \item $\mathbf{u}_s \in \mathbb{R}^{64}$: Learnable context vector
+    \item $\alpha_t$: Attention weight cho token $t$
+    \item $\mathbf{v}$: Weighted sum representation
+\end{itemize}
+
+\subsubsection{Linear projection}
+
+Global representation được project xuống 128 dimensions:
+
+\begin{equation}
+\mathbf{f}_{\text{attn}} = \text{Dropout}(\text{ReLU}(\mathbf{W}_p \mathbf{v} + \mathbf{b}_p)) \in \mathbb{R}^{128}
+\end{equation}
+
+với dropout rate = 0.1.
+
+\subsection{Classification Head}
+
+\subsubsection{Feature concatenation}
+
+Tất cả features được concatenate:
+
+\begin{equation}
+\mathbf{f}_{\text{combined}} = [\mathbf{f}_{\text{CNN}}; \mathbf{f}_{\text{attn}}] \in \mathbb{R}^{512}
+\end{equation}
+
+\subsubsection{Classification layers}
+
+\begin{align}
+\mathbf{h}_{\text{cls}} &= \text{Dropout}(\text{ReLU}(\text{LayerNorm}(\mathbf{W}_1 \mathbf{f}_{\text{combined}} + \mathbf{b}_1))) \\
+\text{logits} &= \mathbf{W}_2 \mathbf{h}_{\text{cls}} + \mathbf{b}_2 \in \mathbb{R}^{2}
+\end{align}
+
+với:
+\begin{itemize}
+    \item $\mathbf{W}_1 \in \mathbb{R}^{256 \times 512}$: First linear layer
+    \item $\mathbf{W}_2 \in \mathbb{R}^{2 \times 256}$: Output layer
+    \item Dropout rate = 0.1
+\end{itemize}
+
+\subsubsection{Output}
+
+Binary classification probabilities:
+
+\begin{equation}
+P(\text{virulent} | \mathbf{x}) = \text{sigmoid}(\text{logits}_1)
+\end{equation}
+
+\subsection{Tổng số tham số}
+
+\begin{table}[h]
+\centering
+\caption{Phân bố tham số trong PhaBERT-CNN}
+\label{tab:parameters}
+\begin{tabular}{lr}
+\toprule
+\textbf{Component} & \textbf{Parameters} \\
+\midrule
+DNABERT-2 backbone & 117M \\
+Multi-scale CNN (3 branches) & 1.8M \\
+Attention pooling & 0.1M \\
+Classification head & 0.2M \\
+\midrule
+\textbf{Total} & \textbf{119.1M} \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+Phần lớn tham số (98.2\%) nằm trong DNABERT-2 backbone, trong khi task-specific layers chỉ chiếm 1.8\%.

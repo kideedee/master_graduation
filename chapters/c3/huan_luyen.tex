@@ -1,0 +1,159 @@
+\section{Chiến lược huấn luyện}
+\label{sec:training}
+
+\subsection{Two-Phase Fine-tuning Strategy}
+
+PhaBERT-CNN sử dụng chiến lược tinh chỉnh hai giai đoạn để đảm bảo sự hội tụ ổn định và thích ứng hiệu quả của mô hình tiền huấn luyện.
+
+\subsubsection{Phase 1: Warm-up (1 epoch)}
+
+\textbf{Mục tiêu:} Khởi tạo task-specific layers tương thích với DNABERT-2 representations
+
+\textbf{Cấu hình:}
+\begin{itemize}
+    \item \textbf{Freeze}: DNABERT-2 backbone (117M parameters)
+    \item \textbf{Train}: CNN branches, attention pooling, classification head (2.1M parameters)
+    \item \textbf{Optimizer}: AdamW
+    \item \textbf{Learning rate}: $2 \times 10^{-3}$
+    \item \textbf{Weight decay}: $1 \times 10^{-4}$
+    \item \textbf{Momentum}: $\beta_1 = 0.9$, $\beta_2 = 0.999$
+    \item \textbf{LR schedule}: OneCycleLR với 30\% warm-up, max\_lr = $2 \times 10^{-3}$, div\_factor = 5, final\_div\_factor = 10
+\end{itemize}
+
+\textbf{Rationale:}
+\begin{itemize}
+    \item Task-specific layers được khởi tạo ngẫu nhiên, cần learning rate cao để học nhanh
+    \item Freeze DNABERT-2 tránh catastrophic forgetting trong giai đoạn đầu
+    \item Sau warm-up, task-specific layers đã học được cách xử lý DNABERT-2 embeddings
+\end{itemize}
+
+\subsubsection{Phase 2: Full Fine-tuning (tối đa 10 epochs)}
+
+\textbf{Mục tiêu:} Tinh chỉnh toàn bộ mô hình với discriminative learning rates
+
+\textbf{Cấu hình:}
+
+\textit{DNABERT-2 backbone:}
+\begin{itemize}
+    \item Learning rate: $1 \times 10^{-5}$ (conservative)
+    \item Weight decay: $1 \times 10^{-5}$
+\end{itemize}
+
+\textit{Task-specific layers:}
+\begin{itemize}
+    \item Learning rate: $1 \times 10^{-4}$ (10× cao hơn)
+    \item Weight decay: $1 \times 10^{-4}$
+\end{itemize}
+
+\textit{Common settings:}
+\begin{itemize}
+    \item Optimizer: AdamW với $\beta_1 = 0.9$, $\beta_2 = 0.999$, $\epsilon = 10^{-6}$
+    \item LR schedule: OneCycleLR với 10\% warm-up, div\_factor = 5, final\_div\_factor = 50
+    \item Early stopping: Patience = 3 epochs trên validation accuracy
+\end{itemize}
+
+\textbf{Rationale:}
+\begin{itemize}
+    \item DNABERT-2 đã học general genomic patterns, chỉ cần điều chỉnh nhẹ
+    \item Task-specific layers cần learning rate cao hơn để học phage lifestyle-specific features
+    \item Discriminative learning rates cân bằng giữa adaptation và preservation
+\end{itemize}
+
+\subsection{Loss Function}
+
+Binary Cross-Entropy Loss:
+
+\begin{equation}
+\mathcal{L}_{\text{BCE}} = -\frac{1}{N}\sum_{i=1}^{N} \left[y_i \log(\hat{y}_i) + (1-y_i)\log(1-\hat{y}_i)\right]
+\end{equation}
+
+với:
+\begin{itemize}
+    \item $y_i \in \{0, 1\}$: True label (0 = temperate, 1 = virulent)
+    \item $\hat{y}_i = \sigma(\text{logits}_i) \in (0, 1)$: Predicted probability
+    \item $N$: Batch size
+\end{itemize}
+
+\subsection{Training Configuration}
+
+\subsubsection{Batch size và gradient accumulation}
+
+\begin{itemize}
+    \item \textbf{Effective batch size}: 32
+    \item \textbf{Physical batch size}: 8 (giới hạn GPU memory)
+    \item \textbf{Gradient accumulation steps}: 4
+\end{itemize}
+
+\subsubsection{Mixed precision training}
+
+Sử dụng Automatic Mixed Precision (AMP) để:
+\begin{itemize}
+    \item Giảm memory consumption
+    \item Tăng tốc training ~2×
+    \item Duy trì numerical stability với loss scaling
+\end{itemize}
+
+\subsubsection{Hardware}
+
+\begin{itemize}
+    \item \textbf{GPU}: NVIDIA RTX A4000 16GB
+    \item \textbf{CPU}: 32 cores
+    \item \textbf{RAM}: 64GB
+    \item \textbf{Training time}: ~2-3 giờ/fold (warm-up + full fine-tuning)
+\end{itemize}
+
+\subsection{Regularization}
+
+\begin{itemize}
+    \item \textbf{Dropout}: 0.1 trong attention pooling và classification head
+    \item \textbf{Weight decay}: AdamW với decoupled weight decay
+    \item \textbf{Early stopping}: Dừng khi validation accuracy không cải thiện sau 3 epochs
+    \item \textbf{Gradient clipping}: Max norm = 1.0 để tránh exploding gradients
+\end{itemize}
+
+\subsection{Model Selection}
+
+\begin{itemize}
+    \item \textbf{Metric}: Validation accuracy
+    \item \textbf{Strategy}: Lưu checkpoint có validation accuracy cao nhất
+    \item \textbf{Final model}: Trung bình ensemble của 5 models từ 5 folds (optional)
+\end{itemize}
+
+\subsection{Reproducibility}
+
+Để đảm bảo reproducibility:
+\begin{itemize}
+    \item Random seed: 42 cho tất cả random number generators
+    \item Deterministic algorithms: torch.use\_deterministic\_algorithms(True)
+    \item CUDA deterministic: torch.backends.cudnn.deterministic = True
+    \item Stratified splits: Sử dụng cùng random seed cho cross-validation
+\end{itemize}
+
+\subsection{Tổng kết quy trình huấn luyện}
+
+\begin{algorithm}[h]
+\caption{PhaBERT-CNN Training Pipeline}
+\label{alg:training}
+\begin{algorithmic}[1]
+\State \textbf{Input:} Dataset $\mathcal{D}$, pre-trained DNABERT-2
+\State \textbf{Output:} Fine-tuned PhaBERT-CNN model
+\For{each fold $k$ in 5-fold CV}
+    \State Split $\mathcal{D}$ into $\mathcal{D}_{\text{train}}^{(k)}$, $\mathcal{D}_{\text{val}}^{(k)}$, $\mathcal{D}_{\text{test}}^{(k)}$
+    \State Apply undersampling on $\mathcal{D}_{\text{train}}^{(k)}$
+    \State Initialize PhaBERT-CNN with pre-trained DNABERT-2
+    \State \textbf{// Phase 1: Warm-up}
+    \State Freeze DNABERT-2 backbone
+    \State Train task-specific layers for 1 epoch with LR = $2 \times 10^{-3}$
+    \State \textbf{// Phase 2: Full Fine-tuning}
+    \State Unfreeze all parameters
+    \State Train with discriminative LRs (DNABERT-2: $1 \times 10^{-5}$, others: $1 \times 10^{-4}$)
+    \State Apply early stopping with patience = 3
+    \State Save best model based on validation accuracy
+    \State Evaluate on $\mathcal{D}_{\text{test}}^{(k)}$
+\EndFor
+\State Aggregate results across 5 folds
+\State \Return Best models from each fold
+\end{algorithmic}
+\end{algorithm}
+
+Chiến lược huấn luyện này đảm bảo PhaBERT-CNN học hiệu quả từ DNABERT-2 pre-training trong khi thích ứng tốt với nhiệm vụ phân loại lối sống phage.

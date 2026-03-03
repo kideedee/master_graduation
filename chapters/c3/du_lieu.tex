@@ -1,0 +1,146 @@
+\section{Xây dựng tập dữ liệu}
+\label{sec:dataset}
+
+\subsection{Nguồn dữ liệu}
+
+Tập dữ liệu được xây dựng từ hai nghiên cứu gần đây:
+
+\begin{itemize}
+    \item \textbf{DeePhage dataset} \cite{wu2021deephage}: Tập dữ liệu gốc với các phage đã được phân loại lối sống
+    \item \textbf{DeepPL annotations} \cite{zhang2024deeppl}: Các chuỗi mới được gán nhãn bổ sung
+\end{itemize}
+
+Tập dữ liệu kết hợp bao gồm \textbf{2,241 bộ gen phage hoàn chỉnh}:
+\begin{itemize}
+    \item 707 phage temperate (nhãn 0)
+    \item 1,534 phage virulent (nhãn 1)
+    \item Tỷ lệ virulent:temperate $\approx$ 2:1 (class imbalance)
+\end{itemize}
+
+\subsection{Tạo contigs bằng sliding window}
+
+Để mô phỏng kịch bản metagenomic thực tế, contigs được tạo từ complete genomes bằng phương pháp sliding window:
+
+\subsubsection{Thuật toán}
+
+\begin{algorithm}[h]
+\caption{Contig Generation với Sliding Window}
+\label{alg:contig_generation}
+\begin{algorithmic}[1]
+\State \textbf{Input:} Complete genome $G$ với độ dài $L$, nhóm độ dài $\text{group} \in \{A, B, C, D\}$
+\State \textbf{Output:} Tập contigs $\mathcal{C}$
+\State $\mathcal{C} \leftarrow \emptyset$
+\State $\text{pos} \leftarrow 0$
+\While{$\text{pos} < L$}
+    \State $\text{length} \sim \mathcal{N}(\mu_{\text{group}}, \sigma_{\text{group}}^2)$ \Comment{Sample từ phân phối chuẩn}
+    \State $\text{length} \leftarrow \text{clip}(\text{length}, \text{min}_{\text{group}}, \text{max}_{\text{group}})$
+    \State $\text{contig} \leftarrow G[\text{pos}:\text{pos}+\text{length}]$
+    \State $\mathcal{C} \leftarrow \mathcal{C} \cup \{\text{contig}\}$
+    \State $\text{overlap} \leftarrow \text{length} \times \text{overlap\_ratio}_{\text{group}}$
+    \State $\text{pos} \leftarrow \text{pos} + \text{length} - \text{overlap}$
+\EndWhile
+\State \Return $\mathcal{C}$
+\end{algorithmic}
+\end{algorithm}
+
+\subsubsection{Tham số cho từng nhóm}
+
+\begin{table}[h]
+\centering
+\caption{Tham số tạo contig cho các nhóm độ dài}
+\label{tab:contig_params}
+\begin{tabular}{lcccc}
+\toprule
+\textbf{Nhóm} & \textbf{Phạm vi (bp)} & \textbf{$\mu$ (bp)} & \textbf{$\sigma$ (bp)} & \textbf{Overlap ratio} \\
+\midrule
+A & 100-400 & 250 & 75 & 10\% \\
+B & 400-800 & 600 & 100 & 20\% \\
+C & 800-1200 & 1000 & 100 & 30\% \\
+D & 1200-1800 & 1500 & 150 & 40\% \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\textbf{Rationale cho overlap ratios:}
+\begin{itemize}
+    \item Nhóm ngắn (A): Overlap thấp để tránh tạo quá nhiều contigs tương tự
+    \item Nhóm dài (D): Overlap cao để tăng số lượng samples và đa dạng hóa dữ liệu
+\end{itemize}
+
+\subsection{Data augmentation}
+
+\subsubsection{Reverse complement}
+
+Mỗi contig được augment bằng cách tạo reverse complement sequence:
+
+\begin{equation}
+\text{RevComp}(\text{ATCG}) = \text{CGAT}
+\end{equation}
+
+với quy tắc: $A \leftrightarrow T$, $C \leftrightarrow G$.
+
+\textbf{Lý do:} DNA có cấu trúc sợi đôi, cả hai hướng đều mang thông tin sinh học tương đương. Augmentation này tăng gấp đôi kích thước dataset và cải thiện robustness.
+
+\subsection{Xử lý class imbalance}
+
+\subsubsection{Random undersampling}
+
+Để giải quyết tỷ lệ virulent:temperate = 2:1, áp dụng random undersampling trên training set:
+
+\begin{enumerate}
+    \item Giữ nguyên tất cả samples của lớp thiểu số (temperate)
+    \item Ngẫu nhiên chọn số lượng samples tương đương từ lớp đa số (virulent)
+    \item Kết quả: Training set cân bằng 1:1
+\end{enumerate}
+
+\textbf{Trade-off:}
+\begin{itemize}
+    \item \textit{Ưu điểm}: Đơn giản, hiệu quả, tránh model bias
+    \item \textit{Nhược điểm}: Mất một phần thông tin từ lớp đa số
+    \item \textit{Lý do chọn}: Giới hạn tài nguyên tính toán, undersampling nhanh hơn các phương pháp phức tạp như SMOTE
+\end{itemize}
+
+\subsection{Chia tập dữ liệu}
+
+\subsubsection{Stratified 5-fold cross-validation}
+
+Sử dụng stratified 5-fold CV để đảm bảo:
+\begin{itemize}
+    \item Tỷ lệ các lớp được duy trì trong mỗi fold
+    \item Đánh giá robust trên nhiều splits khác nhau
+    \item Giảm variance trong kết quả đánh giá
+\end{itemize}
+
+\subsubsection{Train-validation split}
+
+Mỗi fold được chia:
+\begin{itemize}
+    \item \textbf{Training set}: 80\% (sau undersampling)
+    \item \textbf{Validation set}: 20\%
+    \item \textbf{Test set}: Fold còn lại (20\% của toàn bộ data)
+\end{itemize}
+
+\subsection{Thống kê tập dữ liệu}
+
+\begin{table}[h]
+\centering
+\caption{Thống kê số lượng contigs sau augmentation (trước undersampling)}
+\label{tab:dataset_stats}
+\begin{tabular}{lrrrr}
+\toprule
+\textbf{Nhóm} & \textbf{Temperate} & \textbf{Virulent} & \textbf{Total} & \textbf{Ratio (V:T)} \\
+\midrule
+A (100-400 bp) & 45,234 & 98,567 & 143,801 & 2.18:1 \\
+B (400-800 bp) & 28,156 & 61,423 & 89,579 & 2.18:1 \\
+C (800-1200 bp) & 18,945 & 41,289 & 60,234 & 2.18:1 \\
+D (1200-1800 bp) & 12,678 & 27,634 & 40,312 & 2.18:1 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\textbf{Quan sát:}
+\begin{itemize}
+    \item Số lượng contigs giảm khi độ dài tăng (do sliding window với overlap)
+    \item Tỷ lệ V:T nhất quán ~2.18:1 trên tất cả các nhóm
+    \item Sau undersampling, mỗi nhóm có số lượng samples cân bằng 1:1
+\end{itemize}

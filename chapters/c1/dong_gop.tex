@@ -1,0 +1,80 @@
+\section{Đóng góp chính của luận văn}
+\label{sec:contributions}
+
+Luận văn này đóng góp vào lĩnh vực phân loại lối sống thực khuẩn thể và sinh tin học nói chung thông qua các đóng góp chính sau:
+
+\subsection{Kiến trúc PhaBERT-CNN mới}
+
+Đề xuất một kiến trúc học sâu lai mới kết hợp mô hình nền tảng genome DNABERT-2 với mạng nơ-ron tích chập đa tỷ lệ và cơ chế attention pooling. Kiến trúc này có những đặc điểm nổi bật:
+
+\begin{itemize}
+    \item \textbf{Hoạt động trực tiếp trên chuỗi DNA thô:} Không phụ thuộc vào các công cụ dự đoán gen bên ngoài như Prodigal, khắc phục hạn chế của các phương pháp dựa trên protein như PhaTYP khi xử lý các contig ngắn
+
+    \item \textbf{Tận dụng kiến thức tiền huấn luyện:} Sử dụng DNABERT-2 đã được tiền huấn luyện trên corpus genome đa loài, mang lại khả năng tổng quát hóa tốt hơn so với các mô hình huấn luyện từ đầu như DeePhage
+
+    \item \textbf{Trích xuất đặc trưng đa tỷ lệ:} Sử dụng ba nhánh CNN song song với kernel sizes 3, 5, và 7 để nắm bắt các mẫu chuỗi ở nhiều mức độ trừu tượng - từ motif cục bộ tinh vi đến các domain chức năng rộng hơn
+
+    \item \textbf{Tổng hợp thông tin toàn cục thông minh:} Áp dụng self-attention mechanism để tự động học trọng số quan trọng của các vị trí chuỗi khác nhau, cho phép mô hình tập trung vào các vùng genome có tính thông tin cao
+\end{itemize}
+
+\subsection{Hiệu suất vượt trội trên contig ngắn và trung bình}
+
+Chứng minh hiệu suất vượt trội của PhaBERT-CNN trên các contig ngắn và trung bình (100-1200 bp) - phạm vi độ dài thách thức nhất và phổ biến nhất trong phân tích metagenomic:
+
+\begin{itemize}
+    \item \textbf{Nhóm A (100-400 bp):} Đạt accuracy 81.59\%, cải thiện 0.91-2.67\% so với các phương pháp tiên tiến
+    \item \textbf{Nhóm B (400-800 bp):} Đạt accuracy 87.91\%, cải thiện 2.01-2.56\% so với các baseline
+    \item \textbf{Nhóm C (800-1200 bp):} Đạt accuracy 90.01\%, cải thiện 1.14-5.98\% so với các phương pháp khác
+    \item \textbf{Nhóm D (1200-1800 bp):} Đạt accuracy 90.69\%, cạnh tranh với PhaTYP (91.02\%) và vượt trội so với DeePhage và ProkBERT
+\end{itemize}
+
+Đặc biệt, PhaBERT-CNN duy trì sự cân bằng tốt giữa sensitivity và specificity trên tất cả các nhóm độ dài, với sensitivity 82.00\%-91.12\% và specificity 80.15\%-90.95\%.
+
+\subsection{Chiến lược huấn luyện hai giai đoạn hiệu quả}
+
+Đề xuất và đánh giá chiến lược tinh chỉnh hai giai đoạn với learning rate phân biệt:
+
+\begin{itemize}
+    \item \textbf{Giai đoạn warm-up (1 epoch):} Đóng băng DNABERT-2, huấn luyện chỉ các lớp task-specific với learning rate cao ($2 \times 10^{-3}$) để khởi tạo các tham số ngẫu nhiên tương thích với biểu diễn DNABERT-2
+
+    \item \textbf{Giai đoạn tinh chỉnh đầy đủ (tối đa 10 epochs):} Mở băng toàn bộ mô hình với learning rate phân biệt - DNABERT-2 sử dụng learning rate thấp ($1 \times 10^{-5}$) để điều chỉnh nhẹ nhàng, trong khi các lớp task-specific sử dụng learning rate cao hơn 10 lần ($1 \times 10^{-4}$) để tối ưu hóa mạnh mẽ
+\end{itemize}
+
+Chiến lược này đảm bảo sự hội tụ ổn định và thích ứng hiệu quả của mô hình tiền huấn luyện với nhiệm vụ downstream.
+
+\subsection{Đánh giá toàn diện và phân tích so sánh}
+
+Thực hiện đánh giá có hệ thống trên bốn nhóm độ dài contig với 5-fold cross-validation, so sánh với bốn phương pháp tiên tiến (DNABERT-2, PhaTYP, DeePhage, ProkBERT). Phân tích chi tiết:
+
+\begin{itemize}
+    \item Ưu điểm và nhược điểm của từng phương pháp trên các phạm vi độ dài khác nhau
+    \item Tác động của các thành phần kiến trúc (CNN branches, attention pooling) thông qua so sánh với DNABERT-2 baseline
+    \item Trade-off giữa độ chính xác và thời gian tính toán
+    \item Phân tích lỗi và các trường hợp thất bại
+\end{itemize}
+
+\subsection{Giải quyết các hạn chế của phương pháp hiện có}
+
+PhaBERT-CNN khắc phục các hạn chế quan trọng của các công cụ hiện có:
+
+\begin{itemize}
+    \item \textbf{Khắc phục hạn chế của PhaTYP:} Không phụ thuộc vào Prodigal để dự đoán protein, do đó hoạt động hiệu quả trên các contig ngắn thiếu các vùng mã hóa protein hoàn chỉnh
+
+    \item \textbf{Vượt trội hơn DeePhage:} Tận dụng biểu diễn tiền huấn luyện thay vì huấn luyện từ đầu trên one-hot encoding, nắm bắt được các mẫu phức tạp từ dữ liệu genome đa dạng
+
+    \item \textbf{Cải thiện so với DNABERT và ProkBERT:} Sử dụng DNABERT-2 với tokenization BPE hiệu quả, loại bỏ information leakage và kém hiệu quả tính toán của overlapping k-mer tokenization
+
+    \item \textbf{Hiệu quả tính toán:} Mặc dù sử dụng mô hình nền tảng lớn, DNABERT-2 có hiệu suất tương đương Nucleotide Transformer 2.5B parameters nhưng nhỏ hơn 21 lần và nhanh hơn 92 lần trong quá trình tiền huấn luyện
+\end{itemize}
+
+\subsection{Đóng góp về mặt phương pháp luận}
+
+Luận văn cung cấp một paradigm đầy hứa hẹn cho các nhiệm vụ phân tích chuỗi sinh học downstream:
+
+\begin{itemize}
+    \item Chứng minh hiệu quả của việc kết hợp mô hình nền tảng genome tiền huấn luyện với các kiến trúc chuyên biệt task-specific
+    \item Minh họa tầm quan trọng của chiến lược tinh chỉnh phù hợp khi thích ứng mô hình tiền huấn luyện
+    \item Cung cấp insights về thiết kế kiến trúc lai (hybrid architecture) cho các bài toán phân loại chuỗi genome
+\end{itemize}
+
+Các đóng góp này không chỉ cải thiện hiệu suất phân loại lối sống thực khuẩn thể mà còn cung cấp nền tảng cho các nghiên cứu tương lai trong lĩnh vực sinh tin học và học sâu cho dữ liệu genome.

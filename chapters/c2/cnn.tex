@@ -1,0 +1,93 @@
+\section{Mạng nơ-ron tích chập}
+\label{sec:cnn}
+
+\subsection{Giới thiệu về CNN}
+
+Mạng nơ-ron tích chập (Convolutional Neural Network - CNN) là một kiến trúc học sâu được thiết kế đặc biệt để xử lý dữ liệu có cấu trúc lưới (grid-like structure) như hình ảnh (2D grid) hoặc chuỗi (1D grid). CNN đã đạt được thành công vượt bậc trong computer vision và ngày càng được áp dụng rộng rãi cho phân tích chuỗi sinh học.
+
+\subsection{Phép tích chập (Convolution)}
+
+\subsubsection{Convolution 1D cho chuỗi}
+
+Đối với chuỗi đầu vào $\mathbf{x} \in \mathbb{R}^{L \times d}$ với độ dài $L$ và số chiều $d$, phép tích chập 1D với kernel $\mathbf{w} \in \mathbb{R}^{k \times d \times c}$ tạo ra feature map:
+
+\begin{equation}
+(\mathbf{x} * \mathbf{w})_i = \sum_{j=0}^{k-1} \sum_{m=0}^{d-1} x_{i+j,m} \cdot w_{j,m}
+\end{equation}
+
+trong đó $k$ là kernel size (receptive field), $d$ là input channels, và $c$ là output channels.
+
+\subsubsection{Receptive field}
+
+Receptive field là vùng đầu vào mà một neuron có thể "nhìn thấy". Với kernel size $k$, mỗi neuron trong feature map có receptive field là $k$ positions liên tiếp trong chuỗi đầu vào. Xếp chồng nhiều lớp convolution mở rộng receptive field theo cấp số nhân, cho phép nắm bắt long-range dependencies.
+
+\subsection{Các thành phần của CNN}
+
+\subsubsection{Pooling layers}
+
+Pooling giảm kích thước spatial của feature maps:
+
+\begin{itemize}
+    \item \textbf{Max Pooling}: $y_i = \max_{j \in \text{window}_i} x_j$ - Chọn giá trị lớn nhất
+    \item \textbf{Average Pooling}: $y_i = \frac{1}{k}\sum_{j \in \text{window}_i} x_j$ - Lấy trung bình
+    \item \textbf{Adaptive Pooling}: Tự động điều chỉnh window size để tạo output có kích thước cố định
+\end{itemize}
+
+\subsubsection{Stride và Padding}
+
+\textbf{Stride} $s$ xác định bước nhảy của kernel:
+\begin{equation}
+L_{\text{out}} = \left\lfloor \frac{L_{\text{in}} - k}{s} \right\rfloor + 1
+\end{equation}
+
+\textbf{Padding} $p$ thêm zeros vào đầu/cuối chuỗi để kiểm soát kích thước output:
+\begin{equation}
+L_{\text{out}} = \left\lfloor \frac{L_{\text{in}} + 2p - k}{s} \right\rfloor + 1
+\end{equation}
+
+\subsection{Multi-scale CNN}
+
+\subsubsection{Inception architecture}
+
+Kiến trúc Inception \cite{szegedy2015going} sử dụng nhiều nhánh convolution song song với kernel sizes khác nhau để nắm bắt patterns ở nhiều tỷ lệ:
+
+\begin{equation}
+\mathbf{h}_{\text{multi-scale}} = \text{Concat}[\mathbf{h}_3, \mathbf{h}_5, \mathbf{h}_7]
+\end{equation}
+
+với $\mathbf{h}_k$ là feature map từ convolution với kernel size $k$.
+
+PhaBERT-CNN áp dụng ý tưởng này với ba nhánh CNN song song (kernel sizes 3, 5, 7) để trích xuất đặc trưng đa tỷ lệ từ DNABERT-2 embeddings.
+
+\subsection{CNN cho phân tích chuỗi sinh học}
+
+\subsubsection{Ưu điểm}
+
+\begin{itemize}
+    \item \textbf{Local pattern detection}: Hiệu quả trong việc phát hiện motifs và patterns cục bộ
+    \item \textbf{Parameter sharing}: Cùng một kernel được áp dụng trên toàn bộ chuỗi, giảm số tham số
+    \item \textbf{Translation invariance}: Phát hiện patterns bất kể vị trí trong chuỗi
+    \item \textbf{Computational efficiency}: Nhanh hơn RNN nhờ tính song song
+\end{itemize}
+
+\subsubsection{Ứng dụng trong genomics}
+
+CNN đã được áp dụng thành công cho nhiều bài toán genomics:
+\begin{itemize}
+    \item Dự đoán binding sites của transcription factors
+    \item Phân loại chuỗi DNA/protein
+    \item Dự đoán cấu trúc RNA
+    \item Phân tích variant effects
+\end{itemize}
+
+\subsubsection{CNN trên pre-trained embeddings}
+
+Trong PhaBERT-CNN, CNN không hoạt động trực tiếp trên chuỗi DNA thô mà trên DNABERT-2 embeddings. Cách tiếp cận này có ưu điểm:
+
+\begin{itemize}
+    \item \textbf{Rich representations}: Embeddings đã mã hóa thông tin ngữ cảnh từ transformer
+    \item \textbf{Task-specific adaptation}: CNN học các transformations phù hợp với nhiệm vụ phân loại lối sống
+    \item \textbf{Multi-scale feature extraction}: Các kernel sizes khác nhau nắm bắt patterns từ local motifs đến broader functional domains
+\end{itemize}
+
+Cách tiếp cận tương tự đã thành công trong NLP, nơi CNN được áp dụng trên word embeddings hoặc contextualized representations \cite{kim2014convolutional,johnson2017deep}.

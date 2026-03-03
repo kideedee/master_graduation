@@ -1,3 +1,91 @@
 \chapter{Kết luận}
-\label{sec:ket_luan}
-Kết luận
+\label{chap:conclusion}
+
+\section{Tóm tắt nghiên cứu}
+
+Luận văn đã trình bày PhaBERT-CNN, một phương pháp học sâu lai kết hợp mô hình nền tảng genome DNABERT-2 với mạng nơ-ron tích chập đa tỷ lệ và cơ chế attention pooling để phân loại lối sống thực khuẩn thể từ các contig metagenomic. Phương pháp được thiết kế để giải quyết các thách thức chính trong phân loại phage, đặc biệt là trên các contig ngắn và trung bình (100-1200 bp) - phạm vi độ dài phổ biến nhất trong phân tích metagenomic thực tế.
+
+\section{Kết quả chính}
+
+PhaBERT-CNN đã đạt được các kết quả quan trọng sau:
+
+\subsection{Hiệu suất vượt trội trên short-medium contigs}
+
+\begin{itemize}
+    \item \textbf{Group A (100-400 bp)}: Accuracy 81.59\%, cải thiện 0.91-2.67\% so với các phương pháp tiên tiến
+    \item \textbf{Group B (400-800 bp)}: Accuracy 87.91\%, cải thiện 2.01-2.56\%
+    \item \textbf{Group C (800-1200 bp)}: Accuracy 90.01\%, cải thiện 1.14-5.98\%
+    \item \textbf{Group D (1200-1800 bp)}: Accuracy 90.69\%, cạnh tranh với PhaTYP (91.02\%)
+\end{itemize}
+
+\subsection{Cân bằng sensitivity-specificity}
+
+PhaBERT-CNN duy trì sự cân bằng tốt giữa sensitivity (82.00\%-91.12\%) và specificity (80.15\%-90.95\%) trên tất cả các nhóm độ dài, quan trọng cho ứng dụng thực tế.
+
+\subsection{Khắc phục hạn chế của phương pháp hiện có}
+
+\begin{itemize}
+    \item Không phụ thuộc vào gene prediction tools (khắc phục hạn chế của PhaTYP)
+    \item Tận dụng pre-trained knowledge (vượt trội hơn DeePhage)
+    \item Sử dụng BPE tokenization hiệu quả (cải thiện so với DNABERT/ProkBERT)
+    \item Hybrid architecture kết hợp global context và local patterns
+\end{itemize}
+
+\section{Đóng góp của luận văn}
+
+\begin{enumerate}
+    \item \textbf{Kiến trúc PhaBERT-CNN mới}: Kết hợp DNABERT-2, multi-scale CNN, và attention pooling
+    \item \textbf{Chiến lược huấn luyện hai giai đoạn}: Warm-up + full fine-tuning với discriminative learning rates
+    \item \textbf{Đánh giá toàn diện}: So sánh có hệ thống với 4 phương pháp tiên tiến trên 4 nhóm độ dài
+    \item \textbf{Phân tích chi tiết}: Insights về ưu nhược điểm của các phương pháp khác nhau
+\end{enumerate}
+
+\section{Hạn chế}
+
+\begin{itemize}
+    \item \textbf{Data imbalance handling}: Random undersampling có thể mất thông tin
+    \item \textbf{Computational cost}: Cao hơn các phương pháp đơn giản như DeePhage
+    \item \textbf{Validation data}: Đánh giá trên simulated contigs, chưa test trên real metagenomic data
+    \item \textbf{Ablation studies}: Chưa phân tích chi tiết tác động của từng thành phần
+\end{itemize}
+
+\section{Hướng nghiên cứu tương lai}
+
+\subsection{Cải thiện phương pháp}
+
+\begin{itemize}
+    \item Thử các chiến lược xử lý class imbalance khác (SMOTE, focal loss, class weighting)
+    \item Ablation studies chi tiết về kernel sizes, số CNN branches, attention mechanisms
+    \item Thử các mô hình nền tảng khác (Nucleotide Transformer, HyenaDNA)
+    \item Tối ưu hóa inference speed cho deployment thực tế
+\end{itemize}
+
+\subsection{Mở rộng ứng dụng}
+
+\begin{itemize}
+    \item Đánh giá trên real metagenomic datasets từ các môi trường đa dạng
+    \item Mở rộng sang các nhiệm vụ phân loại phage khác:
+    \begin{itemize}
+        \item Phân loại họ phage (family classification)
+        \item Dự đoán vi khuẩn chủ (host prediction)
+        \item Phát hiện prophage trong bộ gen vi khuẩn
+    \end{itemize}
+    \item Phát triển web server hoặc command-line tool cho cộng đồng
+\end{itemize}
+
+\subsection{Nghiên cứu cơ bản}
+
+\begin{itemize}
+    \item Phân tích interpretability: Vùng nào trong genome quan trọng cho phân loại?
+    \item Nghiên cứu transfer learning cross-domain: Áp dụng cho các virus khác
+    \item Kết hợp với phylogenetic information để cải thiện accuracy
+    \item Multi-task learning: Đồng thời dự đoán lifestyle, family, và host
+\end{itemize}
+
+\section{Kết luận cuối cùng}
+
+PhaBERT-CNN đại diện cho sự tiến bộ quan trọng trong phân loại lối sống thực khuẩn thể từ dữ liệu metagenomic. Bằng cách kết hợp hiệu quả mô hình nền tảng genome tiền huấn luyện với kiến trúc chuyên biệt task-specific, PhaBERT-CNN đạt được hiệu suất vượt trội trên các contig ngắn và trung bình - phạm vi độ dài thách thức nhất trong phân tích metagenomic thực tế.
+
+Phương pháp không chỉ cải thiện độ chính xác phân loại mà còn cung cấp một paradigm đầy hứa hẹn cho việc áp dụng genome foundation models vào các bài toán sinh tin học downstream. Kết quả nghiên cứu góp phần vào việc hiểu rõ hơn về đa dạng sinh học và vai trò sinh thái của thực khuẩn thể, đồng thời hỗ trợ các ứng dụng thực tiễn như liệu pháp phage và kiểm soát vi khuẩn trong thực phẩm và y tế.
+
+Với những kết quả đạt được và hướng phát triển rõ ràng, PhaBERT-CNN đặt nền móng vững chắc cho các nghiên cứu tương lai trong lĩnh vực phân loại phage và phân tích metagenomic nói chung.

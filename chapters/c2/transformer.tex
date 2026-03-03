@@ -1,0 +1,110 @@
+\section{Kiến trúc Transformer}
+\label{sec:transformer}
+
+\subsection{Giới thiệu}
+
+Transformer là kiến trúc mạng nơ-ron được giới thiệu bởi Vaswani et al. năm 2017 trong bài báo "Attention is All You Need" \cite{vaswani2017attention}. Khác với RNN và LSTM xử lý chuỗi tuần tự, Transformer sử dụng cơ chế self-attention để xử lý toàn bộ chuỗi song song, cho phép nắm bắt long-range dependencies hiệu quả hơn.
+
+\subsection{Self-Attention Mechanism}
+
+\subsubsection{Scaled Dot-Product Attention}
+
+Cho một chuỗi đầu vào, self-attention tính toán representation của mỗi vị trí dựa trên toàn bộ chuỗi:
+
+\begin{equation}
+\text{Attention}(\mathbf{Q}, \mathbf{K}, \mathbf{V}) = \text{softmax}\left(\frac{\mathbf{Q}\mathbf{K}^T}{\sqrt{d_k}}\right)\mathbf{V}
+\end{equation}
+
+trong đó:
+\begin{itemize}
+    \item $\mathbf{Q} = \mathbf{X}\mathbf{W}^Q$ (Query): "Tôi đang tìm kiếm thông tin gì?"
+    \item $\mathbf{K} = \mathbf{X}\mathbf{W}^K$ (Key): "Tôi chứa thông tin gì?"
+    \item $\mathbf{V} = \mathbf{X}\mathbf{W}^K$ (Value): "Thông tin thực tế tôi cung cấp"
+    \item $d_k$: Dimensionality của key vectors (scaling factor)
+\end{itemize}
+
+Attention weights $\alpha_{ij} = \text{softmax}\left(\frac{\mathbf{q}_i \mathbf{k}_j^T}{\sqrt{d_k}}\right)$ đo lường mức độ liên quan giữa vị trí $i$ và $j$.
+
+\subsubsection{Multi-Head Attention}
+
+Multi-head attention cho phép mô hình chú ý đến các khía cạnh khác nhau của thông tin:
+
+\begin{align}
+\text{MultiHead}(\mathbf{Q}, \mathbf{K}, \mathbf{V}) &= \text{Concat}(\text{head}_1, \ldots, \text{head}_h)\mathbf{W}^O \\
+\text{head}_i &= \text{Attention}(\mathbf{Q}\mathbf{W}_i^Q, \mathbf{K}\mathbf{W}_i^K, \mathbf{V}\mathbf{W}_i^V)
+\end{align}
+
+với $h$ là số attention heads. DNABERT-2 sử dụng 12 attention heads.
+
+\subsection{Positional Encoding}
+
+Vì self-attention không có khái niệm về thứ tự, cần thêm positional information:
+
+\subsubsection{Sinusoidal Positional Encoding}
+
+Transformer gốc sử dụng sinusoidal functions:
+
+\begin{align}
+PE_{(pos, 2i)} &= \sin\left(\frac{pos}{10000^{2i/d}}\right) \\
+PE_{(pos, 2i+1)} &= \cos\left(\frac{pos}{10000^{2i/d}}\right)
+\end{align}
+
+\subsubsection{Learned Positional Embeddings}
+
+BERT học positional embeddings như parameters, nhưng bị giới hạn bởi maximum sequence length.
+
+\subsubsection{Attention with Linear Biases (ALiBi)}
+
+DNABERT-2 sử dụng ALiBi \cite{press2021train}, thêm bias vào attention scores:
+
+\begin{equation}
+\text{softmax}\left(\mathbf{q}_i \mathbf{K}^T + m \cdot [-(i-1), \ldots, -1, 0]\right)
+\end{equation}
+
+với $m$ là slope khác nhau cho mỗi head. ALiBi cho phép xử lý chuỗi có độ dài tùy ý mà không cần retrain.
+
+\subsection{Feed-Forward Networks}
+
+Mỗi transformer layer có position-wise feed-forward network:
+
+\begin{equation}
+\text{FFN}(\mathbf{x}) = \max(0, \mathbf{x}\mathbf{W}_1 + \mathbf{b}_1)\mathbf{W}_2 + \mathbf{b}_2
+\end{equation}
+
+hoặc với GELU activation:
+
+\begin{equation}
+\text{FFN}(\mathbf{x}) = \text{GELU}(\mathbf{x}\mathbf{W}_1 + \mathbf{b}_1)\mathbf{W}_2 + \mathbf{b}_2
+\end{equation}
+
+\subsection{Transformer Encoder}
+
+Một transformer encoder layer bao gồm:
+
+\begin{align}
+\mathbf{h}' &= \text{LayerNorm}(\mathbf{x} + \text{MultiHeadAttention}(\mathbf{x})) \\
+\mathbf{h} &= \text{LayerNorm}(\mathbf{h}' + \text{FFN}(\mathbf{h}'))
+\end{align}
+
+với residual connections và layer normalization.
+
+\subsection{Ưu điểm của Transformer}
+
+\begin{itemize}
+    \item \textbf{Parallelization}: Xử lý toàn bộ chuỗi song song, nhanh hơn RNN
+    \item \textbf{Long-range dependencies}: Self-attention trực tiếp kết nối mọi cặp vị trí
+    \item \textbf{Flexible attention patterns}: Mỗi head có thể học các patterns khác nhau
+    \item \textbf{Scalability}: Hiệu suất cải thiện với model size và data
+\end{itemize}
+
+\subsection{Transformer cho genomics}
+
+Transformer đã được áp dụng thành công cho nhiều bài toán genomics:
+\begin{itemize}
+    \item DNABERT, DNABERT-2: Pre-trained models cho DNA sequences
+    \item Nucleotide Transformer: Large-scale genome foundation model
+    \item ProtTrans: Protein language models
+    \item RNA-FM: RNA sequence modeling
+\end{itemize}
+
+Khả năng nắm bắt long-range dependencies của transformer đặc biệt phù hợp với dữ liệu genome, nơi các yếu tố điều hòa có thể cách xa nhau hàng nghìn base pairs.

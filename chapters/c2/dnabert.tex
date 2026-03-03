@@ -1,0 +1,52 @@
+\section{DNABERT: BERT cho chuỗi DNA}
+\label{sec:dnabert}
+
+\subsection{Giới thiệu}
+
+DNABERT \cite{ji2021dnabert} là mô hình đầu tiên áp dụng kiến trúc BERT cho phân tích chuỗi DNA. DNABERT được tiền huấn luyện trên bộ gen người (human genome) và đạt được hiệu suất vượt trội trên nhiều nhiệm vụ genomics downstream.
+
+\subsection{Tokenization: Overlapping k-mers}
+
+DNABERT sử dụng overlapping k-mer tokenization:
+
+\textbf{Ví dụ với k=3:}
+\begin{verbatim}
+DNA sequence: ATCGATCG
+Tokens:       ATC TCG CGA GAT ATC TCG
+\end{verbatim}
+
+Với chuỗi độ dài $L$, số tokens là $L - k + 1$.
+
+\subsection{Hạn chế của DNABERT}
+
+\subsubsection{Information leakage}
+
+Các tokens liền kề chia sẻ $k-1$ nucleotides, dẫn đến information leakage trong MLM. Khi mask một token, mô hình có thể suy luận nội dung từ các tokens xung quanh do overlap.
+
+\textbf{Ví dụ:}
+\begin{verbatim}
+Tokens:  ATC [MASK] GAT
+Overlap: AT_  _CG  _AT
+=> Token bị mask phải là "CGA"
+\end{verbatim}
+
+\subsubsection{Kém hiệu quả tính toán}
+
+Số tokens gần bằng độ dài chuỗi gốc ($L - k + 1 \approx L$), dẫn đến:
+\begin{itemize}
+    \item Computational cost cao
+    \item Memory usage lớn
+    \item Training time dài
+\end{itemize}
+
+\subsubsection{Giới hạn độ dài chuỗi}
+
+DNABERT sử dụng learned positional embeddings với maximum length 512, không thể xử lý chuỗi dài hơn mà không retrain.
+
+\subsubsection{Single-species pre-training}
+
+DNABERT chỉ được tiền huấn luyện trên human genome, hạn chế khả năng tổng quát hóa sang các loài khác.
+
+\subsection{Thành công và ảnh hưởng}
+
+Mặc dù có hạn chế, DNABERT đã chứng minh hiệu quả của transfer learning cho genomics và mở đường cho các mô hình cải tiến như DNABERT-2.

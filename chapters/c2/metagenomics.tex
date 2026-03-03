@@ -1,0 +1,112 @@
+\section{Metagenomics và giải trình tự thế hệ mới}
+\label{sec:metagenomics}
+
+\subsection{Giới thiệu về metagenomics}
+
+Metagenomics là phương pháp nghiên cứu vật liệu di truyền được thu thập trực tiếp từ các mẫu môi trường, cho phép phân tích toàn bộ cộng đồng vi sinh vật mà không cần nuôi cấy từng loài riêng lẻ \cite{mokili2012metagenomics}. Thuật ngữ "metagenome" được đặt ra bởi Jo Handelsman và cộng sự năm 1998, đề cập đến tập hợp tất cả các bộ gen (genomes) có trong một mẫu môi trường. Phương pháp này đã cách mạng hóa nghiên cứu vi sinh vật học bằng cách cho phép nghiên cứu "dark matter" của thế giới vi sinh vật - phần lớn các vi sinh vật không thể nuôi cấy được trong phòng thí nghiệm.
+
+Theo ước tính, chỉ có khoảng 1\% vi khuẩn trong tự nhiên có thể được nuôi cấy trong điều kiện phòng thí nghiệm, và tỷ lệ này còn thấp hơn đối với thực khuẩn thể. Metagenomics khắc phục hạn chế này bằng cách trực tiếp giải trình tự DNA từ mẫu môi trường, cung cấp cái nhìn toàn diện về đa dạng sinh học, cấu trúc cộng đồng, và tiềm năng chức năng của hệ vi sinh vật.
+
+\subsection{Công nghệ giải trình tự thế hệ mới}
+
+\subsubsection{Nguyên lý hoạt động}
+
+Công nghệ giải trình tự thế hệ mới (Next-Generation Sequencing - NGS) đã thay thế phương pháp Sanger sequencing truyền thống nhờ khả năng tạo ra hàng triệu đến hàng tỷ đoạn đọc (reads) trong một lần chạy duy nhất. Các nền tảng NGS phổ biến bao gồm:
+
+\begin{itemize}
+    \item \textbf{Illumina:} Sử dụng sequencing by synthesis với fluorescent reversible terminators, tạo ra đoạn đọc ngắn (75-300 bp) với độ chính xác cao (>99\%) và throughput lớn
+
+    \item \textbf{PacBio (Pacific Biosciences):} Sử dụng single-molecule real-time (SMRT) sequencing, tạo ra đoạn đọc dài (10-30 kb) nhưng có error rate cao hơn
+
+    \item \textbf{Oxford Nanopore:} Sử dụng nanopore sequencing, có thể tạo ra đoạn đọc cực dài (>100 kb) với khả năng sequencing real-time
+\end{itemize}
+
+Illumina là nền tảng phổ biến nhất cho metagenomics do chi phí thấp, throughput cao, và độ chính xác tốt, mặc dù độ dài đoạn đọc ngắn hơn so với các công nghệ long-read.
+
+\subsubsection{Quy trình phân tích metagenomic}
+
+Quy trình phân tích metagenomic điển hình bao gồm các bước sau:
+
+\begin{enumerate}
+    \item \textbf{Thu thập và chuẩn bị mẫu:} DNA tổng số được trích xuất từ mẫu môi trường (đất, nước, mẫu sinh học, v.v.)
+
+    \item \textbf{Xây dựng thư viện (Library preparation):} DNA được phân mảnh và gắn adapter để chuẩn bị cho giải trình tự
+
+    \item \textbf{Giải trình tự (Sequencing):} Tạo ra hàng triệu đoạn đọc ngắn từ DNA trong mẫu
+
+    \item \textbf{Kiểm soát chất lượng (Quality control):} Loại bỏ các đoạn đọc chất lượng thấp, adapter sequences, và contamination
+
+    \item \textbf{Lắp ráp (Assembly):} Ghép các đoạn đọc chồng lấp nhau thành các chuỗi liên tục dài hơn gọi là contigs
+
+    \item \textbf{Phân tích downstream:} Bao gồm taxonomic classification, gene prediction, functional annotation, và comparative analysis
+\end{enumerate}
+
+\subsection{Lắp ráp metagenomic và contig}
+
+\subsubsection{Thách thức trong lắp ráp metagenomic}
+
+Lắp ráp metagenomic phức tạp hơn nhiều so với lắp ráp bộ gen đơn loài do:
+
+\begin{itemize}
+    \item \textbf{Độ phức tạp cao:} Mẫu metagenomic chứa DNA từ hàng trăm đến hàng nghìn loài khác nhau với độ phong phú biến thiên lớn
+
+    \item \textbf{Độ phủ không đồng đều:} Các loài phong phú có độ phủ giải trình tự cao, trong khi các loài hiếm có độ phủ thấp, dẫn đến chất lượng lắp ráp không đồng nhất
+
+    \item \textbf{Vùng lặp lại:} Các chuỗi tương đồng giữa các loài khác nhau hoặc các vùng lặp lại trong cùng một bộ gen gây khó khăn cho việc lắp ráp chính xác
+
+    \item \textbf{Chimerism:} Có thể tạo ra các contig chimeric kết hợp DNA từ nhiều loài khác nhau
+
+    \item \textbf{Strain variation:} Sự hiện diện của nhiều chủng (strains) của cùng một loài với các biến thể di truyền nhỏ làm phức tạp quá trình lắp ráp
+\end{itemize}
+
+\subsubsection{Contig và đặc điểm}
+
+Contig (từ "contiguous") là một chuỗi DNA liên tục được lắp ráp từ các đoạn đọc chồng lấp nhau \cite{setubal2021metagenome,ghurye2016metagenomic}. Trong phân tích metagenomic, contigs có các đặc điểm sau:
+
+\begin{itemize}
+    \item \textbf{Phân bố độ dài rộng:} Độ dài contig biến thiên từ vài trăm base pairs đến hàng trăm kilobase pairs, tùy thuộc vào độ phủ giải trình tự, độ phức tạp của mẫu, và thuật toán lắp ráp
+
+    \item \textbf{Chất lượng không đồng nhất:} Contigs từ các loài phong phú thường dài hơn và chính xác hơn so với contigs từ các loài hiếm
+
+    \item \textbf{Tính không hoàn chỉnh:} Hầu hết contigs chỉ đại diện cho các đoạn của bộ gen, không phải bộ gen hoàn chỉnh, do đó có thể thiếu các gen quan trọng hoặc chỉ chứa các phần của gen
+
+    \item \textbf{Độ phủ (Coverage):} Số lần trung bình mỗi vị trí nucleotide được đọc, là chỉ số quan trọng về độ tin cậy của contig
+\end{itemize}
+
+\subsubsection{Phân bố độ dài contig trong thực tế}
+
+Trong các nghiên cứu metagenomic thực tế, phân bố độ dài contig thường có dạng long-tail distribution:
+
+\begin{itemize}
+    \item \textbf{Contig ngắn (100-1000 bp):} Chiếm tỷ lệ lớn về số lượng, thường đến từ các loài hiếm hoặc các vùng khó lắp ráp
+
+    \item \textbf{Contig trung bình (1-10 kb):} Đại diện cho phần lớn dữ liệu về tổng số base pairs
+
+    \item \textbf{Contig dài (>10 kb):} Ít về số lượng nhưng có giá trị cao cho phân tích, thường đến từ các loài phong phú với độ phủ tốt
+\end{itemize}
+
+Các contig ngắn (100-1200 bp) đặc biệt thách thức cho phân tích vì:
+\begin{itemize}
+    \item Có thể không chứa gen hoàn chỉnh
+    \item Tín hiệu thống kê yếu cho các phương pháp dựa trên thành phần nucleotide
+    \item Các công cụ dự đoán gen có hiệu suất giảm
+    \item Khó phân biệt với DNA contamination hoặc artifacts
+\end{itemize}
+
+\subsection{Ứng dụng của metagenomics trong nghiên cứu phage}
+
+Metagenomics đã mở ra những cơ hội mới cho nghiên cứu thực khuẩn thể:
+
+\begin{itemize}
+    \item \textbf{Khám phá đa dạng phage:} Phát hiện các phage mới và hiếm gặp không thể nuôi cấy được \cite{hayes2017metagenomic}
+
+    \item \textbf{Phân tích cộng đồng phage:} Nghiên cứu cấu trúc và động lực của cộng đồng phage trong các môi trường khác nhau
+
+    \item \textbf{Tương tác phage-host:} Suy luận mối quan hệ giữa phage và vi khuẩn chủ dựa trên dữ liệu metagenomic
+
+    \item \textbf{Phân tích chức năng:} Xác định các gen chức năng và tiềm năng sinh học của phage
+
+    \item \textbf{Prophage identification:} Phát hiện prophage được tích hợp trong bộ gen vi khuẩn
+\end{itemize}
+
+Tuy nhiên, việc phân tích phage từ dữ liệu metagenomic đòi hỏi các công cụ tính toán chuyên biệt có khả năng xử lý các contig ngắn và phân mảnh - đây chính là động lực cho việc phát triển các phương pháp học sâu như PhaBERT-CNN để phân loại lối sống phage từ các contig metagenomic.

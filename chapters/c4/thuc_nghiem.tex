@@ -1,53 +1,134 @@
-\chapter{Thực nghiệm và Đánh giá}
-\label{chap:thuc_nghiem_danh_gia}
+\chapter{Thực nghiệm và đánh giá}
+\label{chap:experiments}
 
-\section{Thiết lập Thực nghiệm}
-\label{sec:exp_setup}
-    \subsection{Mô tả dữ liệu}
-    \label{subsec:exp_datasets}
-    Các thí nghiệm được đánh giá độ chính xác trên 5 tập dữ liệu ảnh chụp cột ăng-ten thực tế. Trong đó, mỗi tập dữ liệu có khoảng 200-400 ảnh có kích thước ảnh lớn, mô tả các trường hợp loại cột (cột cóc, cột tự đứng, cột dây co, cột monopole) và địa hình lặp đặt khác nhau (trên mái, dưới đất) của trạm viễn thông, được mô tả tại Bảng \ref{table:data}.
-    \begin{table}[H]
+\section{Thiết lập thực nghiệm}
+
+\subsection{Môi trường thực nghiệm}
+
+\textbf{Hardware:}
+\begin{itemize}
+    \item GPU: NVIDIA RTX A4000 16GB
+    \item CPU: 32-core processor
+    \item RAM: 64GB
+\end{itemize}
+
+\textbf{Software:}
+\begin{itemize}
+    \item Python 3.9
+    \item PyTorch 2.0
+    \item Transformers 4.30 (Hugging Face)
+    \item DNABERT-2 pre-trained model
+\end{itemize}
+
+\subsection{Metrics đánh giá}
+
+Sử dụng ba metrics chuẩn cho binary classification:
+
+\begin{itemize}
+    \item \textbf{Sensitivity (Sn)}: $\text{Sn} = \frac{TP}{TP + FN}$ - Tỷ lệ phage virulent được dự đoán đúng
+    \item \textbf{Specificity (Sp)}: $\text{Sp} = \frac{TN}{TN + FP}$ - Tỷ lệ phage temperate được dự đoán đúng
+    \item \textbf{Accuracy (Acc)}: $\text{Acc} = \frac{TP + TN}{TP + TN + FP + FN}$ - Độ chính xác tổng thể
+\end{itemize}
+
+\subsection{Baseline methods}
+
+So sánh với bốn phương pháp tiên tiến:
+\begin{itemize}
+    \item DNABERT-2 \cite{zhou2023dnabert}: Mô hình nền tảng genome
+    \item PhaTYP \cite{shang2023phatyp}: BERT với protein-based tokenization
+    \item DeePhage \cite{wu2021deephage}: CNN trên one-hot encoded DNA
+    \item ProkBERT \cite{ligeti2024prokbert}: BERT với LCA tokenization
+\end{itemize}
+
+\section{Kết quả thực nghiệm}
+
+\subsection{PhaBERT-CNN vs DNABERT-2}
+
+\begin{figure}[h]
     \centering
-    \footnotesize
-    
-    \begin{tabular}{|c|c|c|c|c|}
-    \hline
-    \textbf{Dữ liệu} & \textbf{Số lượng ảnh} & \textbf{Kích thước ảnh} & \textbf{Loại cột} & \textbf{Vị trí lắp} \\ \hline
-    BTS01 & 329 & 5400$\times$4000 & Monopole & Dưới đất \\ \hline
-    BTS02 & 534 & 5400$\times$4000 & Dây co & Dưới đất \\ \hline
-    BTS03 & 397 & 5400$\times$4000 & Tự đứng & Dưới đất \\ \hline
-    BTS04 & 323 & 5400$\times$4000 & Cóc & Trên mái \\ \hline
-    BTS05 & 186 & 5400$\times$4000 & Dây co & Trên mái \\ \hline
-    \end{tabular}
-    \caption{Thông tin về dữ liệu}
-    \label{table:data}
-    \end{table}
+    \includegraphics[width=0.8\linewidth]{imgs/dnabert2_vs_phabertcnn.png}
+    \caption{So sánh hiệu suất giữa DNABERT-2 và PhaBERT-CNN}
+    \label{fig:dnabert2_vs_phabertcnn}
+\end{figure}
 
-    Các bộ dữ liệu được thu thập bằng cách điều khiển thiết bị bay không người lái (drone) bay và chụp ảnh theo các quỹ đạo khác nhau xung quanh cột ăng-ten. Các quỹ đạo được áp dụng bao gồm: quỹ đạo hình trụ thẳng đứng và quỹ đạo vòng tròn. Hình \ref{fig:bts01}, Hình \ref{fig:bts02}, Hình \ref{fig:bts03}, Hình \ref{fig:bts04}, Hình \ref{fig:bts05} thể hiện hình ảnh đối tượng cột của mỗi tập dữ liệu tương ứng.
-    \begin{figure}[H]
-        \centering
-        \includegraphics[width=0.45\linewidth]{figures/c4/bts1.png}
-        \caption{Dữ liệu ảnh chụp cột BTS01.}
-        \label{fig:bts01}
-    \end{figure}  
+PhaBERT-CNN vượt trội hơn DNABERT-2 trên tất cả nhóm độ dài:
 
-    \begin{figure}[H]
-        \centering
-        \includegraphics[width=0.45\linewidth]{figures/c4/bts2.png}
-        \caption{Dữ liệu ảnh chụp cột BTS02.}
-        \label{fig:bts02}
-    \end{figure} 
+\begin{itemize}
+    \item \textbf{Group A (100-400 bp)}: Accuracy 81.59\% vs 81.52\%, cải thiện specificity 6.90\% (80.15\% vs 73.25\%)
+    \item \textbf{Group B (400-800 bp)}: Accuracy 87.91\% vs 85.56\%, cải thiện 2.35\%
+    \item \textbf{Group C (800-1200 bp)}: Accuracy 90.01\% vs 87.25\%, cải thiện 2.76\%
+    \item \textbf{Group D (1200-1800 bp)}: Accuracy 90.69\% vs 87.26\%, cải thiện 3.43\%
+\end{itemize}
 
-    \begin{figure}[H]
-        \centering
-        \includegraphics[width=0.45\linewidth]{figures/c4/bts3.png}
-        \caption{Dữ liệu ảnh chụp cột BTS03.}
-        \label{fig:bts03}
-    \end{figure} 
+\textbf{Phân tích:} CNN và attention pooling giúp trích xuất đặc trưng task-specific hiệu quả hơn so với chỉ sử dụng [CLS] embedding của DNABERT-2.
 
-    \begin{figure}[H]
-        \centering
-        \includegraphics[width=0.45\linewidth]{figures/c4/bts4.png}
+\subsection{So sánh với các phương pháp tiên tiến}
+
+\begin{table}[h]
+\centering
+\caption{So sánh hiệu suất trên 4 nhóm độ dài contig}
+\label{tab:comparison}
+\resizebox{\textwidth}{!}{%
+\begin{tabular}{rccccc}
+\toprule
+\textbf{Method} & \textbf{Metric} & \textbf{Group A} & \textbf{Group B} & \textbf{Group C} & \textbf{Group D} \\
+\midrule
+\multirow{3}{*}{PhaBERT-CNN} & Sn & \textbf{82.00\%} & \textbf{89.91\%} & \textbf{91.12\%} & 88.47\% \\
+ & Sp & 80.15\% & 80.44\% & 85.93\% & \textbf{90.95\%} \\
+ & Acc & \textbf{81.59\%} & \textbf{87.91\%} & \textbf{90.01\%} & 90.69\% \\
+\midrule
+\multirow{3}{*}{PhaTYP} & Sn & 79.07\% & 86.74\% & 90.09\% & \textbf{92.29\%} \\
+ & Sp & 78.77\% & \textbf{85.06\%} & \textbf{87.65\%} & 89.75\% \\
+ & Acc & 78.92\% & 85.90\% & 88.87\% & \textbf{91.02\%} \\
+\midrule
+\multirow{3}{*}{DeePhage} & Sn & 80.09\% & 86.46\% & 89.17\% & 91.17\% \\
+ & Sp & 71.79\% & 77.18\% & 80.13\% & 80.84\% \\
+ & Acc & 78.07\% & 84.17\% & 87.40\% & 89.09\% \\
+\midrule
+\multirow{3}{*}{ProkBERT} & Sn & 80.65\% & 85.67\% & 83.61\% & 85.00\% \\
+ & Sp & \textbf{80.80\%} & 84.15\% & 85.72\% & 83.68\% \\
+ & Acc & 80.68\% & 85.35\% & 84.03\% & 84.73\% \\
+\bottomrule
+\end{tabular}%
+}
+\end{table}
+
+\textbf{Kết quả chính:}
+
+\begin{itemize}
+    \item PhaBERT-CNN đạt accuracy cao nhất trên Groups A, B, C (81.59\%, 87.91\%, 90.01\%)
+    \item PhaTYP tốt nhất trên Group D (91.02\%), nhưng PhaBERT-CNN cạnh tranh (90.69\%)
+    \item PhaBERT-CNN cải thiện 0.91-5.98\% so với các baselines trên Groups A-C
+    \item ProkBERT có performance stagnation, không cải thiện với longer contigs
+\end{itemize}
+
+\section{Thảo luận}
+
+\subsection{Ưu điểm của PhaBERT-CNN}
+
+\begin{enumerate}
+    \item \textbf{Hiệu suất vượt trội trên short-medium contigs}: Đặc biệt quan trọng cho metagenomic analysis thực tế
+    \item \textbf{Cân bằng sensitivity-specificity}: Duy trì balance tốt trên tất cả nhóm độ dài
+    \item \textbf{Không phụ thuộc gene prediction}: Hoạt động trực tiếp trên DNA, khắc phục hạn chế của PhaTYP
+    \item \textbf{Hybrid architecture}: Kết hợp global context (transformer) và local patterns (CNN)
+\end{enumerate}
+
+\subsection{Hạn chế}
+
+\begin{itemize}
+    \item Random undersampling có thể mất thông tin từ lớp đa số
+    \item Computational cost cao hơn DeePhage do sử dụng transformer
+    \item Hiệu suất trên Group D chưa vượt PhaTYP (nhưng cạnh tranh)
+\end{itemize}
+
+\subsection{Hướng cải thiện}
+
+\begin{itemize}
+    \item Thử các chiến lược xử lý imbalance khác (SMOTE, class weighting)
+    \item Ablation studies chi tiết hơn về các thành phần kiến trúc
+    \item Đánh giá trên real metagenomic datasets
+    \item Tối ưu hóa inference speed cho deployment
+\end{itemize}
         \caption{Dữ liệu ảnh chụp cột BTS04.}
         \label{fig:bts04}
     \end{figure} 
