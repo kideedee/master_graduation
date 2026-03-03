@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.27 (TeX Live 2025) (preloaded format=pdflatex 2025.5.14)  3 MAR 2026 23:04
+This is pdfTeX, Version 3.141592653-2.6-1.40.27 (TeX Live 2025) (preloaded format=pdflatex 2025.5.14)  3 MAR 2026 23:17
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -344,6 +344,9 @@ Package: booktabs 2020/01/12 v1.61803398 Publication quality tables
 \@thisruleclass=\count302
 \@lastruleclass=\count303
 \@thisrulewidth=\dimen179
+) (c:/texlive/2025/texmf-dist/tex/latex/url/url.sty
+\Urlmuskip=\muskip18
+Package: url 2013/09/16  ver 3.4  Verb mode for urls, etc.
 ) (c:/texlive/2025/texmf-dist/tex/latex/geometry/geometry.sty
 Package: geometry 2020/01/02 v5.9 Page Geometry
  (c:/texlive/2025/texmf-dist/tex/generic/iftex/ifvtex.sty
@@ -750,26 +753,26 @@ Package: perpage 2014/10/25 2.0 Reset/sort counters per page
 LaTeX Warning: Unused global option(s):
     [13pt].
 
-No file thesis.aux.
+(./thesis.aux)
 \openout1 = `thesis.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 69.
-LaTeX Font Info:    ... okay on input line 69.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 69.
-LaTeX Font Info:    ... okay on input line 69.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 69.
-LaTeX Font Info:    ... okay on input line 69.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 69.
-LaTeX Font Info:    ... okay on input line 69.
-LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 69.
-LaTeX Font Info:    ... okay on input line 69.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 69.
-LaTeX Font Info:    ... okay on input line 69.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 69.
-LaTeX Font Info:    ... okay on input line 69.
-LaTeX Font Info:    Checking defaults for T5/cmr/m/n on input line 69.
-LaTeX Font Info:    ... okay on input line 69.
-(c:/texlive/2025/texmf-dist/tex/context/base/mkii/supp-pdf.mkii
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 70.
+LaTeX Font Info:    ... okay on input line 70.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 70.
+LaTeX Font Info:    ... okay on input line 70.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 70.
+LaTeX Font Info:    ... okay on input line 70.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 70.
+LaTeX Font Info:    ... okay on input line 70.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 70.
+LaTeX Font Info:    ... okay on input line 70.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 70.
+LaTeX Font Info:    ... okay on input line 70.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 70.
+LaTeX Font Info:    ... okay on input line 70.
+LaTeX Font Info:    Checking defaults for T5/cmr/m/n on input line 70.
+LaTeX Font Info:    ... okay on input line 70.
+ (c:/texlive/2025/texmf-dist/tex/context/base/mkii/supp-pdf.mkii
 [Loading MPS to PDF converter (version 2006.09.02).]
 \scratchcounter=\count351
 \scratchdimen=\dimen309
@@ -911,8 +914,66 @@ Package natbib Warning: Citation `Mildenhall2020NeRF' on page iii undefined on i
 [3
 
 
-]
-No file thesis.toc.
+] (./thesis.toc
+LaTeX Font Info:    Calculating math sizes for size <13> on input line 1.
+
+
+LaTeX Font Warning: Font shape `OT1/cmr/m/n' in size <13> not available
+(Font)              size <12> substituted on input line 1.
+
+
+LaTeX Font Warning: Font shape `OT1/cmr/m/n' in size <6.5> not available
+(Font)              size <6> substituted on input line 1.
+
+
+LaTeX Font Warning: Font shape `OML/cmm/m/it' in size <13> not available
+(Font)              size <12> substituted on input line 1.
+
+
+LaTeX Font Warning: Font shape `OML/cmm/m/it' in size <6.5> not available
+(Font)              size <6> substituted on input line 1.
+
+
+LaTeX Font Warning: Font shape `OMS/cmsy/m/n' in size <13> not available
+(Font)              size <12> substituted on input line 1.
+
+
+LaTeX Font Warning: Font shape `OMS/cmsy/m/n' in size <6.5> not available
+(Font)              size <6> substituted on input line 1.
+
+LaTeX Font Info:    Trying to load font information for U+msa on input line 1.
+(c:/texlive/2025/texmf-dist/tex/latex/amsfonts/umsa.fd
+File: umsa.fd 2013/01/14 v3.01 AMS symbols A
+)
+LaTeX Font Info:    Trying to load font information for U+msb on input line 1.
+ (c:/texlive/2025/texmf-dist/tex/latex/amsfonts/umsb.fd
+File: umsb.fd 2013/01/14 v3.01 AMS symbols B
+)
+
+LaTeX Font Warning: Font shape `OT1/cmr/bx/n' in size <13> not available
+(Font)              size <12> substituted on input line 1.
+
+
+LaTeX Font Warning: Font shape `OT1/cmr/bx/n' in size <6.5> not available
+(Font)              size <6> substituted on input line 1.
+
+
+LaTeX Font Warning: Font shape `OML/cmm/b/it' in size <13> not available
+(Font)              size <12> substituted on input line 1.
+
+
+LaTeX Font Warning: Font shape `OML/cmm/b/it' in size <6.5> not available
+(Font)              size <6> substituted on input line 1.
+
+
+LaTeX Font Warning: Font shape `OMS/cmsy/b/n' in size <13> not available
+(Font)              size <12> substituted on input line 1.
+
+
+LaTeX Font Warning: Font shape `OMS/cmsy/b/n' in size <6.5> not available
+(Font)              size <6> substituted on input line 1.
+
+)
 \tf@toc=\write4
 \openout4 = `thesis.toc'.
 
@@ -921,8 +982,7 @@ No file thesis.toc.
 [4
 
 
-]
-No file thesis.lof.
+] (./thesis.lof)
 \tf@lof=\write5
 \openout5 = `thesis.lof'.
 
@@ -931,8 +991,7 @@ No file thesis.lof.
 [5
 
 
-]
-No file thesis.lot.
+] (./thesis.lot)
 \tf@lot=\write6
 \openout6 = `thesis.lot'.
 
@@ -968,14 +1027,6 @@ LaTeX Font Warning: Font shape `OMS/cmsy/m/n' in size <7.58339> not available
 LaTeX Font Warning: Font shape `OMS/cmsy/m/n' in size <5.41673> not available
 (Font)              size <5> substituted on input line 7.
 
-LaTeX Font Info:    Trying to load font information for U+msa on input line 7.
-(c:/texlive/2025/texmf-dist/tex/latex/amsfonts/umsa.fd
-File: umsa.fd 2013/01/14 v3.01 AMS symbols A
-)
-LaTeX Font Info:    Trying to load font information for U+msb on input line 7.
- (c:/texlive/2025/texmf-dist/tex/latex/amsfonts/umsb.fd
-File: umsb.fd 2013/01/14 v3.01 AMS symbols B
-)
 
 LaTeX Font Warning: Font shape `OT1/cmr/bx/n' in size <7.58339> not available
 (Font)              size <8> substituted on input line 7.
@@ -1048,1094 +1099,59 @@ Overfull \hbox (10.16623pt too wide) in alignment at lines 5--28
 
 ] (./chapters/c1/gioi_thieu.tex
 Ch\uhorn \ohorn ng 1.
-(./chapters/c1/li_cho_chon_de_tai.tex
-
-Package natbib Warning: Citation `viettel_construction_2020' on page 1 undefined on input line 2.
-
-
-LaTeX Warning: Reference `fig:gen-3d-pc' on page 1 undefined on input line 4.
-
-
+)
 
 [1
 
 
 
-]
-<figures/c1/gen_3d_pc.png, id=48, 957.5775pt x 407.5225pt>
-File: figures/c1/gen_3d_pc.png Graphic file (type png)
-<use figures/c1/gen_3d_pc.png>
-Package pdftex.def Info: figures/c1/gen_3d_pc.png  used on input line 8.
-(pdftex.def)             Requested size: 364.19667pt x 154.99074pt.
-LaTeX Font Info:    Calculating math sizes for size <13> on input line 13.
-
-
-LaTeX Font Warning: Font shape `OT1/cmr/m/n' in size <13> not available
-(Font)              size <12> substituted on input line 13.
-
-
-LaTeX Font Warning: Font shape `OT1/cmr/m/n' in size <6.5> not available
-(Font)              size <6> substituted on input line 13.
-
-
-LaTeX Font Warning: Font shape `OML/cmm/m/it' in size <13> not available
-(Font)              size <12> substituted on input line 13.
-
-
-LaTeX Font Warning: Font shape `OML/cmm/m/it' in size <6.5> not available
-(Font)              size <6> substituted on input line 13.
-
-
-LaTeX Font Warning: Font shape `OMS/cmsy/m/n' in size <13> not available
-(Font)              size <12> substituted on input line 13.
-
-
-LaTeX Font Warning: Font shape `OMS/cmsy/m/n' in size <6.5> not available
-(Font)              size <6> substituted on input line 13.
-
-
-LaTeX Font Warning: Font shape `OT1/cmr/bx/n' in size <13> not available
-(Font)              size <12> substituted on input line 13.
-
-
-LaTeX Font Warning: Font shape `OT1/cmr/bx/n' in size <6.5> not available
-(Font)              size <6> substituted on input line 13.
-
-
-LaTeX Font Warning: Font shape `OML/cmm/b/it' in size <13> not available
-(Font)              size <12> substituted on input line 13.
-
-
-LaTeX Font Warning: Font shape `OML/cmm/b/it' in size <6.5> not available
-(Font)              size <6> substituted on input line 13.
-
-
-LaTeX Font Warning: Font shape `OMS/cmsy/b/n' in size <13> not available
-(Font)              size <12> substituted on input line 13.
-
-
-LaTeX Font Warning: Font shape `OMS/cmsy/b/n' in size <6.5> not available
-(Font)              size <6> substituted on input line 13.
-
-
-Package natbib Warning: Citation `xu2022critical' on page 2 undefined on input line 13.
-
-
-
-[2 <./figures/c1/gen_3d_pc.png>]
-
-LaTeX Font Warning: Font shape `TS1/cmr/m/n' in size <13> not available
-(Font)              size <12> substituted on input line 30.
-
-
-
-[3{c:/texlive/2025/texmf-dist/fonts/enc/dvips/cm-super/cm-super-ts1.enc}]
-
-[4]) (./chapters/c1/bo_cuc_luan_van.tex
-
-[5]))
-
-[6] (./chapters/c2/co_so_ly_thuyet.tex
+] (./chapters/c2/co_so_ly_thuyet.tex
 Ch\uhorn \ohorn ng 2.
-(./chapters/c2/gioi_thieu_3d.tex
+)
 
-LaTeX Warning: Reference `fig:3D_pipeline' on page 7 undefined on input line 3.
+[2
 
-<figures/c2/quy_trinh_3d_from_image.png, id=70, 839.135pt x 244.915pt>
-File: figures/c2/quy_trinh_3d_from_image.png Graphic file (type png)
-<use figures/c2/quy_trinh_3d_from_image.png>
-Package pdftex.def Info: figures/c2/quy_trinh_3d_from_image.png  used on input line 7.
-(pdftex.def)             Requested size: 455.24411pt x 132.86873pt.
 
 
-[7
-
-
-
- <./figures/c2/quy_trinh_3d_from_image.png>]
-
-[8]
-
-Package natbib Warning: Citation `Schonberger16SFMRevisited' on page 9 undefined on input line 24.
-
-
-Package natbib Warning: Citation `Seitz2006comparison' on page 9 undefined on input line 25.
-
-
-Package natbib Warning: Citation `Furukawa2015multi' on page 9 undefined on input line 25.
-
-
-Package natbib Warning: Citation `detone2018superpoint' on page 9 undefined on input line 31.
-
-
-Package natbib Warning: Citation `tyszkiewicz2020disk' on page 9 undefined on input line 31.
-
-
-Package natbib Warning: Citation `sarlin2020superglue' on page 9 undefined on input line 31.
-
-
-Package natbib Warning: Citation `lindenberger2023LightGlue' on page 9 undefined on input line 31.
-
-
-Package natbib Warning: Citation `Yao2018mvsnet' on page 9 undefined on input line 31.
-
-
-Package natbib Warning: Citation `wei2023safemvs' on page 9 undefined on input line 31.
-
-
-
-[9]
-
-Package natbib Warning: Citation `Mildenhall2020NeRF' on page 10 undefined on input line 32.
-
-) (./chapters/c2/sfm.tex
-
-Package natbib Warning: Citation `Snavely06Photo' on page 10 undefined on input line 3.
-
-
-Package natbib Warning: Citation `Schonberger16SFMRevisited' on page 10 undefined on input line 6.
-
-
-LaTeX Warning: Reference `fig:incre_sfm' on page 10 undefined on input line 6.
-
-
-
-[10]
-<figures/c3/incremental_sfm.png, id=85, 979.66pt x 218.8175pt>
-File: figures/c3/incremental_sfm.png Graphic file (type png)
-<use figures/c3/incremental_sfm.png>
-Package pdftex.def Info: figures/c3/incremental_sfm.png  used on input line 10.
-(pdftex.def)             Requested size: 455.24411pt x 101.6823pt.
-
-
-Package natbib Warning: Citation `McGlone80Manual' on page 11 undefined on input line 18.
-
-
-Package natbib Warning: Citation `Tuytelaars08Local' on page 11 undefined on input line 18.
-
-
-Package natbib Warning: Citation `Lowe04Distinctive' on page 11 undefined on input line 18.
-
-
-Package natbib Warning: Citation `Lowe04Distinctive' on page 11 undefined on input line 20.
-
-
-LaTeX Warning: Reference `fig:sift_detection' on page 11 undefined on input line 20.
-
-
-
-[11 <./figures/c3/incremental_sfm.png>]
-<figures/c2/sift_detection.png, id=92, 923.45pt x 311.1625pt>
-File: figures/c2/sift_detection.png Graphic file (type png)
-<use figures/c2/sift_detection.png>
-Package pdftex.def Info: figures/c2/sift_detection.png  used on input line 24.
-(pdftex.def)             Requested size: 409.71692pt x 138.05618pt.
-
-
-Package natbib Warning: Citation `Hartley03Multiple' on page 12 undefined on input line 31.
-
-
-Package natbib Warning: Citation `Fischler81RANSAC' on page 12 undefined on input line 31.
-
-
-
-[12 <./figures/c2/sift_detection.png>]
-
-LaTeX Warning: Reference `fig:incre_sfm' on page 13 undefined on input line 38.
-
-
-
-[13]
-
-Package natbib Warning: Citation `Beder06Determining' on page 14 undefined on input line 43.
-
-
-Package natbib Warning: Citation `Snavely08Thesis' on page 14 undefined on input line 43.
-
-
-Package natbib Warning: Citation `Lepetit09EPnP' on page 14 undefined on input line 51.
-
-
-Package natbib Warning: Citation `Schonberger16SFMRevisited' on page 14 undefined on input line 51.
-
-
-
-[14]
-
-[15]
-
-[16]
-
-Package natbib Warning: Citation `Triggs00Bundle' on page 17 undefined on input line 97.
-
-
-Package natbib Warning: Citation `triggs1999bundle' on page 17 undefined on input line 111.
-
-
-
-[17]
-
-Package natbib Warning: Citation `Snavely08Thesis' on page 18 undefined on input line 116.
-
-
-Package natbib Warning: Citation `Wu13Towards' on page 18 undefined on input line 116.
-
-) (./chapters/c2/feature_extraction.tex (./chapters/c2/aliked.tex
-
-Package natbib Warning: Citation `zhao2023aliked' on page 18 undefined on input line 3.
-
-
-
-[18]
-
-Package natbib Warning: Citation `Lowe04Distinctive' on page 19 undefined on input line 5.
-
-
-Package natbib Warning: Citation `rublee2011orb' on page 19 undefined on input line 5.
-
-
-Package natbib Warning: Citation `li2018megadepth' on page 19 undefined on input line 15.
-
-
-
-[19]
-
-[20]
-
-Package natbib Warning: Citation `zhao2023aliked' on page 21 undefined on input line 53.
-
-
-Package natbib Warning: Citation `zhao2023aliked' on page 21 undefined on input line 62.
-
-
-
-[21]) (./chapters/c2/lightglue.tex
-
-Package natbib Warning: Citation `lindenberger2023LightGlue' on page 22 undefined on input line 3.
-
-
-Package natbib Warning: Citation `sarlin2020superglue' on page 22 undefined on input line 3.
-
-
-
-[22]
-<figures/c3/kien_truc_light_glue.png, id=138, 700.6175pt x 198.7425pt>
-File: figures/c3/kien_truc_light_glue.png Graphic file (type png)
-<use figures/c3/kien_truc_light_glue.png>
-Package pdftex.def Info: figures/c3/kien_truc_light_glue.png  used on input line 16.
-(pdftex.def)             Requested size: 455.24411pt x 129.14166pt.
-
-
-Package natbib Warning: Citation `lindenberger2023LightGlue' on page 23 undefined on input line 17.
-
-
-Package natbib Warning: Citation `lindenberger2023LightGlue' on page 23 undefined on input line 17.
-
-
-LaTeX Warning: Reference `fig:lightglue' on page 23 undefined on input line 21.
-
-
-
-[23 <./figures/c3/kien_truc_light_glue.png>]
-
-Package natbib Warning: Citation `lindenberger2023LightGlue' on page 24 undefined on input line 56.
-
-
-
-[24]
-
-Package natbib Warning: Citation `lindenberger2023LightGlue' on page 25 undefined on input line 77.
-
-
-Package natbib Warning: Citation `lindenberger2023LightGlue' on page 25 undefined on input line 78.
-
-
-Package natbib Warning: Citation `Li2024Improved' on page 25 undefined on input line 87.
-
-)) (./chapters/c2/mvs.tex
-
-Package natbib Warning: Citation `Seitz2006comparison' on page 25 undefined on input line 4.
-
-
-Package natbib Warning: Citation `Furukawa2015multi' on page 25 undefined on input line 4.
-
-
-
-[25]
-
-Package natbib Warning: Citation `Seitz2006comparison' on page 26 undefined on input line 9.
-
-
-
-[26]
-
-[27]
-
-[28]
-
-Package natbib Warning: Citation `schoenberger2016mvs' on page 29 undefined on input line 73.
-
-
-
-[29]) (./chapters/c2/volume_rendering.tex
-
-Package natbib Warning: Citation `Kajiya84Ray' on page 30 undefined on input line 4.
-
-
-
-[30]) (./chapters/c2/nerf.tex
-
-Package natbib Warning: Citation `Mildenhall2020NeRF' on page 31 undefined on input line 4.
-
-
-LaTeX Warning: Reference `subsec:volume_rendering_detailed' on page 31 undefined on input line 4.
-
-
-Package natbib Warning: Citation `Mildenhall2020NeRF' on page 31 undefined on input line 15.
-
-
-
-[31]
-<figures/c3/nerf.png, id=169, 949.5475pt x 252.945pt>
-File: figures/c3/nerf.png Graphic file (type png)
-<use figures/c3/nerf.png>
-Package pdftex.def Info: figures/c3/nerf.png  used on input line 19.
-(pdftex.def)             Requested size: 455.24411pt x 121.26941pt.
-
-
-Package natbib Warning: Citation `Mildenhall2020NeRF' on page 32 undefined on input line 20.
-
-
-Package natbib Warning: Citation `Mildenhall2020NeRF' on page 32 undefined on input line 20.
-
-
-LaTeX Warning: Reference `fig:nerf' on page 32 undefined on input line 24.
-
-
-Package natbib Warning: Citation `Mildenhall2020NeRF' on page 32 undefined on input line 24.
-
-
-Package natbib Warning: Citation `Mildenhall2020NeRF' on page 32 undefined on input line 92.
-
-
-
-[32 <./figures/c3/nerf.png>]
-
-LaTeX Warning: Reference `color_cumulative' on page 33 undefined on input line 118.
-
-
-
-[33]
-
-LaTeX Warning: Reference `subsubsec:hierarchical_sampling' on page 34 undefined on input line 136.
-
-
-LaTeX Warning: Reference `do_truyen_qua' on page 34 undefined on input line 147.
-
-
-
-[34]
-
-LaTeX Warning: Reference `color_cumulative' on page 35 undefined on input line 149.
-
-
-Package natbib Warning: Citation `Rahaman18Spectral' on page 35 undefined on input line 156.
-
-) (./chapters/c2/related.tex
-
-[35]
-
-Package natbib Warning: Citation `kerbl2023gaussian' on page 36 undefined on input line 3.
-
-
-Package natbib Warning: Citation `detone2018superpoint' on page 36 undefined on input line 5.
-
-
-Package natbib Warning: Citation `dusmanu2019d2' on page 36 undefined on input line 5.
-
-
-Package natbib Warning: Citation `geometryaware2024' on page 36 undefined on input line 5.
-
-
-Package natbib Warning: Citation `Liu_2023_CVPR' on page 36 undefined on input line 7.
-
-
-Package natbib Warning: Citation `liu2024robust' on page 36 undefined on input line 7.
-
-
-
-[36]
-
-Package natbib Warning: Citation `Liu_2023_CVPR' on page 37 undefined on input line 11.
-
-))
-
-[37] (./chapters/c3/de_xuat.tex
+] (./chapters/c3/de_xuat.tex
 Ch\uhorn \ohorn ng 3.
-<figures/c3/overall_pipeline.png, id=190, 813.0375pt x 539.01375pt>
-File: figures/c3/overall_pipeline.png Graphic file (type png)
-<use figures/c3/overall_pipeline.png>
-Package pdftex.def Info: figures/c3/overall_pipeline.png  used on input line 9.
-(pdftex.def)             Requested size: 455.24411pt x 301.8045pt.
+)
 
-LaTeX Warning: Reference `fig:overall' on page 38 undefined on input line 13.
+[3
 
 
 
-[38
-
-
-
- <./figures/c3/overall_pipeline.png>]
-
-LaTeX Warning: Reference `subsec:exp_datasets' on page 39 undefined on input line 21.
-
-
-
-[39]
-<figures/c3/proposed_sfm.png, id=200, 1097.09875pt x 413.545pt>
-File: figures/c3/proposed_sfm.png Graphic file (type png)
-<use figures/c3/proposed_sfm.png>
-Package pdftex.def Info: figures/c3/proposed_sfm.png  used on input line 38.
-(pdftex.def)             Requested size: 455.24411pt x 171.59903pt.
-
-
-[40]
-
-LaTeX Warning: Reference `section:phan_tich_bai_toan' on page 41 undefined on input line 42.
-
-
-LaTeX Warning: Reference `fig:prosposed_sfm' on page 41 undefined on input line 42.
-
-
-
-[41 <./figures/c3/proposed_sfm.png>]
-
-LaTeX Warning: Reference `subsec:incremental_reconstruction' on page 42 undefined on input line 50.
-
-
-LaTeX Warning: Reference `section:phan_tich_bai_toan' on page 42 undefined on input line 54.
-
-
-LaTeX Warning: Reference `fig:detection_model' on page 42 undefined on input line 56.
-
-<figures/c3/box_detection.png, id=208, 1402.23875pt x 931.48pt>
-File: figures/c3/box_detection.png Graphic file (type png)
-<use figures/c3/box_detection.png>
-Package pdftex.def Info: figures/c3/box_detection.png  used on input line 60.
-(pdftex.def)             Requested size: 364.19667pt x 241.92325pt.
-
-
-[42]
-
-Package natbib Warning: Citation `zhao2023aliked' on page 43 undefined on input line 65.
-
-
-LaTeX Warning: Reference `fig:detection_aliked' on page 43 undefined on input line 65.
-
-<figures/c3/ALIKED_detection.png, id=212, 179.67125pt x 413.545pt>
-File: figures/c3/ALIKED_detection.png Graphic file (type png)
-<use figures/c3/ALIKED_detection.png>
-Package pdftex.def Info: figures/c3/ALIKED_detection.png  used on input line 69.
-(pdftex.def)             Requested size: 159.33821pt x 366.77292pt.
-
-
-[43 <./figures/c3/box_detection.png>]
-
-[44 <./figures/c3/ALIKED_detection.png>])
-
-[45] (./chapters/c4/thuc_nghiem_2.tex
+] (./chapters/c4/thuc_nghiem_2.tex
 Ch\uhorn \ohorn ng 4.
+)
 
-LaTeX Warning: Reference `fig:quy_dao_bay' on page 46 undefined on input line 7.
+[4
 
-<figures/c4/quy_dao_bay.png, id=225, 590.205pt x 396.48125pt>
-File: figures/c4/quy_dao_bay.png Graphic file (type png)
-<use figures/c4/quy_dao_bay.png>
-Package pdftex.def Info: figures/c4/quy_dao_bay.png  used on input line 10.
-(pdftex.def)             Requested size: 364.19667pt x 244.66031pt.
 
-Package natbib Warning: Citation `pix4d2023' on page 46 undefined on input line 11.
 
-
-Package natbib Warning: Citation `pix4d2023' on page 46 undefined on input line 11.
-
-
-LaTeX Warning: Reference `table:data' on page 46 undefined on input line 17.
-
-
-
-[46
-
-
-
-]
-
-LaTeX Warning: Reference `fig:bts01' on page 47 undefined on input line 35.
-
-
-LaTeX Warning: Reference `fig:bts02' on page 47 undefined on input line 35.
-
-
-LaTeX Warning: Reference `fig:bts03' on page 47 undefined on input line 35.
-
-
-LaTeX Warning: Reference `fig:bts04' on page 47 undefined on input line 35.
-
-
-LaTeX Warning: Reference `fig:bts05' on page 47 undefined on input line 35.
-
-
-
-[47 <./figures/c4/quy_dao_bay.png>]
-<figures/c4/bts1.png, id=234, 619.31375pt x 778.91pt>
-File: figures/c4/bts1.png Graphic file (type png)
-<use figures/c4/bts1.png>
-Package pdftex.def Info: figures/c4/bts1.png  used on input line 39.
-(pdftex.def)             Requested size: 204.85846pt x 257.64725pt.
-<figures/c4/bts2.png, id=235, 568.1225pt x 724.7075pt>
-File: figures/c4/bts2.png Graphic file (type png)
-<use figures/c4/bts2.png>
-Package pdftex.def Info: figures/c4/bts2.png  used on input line 46.
-(pdftex.def)             Requested size: 204.85846pt x 261.32576pt.
-<figures/c4/bts3.png, id=236, 591.20876pt x 783.92876pt>
-File: figures/c4/bts3.png Graphic file (type png)
-<use figures/c4/bts3.png>
-Package pdftex.def Info: figures/c4/bts3.png  used on input line 53.
-(pdftex.def)             Requested size: 204.85846pt x 271.62796pt.
-
-
-[48 <./figures/c4/bts1.png> <./figures/c4/bts2.png>]
-<figures/c4/bts4.png, id=242, 525.965pt x 740.7675pt>
-File: figures/c4/bts4.png Graphic file (type png)
-<use figures/c4/bts4.png>
-Package pdftex.def Info: figures/c4/bts4.png  used on input line 60.
-(pdftex.def)             Requested size: 204.85846pt x 288.52515pt.
-<figures/c4/bts5.png, id=243, 565.11125pt x 715.67375pt>
-File: figures/c4/bts5.png Graphic file (type png)
-<use figures/c4/bts5.png>
-Package pdftex.def Info: figures/c4/bts5.png  used on input line 67.
-(pdftex.def)             Requested size: 204.85846pt x 259.43327pt.
-
-
-[49 <./figures/c4/bts3.png> <./figures/c4/bts4.png>]
-
-[50 <./figures/c4/bts5.png>]
-
-[51]
-
-Package natbib Warning: Citation `Lowe04Distinctive' on page 52 undefined on input line 130.
-
-
-LaTeX Warning: Reference `tab:thresh_comparison' on page 52 undefined on input line 151.
-
-
-
-[52]
-
-LaTeX Warning: Reference `tab:sift_comparison' on page 53 undefined on input line 179.
-
-
-Overfull \hbox (2.43109pt too wide) in paragraph at lines 187--201
- [][] 
- []
-
-
-
-[53]
-
-LaTeX Warning: Reference `tab:comparison' on page 54 undefined on input line 205.
-
-
-LaTeX Warning: Reference `subsec:incremental_reconstruction' on page 54 undefined on input line 205.
-
-
-LaTeX Warning: Reference `fig:comparison_keypoints' on page 54 undefined on input line 205.
-
-<figures/c4/colmap_sfm.png, id=263, 621.32124pt x 699.61375pt>
-File: figures/c4/colmap_sfm.png Graphic file (type png)
-<use figures/c4/colmap_sfm.png>
-Package pdftex.def Info: figures/c4/colmap_sfm.png  used on input line 211.
-(pdftex.def)             Requested size: 174.13094pt x 196.07199pt.
-<figures/c4/colmap_deep_keys.png, id=264, 739.76375pt x 765.86125pt>
-File: figures/c4/colmap_deep_keys.png Graphic file (type png)
-<use figures/c4/colmap_deep_keys.png>
-Package pdftex.def Info: figures/c4/colmap_deep_keys.png  used on input line 217.
-(pdftex.def)             Requested size: 174.13094pt x 180.26956pt.
-
-
-[54]
-
-LaTeX Warning: Reference `tab:comparison' on page 55 undefined on input line 224.
-
-
-LaTeX Warning: Reference `tab:track_length_comparison' on page 55 undefined on input line 246.
-
-
-
-[55 <./figures/c4/colmap_sfm.png> <./figures/c4/colmap_deep_keys.png>]
-
-LaTeX Warning: Reference `tab:time' on page 56 undefined on input line 252.
-
-
-
-[56]
-
-[57]
-<figures/c4/sift_1_a1.png, id=280, 188.705pt x 595.22375pt>
-File: figures/c4/sift_1_a1.png Graphic file (type png)
-<use figures/c4/sift_1_a1.png>
-Package pdftex.def Info: figures/c4/sift_1_a1.png  used on input line 314.
-(pdftex.def)             Requested size: 61.45815pt x 193.85413pt.
-<figures/c4/deep_1_a1.png, id=281, 172.645pt x 596.2275pt>
-File: figures/c4/deep_1_a1.png Graphic file (type png)
-<use figures/c4/deep_1_a1.png>
-Package pdftex.def Info: figures/c4/deep_1_a1.png  used on input line 315.
-(pdftex.def)             Requested size: 55.99608pt x 193.38043pt.
-<figures/c4/sift_1_a2.png, id=282, 188.705pt x 595.22375pt>
-File: figures/c4/sift_1_a2.png Graphic file (type png)
-<use figures/c4/sift_1_a2.png>
-Package pdftex.def Info: figures/c4/sift_1_a2.png  used on input line 322.
-(pdftex.def)             Requested size: 61.45815pt x 193.85413pt.
-<figures/c4/deep_1_a2.png, id=283, 188.705pt x 595.22375pt>
-File: figures/c4/deep_1_a2.png Graphic file (type png)
-<use figures/c4/deep_1_a2.png>
-Package pdftex.def Info: figures/c4/deep_1_a2.png  used on input line 323.
-(pdftex.def)             Requested size: 61.45815pt x 193.85413pt.
-<figures/c4/sift_1_a3.png, id=284, 188.705pt x 595.22375pt>
-File: figures/c4/sift_1_a3.png Graphic file (type png)
-<use figures/c4/sift_1_a3.png>
-Package pdftex.def Info: figures/c4/sift_1_a3.png  used on input line 330.
-(pdftex.def)             Requested size: 61.45815pt x 193.85413pt.
-<figures/c4/deep_1_a3.png, id=285, 188.705pt x 595.22375pt>
-File: figures/c4/deep_1_a3.png Graphic file (type png)
-<use figures/c4/deep_1_a3.png>
-Package pdftex.def Info: figures/c4/deep_1_a3.png  used on input line 331.
-(pdftex.def)             Requested size: 61.45815pt x 193.85413pt.
-<figures/c4/sift_3_a1.png, id=286, 198.7425pt x 642.4pt>
-File: figures/c4/sift_3_a1.png Graphic file (type png)
-<use figures/c4/sift_3_a1.png>
-Package pdftex.def Info: figures/c4/sift_3_a1.png  used on input line 345.
-(pdftex.def)             Requested size: 61.45815pt x 198.65182pt.
-<figures/c4/deep_3_a1.png, id=287, 198.7425pt x 642.4pt>
-File: figures/c4/deep_3_a1.png Graphic file (type png)
-<use figures/c4/deep_3_a1.png>
-Package pdftex.def Info: figures/c4/deep_3_a1.png  used on input line 346.
-(pdftex.def)             Requested size: 61.45815pt x 198.65182pt.
-<figures/c4/sift_3_a2.png, id=288, 198.7425pt x 642.4pt>
-File: figures/c4/sift_3_a2.png Graphic file (type png)
-<use figures/c4/sift_3_a2.png>
-Package pdftex.def Info: figures/c4/sift_3_a2.png  used on input line 353.
-(pdftex.def)             Requested size: 61.45815pt x 198.65182pt.
-<figures/c4/deep_3_a2.png, id=289, 198.7425pt x 642.4pt>
-File: figures/c4/deep_3_a2.png Graphic file (type png)
-<use figures/c4/deep_3_a2.png>
-Package pdftex.def Info: figures/c4/deep_3_a2.png  used on input line 354.
-(pdftex.def)             Requested size: 61.45815pt x 198.65182pt.
-<figures/c4/sift_3_a3.png, id=290, 198.7425pt x 642.4pt>
-File: figures/c4/sift_3_a3.png Graphic file (type png)
-<use figures/c4/sift_3_a3.png>
-Package pdftex.def Info: figures/c4/sift_3_a3.png  used on input line 361.
-(pdftex.def)             Requested size: 61.45815pt x 198.65182pt.
-<figures/c4/deep_3_a3.png, id=291, 198.7425pt x 642.4pt>
-File: figures/c4/deep_3_a3.png Graphic file (type png)
-<use figures/c4/deep_3_a3.png>
-Package pdftex.def Info: figures/c4/deep_3_a3.png  used on input line 362.
-(pdftex.def)             Requested size: 61.45815pt x 198.65182pt.
-
-
-[58 <./figures/c4/sift_1_a1.png> <./figures/c4/deep_1_a1.png> <./figures/c4/sift_1_a2.png> <./figures/c4/deep_1_a2.png> <./figures/c4/sift_1_a3.png> <./figures/c4/deep_1_a3.png>]
-<figures/c4/sift_5_a1.png, id=301, 185.69376pt x 790.955pt>
-File: figures/c4/sift_5_a1.png Graphic file (type png)
-<use figures/c4/sift_5_a1.png>
-Package pdftex.def Info: figures/c4/sift_5_a1.png  used on input line 376.
-(pdftex.def)             Requested size: 61.45815pt x 261.7763pt.
-<figures/c4/deep_5_a1.png, id=302, 185.69376pt x 790.955pt>
-File: figures/c4/deep_5_a1.png Graphic file (type png)
-<use figures/c4/deep_5_a1.png>
-Package pdftex.def Info: figures/c4/deep_5_a1.png  used on input line 377.
-(pdftex.def)             Requested size: 61.45815pt x 261.7763pt.
-<figures/c4/sift_5_a2.png, id=303, 185.69376pt x 790.955pt>
-File: figures/c4/sift_5_a2.png Graphic file (type png)
-<use figures/c4/sift_5_a2.png>
-Package pdftex.def Info: figures/c4/sift_5_a2.png  used on input line 384.
-(pdftex.def)             Requested size: 61.45815pt x 261.7763pt.
-<figures/c4/deep_5_a2.png, id=304, 185.69376pt x 790.955pt>
-File: figures/c4/deep_5_a2.png Graphic file (type png)
-<use figures/c4/deep_5_a2.png>
-Package pdftex.def Info: figures/c4/deep_5_a2.png  used on input line 385.
-(pdftex.def)             Requested size: 61.45815pt x 261.7763pt.
-<figures/c4/sift_5_a3.png, id=305, 185.69376pt x 790.955pt>
-File: figures/c4/sift_5_a3.png Graphic file (type png)
-<use figures/c4/sift_5_a3.png>
-Package pdftex.def Info: figures/c4/sift_5_a3.png  used on input line 392.
-(pdftex.def)             Requested size: 61.45815pt x 261.7763pt.
-<figures/c4/deep_5_a3.png, id=306, 185.69376pt x 790.955pt>
-File: figures/c4/deep_5_a3.png Graphic file (type png)
-<use figures/c4/deep_5_a3.png>
-Package pdftex.def Info: figures/c4/deep_5_a3.png  used on input line 393.
-(pdftex.def)             Requested size: 61.45815pt x 261.7763pt.
-
-
-LaTeX Warning: Reference `tab:Smoothness_comparison_mvs' on page 59 undefined on input line 400.
-
-
-LaTeX Warning: Reference `fig:mvs_device_bts01' on page 59 undefined on input line 400.
-
-
-LaTeX Warning: Reference `fig:mvs_device_bts03' on page 59 undefined on input line 400.
-
-
-LaTeX Warning: Reference `fig:mvs_device_bts05' on page 59 undefined on input line 400.
-
-
-
-[59 <./figures/c4/sift_3_a1.png> <./figures/c4/deep_3_a1.png> <./figures/c4/sift_3_a2.png> <./figures/c4/deep_3_a2.png> <./figures/c4/sift_3_a3.png> <./figures/c4/deep_3_a3.png> <./figures/c4/sift_5_a1.png> <./figures/c4/deep_5_a1.png> <./figures/c4/sift_5_a2.png> <./figures/c4/deep_5_a2.png> <./figures/c4/sift_5_a3.png> <./figures/c4/deep_5_a3.png>]
-
-LaTeX Warning: Reference `tab:Smoothness_comparison_nerf' on page 60 undefined on input line 426.
-
-
-LaTeX Warning: Reference `subsec:eval_mvs_impact' on page 60 undefined on input line 426.
-
-
-LaTeX Warning: Reference `tab:Smoothness_comparison_mvs' on page 60 undefined on input line 426.
-
-
-LaTeX Warning: Reference `tab:Smoothness_comparison_nerf' on page 60 undefined on input line 426.
-
-<figures/c4/nerf_sift_1_a1.png, id=322, 242.9075pt x 879.285pt>
-File: figures/c4/nerf_sift_1_a1.png Graphic file (type png)
-<use figures/c4/nerf_sift_1_a1.png>
-Package pdftex.def Info: figures/c4/nerf_sift_1_a1.png  used on input line 434.
-(pdftex.def)             Requested size: 61.45815pt x 222.46382pt.
-<figures/c4/nerf_deep_1_a1.png, id=323, 242.9075pt x 879.285pt>
-File: figures/c4/nerf_deep_1_a1.png Graphic file (type png)
-<use figures/c4/nerf_deep_1_a1.png>
-Package pdftex.def Info: figures/c4/nerf_deep_1_a1.png  used on input line 435.
-(pdftex.def)             Requested size: 61.45815pt x 222.46382pt.
-<figures/c4/nerf_sift_1_a2.png, id=324, 242.9075pt x 879.285pt>
-File: figures/c4/nerf_sift_1_a2.png Graphic file (type png)
-<use figures/c4/nerf_sift_1_a2.png>
-Package pdftex.def Info: figures/c4/nerf_sift_1_a2.png  used on input line 442.
-(pdftex.def)             Requested size: 61.45815pt x 222.46382pt.
-<figures/c4/nerf_deep_1_a2.png, id=325, 242.9075pt x 879.285pt>
-File: figures/c4/nerf_deep_1_a2.png Graphic file (type png)
-<use figures/c4/nerf_deep_1_a2.png>
-Package pdftex.def Info: figures/c4/nerf_deep_1_a2.png  used on input line 443.
-(pdftex.def)             Requested size: 61.45815pt x 222.46382pt.
-<figures/c4/nerf_sift_1_a3.png, id=326, 242.9075pt x 879.285pt>
-File: figures/c4/nerf_sift_1_a3.png Graphic file (type png)
-<use figures/c4/nerf_sift_1_a3.png>
-Package pdftex.def Info: figures/c4/nerf_sift_1_a3.png  used on input line 450.
-(pdftex.def)             Requested size: 61.45815pt x 222.46382pt.
-<figures/c4/nerf_deep_1_a3.png, id=327, 242.9075pt x 879.285pt>
-File: figures/c4/nerf_deep_1_a3.png Graphic file (type png)
-<use figures/c4/nerf_deep_1_a3.png>
-Package pdftex.def Info: figures/c4/nerf_deep_1_a3.png  used on input line 451.
-(pdftex.def)             Requested size: 61.45815pt x 222.46382pt.
-
-
-[60]
-<figures/c4/nerf_sift_3_a1.png, id=331, 242.9075pt x 879.285pt>
-File: figures/c4/nerf_sift_3_a1.png Graphic file (type png)
-<use figures/c4/nerf_sift_3_a1.png>
-Package pdftex.def Info: figures/c4/nerf_sift_3_a1.png  used on input line 465.
-(pdftex.def)             Requested size: 61.45815pt x 222.46382pt.
-<figures/c4/nerf_deep_3_a1.png, id=332, 242.9075pt x 879.285pt>
-File: figures/c4/nerf_deep_3_a1.png Graphic file (type png)
-<use figures/c4/nerf_deep_3_a1.png>
-Package pdftex.def Info: figures/c4/nerf_deep_3_a1.png  used on input line 466.
-(pdftex.def)             Requested size: 61.45815pt x 222.46382pt.
-<figures/c4/nerf_sift_3_a2.png, id=333, 242.9075pt x 879.285pt>
-File: figures/c4/nerf_sift_3_a2.png Graphic file (type png)
-<use figures/c4/nerf_sift_3_a2.png>
-Package pdftex.def Info: figures/c4/nerf_sift_3_a2.png  used on input line 473.
-(pdftex.def)             Requested size: 61.45815pt x 222.46382pt.
-<figures/c4/nerf_deep_3_a2.png, id=334, 242.9075pt x 879.285pt>
-File: figures/c4/nerf_deep_3_a2.png Graphic file (type png)
-<use figures/c4/nerf_deep_3_a2.png>
-Package pdftex.def Info: figures/c4/nerf_deep_3_a2.png  used on input line 474.
-(pdftex.def)             Requested size: 61.45815pt x 222.46382pt.
-<figures/c4/nerf_sift_5_a3.png, id=335, 242.9075pt x 879.285pt>
-File: figures/c4/nerf_sift_5_a3.png Graphic file (type png)
-<use figures/c4/nerf_sift_5_a3.png>
-Package pdftex.def Info: figures/c4/nerf_sift_5_a3.png  used on input line 481.
-(pdftex.def)             Requested size: 61.45815pt x 222.46382pt.
-<figures/c4/nerf_deep_5_a3.png, id=336, 242.9075pt x 879.285pt>
-File: figures/c4/nerf_deep_5_a3.png Graphic file (type png)
-<use figures/c4/nerf_deep_5_a3.png>
-Package pdftex.def Info: figures/c4/nerf_deep_5_a3.png  used on input line 482.
-(pdftex.def)             Requested size: 61.45815pt x 222.46382pt.
-File: figures/c4/nerf_sift_1_a1.png Graphic file (type png)
-<use figures/c4/nerf_sift_1_a1.png>
-Package pdftex.def Info: figures/c4/nerf_sift_1_a1.png  used on input line 496.
-(pdftex.def)             Requested size: 61.45815pt x 222.46382pt.
-File: figures/c4/nerf_deep_1_a1.png Graphic file (type png)
-<use figures/c4/nerf_deep_1_a1.png>
-Package pdftex.def Info: figures/c4/nerf_deep_1_a1.png  used on input line 497.
-(pdftex.def)             Requested size: 61.45815pt x 222.46382pt.
-File: figures/c4/nerf_sift_1_a1.png Graphic file (type png)
-<use figures/c4/nerf_sift_1_a1.png>
-Package pdftex.def Info: figures/c4/nerf_sift_1_a1.png  used on input line 504.
-(pdftex.def)             Requested size: 61.45815pt x 222.46382pt.
-File: figures/c4/nerf_deep_1_a1.png Graphic file (type png)
-<use figures/c4/nerf_deep_1_a1.png>
-Package pdftex.def Info: figures/c4/nerf_deep_1_a1.png  used on input line 505.
-(pdftex.def)             Requested size: 61.45815pt x 222.46382pt.
-File: figures/c4/nerf_sift_1_a1.png Graphic file (type png)
-<use figures/c4/nerf_sift_1_a1.png>
-Package pdftex.def Info: figures/c4/nerf_sift_1_a1.png  used on input line 512.
-(pdftex.def)             Requested size: 61.45815pt x 222.46382pt.
-File: figures/c4/nerf_deep_1_a1.png Graphic file (type png)
-<use figures/c4/nerf_deep_1_a1.png>
-Package pdftex.def Info: figures/c4/nerf_deep_1_a1.png  used on input line 513.
-(pdftex.def)             Requested size: 61.45815pt x 222.46382pt.
-
-
-[61 <./figures/c4/nerf_sift_1_a1.png> <./figures/c4/nerf_deep_1_a1.png> <./figures/c4/nerf_sift_1_a2.png> <./figures/c4/nerf_deep_1_a2.png> <./figures/c4/nerf_sift_1_a3.png> <./figures/c4/nerf_deep_1_a3.png> <./figures/c4/nerf_sift_3_a1.png> <./figures/c4/nerf_deep_3_a1.png> <./figures/c4/nerf_sift_3_a2.png> <./figures/c4/nerf_deep_3_a2.png> <./figures/c4/nerf_sift_5_a3.png> <./figures/c4/nerf_deep_5_a3.png>]
-
-LaTeX Warning: Reference `fig:nerf_device_bts01' on page 62 undefined on input line 520.
-
-
-LaTeX Warning: Reference `fig:nerf_device_bts03' on page 62 undefined on input line 520.
-
-
-LaTeX Warning: Reference `fig:nerf_device_bts05' on page 62 undefined on input line 520.
-
-
-LaTeX Warning: Reference `tab:Smoothness_comparison_nerf' on page 62 undefined on input line 520.
-
-
-LaTeX Warning: Reference `tab:Smoothness_comparison_mvs' on page 62 undefined on input line 520.
-
-File: figures/c4/deep_1_a2.png Graphic file (type png)
-<use figures/c4/deep_1_a2.png>
-Package pdftex.def Info: figures/c4/deep_1_a2.png  used on input line 530.
-(pdftex.def)             Requested size: 71.01938pt x 224.0076pt.
-File: figures/c4/nerf_deep_1_a2.png Graphic file (type png)
-<use figures/c4/nerf_deep_1_a2.png>
-Package pdftex.def Info: figures/c4/nerf_deep_1_a2.png  used on input line 531.
-(pdftex.def)             Requested size: 61.45815pt x 222.46382pt.
-File: figures/c4/deep_3_a1.png Graphic file (type png)
-<use figures/c4/deep_3_a1.png>
-Package pdftex.def Info: figures/c4/deep_3_a1.png  used on input line 538.
-(pdftex.def)             Requested size: 68.28731pt x 220.72644pt.
-File: figures/c4/nerf_deep_3_a1.png Graphic file (type png)
-<use figures/c4/nerf_deep_3_a1.png>
-Package pdftex.def Info: figures/c4/nerf_deep_3_a1.png  used on input line 539.
-(pdftex.def)             Requested size: 60.7767pt x 219.99513pt.
-File: figures/c4/deep_5_a1.png Graphic file (type png)
-<use figures/c4/deep_5_a1.png>
-Package pdftex.def Info: figures/c4/deep_5_a1.png  used on input line 546.
-(pdftex.def)             Requested size: 51.21547pt x 218.14691pt.
-<figures/c4/nerf_deep_5_a1.png, id=352, 242.9075pt x 879.285pt>
-File: figures/c4/nerf_deep_5_a1.png Graphic file (type png)
-<use figures/c4/nerf_deep_5_a1.png>
-Package pdftex.def Info: figures/c4/nerf_deep_5_a1.png  used on input line 547.
-(pdftex.def)             Requested size: 60.09315pt x 217.52644pt.
-
-
-[62]
-
-LaTeX Warning: Reference `fig:3d_mvs_nerf_bts01' on page 63 undefined on input line 555.
-
-
-LaTeX Warning: Reference `fig:3d_mvs_nerf_bts03' on page 63 undefined on input line 555.
-
-
-LaTeX Warning: Reference `fig:3d_mvs_nerf_bts05' on page 63 undefined on input line 555.
-
-
-LaTeX Warning: Reference `fig:mvs_nerf_device' on page 63 undefined on input line 555.
-
-
-LaTeX Warning: Reference `tab:Smoothness_comparison_mvs' on page 63 undefined on input line 555.
-
-
-LaTeX Warning: Reference `tab:Smoothness_comparison_nerf' on page 63 undefined on input line 555.
-
-<figures/c4/bts01_mvs_1.png, id=357, 379.4175pt x 697.60625pt>
-File: figures/c4/bts01_mvs_1.png Graphic file (type png)
-<use figures/c4/bts01_mvs_1.png>
-Package pdftex.def Info: figures/c4/bts01_mvs_1.png  used on input line 562.
-(pdftex.def)             Requested size: 163.88815pt x 301.32735pt.
-<figures/c4/bts01_mvs_2.png, id=358, 319.1925pt x 685.56125pt>
-File: figures/c4/bts01_mvs_2.png Graphic file (type png)
-<use figures/c4/bts01_mvs_2.png>
-Package pdftex.def Info: figures/c4/bts01_mvs_2.png  used on input line 566.
-(pdftex.def)             Requested size: 141.12456pt x 303.10193pt.
-<figures/c4/bts01_mvs_3.png, id=359, 319.1925pt x 685.56125pt>
-File: figures/c4/bts01_mvs_3.png Graphic file (type png)
-<use figures/c4/bts01_mvs_3.png>
-Package pdftex.def Info: figures/c4/bts01_mvs_3.png  used on input line 570.
-(pdftex.def)             Requested size: 141.12456pt x 303.10193pt.
-<figures/c4/bts01_nerf_1.png, id=360, 480.79625pt x 712.6625pt>
-File: figures/c4/bts01_nerf_1.png Graphic file (type png)
-<use figures/c4/bts01_nerf_1.png>
-Package pdftex.def Info: figures/c4/bts01_nerf_1.png  used on input line 577.
-(pdftex.def)             Requested size: 191.20169pt x 283.40704pt.
-<figures/c4/bts01_nerf_2.png, id=361, 296.10625pt x 712.6625pt>
-File: figures/c4/bts01_nerf_2.png Graphic file (type png)
-<use figures/c4/bts01_nerf_2.png>
-Package pdftex.def Info: figures/c4/bts01_nerf_2.png  used on input line 582.
-(pdftex.def)             Requested size: 118.36096pt x 284.86421pt.
-<figures/c4/bts01_nerf_3.png, id=362, 308.15125pt x 712.6625pt>
-File: figures/c4/bts01_nerf_3.png Graphic file (type png)
-<use figures/c4/bts01_nerf_3.png>
-Package pdftex.def Info: figures/c4/bts01_nerf_3.png  used on input line 587.
-(pdftex.def)             Requested size: 122.91785pt x 284.26613pt.
-
-
-[63 <./figures/c4/nerf_deep_5_a1.png>]
-<figures/c4/bts03_mvs_1.png, id=367, 490.83376pt x 847.165pt>
-File: figures/c4/bts03_mvs_1.png Graphic file (type png)
-<use figures/c4/bts03_mvs_1.png>
-Package pdftex.def Info: figures/c4/bts03_mvs_1.png  used on input line 600.
-(pdftex.def)             Requested size: 127.46779pt x 219.99916pt.
-<figures/c4/bts03_mvs_2.png, id=368, 579.16376pt x 845.1575pt>
-File: figures/c4/bts03_mvs_2.png Graphic file (type png)
-<use figures/c4/bts03_mvs_2.png>
-Package pdftex.def Info: figures/c4/bts03_mvs_2.png  used on input line 604.
-(pdftex.def)             Requested size: 150.23138pt x 219.21992pt.
-<figures/c4/bts03_mvs_3.png, id=369, 579.16376pt x 845.1575pt>
-File: figures/c4/bts03_mvs_3.png Graphic file (type png)
-<use figures/c4/bts03_mvs_3.png>
-Package pdftex.def Info: figures/c4/bts03_mvs_3.png  used on input line 608.
-(pdftex.def)             Requested size: 150.23138pt x 219.21992pt.
-<figures/c4/bts03_nerf_1.png, id=370, 470.75874pt x 808.01875pt>
-File: figures/c4/bts03_nerf_1.png Graphic file (type png)
-<use figures/c4/bts03_nerf_1.png>
-Package pdftex.def Info: figures/c4/bts03_nerf_1.png  used on input line 615.
-(pdftex.def)             Requested size: 136.57462pt x 234.41808pt.
-<figures/c4/bts03_nerf_2.png, id=371, 582.175pt x 834.11626pt>
-File: figures/c4/bts03_nerf_2.png Graphic file (type png)
-<use figures/c4/bts03_nerf_2.png>
-Package pdftex.def Info: figures/c4/bts03_nerf_2.png  used on input line 620.
-(pdftex.def)             Requested size: 163.88815pt x 234.81099pt.
-<figures/c4/bts03_nerf_3.png, id=372, 480.79625pt x 834.11626pt>
-File: figures/c4/bts03_nerf_3.png Graphic file (type png)
-<use figures/c4/bts03_nerf_3.png>
-Package pdftex.def Info: figures/c4/bts03_nerf_3.png  used on input line 625.
-(pdftex.def)             Requested size: 132.01773pt x 229.03267pt.
-
-
-[64 <./figures/c4/bts01_mvs_1.png> <./figures/c4/bts01_mvs_2.png> <./figures/c4/bts01_mvs_3.png> <./figures/c4/bts01_nerf_1.png> <./figures/c4/bts01_nerf_2.png> <./figures/c4/bts01_nerf_3.png>]
-<figures/c4/bts05_mvs_1.png, id=382, 512.91624pt x 801.99625pt>
-File: figures/c4/bts05_mvs_1.png Graphic file (type png)
-<use figures/c4/bts05_mvs_1.png>
-Package pdftex.def Info: figures/c4/bts05_mvs_1.png  used on input line 639.
-(pdftex.def)             Requested size: 168.4381pt x 263.3624pt.
-<figures/c4/bts05_mvs_2.png, id=383, 338.26375pt x 696.6025pt>
-File: figures/c4/bts05_mvs_2.png Graphic file (type png)
-<use figures/c4/bts05_mvs_2.png>
-Package pdftex.def Info: figures/c4/bts05_mvs_2.png  used on input line 643.
-(pdftex.def)             Requested size: 127.46779pt x 262.50081pt.
-<figures/c4/bts05_mvs_3.png, id=384, 338.26375pt x 696.6025pt>
-File: figures/c4/bts05_mvs_3.png Graphic file (type png)
-<use figures/c4/bts05_mvs_3.png>
-Package pdftex.def Info: figures/c4/bts05_mvs_3.png  used on input line 647.
-(pdftex.def)             Requested size: 127.46779pt x 262.50081pt.
-<figures/c4/bts05_nerf_1.png, id=385, 480.79625pt x 834.11626pt>
-File: figures/c4/bts05_nerf_1.png Graphic file (type png)
-<use figures/c4/bts05_nerf_1.png>
-Package pdftex.def Info: figures/c4/bts05_nerf_1.png  used on input line 654.
-(pdftex.def)             Requested size: 159.33821pt x 276.43015pt.
-<figures/c4/bts05_nerf_2.png, id=386, 410.53375pt x 834.11626pt>
-File: figures/c4/bts05_nerf_2.png Graphic file (type png)
-<use figures/c4/bts05_nerf_2.png>
-Package pdftex.def Info: figures/c4/bts05_nerf_2.png  used on input line 659.
-(pdftex.def)             Requested size: 136.57462pt x 277.48654pt.
-<figures/c4/bts05_nerf_3.png, id=387, 334.24875pt x 745.78625pt>
-File: figures/c4/bts05_nerf_3.png Graphic file (type png)
-<use figures/c4/bts05_nerf_3.png>
-Package pdftex.def Info: figures/c4/bts05_nerf_3.png  used on input line 664.
-(pdftex.def)             Requested size: 125.18935pt x 279.32776pt.
-
-
-[65 <./figures/c4/bts03_mvs_1.png> <./figures/c4/bts03_mvs_2.png> <./figures/c4/bts03_mvs_3.png> <./figures/c4/bts03_nerf_1.png> <./figures/c4/bts03_nerf_2.png> <./figures/c4/bts03_nerf_3.png>]
-
-LaTeX Warning: Reference `sec:eval_pose' on page 66 undefined on input line 695.
-
-
-
-[66 <./figures/c4/bts05_mvs_1.png> <./figures/c4/bts05_mvs_2.png> <./figures/c4/bts05_mvs_3.png> <./figures/c4/bts05_nerf_1.png> <./figures/c4/bts05_nerf_2.png> <./figures/c4/bts05_nerf_3.png>]
-
-LaTeX Warning: Reference `sec:eval_dense' on page 67 undefined on input line 704.
-
-
-
-[67]
-
-[68])
-
-[69] (./chapters/c5/ket luan.tex
+] (./chapters/c5/ket luan.tex
 Ch\uhorn \ohorn ng 5.
+)
 
-Package natbib Warning: Citation `zhao2023aliked' on page 70 undefined on input line 4.
+[5
 
 
-Package natbib Warning: Citation `lindenberger2023LightGlue' on page 70 undefined on input line 4.
+
+] (./thesis.bbl
+
+Package natbib Warning: Empty `thebibliography' environment on input line 3.
 
 )
 
-[70
+[6
 
 
 
 ]
-
-[71] (./thesis.bbl
-./thesis.bbl:39: Undefined control sequence.
-l.39 \newblock \url
-                   {https://support.pix4d.com/hc/en-us/articles/8945985029277},
-The control sequence at the end of the top line
-of your error message was never \def'ed. If you have
-misspelled it (e.g., `\hobx'), type `I' and the correct
-spelling (e.g., `I\hbox'). Otherwise just continue,
-and I'll forget about whatever was undefined.
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 37--42
-[]\T5/cmr/m/n/13 Pix4D.  Pix4d sup-port: Ar-ti-cle on drone map-ping.
- []
-
-
-Underfull \hbox (badness 4981) in paragraph at lines 37--42
-\T5/cmr/m/n/13 https://support.pix4d.com/hc/en-us/articles/8945985029277, 2023.  Ac-
- []
-
-
-
-[72
-
-
-
-]
-
-LaTeX Font Warning: Font shape `TS1/cmr/m/it' in size <13> not available
-(Font)              size <12> substituted on input line 74.
-
-
-
-[73]
-
-[74]
-Underfull \hbox (badness 2680) in paragraph at lines 230--234
-[]\T5/cmr/m/n/13 Shaohui Liu, Yi-dan Gao, Tianyi Zhang, R²mi Pau-trat, Jo-hannes L
- []
-
-)
-
-[75]
 
 Package natbib Warning: There were undefined citations.
 
-(./thesis.aux
-
-Package natbib Warning: Citation(s) may have changed.
-(natbib)                Rerun to get citations correct.
-
-)
+(./thesis.aux)
  ***********
 LaTeX2e <2024-11-01> patch level 2
 L3 programming layer <2025-04-14>
@@ -2145,26 +1161,20 @@ L3 programming layer <2025-04-14>
 LaTeX Font Warning: Size substitutions with differences
 (Font)              up to 1.0pt have occurred.
 
-
-LaTeX Warning: There were undefined references.
-
-
-LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.
-
  ) 
 Here is how much of TeX's memory you used:
- 21647 strings out of 469608
- 408918 string characters out of 5474779
- 790551 words of memory out of 5000000
- 48018 multiletter control sequences out of 15000+600000
- 661660 words of font info for 114 fonts, out of 8000000 for 9000
+ 20948 strings out of 469608
+ 386891 string characters out of 5474779
+ 792036 words of memory out of 5000000
+ 47346 multiletter control sequences out of 15000+600000
+ 654261 words of font info for 105 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 108i,16n,107p,2718b,521s stack positions out of 10000i,1000n,20000p,200000b,200000s
-<c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx9.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi12.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi6.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi9.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmr6.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmr9.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy6.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy9.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/symbols/msbm10.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/cm-super/sfrm1200.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/cm-super/sfti1200.pfb><c:/texlive/2025/texmf-dist/fonts/type1/vntex/vnr/vnbx10.pfb><c:/texlive/2025/texmf-dist/fonts/type1/vntex/vnr/vnbx12.pfb><c:/texlive/2025/texmf-dist/fonts/type1/vntex/vnr/vnr10.pfb><c:/texlive/2025/texmf-dist/fonts/type1/vntex/vnr/vnr12.pfb><c:/texlive/2025/texmf-dist/fonts/type1/vntex/vnr/vnr9.pfb><c:/texlive/2025/texmf-dist/fonts/type1/vntex/vnr/vnti12.pfb>
-Output written on thesis.pdf (86 pages, 24211750 bytes).
+ 108i,13n,107p,1824b,427s stack positions out of 10000i,1000n,20000p,200000b,200000s
+<c:/texlive/2025/texmf-dist/fonts/type1/vntex/vnr/vnbx12.pfb><c:/texlive/2025/texmf-dist/fonts/type1/vntex/vnr/vnr10.pfb><c:/texlive/2025/texmf-dist/fonts/type1/vntex/vnr/vnr12.pfb><c:/texlive/2025/texmf-dist/fonts/type1/vntex/vnr/vnti12.pfb>
+Output written on thesis.pdf (17 pages, 170643 bytes).
 PDF statistics:
- 528 PDF objects out of 1000 (max. 8388607)
- 260 compressed objects within 3 object streams
+ 83 PDF objects out of 1000 (max. 8388607)
+ 54 compressed objects within 1 object stream
  0 named destinations out of 1000 (max. 500000)
- 353 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 18 words of extra memory for PDF output out of 10000 (max. 10000000)
 
