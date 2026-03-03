@@ -1,0 +1,45 @@
+\section{NeuS}
+Tái tạo bề mặt 3D từ ảnh đa góc nhìn là một bài toán cốt lõi trong thị giác máy tính và đồ họa máy tính \cite{Wang2021NeuS}. Các phương pháp biểu diễn ngầm neural (neural implicit representations) gần đây cho thấy nhiều hứa hẹn nhờ khả năng tạo ra kết quả chất lượng cao và xử lý các trường hợp phức tạp như bề mặt không Lambertian hay cấu trúc mỏng \cite{Wang2021NeuS}. Tuy nhiên, các phương pháp hiện tại còn tồn tại những hạn chế nhất định.
+
+\subsection{Hạn chế của các phương pháp trước NeuS}
+
+Có hai hướng tiếp cận chính trước NeuS:
+
+\begin{itemize}
+    \item \textbf{Phương pháp dựa trên Surface Rendering (ví dụ: IDR \cite{Yariv2020IDR}, DVR \cite{Niemeyer2020DVR}):} Các phương pháp này thường biểu diễn bề mặt dưới dạng hàm chiếm dụng (occupancy) hoặc hàm khoảng cách có dấu (Signed Distance Function - SDF). Chúng sử dụng kỹ thuật surface rendering khả vi để huấn luyện mạng neural bằng cách so sánh ảnh render với ảnh đầu vào. Mặc dù IDR cho kết quả ấn tượng, nó gặp khó khăn với các cấu trúc phức tạp gây thay đổi độ sâu đột ngột. Nguyên nhân là do surface rendering chỉ xem xét một điểm giao duy nhất của tia nhìn với bề mặt, khiến gradient chỉ tồn tại cục bộ, dễ bị mắc kẹt ở cực tiểu địa phương. Thêm vào đó, các phương pháp này thường yêu cầu mặt nạ vật thể (foreground mask) để giám sát và hội tụ \cite{Wang2021NeuS}. % Source [2], [12-14], [16], [51]
+    \item \textbf{Phương pháp dựa trên Volume Rendering (ví dụ: NeRF \cite{Mildenhall2020NeRF}):} Các phương pháp này biểu diễn cảnh dưới dạng trường bức xạ (radiance field) và mật độ thể tích (volume density). Chúng sử dụng volume rendering bằng cách lấy mẫu nhiều điểm dọc theo tia nhìn và tổng hợp màu sắc ($\alpha$-composition) để tạo ra màu pixel. Ưu điểm là khả năng xử lý thay đổi độ sâu đột ngột tốt hơn do gradient được lan truyền từ nhiều điểm. Tuy nhiên, NeRF được thiết kế chính cho tổng hợp ảnh nhìn mới (novel view synthesis), việc trích xuất bề mặt chất lượng cao từ trường mật độ học được là rất khó khăn do thiếu các ràng buộc hình học rõ ràng trên bề mặt. Bề mặt trích xuất từ NeRF thường bị nhiễu \cite{Wang2021NeuS}. % Source [3], [19-23], [52], [54]
+\end{itemize}
+
+\subsection{Phương pháp NeuS}
+
+NeuS (Neural Surfaces) được đề xuất để khắc phục những hạn chế trên bằng cách kết hợp các ưu điểm của cả hai hướng tiếp cận: biểu diễn bề mặt chính xác bằng SDF và tối ưu mạnh mẽ bằng volume rendering \cite{Wang2021NeuS}. % Source [1], [29], [31], [55]
+
+\subsubsection{Biểu diễn cảnh}
+NeuS biểu diễn hình học của vật thể bằng một hàm SDF $f: \mathbb{R}^3 \to \mathbb{R}$ và biểu diễn màu sắc (appearance) bằng một hàm $c: \mathbb{R}^3 \times \mathbb{S}^2 \to \mathbb{R}^3$, cả hai đều được mã hóa bởi mạng MLP. Bề mặt $\mathcal{S}$ được định nghĩa là tập mức 0 của SDF: $\mathcal{S} = \{x \in \mathbb{R}^3 | f(x) = 0\}$ \cite{Wang2021NeuS}. % Source [5], [30], [60], [63], [64]
+
+\subsubsection{Volume Rendering cho SDF}
+Để áp dụng volume rendering cho việc huấn luyện mạng SDF, NeuS giới thiệu một hàm mật độ xác suất $\phi_s(f(x))$, gọi là \textbf{S-density}, được định nghĩa dựa trên giá trị SDF tại điểm $x$. Hàm $\phi_s$ thường được chọn là hàm mật độ logistic (đạo hàm của hàm sigmoid $\Phi_s(x)=(1+e^{-sx})^{-1}$), có dạng hình chuông tập trung tại $f(x)=0$. Tham số $1/s$ thể hiện độ lệch chuẩn và cũng là một tham số có thể học được \cite{Wang2021NeuS}. % Source [65-70]
+
+Màu sắc của một pixel $C(o,v)$ được tính bằng tích phân màu $c(p(t), v)$ dọc theo tia nhìn $p(t) = o + tv$ với một hàm trọng số $w(t)$:
+$$C(o,v) = \int_{0}^{+\infty} w(t) c(p(t), v) dt$$
+\cite{Wang2021NeuS}. % Source [72], [73]
+
+\subsubsection{Hàm Trọng số Volume Rendering Không Lệch (Unbiased)}
+Việc xây dựng hàm trọng số $w(t)$ phù hợp là chìa khóa. NeuS chỉ ra rằng việc áp dụng công thức volume rendering tiêu chuẩn một cách "ngây thơ" sẽ dẫn đến sai lệch (bias) hình học. Để giải quyết vấn đề này, NeuS đề xuất một công thức volume rendering mới, đảm bảo tính \textbf{không lệch (unbiased)} (trọng số cực đại tại bề mặt SDF=0) và \textbf{nhận biết che khuất (occlusion-aware)} \cite{Wang2021NeuS}. % Source [6], [32], [74-80], [83-87]
+
+NeuS định nghĩa một hàm "mật độ mờ đục" (opaque density) $\rho(t)$ mới từ S-density $\phi_s$ và CDF $\Phi_s$ của nó:
+$$\rho(t) = \max\left(\frac{-\frac{d\Phi_s}{dt}(f(p(t)))}{\Phi_s(f(p(t)))}, 0\right)$$
+và tính trọng số $w(t) = T(t)\rho(t)$. Hàm trọng số này được chứng minh là không lệch trong xấp xỉ bậc nhất \cite{Wang2021NeuS}. % Source [90-94], [101-103], [105-109], [111-114]
+
+Trong quá trình rời rạc hóa, giá trị alpha $\alpha_i$ cho đoạn $[t_i, t_{i+1}]$ được tính bằng:
+$$\alpha_i = \max\left(\frac{\Phi_s(f(p(t_i))) - \Phi_s(f(p(t_{i+1})))}{\Phi_s(f(p(t_i)))}, 0\right)$$
+\cite{Wang2021NeuS}. % Source [115], [116], [263-266]
+
+\subsubsection{Huấn luyện}
+NeuS được huấn luyện bằng cách tối thiểu hóa hàm mất mát bao gồm $\mathcal{L}_{color}$ (L1 loss giữa màu render và ảnh gốc), $\mathcal{L}_{reg}$ (ràng buộc Eikonal: $\|\nabla f(x)\|_2 = 1$) và tùy chọn $\mathcal{L}_{mask}$ (nếu có mask) \cite{Wang2021NeuS}. % Source [117-119], [121-124]
+NeuS cũng sử dụng chiến lược lấy mẫu phân cấp (hierarchical sampling) \cite{Wang2021NeuS}. % Source [124], [125]
+
+\subsection{Kết quả và Ưu điểm}
+Các thí nghiệm trên bộ dữ liệu DTU \cite{Jensen2014DTU} và BlendedMVS \cite{Yao2020BlendedMVS} cho thấy NeuS vượt trội hơn các phương pháp tiên tiến như IDR \cite{Yariv2020IDR}, NeRF \cite{Mildenhall2020NeRF}, COLMAP \cite{Schonberger16SFMRevisited} (hoặc \cite{Schoenberger2016Pixelwise}) và UNISURF \cite{Oechsle2021UNISURF} về chất lượng tái tạo bề mặt, đặc biệt đối với các đối tượng có cấu trúc phức tạp, tự che khuất và cấu trúc mỏng. Đáng chú ý, NeuS đạt được kết quả tốt ngay cả khi không cần sử dụng mask giám sát \cite{Wang2021NeuS}. % Source [7], [28], [35], [147], [149], [173], [178]
+
+Tóm lại, NeuS là một phương pháp hiệu quả để tái tạo bề mặt 3D chất lượng cao từ ảnh đa góc nhìn, giải quyết được các hạn chế của các phương pháp trước đó bằng cách kết hợp biểu diễn SDF và một cơ chế volume rendering mới, không lệch.

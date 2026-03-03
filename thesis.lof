@@ -1,0 +1,32 @@
+\addvspace {10\p@ }
+\contentsline {figure}{\numberline {1.1}{\ignorespaces Minh họa chuyển đổi các bức ảnh 2D đa góc nhìn thành mô hình mây điểm 3D chi tiết.}}{2}{}%
+\addvspace {10\p@ }
+\contentsline {figure}{\numberline {2.1}{\ignorespaces Quy trình xây dựng mô hình 3D hoàn chỉnh từ ảnh chụp 2D đa góc nhìn.}}{7}{}%
+\contentsline {figure}{\numberline {2.2}{\ignorespaces Quy trình ước tính camera pose của thuật toán SfM truyền thống.}}{11}{}%
+\contentsline {figure}{\numberline {2.3}{\ignorespaces Trích xuất điểm đặc trưng dựa trên SIFT. Các điểm màu đỏ thể hiện điểm đặc trưng quan trọng được phát hiện bởi SIFT. }}{12}{}%
+\contentsline {figure}{\numberline {2.4}{\ignorespaces Kiến trúc mạng thuật toán so khớp LightGlue \cite [Fig.~3]{lindenberger2023LightGlue}.}}{23}{}%
+\contentsline {figure}{\numberline {2.5}{\ignorespaces Kiến trúc mạng Trường bức xạ nơ-ron \cite [Fig.~2]{Mildenhall2020NeRF}.}}{32}{}%
+\addvspace {10\p@ }
+\contentsline {figure}{\numberline {3.1}{\ignorespaces Quy trình tổng quát xây dựng mô hình 3D chi tiết cho đối tượng cột ăng-ten được sử dụng trong luận văn. Các vị trí màu đỏ trong hình thể hiện vị trí chụp ảnh của drone khi bay xung quanh cột ăng-ten.}}{38}{}%
+\contentsline {figure}{\numberline {3.2}{\ignorespaces Giải pháp đề xuất Hybrid-SfM cải thiện độ chính xác tính toán camera pose của thuật toán SfM truyền thống khi áp dụng cho đối tượng cột ăng-ten, trạm viễn thông. Các khối màu vàng là các thành phần trong quy trình SfM truyền thống, khối màu xanh thể hiện các mô-đun mới của giải pháp đề xuất nhằm cải thiện độ chính xác tính toán camera pose. Các vị trí màu đỏ trong hình thể hiện vị trí chụp ảnh của drone khi bay xung quanh cột ăng-ten.}}{41}{}%
+\contentsline {figure}{\numberline {3.3}{\ignorespaces Kết quả mô-đun phát hiện vùng cột sử dụng mô hình YOLO-V11.}}{43}{}%
+\contentsline {figure}{\numberline {3.4}{\ignorespaces Kết quả mô-đun phát hiện điểm đặc trưng vùng cột ăng-ten dựa trên học sâu, sử dụng ALIKED.}}{44}{}%
+\addvspace {10\p@ }
+\contentsline {figure}{\numberline {4.1}{\ignorespaces Mô tả quỹ đạo bay chụp thu thập dữ liệu \cite {pix4d2023}. Hình bên trái là quỹ đạo bay hình xoắn ốc, hình bên phải là kết hợp quỹ đạo bay hình ống lên xuống và quỹ đạo vòng tròn.}}{47}{}%
+\contentsline {figure}{\numberline {4.2}{\ignorespaces Dữ liệu ảnh chụp cột BTS01.}}{48}{}%
+\contentsline {figure}{\numberline {4.3}{\ignorespaces Dữ liệu ảnh chụp cột BTS02.}}{48}{}%
+\contentsline {figure}{\numberline {4.4}{\ignorespaces Dữ liệu ảnh chụp cột BTS03.}}{49}{}%
+\contentsline {figure}{\numberline {4.5}{\ignorespaces Dữ liệu ảnh chụp cột BTS04.}}{49}{}%
+\contentsline {figure}{\numberline {4.6}{\ignorespaces Dữ liệu ảnh chụp cột BTS05.}}{50}{}%
+\contentsline {figure}{\numberline {4.7}{\ignorespaces So sánh mức độ tập trung điểm đặc trưng vào vùng cột ăng-ten. Ảnh bên trái là giải pháp SfM truyền thống, ảnh bên phải là giải pháp Hybrid-SfM để xuất, với số lượng điểm đặc trưng được sử dụng là 16384.}}{55}{}%
+\contentsline {figure}{\numberline {4.8}{\ignorespaces So sánh biểu diễn mây điểm 3D của từng thiết bị ăng-ten trạm BTS01 được tái tạo bằng MVS. Trong mỗi cặp ảnh, ảnh bên trái là kết quả của SfM truyền thống, bên phải là kết quả của Hybrid-SfM đề xuất}}{58}{}%
+\contentsline {figure}{\numberline {4.9}{\ignorespaces So sánh biểu diễn mây điểm 3D của từng thiết bị ăng-ten trạm BTS03 được tái tạo bằng MVS. Trong mỗi cặp ảnh, ảnh bên trái là kết quả của SfM truyền thống, bên phải là kết quả của Hybrid-SfM đề xuất}}{59}{}%
+\contentsline {figure}{\numberline {4.10}{\ignorespaces So sánh biểu diễn mây điểm 3D của từng thiết bị ăng-ten trạm BTS05 được tái tạo bằng MVS. Trong mỗi cặp ảnh, ảnh bên trái là kết quả của SfM truyền thống, bên phải là kết quả của Hybrid-SfM đề xuất}}{59}{}%
+\contentsline {figure}{\numberline {4.11}{\ignorespaces So sánh biểu diễn mây điểm 3D của từng thiết bị ăng-ten trạm BTS01 được tái tạo bằng Nerfacto. Trong mỗi cặp ảnh, ảnh bên trái là kết quả của SfM truyền thống, bên phải là kết quả của Hybrid-SfM đề xuất}}{61}{}%
+\contentsline {figure}{\numberline {4.12}{\ignorespaces So sánh biểu diễn mây điểm 3D của từng thiết bị ăng-ten trạm BTS03 được tái tạo bằng Nerfacto. Trong mỗi cặp ảnh, ảnh bên trái là kết quả của SfM truyền thống, bên phải là kết quả của Hybrid-SfM đề xuất}}{61}{}%
+\contentsline {figure}{\numberline {4.13}{\ignorespaces So sánh biểu diễn mây điểm 3D của từng thiết bị ăng-ten trạm BTS05 được tái tạo bằng Nerfacto. Trong mỗi cặp ảnh, ảnh bên trái là kết quả của SfM truyền thống, bên phải là kết quả của Hybrid-SfM đề xuất}}{62}{}%
+\contentsline {figure}{\numberline {4.14}{\ignorespaces So sánh biểu diễn mây điểm 3D của các thiết bị ăng-ten được tái tạo bằng MVS (bên trái) và Nerfacto (bên phải) với đầu vào camera pose từ phương pháp Hybrid-SfM đề xuất.}}{63}{}%
+\contentsline {figure}{\numberline {4.15}{\ignorespaces So sánh chất lượng mô hình 3D tái tạo của 2 phương pháp MVS (trên) và Nerfacto (dưới) cho trạm trạm BTS01.}}{64}{}%
+\contentsline {figure}{\numberline {4.16}{\ignorespaces So sánh chất lượng mô hình 3D tái tạo của 2 phương pháp MVS (trên) và Nerfacto (dưới) cho trạm trạm BTS03.}}{65}{}%
+\contentsline {figure}{\numberline {4.17}{\ignorespaces So sánh chất lượng mô hình 3D tái tạo của 2 phương pháp MVS (trên) và Nerfacto (dưới) cho trạm trạm BTS05.}}{66}{}%
+\addvspace {10\p@ }

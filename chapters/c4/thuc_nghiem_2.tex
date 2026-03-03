@@ -1,0 +1,716 @@
+\chapter{Thực nghiệm và Đánh giá}
+\label{chap:thuc_nghiem_danh_gia}
+
+\section{Thiết lập Thực nghiệm}
+\label{sec:exp_setup}
+    \subsection{Quy trình thu thập dữ liệu}
+    Quy trình thu thập dữ liệu cho bài toán tái tạo 3D sử dụng drone bay chụp xung quanh cột BTS bao gồm các bước sau: (1) Thiết lập kế hoạch bay với bán kính và độ cao phù hợp (phụ thuộc vào độ cao và vị trí lắp đặt cột), đảm bảo bao quát toàn bộ cấu trúc cột ăng-ten. (2) Drone được lập trình để bay theo các quỹ đạo cố định đảm bảo độ chồng ảnh khoảng 70-80\% giữa các khung hình để hỗ trợ so khớp đặc trưng. (3) Trong quá trình bay, drone chụp ảnh liên tục với độ phân giải cao, duy trì tốc độ ổn định và điều chỉnh góc chụp để ghi lại chi tiết cấu trúc cột và các thành phần khác. (4) Dữ liệu hình ảnh thu được sau đó được kiểm tra chất lượng, loại bỏ các ảnh mờ, kém chất lượng trước khi được sử dụng. Hình \ref{fig:quy_dao_bay} mô tả các quỹ đạo bay phổ biến thường được sử dụng để thu thập dữ liệu bao gồm: quỹ đạo xoắn ốc, quỹ đạo vòng tròn, quỹ đạo hình ống lên xuống.
+    \begin{figure}
+        \centering
+        \includegraphics[width=0.8\linewidth]{figures/c4/quy_dao_bay.png}
+        \caption{Mô tả quỹ đạo bay chụp thu thập dữ liệu \cite{pix4d2023}. Hình bên trái là quỹ đạo bay hình xoắn ốc, hình bên phải là kết hợp quỹ đạo bay hình ống lên xuống và quỹ đạo vòng tròn.}
+        \label{fig:quy_dao_bay}
+    \end{figure}
+    
+    \subsection{Mô tả dữ liệu}
+    \label{subsec:exp_datasets}
+    Các thí nghiệm được đánh giá độ chính xác trên 5 tập dữ liệu ảnh chụp cột ăng-ten thực tế. Trong đó, mỗi tập dữ liệu có khoảng 200-400 ảnh có kích thước ảnh lớn, mô tả các trường hợp loại cột (cột cóc, cột tự đứng, cột dây co, cột monopole) và địa hình lặp đặt khác nhau (trên mái, dưới đất) của trạm viễn thông, được mô tả tại Bảng \ref{table:data}.
+    \begin{table}[H]
+    \centering
+    \footnotesize
+    
+    \begin{tabular}{|c|c|c|c|c|}
+    \hline
+    \textbf{Dữ liệu} & \textbf{Số lượng ảnh} & \textbf{Kích thước ảnh} & \textbf{Loại cột} & \textbf{Vị trí lắp} \\ \hline
+    BTS01 & 329 & 5400$\times$4000 & Monopole & Dưới đất \\ \hline
+    BTS02 & 534 & 5400$\times$4000 & Dây co & Dưới đất \\ \hline
+    BTS03 & 397 & 5400$\times$4000 & Tự đứng & Dưới đất \\ \hline
+    BTS04 & 323 & 5400$\times$4000 & Cóc & Trên mái \\ \hline
+    BTS05 & 186 & 5400$\times$4000 & Dây co & Trên mái \\ \hline
+    \end{tabular}
+    \caption{Thông tin về dữ liệu}
+    \label{table:data}
+    \end{table}
+
+    Hình \ref{fig:bts01}, Hình \ref{fig:bts02}, Hình \ref{fig:bts03}, Hình \ref{fig:bts04}, Hình \ref{fig:bts05} thể hiện hình ảnh đối tượng cột của mỗi tập dữ liệu tương ứng. Như đã trình bày ở Chương 1, bản thân các cột ăng-ten có những đặc điểm chung như bề mặt thiết bị, thân cột trơn nhẵn, đồng màu, cấu trúc lặp lại,... gây ra những thách thức trong việc trích xuất các đặc trưng quan trọng trên cột. Ngoài ra, mỗi loại cột cũng có những đặc điểm cấu tạo riêng gây ra khó khăn trong việc tái tạo đám mây điểm 3D chi tiết. Đối với cột dây co, số lượng điểm ảnh biểu diễn cho phần dây co rất nhỏ do vậy để tái tạo được dây co cho mô hình mây điểm 3D là rất khó. Tương tự với cột tự đứng, cột tự đứng có cấu trúc lặp lại trên thân cột rất mạnh, do vậy dễ gây ra nhiễu trong việc trích xuất và so khớp đặc trưng trên cột. Nếu số lượng điểm nhiễu lớn có thể ảnh hưởng sai lệch tới kết quả ước lượng camera pose dẫn tới sai lệch khi tái tạo kết cấu thân cột của mô hình mây điểm 3D chi tiết. 
+    
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width=0.45\linewidth]{figures/c4/bts1.png}
+        \caption{Dữ liệu ảnh chụp cột BTS01.}
+        \label{fig:bts01}
+    \end{figure}  
+
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width=0.45\linewidth]{figures/c4/bts2.png}
+        \caption{Dữ liệu ảnh chụp cột BTS02.}
+        \label{fig:bts02}
+    \end{figure} 
+
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width=0.45\linewidth]{figures/c4/bts3.png}
+        \caption{Dữ liệu ảnh chụp cột BTS03.}
+        \label{fig:bts03}
+    \end{figure} 
+
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width=0.45\linewidth]{figures/c4/bts4.png}
+        \caption{Dữ liệu ảnh chụp cột BTS04.}
+        \label{fig:bts04}
+    \end{figure} 
+
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width=0.45\linewidth]{figures/c4/bts5.png}
+        \caption{Dữ liệu ảnh chụp cột BTS05.}
+        \label{fig:bts05}
+    \end{figure} 
+    
+    \subsection{Chỉ số đánh giá định lượng}
+    \label{subsec:exp_metrics}
+    \textbf{Lỗi chiếu ngược trung bình (MRE)}: được sử dụng để đánh giá độ chính xác của camera pose bằng cách đo lường sai số trung bình giữa các điểm 3D khi tái chiếu lên ảnh 2D so với các điểm đặc trưng trên ảnh đầu vào. Công thức tính MRE là: 
+    \begin{equation}
+        \text{MRE} = \frac{1}{N} \sum_{i=1}^N \|\pi(P_i, K, R, t) - p_i\|_2     
+    \end{equation}
+    trong đó \(P_i\) là điểm 3D, \(\pi\) là hàm tái chiếu sử dụng ma trận nội tại \(K\) và camera pose \((R, t)\), và \(p_i\) là tọa độ điểm ảnh của điểm đặc trưng. Giá trị MRE càng thấp, mô hình 3D càng nhất quán với dữ liệu ảnh, phản ánh độ chính xác camera pose càng cao và chất lượng tái tạo càng tốt hơn.
+
+    \textbf{Độ dài chuỗi ảnh quan sát trung bình}: là một chỉ số đánh giá độ tin cậy của các điểm 3D trong mây điểm thưa, phản ánh mức độ ổn định của quá trình tái tạo. Chỉ số này biểu thị số lượng ảnh trung bình mà mỗi điểm 3D được quan sát từ các góc nhìn khác nhau. Giá trị cao cho thấy các điểm được theo dõi tốt qua nhiều ảnh, giúp cải thiện độ chính xác của tái tạo 3D và ước lượng camera pose. Ngược lại, giá trị thấp cho thấy nhiều điểm chỉ được quan sát từ một vài ảnh, dễ dẫn đến tái tạo không ổn định và xuất hiện điểm nhiễu. 
+    
+    \textbf{Độ mượt bề mặt của đám mây điểm (PCS)}: được đo bằng cách tính độ biến thiên của các pháp tuyến hoặc độ cong tại các điểm, nhằm đánh giá mức độ nhiễu và tính liên tục của bề mặt. Độ đo này phản ánh chất lượng nội tại của mô hình 3D, chẳng hạn như mức độ gồ ghề do sai số camera pose gây ra. 
+
+    Công thức tính độ mượt mà dựa trên độ cong trung bình được định nghĩa như sau:
+    \begin{equation}
+        \text{Smoothness} = \frac{1}{N} \sum_{i=1}^N \text{curvature}(p_i)
+    \end{equation}
+
+    trong đó \(\text{curvature}(p_i)\) là độ cong tại điểm \(p_i\), được ước lượng từ các điểm lân cận bằng thuật toán K láng giềng gần nhất. Một cách thay thế là tính độ biến thiên pháp tuyến, đo lường mức độ sai lệch của các pháp tuyến trong vùng lân cận so với pháp tuyến trung bình:
+    \begin{equation}
+        \text{Variance}_i = \frac{1}{k} \sum_{j \in \text{k-NN}(i)} \|\mathbf{n}_j - \overline{\mathbf{n}}\|_2
+    \end{equation}
+
+    với \(\mathbf{n}_j\) là pháp tuyến của điểm lân cận, \(\overline{\mathbf{n}}\) là pháp tuyến trung bình. Khi đó:
+    \begin{equation}
+        \text{Smoothness} = \frac{1}{N} \sum_{i=1}^N \text{Variance}_i
+    \end{equation}
+
+    Giá trị smoothness càng thấp, bề mặt càng mượt mà và ít nhiễu, cho thấy chất lượng mô hình tốt hơn.
+
+    % \textbf{Độ lệch mặt phẳng (PE)}: Đo độ lệch của các điểm trên các bề mặt phẳng tái tạo so với mặt phẳng lý tưởng, đánh giá mức độ nhiễu trên bề mặt các thiết bị ăng-ten lắp đặt trên cột.
+    
+    % Công thức tính Planarity Error được định nghĩa như sau:
+    % \[
+    % \text{Planarity Error} = \frac{1}{N} \sum_{i=1}^N |a x_i + b y_i + c z_i + d|,
+    % \]
+    % trong đó \((a, b, c, d)\) là các tham số của mặt phẳng lý tưởng được ước lượng bằng thuật toán RANSAC, và \((x_i, y_i, z_i)\) là tọa độ của điểm \(p_i\) trong point cloud. Giá trị Planarity Error càng thấp, các điểm càng gần mặt phẳng lý tưởng, cho thấy mô hình có ít nhiễu và chất lượng cao hơn.
+    
+    \subsection{Môi trường thực thi}
+    \label{subsec:exp_environment}
+        Các thí nghiệm được cài đặt, triển khai trên môi trường bao gồm:
+        \begin{itemize}
+            % \item Phần cứng: RTX A4000 16GB VRAM, CPU 32 core, RAM 64GB.
+            \item Phần cứng: RTX A4000 16GB VRAM, CPU 32 core, RAM 64GB.
+            \item Phần mềm: COLMAP phiên bản 3.8, Nerfstudio phiên bản 1.0.3.
+        \end{itemize}
+
+    
+\section{Đánh giá độ chính xác ước tính camera pose}
+\label{sec:eval_pose}
+
+Luận văn trình bày các thực nghiệm, so sánh việc ước lượng camera pose của 2 phương pháp SfM truyền thống và Hybrid-SfM với các thí nghiệm bao gồm:
+    \begin{itemize}
+        \item So sánh độ hiệu quả của bộ lọc nhiễu 
+        \item So sánh độ chính xác thông qua giá trị MRE
+        \item So sánh độ tin cậy của kết quả thông qua giá trị Độ dài chuỗi ảnh quan sát trung bình
+        \item So sánh về thời gian thực thi
+    \end{itemize}
+    
+Trong các đánh giá so sánh dưới đây, để đảm bảo tính khách quan thì luận văn sẽ sử dụng các tham số cài đặt được sử dụng trong bài báo \cite{Lowe04Distinctive} cho thuật toán phát hiện điểm đặc trưng SIFT.
+\subsection{So sánh ảnh hưởng của số lượng điểm đặc trưng SIFT và bộ lọc điểm nhiễu dựa trên bản đồ độ sâu}
+
+Để đánh giá lựa chọn giá trị ngưỡng độ sâu tương đối tốt nhất cho các thí nghiệm phía sau, 3 giá trị ngưỡng bộ lọc nhiễu THRESH = [30, 50, 100] được thử nghiệm so sánh kết quả MRE của phương pháp SfM truyền thống với phương pháp SfM có sử dụng thêm bộ lọc nhiễu khi sử dụng cùng mức điểm đặc trưng là 2048 điểm.
+\begin{table}[H]
+    \centering
+    \footnotesize
+    \begin{tabular}{|l|c|c|c|c|c|}
+    \hline
+    \textbf{Phương pháp} & \textbf{BTS01} & \textbf{BTS02} & \textbf{BTS03} & \textbf{BTS04} & \textbf{BTS05} \\
+    \hline
+    SfM truyền thống & 1.175 & 1.246 & 1.104 & \textbf{1.133} & \textbf{1.175} \\
+    SfM với NF=30 & 1.184 & 1.238 & 1.105 & 1.142 & 1.178 \\
+    SfM với NF=50 & \textbf{1.171} & \textbf{1.228} & \textbf{1.058} & 1.137 & \textbf{1.175} \\
+    SfM với NF=100 & 1.177 & 1.251 & 1.119 & 1.130 & 1.183 \\
+    \hline
+    \end{tabular}
+    \caption{So sánh sự ảnh hưởng của giá trị ngưỡng lọc điểm nhiễu dựa trên bản đồ độ sâu tương đối lên độ chính xác của camera pose với độ đo MRE (pixel), với NF=K có nghĩa là sử dụng bộ lọc nhiễu với ngưỡng THRESH=K.}
+    \label{tab:thresh_comparison}
+\end{table}
+
+Từ kết quả Bảng \ref{tab:thresh_comparison} có thể thấy giá trị THRESH = 50 cho kết quả giảm giá trị MRE tốt hơn so với 2 giá trị 30 và 100. Chứng tỏ giá trị THRESH = 50 giúp loại bỏ các điểm nhiễu ở xa tốt hơn giá trị THRESH = 30 và đồng thời cũng không làm mất đi cả những điểm đặc trưng tốt như THRESH = 100. Do đó, trong các thí nghiệm sau, phương pháp đề xuất sẽ sử dụng giá trị ngưỡng cho bộ lọc nhiễu là THRESH = 50.
+
+Để chứng minh rõ ràng hơn về độ hiệu quả của bộ lọc nhiễu, luận văn trình bày thực nghiệm phương pháp SfM truyền thống với 2 trường hợp: không sử dụng bộ lọc nhiễu và có sử dụng bộ lọc nhiễu với THRESH=50 và với số lượng điểm đặc trưng khác nhau gồm: [2048, 4096, 8192, 16384]
+
+\begin{table}[H]
+    \centering
+    \footnotesize
+    \begin{tabular}{|l|c|c|c|c|c|c|}
+    \hline
+    \textbf{Phương pháp} & \makecell{\textbf{Số lượng} \\ \textbf{điểm đặc trưng}} & \textbf{BTS01} & \textbf{BTS02} & \textbf{BTS03} & \textbf{BTS04} & \textbf{BTS05} \\
+    \hline
+    SfM truyền thống & 2048 & 1.175 & 1.246 & 1.104 & \textbf{1.133} & \textbf{1.175} \\
+    SfM với NF=50 & 2048 & \textbf{1.171} & \textbf{1.228} & \textbf{1.058} & 1.137 & \textbf{1.175}\\
+    \hline
+    SfM truyền thống & 4096 & \textbf{1.046} & 1.138 & 0.937 & 1.004 & 1.056 \\
+    SfM với NF=50 & 4096 & 1.050 & \textbf{1.122} & \textbf{0.894} & \textbf{1.001} & \textbf{1.054} \\
+    \hline
+    SfM truyền thống & 8192 & 0.899 & 0.961 & 0.782 & 0.874 & 0.902 \\
+    SfM với NF=50 & 8192 & \textbf{0.887} & \textbf{0.951} & \textbf{0.74} & \textbf{0.873} & \textbf{0.894} \\
+    \hline
+    SfM truyền thống & 16384 & 0.813 & 0.860 & 0.673 & 0.749 & 0.793 \\
+    SfM với NF=50 & 16384 & \textbf{0.788} & \textbf{0.839} & \textbf{0.639} & 0.749 & \textbf{0.788} \\
+    \hline
+    \end{tabular}
+    \caption{So sánh độ hiệu quả của việc sử dụng bộ lọc điểm nhiễu dựa trên bản đồ độ sâu tương đối lên độ chính xác của camera pose với độ đo MRE (pixel), với NF=K có nghĩa là sử dụng bộ lọc nhiễu với ngưỡng THRESH=K.}
+    \label{tab:sift_comparison}
+\end{table}
+
+Từ kết quả Bảng \ref{tab:sift_comparison} cho thấy, việc áp dụng bộ lọc nhiễu dựa trên bản đồ độ sâu với ngưỡng THRESH phù hợp thực sự có thể giúp cải thiện độ chính xác tính toán camera pose. Nổi bật nhất là khi số lượng điểm đặc trưng lớn, đóng góp của bộ lọc nhiễu càng thêm rõ ràng.    
+
+\subsection{So sánh độ chính xác camera pose giữa phương pháp SfM truyền thống và phương pháp Hybrid-SfM đề xuất}
+
+Trong thực nghiệm này, luận văn trình bày so sánh giá trị MRE giữa 2 phương pháp: SfM truyền thống sử dụng SIFT và thuật toán Hybrid-SfM được đề xuất. Vì giá trị MRE bị ảnh hưởng bởi số lượng điểm đặc trưng được sử dụng, nên để đảm bảo tính khách quan, thí nghiệm được thực hiện bằng cách so sánh hai phương pháp này với ba mức số lượng điểm đặc trưng được trích xuất: 4096, 8192 và 16384 điểm. Trong đó, đối với phương pháp Hybrid-SfM đề xuất, nếu sử dụng K điểm đặc trưng thì trong đó sẽ có K/2 điểm đặc trưng SIFT và K/2 điểm đặc trưng ALIKED.
+    \begin{table}[H]
+    \centering
+    \footnotesize
+    \begin{tabular}{|l|c|c|c|c|c|c|}
+    \hline
+    \textbf{Phương pháp} & \makecell{\textbf{Số lượng} \\ \textbf{điểm đặc trưng}} & \textbf{BTS01} & \textbf{BTS02} & \textbf{BTS03} & \textbf{BTS04} & \textbf{BTS05} \\
+    \hline
+    SfM truyền thống & 4096 & 1.046 & 1.138 & 0.937 & 1.004 & 1.056 \\
+    \textbf{Hybrid-SfM (ours)} & 4096 & \textbf{0.606} & \textbf{0.682} & \textbf{0.578} & \textbf{0.577} & \textbf{0.598} \\
+    \hline 
+    SfM truyền thống & 8192 & 0.899 & 0.961 & 0.782 & 0.874 & 0.902 \\
+    \textbf{Hybrid-SfM (ours)} & 8192 & \textbf{0.558} & \textbf{0.615} & \textbf{0.557} & \textbf{0.514} & \textbf{0.588} \\
+    \hline 
+    SfM truyền thống & 16384 & 0.813 & 0.860 & 0.673 & 0.749 & 0.793\\
+    \textbf{Hybrid-SfM (ours)} & 16384 & \textbf{0.544} & \textbf{0.579} & \textbf{0.545} & \textbf{0.519} & \textbf{0.585} \\ 
+    \hline
+    \end{tabular}
+    \caption{So sánh giá trị MRE (pixel) khi tính toán camera pose giữa giải pháp SfM truyền thống và giải pháp Hybrid-SfM đề xuất, các kết quả MRE trên đều đi kèm với tỉ lệ ảnh được đăng ký khi thực hiện SfM là 100\%.}
+    \label{tab:comparison}
+    \end{table}
+
+    Từ kết quả thực nghiệm Bảng \ref{tab:comparison} cho thấy rằng, phương pháp Hybrid-SfM đề xuất hiệu quả vượt trội so với phương pháp SfM truyền thống với giá trị MRE thấp hơn đáng kể trên tất cả các tập dữ liệu và tất cả giá trị số lượng điểm đặc trưng. Đặc biệt, với số lượng điểm đặc trưng được sử dụng là 16384, MRE đạt thấp nhất, từ 0.519 đến 0.585 px, chứng tỏ sự cải thiện rõ rệt khi bổ sung các điểm đặc trưng, so khớp tập trung vào vùng cột với ALIKED và LightGlue, kết hợp với SIFT làm đầu vào cho bước tái tạo dần dần (mục \ref{subsec:incremental_reconstruction}). Điều này càng làm nổi bật độ hiệu quả của việc sử dụng kết hợp thuật toán ALIKED giúp phát hiện và bổ sung những đặc trưng quan trọng, tốt khác mà SIFT không phát hiện được, giúp cải thiện độ chính xác tính toán ước tính camera pose. Hình \ref{fig:comparison_keypoints} cho thấy, việc sử dụng ALIKED đã giúp phát hiện thêm các điểm đặc trưng quan trọng tập trung vào vùng thân và xung quanh chân cột hơn là chỉ sử dụng thuật toán trích xuất đặc trưng SIFT. 
+
+    \begin{figure}[H]
+        \centering
+        \begin{subfigure}[b]{0.45\textwidth}
+            \centering
+            \includegraphics[width=0.85\linewidth]{figures/c4/colmap_sfm.png}
+            % \caption{Ảnh 1}
+            \end{subfigure}
+        \hfill
+        \begin{subfigure}[b]{0.45\textwidth}
+            \centering
+            \includegraphics[width=0.85\linewidth]{figures/c4/colmap_deep_keys.png}
+            % \caption{Ảnh 2}
+            \end{subfigure}
+        \caption{So sánh mức độ tập trung điểm đặc trưng vào vùng cột ăng-ten. Ảnh bên trái là giải pháp SfM truyền thống, ảnh bên phải là giải pháp Hybrid-SfM để xuất, với số lượng điểm đặc trưng được sử dụng là 16384.}
+        \label{fig:comparison_keypoints}
+    \end{figure}
+
+    Để chứng minh về độ tin cậy của kết quả cải thiện độ chính xác camera pose của phương pháp Hybrid-SfM đề xuất, thí nghiệm so sánh giá trị Độ dài chuỗi ảnh quan sát trung bình của phương pháp đề xuất và phương pháp SfM truyền thống với cấu hình tương tự thí nghiệm Bảng \ref{tab:comparison}. 
+    \begin{table}[H]
+        \centering
+        \footnotesize
+        \begin{tabular}{|l|c|c|c|c|c|c|}
+        \hline
+        \textbf{Phương pháp} & \makecell{\textbf{Số lượng} \\ \textbf{điểm đặc trưng}} & \textbf{BTS01} & \textbf{BTS02} & \textbf{BTS03} & \textbf{BTS04} & \textbf{BTS05} \\
+        \hline
+        SfM truyền thống & 4096 & 5.728 & 8.232 & 5.890 & 5.750 & 6.999 \\
+        Hybrid-SfM (ours) & 4096 & 5.266 & 5.720 & 5.699 & 5.154 & 5.348 \\
+        \hline 
+        SfM truyền thống & 8192 & 6.027 & 8.789 & 6.120 & 6.126 & 7.308 \\
+        Hybrid-SfM (ours) & 8192 & 5.700 & 6.026 & 5.992 & 5.544 & 5.909 \\
+        \hline 
+        SfM truyền thống & 16384 & 6.371 & 8.734 & 6.516 & 6.381 & 7.737\\
+        Hybrid-SfM (ours) & 16384 & 5.935 & 6.556 & 6.499 & 5.881 & 6.395 \\ 
+        \hline
+        \end{tabular}
+        \caption{So sánh giá trị Độ dài chuỗi ảnh quan sát trung bình (ảnh) khi tính toán camera pose giữa giải pháp SfM truyền thống và giải pháp Hybrid-SfM đề xuất, các kết quả Độ dài ảnh quan sát trên đều đi kèm với tỉ lệ ảnh được đăng ký khi thực hiện SfM là 100\%.}
+        \label{tab:track_length_comparison}
+    \end{table}
+
+    Từ kết quả Bảng \ref{tab:track_length_comparison}, ta có thể thấy được giá trị Độ dài chuỗi ảnh quan sát trung bình của phương pháp Hybrid-SfM có thực sự giảm đi một chút so với phương pháp SfM truyền thống. Nguyên nhân là bởi các điểm đặc trưng ALIKED được phát hiện và so khớp chỉ bên trong vùng ảnh tập trung vào cột. Do vậy, chỉ các ảnh có camera pose tương đối gần nhau mới có thể cùng quan sát được các điểm trong không gian 3D tương ứng với các đặc trưng ALIKED đó. Nên khi bổ sung các điểm đặc trưng ALIKED này và cặp so khớp LightGlue kết hợp với SIFT thì sẽ có xu hướng làm giảm giá trị Độ dài chuỗi ảnh quan sát trung bình của tổng thể mô hình 3D thưa. Mặc dù phương pháp Hybrid-SfM có giá trị Độ dài chuỗi ảnh quan sát trung bình nhỏ hơn một chút so với phương pháp SfM truyền thống nhưng nó vẫn duy trì được giá trị ở mức lớn hơn 5 ảnh. Đây là giá trị đủ tốt, cho thấy độ tin cậy, độ chính xác của các điểm 3D thưa được tái tạo cũng như là độ tin cậy về kết quả tính toán camera pose.
+    
+\subsection{So sánh thời gian thực thi thuật toán}
+
+Trong phần này, luận văn sẽ trình bày thí nghiệm đo thời gian thực thi thuật toán trung bình trên 5 tập dữ liệu thực tế, giữa phương pháp SfM truyền thống và phương pháp Hybrid-SfM đề xuất. Mục tiêu của thí nghiệm này là so sánh thời gian thực thi trung bình trên 5 tập ảnh giữa các phương pháp với điều kiện trích xuất số lượng điểm đặc trưng bằng nhau.
+
+Từ kết quả Bảng \ref{tab:time} có thể thấy rằng thời gian khi trích xuất cùng số lượng điểm đặc trưng thì phương pháp Hybrid-SfM đề xuất có thời gian thực thi tăng đáng kể so với phương pháp truyền thống. Nguyên nhân là do quá trình trích xuất và so khớp của ALIKED chậm hơn SfM truyền thống đáng kể dẫn tới thời gian bị tăng lên rõ rệt. Điều này dẫn tới việc cần lựa chọn cẩn thận số lượng điểm đặc trưng được sử dụng để cân bằng giữa độ chính xác và thời gian chạy khi áp dụng vào thực tế cho các nhà mạng viễn thông.
+    \begin{table}[H]
+    \centering
+    \footnotesize
+    \begin{tabular}{|l|c|c|}
+    \hline
+    \textbf{Phương pháp} & \makecell{\textbf{Số lượng} \\ \textbf{điểm đặc trưng}} & \textbf{Thời gian (Xấp xỉ)} \\
+    \hline
+    SfM truyền thống & 4096 & \textbf{18} \\
+    Hybrid-SfM (ours) & 4096 & 23  \\
+    \hline
+    SfM truyền thống & 8192 &  \textbf{38} \\
+    Hybrid-SfM (ours) & 8192 & 55  \\
+    \hline
+    SfM truyền thống & 16384 & \textbf{65}\\
+    Hybrid-SfM (ours) & 16384 & 95 \\ 
+    \hline
+    \end{tabular}
+    \caption{So sánh thời gian (phút) thực thi thuật toán trung bình giữa giải pháp SfM truyền thống và giải pháp Hybrid-SfM đề xuất trên 5 tập ảnh thử nghiệm.}
+    \label{tab:time}
+    \end{table}
+
+\section{Đánh giá sự ảnh hưởng của camera pose tới chất lượng tái tạo mây điểm 3D chi tiết}
+\label{sec:eval_dense}
+     Trong phần này, luận văn sẽ trình bày những thực nghiệm, so sánh kết quả dựng mô hình mây điểm 3D chi tiết từ camera pose tốt nhất của phương pháp SfM truyền thống và phương pháp Hybrid-SfM đề xuất với 2 thuật toán tái tạo mây điểm phổ biến:
+    \begin{itemize}
+        \item MVS: Sử dụng thuật toán MVS trong nền tảng công cụ COLMAP.
+        \item NeRF: Sử dụng mô hình nerfacto trong nền tảng công cụ Nerfstudio.
+    \end{itemize}
+    
+     Luận văn đánh giá sự ảnh hưởng của độ chính xác camera pose lên chất lượng mô hình mây điểm 3D tái tạo thông qua độ đo PCS với 3 tập dữ liệu BTS01, BTS03 và BTS05 đặc trưng cho 3 loại cột phổ biến trong lĩnh vực viễn thông để tiến hành đánh giá. Khi tiến hành thử nghiệm, camera pose tốt nhất từ 2 phương pháp SfM truyền thống và Hybrid-SfM đề xuất với cùng mức sử dụng 16384 điểm đặc trưng được lựa chọn để thực hiện tái tạo mô hình mây điểm 3D chi tiết. Để tính chỉ số PCS, 3 thiết bị ăng-ten được lắp đặt trên cột của từng mô hình được cắt riêng từ mô hình mây điểm 3D. Sau đó, sử dụng thư viện open3d để ước lượng vector pháp tuyến cho mỗi điểm trong mây điểm thiết bị ăng-ten. Tiếp theo, thực hiện duyệt qua mây điểm, tại mỗi điểm, xác định tập các điểm lân cận của nó và tính toán độ biến thiên vector pháp tuyến của tập điểm lân cận đó. Cuối cùng là tính giá trị trung bình cho toàn bộ điểm trên bề mặt thiết bị.
+
+     
+    \subsection{Ảnh hưởng của độ chính xác camera pose lên chất lượng tái tạo mây điểm 3D chi tiết của MVS}
+    \label{subsec:eval_mvs_impact}
+        \begin{table}[H]
+            \centering
+            \footnotesize
+            \begin{tabular}{|l|l|c|c|c|}
+            \hline
+            \textbf{Dữ liệu} & \textbf{Phương pháp} & \textbf{Ăng-ten 1} & \textbf{Ăng-ten 2} & \textbf{Ăng-ten 3} \\
+            \hline
+            BTS01 & SfM truyền thống & 0.337 & 0.271 & 0.379 \\
+                  & \textbf{Hybrid-SfM (ours)}  & \textbf{0.308} & \textbf{0.269} & \textbf{0.316} \\
+            \hline
+            BTS03 & SfM truyền thống & 0.311 & 0.350 & 0.327 \\
+                  & \textbf{Hybrid-SfM (ours)} & \textbf{0.161} & \textbf{0.157} & \textbf{0.168} \\
+            \hline
+            BTS05 & SfM truyền thống & 0.392 & 0.365 & 0.332 \\
+                  & \textbf{Hybrid-SfM (ours)} & \textbf{0.326} & \textbf{0.296} & \textbf{0.231}\\
+            \hline
+            \end{tabular}
+            \caption{So sánh chỉ số PCS của mô hình mây điểm tái tạo từ MVS với 2 đầu vào từ 2 phương pháp: SfM truyền thống và Hybrid-SfM đề xuất.}
+            \label{tab:Smoothness_comparison_mvs}
+        \end{table}
+    
+    \begin{figure}[H]
+        \centering
+    
+        % Cặp 1
+        \begin{subfigure}[b]{0.3\textwidth}
+            \centering
+            \includegraphics[width=0.45\textwidth]{figures/c4/sift_1_a1.png}
+            \includegraphics[width=0.41\textwidth]{figures/c4/deep_1_a1.png}
+            \caption{Ăng-ten 1}
+        \end{subfigure}
+        \hfill
+        % Cặp 2
+        \begin{subfigure}[b]{0.3\textwidth}
+            \centering
+            \includegraphics[width=0.45\textwidth]{figures/c4/sift_1_a2.png}
+            \includegraphics[width=0.45\textwidth]{figures/c4/deep_1_a2.png}
+            \caption{Ăng-ten 2}
+        \end{subfigure}
+        \hfill
+        % Cặp 3
+        \begin{subfigure}[b]{0.3\textwidth}
+            \centering
+            \includegraphics[width=0.45\textwidth]{figures/c4/sift_1_a3.png}
+            \includegraphics[width=0.45\textwidth]{figures/c4/deep_1_a3.png}
+            \caption{Ăng-ten 3}
+        \end{subfigure}
+    
+        \caption{So sánh biểu diễn mây điểm 3D của từng thiết bị ăng-ten trạm BTS01 được tái tạo bằng MVS. Trong mỗi cặp ảnh, ảnh bên trái là kết quả của SfM truyền thống, bên phải là kết quả của Hybrid-SfM đề xuất}
+        \label{fig:mvs_device_bts01}
+    \end{figure}
+
+    \begin{figure}[H]
+        \centering
+    
+        % Cặp 1
+        \begin{subfigure}[b]{0.3\textwidth}
+            \centering
+            \includegraphics[width=0.45\textwidth]{figures/c4/sift_3_a1.png}
+            \includegraphics[width=0.45\textwidth]{figures/c4/deep_3_a1.png}
+            \caption{Ăng-ten 1}
+        \end{subfigure}
+        \hfill
+        % Cặp 2
+        \begin{subfigure}[b]{0.3\textwidth}
+            \centering
+            \includegraphics[width=0.45\textwidth]{figures/c4/sift_3_a2.png}
+            \includegraphics[width=0.45\textwidth]{figures/c4/deep_3_a2.png}
+            \caption{Ăng-ten 2}
+        \end{subfigure}
+        \hfill
+        % Cặp 3
+        \begin{subfigure}[b]{0.3\textwidth}
+            \centering
+            \includegraphics[width=0.45\textwidth]{figures/c4/sift_3_a3.png}
+            \includegraphics[width=0.45\textwidth]{figures/c4/deep_3_a3.png}
+            \caption{Ăng-ten 3}
+        \end{subfigure}
+    
+        \caption{So sánh biểu diễn mây điểm 3D của từng thiết bị ăng-ten trạm BTS03 được tái tạo bằng MVS. Trong mỗi cặp ảnh, ảnh bên trái là kết quả của SfM truyền thống, bên phải là kết quả của Hybrid-SfM đề xuất}
+        \label{fig:mvs_device_bts03}
+    \end{figure}
+
+    \begin{figure}[H]
+        \centering
+    
+        % Cặp 1
+        \begin{subfigure}[b]{0.3\textwidth}
+            \centering
+            \includegraphics[width=0.45\textwidth]{figures/c4/sift_5_a1.png}
+            \includegraphics[width=0.45\textwidth]{figures/c4/deep_5_a1.png}
+            \caption{Ăng-ten 1}
+        \end{subfigure}
+        \hfill
+        % Cặp 2
+        \begin{subfigure}[b]{0.3\textwidth}
+            \centering
+            \includegraphics[width=0.45\textwidth]{figures/c4/sift_5_a2.png}
+            \includegraphics[width=0.45\textwidth]{figures/c4/deep_5_a2.png}
+            \caption{Ăng-ten 2}
+        \end{subfigure}
+        \hfill
+        % Cặp 3
+        \begin{subfigure}[b]{0.3\textwidth}
+            \centering
+            \includegraphics[width=0.45\textwidth]{figures/c4/sift_5_a3.png}
+            \includegraphics[width=0.45\textwidth]{figures/c4/deep_5_a3.png}
+            \caption{Ăng-ten 3}
+        \end{subfigure}
+    
+        \caption{So sánh biểu diễn mây điểm 3D của từng thiết bị ăng-ten trạm BTS05 được tái tạo bằng MVS. Trong mỗi cặp ảnh, ảnh bên trái là kết quả của SfM truyền thống, bên phải là kết quả của Hybrid-SfM đề xuất}
+        \label{fig:mvs_device_bts05}
+    \end{figure}
+    Kết quả của thực nghiệm được tổng hợp tại Bảng \ref{tab:Smoothness_comparison_mvs} cho thấy rằng, việc cải thiện độ chính xác ước tính camera pose cũng đồng thời giúp cải thiện độ chính xác hình học của mô hình mây điểm 3D tái tạo sử dụng MVS. Trên 3 tập dữ liệu thử nghiệm, giá trị PCS của phương pháp Hybrid-SfM đề xuất đều giảm so với phương pháp SfM truyền thống. Thật vây, thông qua các hình ảnh so sánh biểu diễn điểm 3D của các thiết bị tại Hình \ref{fig:mvs_device_bts01}, Hình \ref{fig:mvs_device_bts03} và Hình \ref{fig:mvs_device_bts05} cho thấy, mây điểm 3D thiết bị được tái tạo với đầu vào từ Hybrid-SfM có độ mịn, phẳng và ít nhiễu hơn so với biểu diễn mây điểm 3D thiết bị với đầu vào từ SfM truyền thống.
+    
+    \subsection{Ảnh hưởng của độ chính xác camera pose lên chất lượng tái tạo mây điểm 3D chi tiết của NeRF}
+
+    Trong phần này, thí nghiệm tương tự với thuật toán tái tạo mây điểm 3D chi tiết, dày đặc NeRF được thực hiện để so sánh chất lượng mô hình mây điểm 3D chi tiết với 2 đầu vào khác nhau của 2 phương pháp SfM truyền thống và Hybrid-SfM đề xuất.
+     \label{subsec:eval_nerf_impact}
+        \begin{table}[H]
+            \centering
+            \footnotesize
+            \begin{tabular}{|l|l|c|c|c|}
+            \hline
+            \textbf{Dữ liệu} & \textbf{Phương pháp} & \textbf{Ăng-ten 1} & \textbf{Ăng-ten 2} & \textbf{Ăng-ten 3} \\
+            \hline
+            BTS01 & SfM truyền thống & 0.775 & 0.783 & 0.728 \\
+                  & \textbf{Hybrid-SfM (ours)} & \textbf{0.757} & \textbf{0.761} & \textbf{0.725}\\
+            \hline
+            BTS03 & SfM truyền thống & 0.738 & 0.658 & 0.672 \\
+                  & \textbf{Hybrid-SfM (ours)} & \textbf{0.724} & \textbf{0.637} &  \textbf{0.648}\\
+            \hline
+            BTS05 & SfM truyền thống & 0.732 & 0.747 & 0.755 \\
+                  & \textbf{Hybrid-SfM (ours)} & \textbf{0.706} & \textbf{0.730} & \textbf{0.735} \\
+            \hline
+            \end{tabular}
+            \caption{So sánh chỉ số PCS của mô hình mây điểm tái tạo từ Nerfacto với 2 đầu vào từ 2 phương pháp: SfM truyền thống và Hybrid-SfM đề xuất.}
+            \label{tab:Smoothness_comparison_nerf}
+        \end{table}
+    Từ Bảng \ref{tab:Smoothness_comparison_nerf} cho thấy kết quả tương đồng với thực nghiệm \ref{subsec:eval_mvs_impact}. Có thể thấy, chỉ số PCS của mô hình mây điểm 3D tương ứng với phương pháp Hybrid-SfM đề xuất giảm trung bình xấp xỉ 3\% so với phương pháp SfM truyền thống. Rõ ràng, kết quả của Bảng \ref{tab:Smoothness_comparison_mvs} và \ref{tab:Smoothness_comparison_nerf} chứng tỏ việc cải thiện độ chính xác ước tính camera pose cũng làm tăng độ chính xác của đám mây điểm chi tiết sau khi tái tạo.
+
+    \begin{figure}[H]
+        \centering
+    
+        % Cặp 1
+        \begin{subfigure}[b]{0.3\textwidth}
+            \centering
+            \includegraphics[width=0.45\textwidth]{figures/c4/nerf_sift_1_a1.png}
+            \includegraphics[width=0.45\textwidth]{figures/c4/nerf_deep_1_a1.png}
+            \caption{Ăng-ten 1}
+        \end{subfigure}
+        \hfill
+        % Cặp 2
+        \begin{subfigure}[b]{0.3\textwidth}
+            \centering
+            \includegraphics[width=0.45\textwidth]{figures/c4/nerf_sift_1_a2.png}
+            \includegraphics[width=0.45\textwidth]{figures/c4/nerf_deep_1_a2.png}
+            \caption{Ăng-ten 2}
+        \end{subfigure}
+        \hfill
+        % Cặp 3
+        \begin{subfigure}[b]{0.3\textwidth}
+            \centering
+            \includegraphics[width=0.45\textwidth]{figures/c4/nerf_sift_1_a3.png}
+            \includegraphics[width=0.45\textwidth]{figures/c4/nerf_deep_1_a3.png}
+            \caption{Ăng-ten 3}
+        \end{subfigure}
+    
+        \caption{So sánh biểu diễn mây điểm 3D của từng thiết bị ăng-ten trạm BTS01 được tái tạo bằng Nerfacto. Trong mỗi cặp ảnh, ảnh bên trái là kết quả của SfM truyền thống, bên phải là kết quả của Hybrid-SfM đề xuất}
+        \label{fig:nerf_device_bts01}
+    \end{figure}
+
+    \begin{figure}[H]
+        \centering
+    
+        % Cặp 1
+        \begin{subfigure}[b]{0.3\textwidth}
+            \centering
+            \includegraphics[width=0.45\textwidth]{figures/c4/nerf_sift_3_a1.png}
+            \includegraphics[width=0.45\textwidth]{figures/c4/nerf_deep_3_a1.png}
+            \caption{Ăng-ten 1}
+        \end{subfigure}
+        \hfill
+        % Cặp 2
+        \begin{subfigure}[b]{0.3\textwidth}
+            \centering
+            \includegraphics[width=0.45\textwidth]{figures/c4/nerf_sift_3_a2.png}
+            \includegraphics[width=0.45\textwidth]{figures/c4/nerf_deep_3_a2.png}
+            \caption{Ăng-ten 2}
+        \end{subfigure}
+        \hfill
+        % Cặp 3
+        \begin{subfigure}[b]{0.3\textwidth}
+            \centering
+            \includegraphics[width=0.45\textwidth]{figures/c4/nerf_sift_5_a3.png}
+            \includegraphics[width=0.45\textwidth]{figures/c4/nerf_deep_5_a3.png}
+            \caption{Ăng-ten 3}
+        \end{subfigure}
+    
+        \caption{So sánh biểu diễn mây điểm 3D của từng thiết bị ăng-ten trạm BTS03 được tái tạo bằng Nerfacto. Trong mỗi cặp ảnh, ảnh bên trái là kết quả của SfM truyền thống, bên phải là kết quả của Hybrid-SfM đề xuất}
+        \label{fig:nerf_device_bts03}
+    \end{figure}
+
+    \begin{figure}[H]
+        \centering
+    
+        % Cặp 1
+        \begin{subfigure}[b]{0.3\textwidth}
+            \centering
+            \includegraphics[width=0.45\textwidth]{figures/c4/nerf_sift_1_a1.png}
+            \includegraphics[width=0.45\textwidth]{figures/c4/nerf_deep_1_a1.png}
+            \caption{Ăng-ten 1}
+        \end{subfigure}
+        \hfill
+        % Cặp 2
+        \begin{subfigure}[b]{0.3\textwidth}
+            \centering
+            \includegraphics[width=0.45\textwidth]{figures/c4/nerf_sift_1_a1.png}
+            \includegraphics[width=0.45\textwidth]{figures/c4/nerf_deep_1_a1.png}
+            \caption{Ăng-ten 2}
+        \end{subfigure}
+        \hfill
+        % Cặp 3
+        \begin{subfigure}[b]{0.3\textwidth}
+            \centering
+            \includegraphics[width=0.45\textwidth]{figures/c4/nerf_sift_1_a1.png}
+            \includegraphics[width=0.45\textwidth]{figures/c4/nerf_deep_1_a1.png}
+            \caption{Ăng-ten 3}
+        \end{subfigure}
+    
+        \caption{So sánh biểu diễn mây điểm 3D của từng thiết bị ăng-ten trạm BTS05 được tái tạo bằng Nerfacto. Trong mỗi cặp ảnh, ảnh bên trái là kết quả của SfM truyền thống, bên phải là kết quả của Hybrid-SfM đề xuất}
+        \label{fig:nerf_device_bts05}
+    \end{figure}
+    Từ Hình \ref{fig:nerf_device_bts01}, Hình \ref{fig:nerf_device_bts03}, Hình \ref{fig:nerf_device_bts05} cho thấy các biểu diễn mây điểm 3D tái tạo từ Nerfacto với camera pose đầu vào từ phương pháp Hybrid-SfM đề xuất tốt hơn một chút so với đầu vào từ SfM truyền thống. Điều này cũng phản ánh đúng với kết quả Bảng \ref{tab:Smoothness_comparison_nerf} khi mà giá trị PCS chỉ giảm nhẹ trên các tập dữ liệu. Điều đó chứng tỏ, đối với phương pháp dựa trên NeRF, cải thiện về độ chính xác ước tính camera pose có làm tăng độ chính xác hình học của mây điểm 3D tái tạo, nhưng để sự chính xác được cải thiện rõ rệt thì cần có những sự cải tiến đối với kiến trúc mô hình của nó. Còn đối với MVS, kết quả của thuật toán phụ thuộc mạnh vào độ chính xác camera pose, cho nên việc nâng cao độ chính xác camera pose giúp cải thiện rõ rệt chất lượng của mô hình tái tạo. Điều này cũng được phản ánh qua kết quả Bảng \ref{tab:Smoothness_comparison_mvs}.
+
+\subsection{So sánh MVS và NeRF}
+    \label{subsec:eval_mvs_vs_nerf}
+    \begin{figure}[H]
+        \centering
+    
+        % Cặp 1
+        \begin{subfigure}[b]{0.3\textwidth}
+            \centering
+            \includegraphics[width=0.52\textwidth]{figures/c4/deep_1_a2.png}
+            \includegraphics[width=0.45\textwidth]{figures/c4/nerf_deep_1_a2.png}
+            \caption{Ăng-ten 1}
+        \end{subfigure}
+        \hfill
+        % Cặp 2
+        \begin{subfigure}[b]{0.3\textwidth}
+            \centering
+            \includegraphics[width=0.5\textwidth]{figures/c4/deep_3_a1.png}
+            \includegraphics[width=0.445\textwidth]{figures/c4/nerf_deep_3_a1.png}
+            \caption{Ăng-ten 2}
+        \end{subfigure}
+        \hfill
+        % Cặp 3
+        \begin{subfigure}[b]{0.3\textwidth}
+            \centering
+            \includegraphics[width=0.375\textwidth]{figures/c4/deep_5_a1.png}
+            \includegraphics[width=0.44\textwidth]{figures/c4/nerf_deep_5_a1.png}
+            \caption{Ăng-ten 3}
+        \end{subfigure}
+    
+        \caption{So sánh biểu diễn mây điểm 3D của các thiết bị ăng-ten được tái tạo bằng MVS (bên trái) và Nerfacto (bên phải) với đầu vào camera pose từ phương pháp Hybrid-SfM đề xuất.}
+        \label{fig:mvs_nerf_device}
+    \end{figure}
+    
+    Trong thí nghiệm này, luận văn sẽ thực hiện so sánh chất lượng mô hình đám mây điểm 3D được tái tạo từ MVS và NeRF  với camera pose tốt nhất được lựa chọn ở trên là từ phương pháp Hybrid-SfM đề xuất và đánh giá trên 3 tập dữ liệu BTS01, BTS03, BTS05. Hình \ref{fig:3d_mvs_nerf_bts01}, Hình \ref{fig:3d_mvs_nerf_bts03} và Hình \ref{fig:3d_mvs_nerf_bts05} mô tả ảnh chụp vùng thiết bị ăng-ten, RRU được lắp đặt trên mỗi cột đã thực hiện qua cùng 1 bước lọc nhiễu ngoại lai dựa trên thống kê. Có thể dễ dàng nhận thấy bằng mắt thường rằng, mức độ chi tiết, độ ổn định của các điểm trên mô hình của phương pháp biến thể Nerfacto cho kết quả tốt hơn vượt trội so với MVS truyền thống. Tuy nhiên, đối với những đối tượng mà MVS có thể tái tạo được, thì độ chính xác hình học của các đối tượng này lại tốt hơn đáng kể so với NeRF. Quan sát Hình \ref{fig:mvs_nerf_device}, ta thấy rằng, bề mặt thiết bị được tái tạo bởi Nerfacto có tình trạng gợn sóng, không bằng phẳng, trong khi đó bề mặt thiết bị được tái tạo bởi MVS lại phẳng, mịn hơn rất nhiều. Điều này cũng được phản ánh thông qua việc chỉ số PCS trong Bảng \ref{tab:Smoothness_comparison_mvs} thấp hơn khá nhiều so với giá trị trong Bảng \ref{tab:Smoothness_comparison_nerf}. 
+
+    \begin{figure}[H]
+        \centering
+    
+        % Hàng trên
+        \begin{subfigure}[b]{0.36\textwidth}
+            \includegraphics[width=\textwidth]{figures/c4/bts01_mvs_1.png}
+        \end{subfigure}
+        \hfill
+        \begin{subfigure}[b]{0.31\textwidth}
+            \includegraphics[width=\textwidth]{figures/c4/bts01_mvs_2.png}
+        \end{subfigure}
+        \hfill
+        \begin{subfigure}[b]{0.31\textwidth}
+            \includegraphics[width=\textwidth]{figures/c4/bts01_mvs_3.png}
+        \end{subfigure}
+    
+        \vspace{0.5cm} % khoảng cách giữa 2 hàng ảnh
+    
+        % Hàng dưới
+        \begin{subfigure}[b]{0.42\textwidth}
+            \includegraphics[width=\textwidth]{figures/c4/bts01_nerf_1.png}
+          
+        \end{subfigure}
+        \hfill
+        \begin{subfigure}[b]{0.26\textwidth}
+            \includegraphics[width=\textwidth]{figures/c4/bts01_nerf_2.png}
+            
+        \end{subfigure}
+        \hfill
+        \begin{subfigure}[b]{0.27\textwidth}
+            \includegraphics[width=\textwidth]{figures/c4/bts01_nerf_3.png}
+           
+        \end{subfigure}
+    
+        \caption{So sánh chất lượng mô hình 3D tái tạo của 2 phương pháp MVS (trên) và Nerfacto (dưới) cho trạm trạm BTS01.}
+        \label{fig:3d_mvs_nerf_bts01}
+    \end{figure}
+     
+    \begin{figure}[H]
+        \centering
+    
+        % Hàng trên
+        \begin{subfigure}[b]{0.28\textwidth}
+            \includegraphics[width=\textwidth]{figures/c4/bts03_mvs_1.png}
+        \end{subfigure}
+        \hfill
+        \begin{subfigure}[b]{0.33\textwidth}
+            \includegraphics[width=\textwidth]{figures/c4/bts03_mvs_2.png}
+        \end{subfigure}
+        \hfill
+        \begin{subfigure}[b]{0.33\textwidth}
+            \includegraphics[width=\textwidth]{figures/c4/bts03_mvs_3.png}
+        \end{subfigure}
+    
+        \vspace{0.5cm} % khoảng cách giữa 2 hàng ảnh
+    
+        % Hàng dưới
+        \begin{subfigure}[b]{0.3\textwidth}
+            \includegraphics[width=\textwidth]{figures/c4/bts03_nerf_1.png}
+          
+        \end{subfigure}
+        \hfill
+        \begin{subfigure}[b]{0.36\textwidth}
+            \includegraphics[width=\textwidth]{figures/c4/bts03_nerf_2.png}
+            
+        \end{subfigure}
+        \hfill
+        \begin{subfigure}[b]{0.29\textwidth}
+            \includegraphics[width=\textwidth]{figures/c4/bts03_nerf_3.png}
+           
+        \end{subfigure}
+    
+        \caption{So sánh chất lượng mô hình 3D tái tạo của 2 phương pháp MVS (trên) và Nerfacto (dưới) cho trạm trạm BTS03.}
+        \label{fig:3d_mvs_nerf_bts03}
+    \end{figure}
+
+
+    \begin{figure}[H]
+        \centering
+    
+        % Hàng trên
+        \begin{subfigure}[b]{0.37\textwidth}
+            \includegraphics[width=\textwidth]{figures/c4/bts05_mvs_1.png}
+        \end{subfigure}
+        \hfill
+        \begin{subfigure}[b]{0.28\textwidth}
+            \includegraphics[width=\textwidth]{figures/c4/bts05_mvs_2.png}
+        \end{subfigure}
+        \hfill
+        \begin{subfigure}[b]{0.28\textwidth}
+            \includegraphics[width=\textwidth]{figures/c4/bts05_mvs_3.png}
+        \end{subfigure}
+    
+        \vspace{0.5cm} % khoảng cách giữa 2 hàng ảnh
+    
+        % Hàng dưới
+        \begin{subfigure}[b]{0.35\textwidth}
+            \includegraphics[width=\textwidth]{figures/c4/bts05_nerf_1.png}
+          
+        \end{subfigure}
+        \hfill
+        \begin{subfigure}[b]{0.3\textwidth}
+            \includegraphics[width=\textwidth]{figures/c4/bts05_nerf_2.png}
+            
+        \end{subfigure}
+        \hfill
+        \begin{subfigure}[b]{0.275\textwidth}
+            \includegraphics[width=\textwidth]{figures/c4/bts05_nerf_3.png}
+           
+        \end{subfigure}
+    
+        \caption{So sánh chất lượng mô hình 3D tái tạo của 2 phương pháp MVS (trên) và Nerfacto (dưới) cho trạm trạm BTS05.}
+        \label{fig:3d_mvs_nerf_bts05}
+    \end{figure}
+    
+    % \begin{figure}[H]
+    %     \centering
+    %     \begin{subfigure}[b]{0.45\textwidth}
+    %         \centering
+    %         \includegraphics[width=0.85\linewidth]{figures/c4/bts05_mvs.png}
+    %         % \caption{Ảnh 1}
+    %         \end{subfigure}
+    %     \hfill
+    %     \begin{subfigure}[b]{0.45\textwidth}
+    %         \centering
+    %         \includegraphics[width=0.85\linewidth]{figures/c4/bts05_nerf.png}
+    %         % \caption{Ảnh 2}
+    %         \end{subfigure}
+    %     \caption{So sánh chất lượng mô hình 3D tái tạo của 2 phương pháp MVS (bên trái) và Nerfacto (bên phải) cho trạm trạm BTS05.}
+    %     \label{fig:3d_mvs_nerf_bts05}
+    % \end{figure}
+        
+        
+\section{Thảo luận}
+\label{sec:discussion}
+    \subsection{Phân tích hiệu quả và hạn chế của phương pháp đề xuất}
+\label{subsec:discuss_proposed_method}
+
+Thông qua các kết quả thực nghiệm định lượng và định tính được trình bày chi tiết trong Mục \ref{sec:eval_pose}, phương pháp Hybrid-SfM đề xuất đã cho thấy hiệu quả rõ rệt trong việc nâng cao độ chính xác ước tính camera pose so với phương pháp SfM truyền thống dựa trên SIFT khi áp dụng cho bộ dữ liệu ảnh chụp cột ăng-ten viễn thông. Các chỉ số như sai số chiếu lại trung bình (MRE) giảm đáng kể là minh chứng cho sự vượt trội này. 
+
+Sự cải thiện này có thể được lý giải thông qua đóng góp của các thành phần chính trong quy trình đề xuất. Thứ nhất, việc áp dụng phát hiện vùng ảnh cột sử dụng mô hình YOLO-v11 cho phép áp dụng các bộ trích xuất đặc trưng phù hợp với từng vùng ảnh. Cụ thể, ALIKED và LightGlue đã phát huy hiệu quả trên vùng tập trung của cột vốn có bề mặt trơn, thiếu vân đặc trưng. Đồng thời, việc vẫn ưu tiên kết hợp sử dụng SIFT giúp duy trì các điểm đặc trưng có tính bất biến, đáng tin cậy. Thứ hai, bước lọc các điểm đặc trưng dựa trên độ sâu tương đối ước tính từ Depth Anything V2 đã chứng minh vai trò quan trọng trong việc loại bỏ các đăc trưng nhiễu, không đáng tin cậy ở hậu cảnh xa. Việc loại bỏ các điểm này giúp ổn định quá trình Tối ưu hình học, tránh các lỗi tối ưu hóa do các điểm ở xa hoặc gần đường chân trời gây ra, từ đó cải thiện độ chính xác và tính nhất quán toàn cục của camera pose cuối cùng.
+
+Tuy nhiên, phương pháp đề xuất cũng bộc lộ một số hạn chế cần được xem xét. Độ chính xác của kết quả cuối cùng phụ thuộc vào độ chính xác của 2 mô hình học sâu khác nhau là phát hiện vùng cột và ước lượng độ sâu tương đối. Nếu các mô hình này hoạt động không tốt hoàn toàn có thể tạo ra các điểm đặc trưng nhiễu ảnh hưởng tới các giai đoạn tính toán sau đó. Bên cạnh đó, việc phải thực hiện các bước xử lý với mô hình học sâu có thể làm tăng thời gian xử lý của cả quy trình lên nhiều lần, điều này có thể ảnh hưởng tới khả năng ứng dụng thực tế của giải pháp. Cuối cùng, phương pháp vẫn có thể gặp khó khăn nếu vùng hậu cảnh quá đơn điệu hoặc có tính động lớn (ví dụ xung quanh nhiều cây cối và chụp trong điều kiện có gió) hoặc các vùng có tính lặp lại quá cao, khó phân biệt như trên rừng cây,... từ đó làm giảm chất lượng của các đặc trưng SIFT dùng để định vị toàn cục.
+
+\subsection{Phân tích hiệu quả MVS và NeRF cho cột ăng-ten}
+\label{subsec:discuss_mvs_nerf}
+
+Sau khi thu được camera pose có độ chính xác cao từ phương pháp Hybrid-SfM đề xuất, luận văn đã tiến hành đánh giá hai phương pháp tái tạo đám mây điểm 3D dày đặc phổ biến là MVS (sử dụng COLMAP MVS) và NeRF (sử dụng biến thể nerfacto) cho đối tượng đặc thù là cột ăng-ten viễn thông. Kết quả thực nghiệm tại Mục \ref{sec:eval_dense} cung cấp những phân tích so sánh giá trị về ưu và nhược điểm của từng phương pháp trong bối cảnh ứng dụng này.
+
+Kết quả cho thấy, mô hình NeRF (cụ thể là nerfacto) tỏ ra vượt trội hơn MVS về một số khía cạnh quan trọng. Thứ nhất, NeRF tạo ra mô hình 3D có chất lượng tổng thể tốt hơn, mật độ điểm cao và độ bao phủ bề mặt đầy đủ hơn đáng kể so với MVS. Đặc biệt, NeRF đã giải quyết được một trong những thách thức lớn nhất của MVS truyền thống là tái tạo các bề mặt thiết bị trơn nhẵn, thiếu vân đặc trưng (vỏ nhựa/composite của ăng-ten, RRU); mô hình NeRF không bị hiện tượng thủng lỗ các vùng này như thường thấy ở kết quả của MVS. Khả năng này đến từ bản chất của NeRF là học một biểu diễn nơ-ron cho không gian liên tục và tối ưu hóa dựa trên hàm lỗi quang học trên toàn bộ tia nhìn, thay vì phụ thuộc vào việc khớp nối các vùng ảnh cục bộ như MVS.
+
+Tuy nhiên, mô hình 3D được trích xuất từ NeRF cũng bộc lộ hạn chế về độ mượt và độ chính xác hình học cục bộ của bề mặt đối tượng (nhà, thiết bị, thân cột). Kết quả cho thấy bề mặt tái tạo từ NeRF có xu hướng bị "gợn sóng" hoặc thiếu độ phẳng cần thiết, đặc biệt là trên các bề mặt lớn. Ngược lại, MVS, mặc dù thất bại trong việc tái tạo các vùng thiếu đặc trưng, lại thể hiện khả năng đảm bảo cấu trúc hình học tốt hơn và tạo ra các bề mặt phẳng, các cạnh sắc nét hơn tại những vùng mà nó có thể tái tạo được. Điều này là bởi MVS dựa trên các ràng buộc hình học rõ ràng hơn trong quá trình ước tính độ sâu cục bộ.
+
+Xét về khả năng ứng dụng, mặc dù bề mặt tái tạo từ NeRF chưa hoàn toàn phẳng mịn, nhưng độ đầy đủ và khả năng bao phủ toàn bộ thiết bị của nó lại là một lợi thế lớn. Như kết quả quan sát được, mô hình NeRF hoàn toàn có thể được sử dụng hiệu quả cho các tác vụ mở rộng dựa trên mô hình 3D như tự động phát hiện, nhận diện và tính toán các thông số kỹ thuật của thiết bị vô tuyến gắn trên cột. Việc có một biểu diễn 3D hoàn chỉnh của thiết bị, ngay cả khi có chút gợn sóng bề mặt, vẫn tốt hơn là một mô hình bị thủng lỗ hoặc thiếu dữ liệu như MVS truyền thống trong việc nhận dạng và đo đạc.
+
+Tóm lại, đối với bài toán tái tạo 3D cột ăng-ten viễn thông, NeRF (cụ thể là biến thể nerfacto) cho thấy tính khả thi thực tế vượt trội so với MVS truyền thống về độ hoàn chỉnh và khả năng xử lý bề mặt khó, rất phù hợp cho các ứng dụng phân tích thiết bị tự động sau này, mặc dù cần cải thiện thêm về độ chính xác yếu tố hình học. MVS vẫn có giá trị ở những vùng có thể tái tạo tốt nếu yêu cầu độ chính xác hình học cục bộ là ưu tiên hàng đầu. Do đó, việc lựa chọn phương pháp tái tạo dày đặc cuối cùng nên dựa trên yêu cầu cụ thể của từng mục tiêu ứng dụng.
+
+\section*{Kết luận Chương 4}
+\addcontentsline{toc}{section}{Kết luận Chương 4}
+Như vậy, Chương 4 đã trình bày chi tiết các khía cạnh liên quan tới thực nghiệm của luận văn, bao gồm: mô tả dữ liệu, môi trường cài đặt, độ đo đánh giá. Điểm quan trọng là Chương 4 đã đưa ra những thử nghiệm, so sánh, đánh giá chi tiết để kiểm chứng độ hiệu quả của phương pháp Hybrid-SfM đề xuất thông qua so sánh các chỉ số đánh giá rõ ràng. Bên cạnh đó, Chương 4 cũng đánh giá, so sánh sự ảnh hưởng của độ chính xác camera pose tới chất lượng mô hình 3D tái tạo trên 2 phương pháp MVS và NeRF. Từ đó, luận văn đưa ra những nhận xét quan trọng về ưu điểm, nhược điểm và tính ứng dụng của mỗi phương pháp.

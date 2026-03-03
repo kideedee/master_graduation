@@ -1,0 +1,77 @@
+\section{Neuralangelo}
+Các phương pháp tái tạo bề mặt 3D dựa trên mạng nơ-ron, đặc biệt là những phương pháp sử dụng biểu diễn hình học ẩn (implicit geometric representations) kết hợp với kết xuất thể tích khả vi (differentiable volume rendering), đã cho thấy tiềm năng to lớn trong việc khôi phục các bề mặt dày đặc và hoàn chỉnh từ các tập ảnh đa góc nhìn \cite{Wang21NeuS, Yariv21VolSDF, Yariv20IDR}. Tuy nhiên, một thách thức lớn còn tồn tại là khả năng tái tạo các chi tiết hình học tinh vi (fine-grained details) và mở rộng quy mô cho các cảnh thực tế lớn và phức tạp \cite{Li23Neuralangelo}. Các phương pháp trước đó thường dựa vào mạng MLP tiêu chuẩn hoặc mã hóa tần số (frequency/positional encoding) \cite{Mildenhall2020NeRF, Tancik20Fourier}, vốn gặp khó khăn trong việc biểu diễn hiệu quả các tín hiệu tần số cao trên quy mô lớn \cite{Muller22InstantNGP}.
+
+Để giải quyết những hạn chế này, Li và cộng sự đã đề xuất \textbf{Neuralangelo} \cite{Li23Neuralangelo}, một phương pháp mới nhằm đạt được khả năng tái tạo bề mặt 3D với độ trung thực cao từ ảnh RGB thông thường. Neuralangelo kết hợp sức mạnh biểu diễn của **lưới băm đa độ phân giải (multi-resolution hash grids)**, được giới thiệu trong Instant NGP \cite{Muller22InstantNGP}, với kỹ thuật kết xuất bề mặt nơ-ron dựa trên **Hàm khoảng cách có dấu (Signed Distance Function - SDF)**. Hai thành phần kỹ thuật then chốt được giới thiệu để khai thác tối đa tiềm năng của lưới băm trong bài toán tái tạo bề mặt là: (1) việc sử dụng \textbf{gradient số (numerical gradients)} để tính toán các đạo hàm bậc cao, giúp ổn định quá trình tối ưu hóa và tăng cường tính trơn tru; và (2) một chiến lược **tối ưu hóa từ thô đến tinh (coarse-to-fine optimization)** trên các cấp độ phân giải của lưới băm, cho phép kiểm soát và tái tạo hiệu quả các chi tiết ở các quy mô khác nhau.
+
+\subsection{Nền tảng: Biểu diễn ẩn và Lưới băm}
+\label{subsec:neuralangelo_background}
+
+Neuralangelo xây dựng dựa trên các kỹ thuật biểu diễn bề mặt 3D ẩn và kết xuất thể tích khả vi. Cảnh 3D được biểu diễn bởi một hàm SDF $f(\vect{x}): \mathbb{R}^3 \rightarrow \mathbb{R}$, trong đó bề mặt $\mathcal{S}$ là tập hợp các điểm có giá trị SDF bằng không: $\mathcal{S} = \{\vect{x} \in \mathbb{R}^3 | f(\vect{x}) = 0\}$. Hàm SDF này được xấp xỉ bởi một mạng nơ-ron $f_\Theta$. Ngoài ra, một mạng nơ-ron khác $c_\Theta(\vect{x}, \vect{v}, \vect{n}, \vect{z})$ được sử dụng để dự đoán màu sắc (RGB) phụ thuộc vào vị trí $\vect{x}$, hướng nhìn $\vect{v}$, pháp tuyến bề mặt $\vect{n} = \nabla f(\vect{x})$, và một vector đặc trưng tiềm ẩn $\vect{z}$ từ mạng SDF \cite{Yariv20IDR}.
+
+Để kết xuất màu sắc $\hat{c}$ của một tia nhìn từ các hàm SDF và màu này, các phương pháp như NeuS \cite{Wang21NeuS} và VolSDF \cite{Yariv21VolSDF} đề xuất các cách chuyển đổi giá trị SDF thành mật độ thể tích $\sigma$ hoặc độ chắn sáng $\alpha$ để sử dụng trong công thức kết xuất thể tích (ví dụ, công thức (3) trong bài báo Neuralangelo \cite{Li23Neuralangelo}, dựa trên \cite{Wang21NeuS}). Màu sắc pixel cuối cùng được tính bằng cách tích hợp thông tin màu và mật độ/opacity dọc theo tia (công thức (1) trong bài báo \cite{Li23Neuralangelo}). Quá trình tối ưu hóa thường bao gồm việc giảm thiểu sự khác biệt giữa màu pixel kết xuất $\hat{c}$ và màu pixel thực tế $c$ (ví dụ, sử dụng $\mathcal{L}_1$ loss, công thức (2) \cite{Li23Neuralangelo}), kết hợp với các ràng buộc hình học như Eikonal loss $\mathcal{L}_{eik}$ để khuyến khích $||\nabla f(\vect{x})||_2 = 1$.
+
+Điểm khác biệt cốt lõi của Neuralangelo nằm ở cách biểu diễn đầu vào cho mạng nơ-ron SDF và màu sắc. Thay vì sử dụng trực tiếp tọa độ $\vect{x}$ hoặc mã hóa tần số Fourier \cite{Tancik20Fourier}, Neuralangelo sử dụng **mã hóa lưới băm đa độ phân giải (multi-resolution hash encoding)** $\gamma(\vect{x})$ từ Instant NGP \cite{Muller22InstantNGP}. Kỹ thuật này sử dụng $L$ lưới có độ phân giải khác nhau $V_l$, từ thô đến tinh. Với một điểm $\vect{x}$, đặc trưng tại mỗi cấp độ phân giải $l$ được lấy bằng cách nội suy tuyến tính (trilinear interpolation) các vector đặc trưng lưu trữ tại các đỉnh của ô lưới (grid cell) chứa điểm đó. Các vector đặc trưng này được lấy từ một bảng băm (hash table) có kích thước giới hạn, giúp kiểm soát bộ nhớ hiệu quả. Các đặc trưng từ $L$ cấp độ phân giải sau đó được nối lại $\gamma(\vect{x}) = (\gamma_1(\vect{x}), ..., \gamma_L(\vect{x}))$ và đưa vào một mạng MLP nông (shallow MLP) để dự đoán SDF và đặc trưng màu $\vect{z}$ [71-77]. Cách biểu diễn này cho phép mã hóa các chi tiết ở nhiều tần số khác nhau một cách hiệu quả về bộ nhớ và tính toán [81].
+
+\subsection{Phương pháp Neuralangelo}
+\label{subsec:neuralangelo_method}
+
+Neuralangelo kế thừa kiến trúc biểu diễn SDF dựa trên lưới băm đa độ phân giải và kết xuất thể tích tương tự NeuS/VolSDF, nhưng giới thiệu hai cải tiến quan trọng để khắc phục các vấn đề gặp phải khi áp dụng trực tiếp lưới băm vào bài toán tái tạo bề mặt SDF.
+
+\subsubsection{Sử dụng Gradient số cho Đạo hàm bậc cao}
+\label{subsubsec:neuralangelo_numerical_grad}
+
+Việc áp đặt các ràng buộc hình học như Eikonal loss ($\mathcal{L}_{eik} = \mathbb{E}[(||\nabla f(\vect{x})||_2 - 1)^2]$, công thức (5) \cite{Li23Neuralangelo}) đòi hỏi tính toán gradient của SDF, $\nabla f(\vect{x})$. Các phương pháp trước đây thường sử dụng gradient giải tích (analytical gradients) thông qua backpropagation \cite{Wang21NeuS, Yariv20IDR, Yariv21VolSDF, Yang21Geometry}. Tuy nhiên, các tác giả Neuralangelo chỉ ra rằng gradient giải tích của đặc trưng lưới băm $\gamma(\vect{x})$ đối với vị trí $\vect{x}$ (khi dùng nội suy tuyến tính) có tính cục bộ và không liên tục tại biên giới các ô lưới (công thức (7) \cite{Li23Neuralangelo}) [91-94]. Điều này có nghĩa là gradient của Eikonal loss (vốn yêu cầu đạo hàm bậc hai của $f$ đối với trọng số mạng) chỉ lan truyền đến các mục trong bảng băm (hash entries) tương ứng với các đỉnh của ô lưới chứa điểm $\vect{x}$ đang xét [95]. Điều này cản trở việc học các bề mặt trơn tru và nhất quán trải rộng qua nhiều ô lưới, vì thông tin gradient không được chia sẻ hiệu quả giữa các vùng lân cận.
+
+Để giải quyết vấn đề này, Neuralangelo đề xuất tính toán $\nabla f(\vect{x})$ (và các đạo hàm bậc cao hơn nếu cần, như cho độ cong) bằng phương pháp **gradient số (numerical gradients)** thông qua sai phân hữu hạn (finite differences) [84]:
+\begin{equation} \label{eq:numerical_gradient}
+\nabla_x f(\vect{x}) \approx \frac{f(\gamma(\vect{x} + \epsilon_x)) - f(\gamma(\vect{x} - \epsilon_x))}{2\epsilon}
+\end{equation}
+trong đó $\epsilon_x = [\epsilon, 0, 0]^T$ và các thành phần khác được tính tương tự [102]. Bước nhảy $\epsilon$ đóng vai trò quan trọng. Khi tính toán gradient số, mạng SDF $f$ được truy vấn tại các điểm $\vect{x} \pm \epsilon_k$. Nếu $\epsilon$ đủ lớn (ví dụ, lớn hơn kích thước ô lưới), các truy vấn này sẽ lấy đặc trưng từ nhiều ô lưới khác nhau. Do đó, khi lan truyền ngược gradient của Eikonal loss (hoặc curvature loss), các cập nhật sẽ ảnh hưởng đến các mục băm trong một vùng rộng hơn thay vì chỉ các đỉnh của ô lưới cục bộ [96]. Về bản chất, gradient số với bước nhảy $\epsilon$ phù hợp hoạt động như một phép toán làm trơn (smoothing operation) trên trường gradient giải tích cục bộ và không liên tục của lưới băm, giúp tối ưu hóa các bề mặt nhất quán hơn [97, 100].
+
+\subsubsection{Tối ưu hóa Từ Thô đến Tinh}
+\label{subsubsec:neuralangelo_coarse_to_fine}
+
+Để tái tạo hiệu quả các chi tiết bề mặt ở các cấp độ khác nhau, Neuralangelo áp dụng một chiến lược tối ưu hóa **từ thô đến tinh (coarse-to-fine)**, được điều khiển bởi cả hai yếu tố: bước nhảy $\epsilon$ của gradient số và việc kích hoạt các cấp độ phân giải của lưới băm [106, 107].
+
+\begin{itemize}
+    \item \textbf{Giảm dần bước nhảy $\epsilon$ (Annealing $\epsilon$):} Như đã đề cập, $\epsilon$ kiểm soát mức độ "nhìn xa" của gradient số và mức độ làm trơn bề mặt. Neuralangelo bắt đầu quá trình tối ưu hóa với giá trị $\epsilon$ lớn, tương ứng với kích thước ô lưới ở cấp độ phân giải thô nhất. Sau đó, $\epsilon$ được giảm dần theo hàm mũ trong quá trình huấn luyện, tiến tới các giá trị nhỏ hơn tương ứng với các cấp độ lưới mịn hơn [111]. Khi $\epsilon$ lớn, Eikonal loss và curvature loss sẽ khuyến khích các bề mặt trơn tru trên quy mô lớn. Khi $\epsilon$ nhỏ dần, các ràng buộc này sẽ tập trung vào các chi tiết cục bộ hơn, cho phép mạng học các cấu trúc tinh vi [108-110].
+    \item \textbf{Kích hoạt lưới băm phân cấp (Progressive Hash Grid Activation):} Thay vì kích hoạt tất cả $L$ cấp độ phân giải của lưới băm ngay từ đầu, Neuralangelo chỉ bắt đầu với một tập hợp các cấp độ thô nhất. Khi quá trình tối ưu hóa diễn ra và bước nhảy $\epsilon$ giảm xuống tương ứng với kích thước ô lưới của một cấp độ phân giải $l$ nào đó, cấp độ đó mới được "kích hoạt" và bắt đầu đóng góp vào đặc trưng $\gamma(\vect{x})$ [113]. Các cấp độ mịn hơn sẽ được kích hoạt tuần tự sau đó. Chiến lược này giúp mạng tập trung học các cấu trúc tổng thể ở giai đoạn đầu với các lưới thô, sau đó mới học các chi tiết tinh vi hơn với các lưới mịn khi chúng được kích hoạt. Điều này tránh việc các lưới mịn phải "học lại" hoặc bị ảnh hưởng tiêu cực bởi các cập nhật ở giai đoạn tối ưu hóa cấu trúc thô, giúp bảo toàn chi tiết tốt hơn [112, 115, 116].
+\end{itemize}
+Ngoài ra, kỹ thuật suy giảm trọng số (weight decay) cũng được áp dụng để tránh việc một vài cấp độ phân giải nào đó chiếm ưu thế quá lớn trong kết quả cuối cùng [117].
+
+\subsubsection{Hàm mất mát tổng thể}
+\label{subsubsec:neuralangelo_loss}
+
+Bên cạnh Eikonal loss $\mathcal{L}_{eik}$ (công thức (5)) và color loss $\mathcal{L}_{RGB}$ (công thức (2)), Neuralangelo còn sử dụng một thành phần **ràng buộc độ cong (Curvature Regularization)** $\mathcal{L}_{curv}$ để khuyến khích bề mặt trơn tru hơn nữa [118]. Độ cong trung bình (mean curvature) được xấp xỉ bằng toán tử Laplace số $\nabla^2 f(\vect{x})$, cũng được tính bằng sai phân hữu hạn từ các điểm đã lấy mẫu để tính gradient số [119, 121]. Hàm mất mát độ cong được định nghĩa là:
+\begin{equation} \label{eq:curvature_loss}
+\mathcal{L}_{curv} = \frac{1}{N} \sum_{i=1}^{N} |\nabla^2 f(\vect{x}_i)|.
+\end{equation}
+Hàm mất mát tổng thể của Neuralangelo là tổng có trọng số của ba thành phần:
+\begin{equation} \label{eq:total_loss}
+\mathcal{L} = \mathcal{L}_{RGB} + w_{eik}\mathcal{L}_{eik} + w_{curv}\mathcal{L}_{curv},
+\end{equation}
+với $w_{eik}$ và $w_{curv}$ là các trọng số điều chỉnh tầm quan trọng tương đối của các ràng buộc hình học [121]. Một chiến lược "warm-up" cho $w_{curv}$ cũng được áp dụng để tránh làm phẳng các cấu trúc lõm ở giai đoạn đầu tối ưu hóa [173-176]. Toàn bộ các tham số mạng (MLPs và các mục trong bảng băm) được tối ưu hóa đồng thời end-to-end [122].
+
+\subsection{Phân tích Ưu điểm và Nhược điểm}
+\label{subsec:neuralangelo_pros_cons}
+
+Neuralangelo đã chứng minh được hiệu quả vượt trội so với các phương pháp tái tạo bề mặt nơ-ron trước đó, đặc biệt trên các bộ dữ liệu quy mô lớn và phức tạp như Tanks and Temples \cite{Knapitsch17Tanks}.
+
+\textbf{Ưu điểm:}
+\begin{itemize}
+    \item \textbf{Độ trung thực cao (High Fidelity):} Nhờ sử dụng lưới băm đa độ phân giải và chiến lược tối ưu hóa từ thô đến tinh, Neuralangelo có khả năng tái tạo các chi tiết hình học bề mặt rất tinh vi, vượt xa các phương pháp dựa trên MLP tiêu chuẩn hoặc mã hóa tần số Fourier [143, 149].
+    \item \textbf{Khả năng mở rộng (Scalability):} Tận dụng hiệu quả về bộ nhớ và tính toán của lưới băm \cite{Muller22InstantNGP}, Neuralangelo có thể xử lý các cảnh quy mô lớn (ví dụ: các tòa nhà, khu vực ngoài trời) mà các phương pháp trước đó gặp khó khăn [156, 202].
+    \item \textbf{Không yêu cầu dữ liệu phụ trợ:} Phương pháp hoạt động hiệu quả chỉ với ảnh RGB và pose máy ảnh đầu vào, không cần thông tin về độ sâu (depth) hay mặt nạ phân đoạn (segmentation masks) như một số phương pháp khác \cite{Li23Neuralangelo_Abstract, Fu22GeoNeuS, Yu22MonoSDF} [7, 53].
+    \item \textbf{Chất lượng bề mặt tốt:} Việc sử dụng gradient số và ràng buộc độ cong giúp tạo ra các bề mặt trơn tru và ít nhiễu hơn so với việc trích xuất bề mặt trực tiếp từ trường mật độ của NeRF hoặc các phương pháp SDF sử dụng gradient giải tích trên lưới băm [137, 141, 180].
+\end{itemize}
+
+\textbf{Nhược điểm và Hạn chế:}
+\begin{itemize}
+    \item \textbf{Thời gian huấn luyện:} Mặc dù hiệu quả hơn MLP sâu, việc huấn luyện Neuralangelo cho mỗi cảnh vẫn đòi hỏi thời gian đáng kể (hàng giờ hoặc hơn tùy thuộc vào kích thước cảnh và phần cứng) [186].
+    \item \textbf{Nhạy cảm với siêu tham số:} Hiệu suất của phương pháp phụ thuộc vào việc lựa chọn cẩn thận các siêu tham số, đặc biệt là lịch trình giảm $\epsilon$ và kích hoạt các cấp độ lưới băm, cũng như các trọng số $w_{eik}, w_{curv}$.
+    \item \textbf{Vấn đề với bề mặt phản xạ mạnh:} Bài báo thừa nhận rằng, giống như Instant NGP, Neuralangelo có thể gặp khó khăn hơn so với các phương pháp dựa trên mã hóa tần số Fourier (như NeRF gốc) khi xử lý các bề mặt có độ phản xạ rất cao (highly reflective surfaces), đây là một hạn chế kế thừa từ bản chất của mã hóa băm [235, 236].
+    \item \textbf{Yêu cầu Pose máy ảnh chính xác:} Giống như hầu hết các phương pháp dựa trên NeRF và SfM, Neuralangelo yêu cầu đầu vào là các pose máy ảnh đã được ước lượng tương đối chính xác (ví dụ, từ COLMAP \cite{Schonberger16SFMRevisited}) [200]. Lỗi lớn trong pose máy ảnh đầu vào sẽ ảnh hưởng tiêu cực đến chất lượng tái tạo.
+    \item \textbf{Chiến lược lấy mẫu điểm/pixel:} Bài báo gốc đề cập rằng việc lấy mẫu pixel ngẫu nhiên hiện tại chưa tối ưu và việc khám phá các chiến lược lấy mẫu hiệu quả hơn là một hướng nghiên cứu trong tương lai để tăng tốc độ huấn luyện [185-187].
+\end{itemize}
+
+Tóm lại, Neuralangelo đại diện cho một bước tiến quan trọng trong lĩnh vực tái tạo bề mặt 3D từ ảnh đa góc nhìn, đặc biệt là đối với các cảnh phức tạp và quy mô lớn, bằng cách kết hợp hiệu quả biểu diễn lưới băm đa độ phân giải với các kỹ thuật tối ưu hóa và xử lý gradient phù hợp cho bài toán tái tạo bề mặt SDF.

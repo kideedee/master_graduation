@@ -1,0 +1,2170 @@
+This is pdfTeX, Version 3.141592653-2.6-1.40.27 (TeX Live 2025) (preloaded format=pdflatex 2025.5.14)  3 MAR 2026 23:04
+entering extended mode
+ restricted \write18 enabled.
+ file:line:error style messages enabled.
+ %&-line parsing enabled.
+**e:/master/Master_Thesis_version_nop_hoi_dong__Copy_/thesis
+(e:/master/Master_Thesis_version_nop_hoi_dong__Copy_/thesis.tex
+LaTeX2e <2024-11-01> patch level 2
+L3 programming layer <2025-04-14>
+(c:/texlive/2025/texmf-dist/tex/latex/base/report.cls
+Document Class: report 2024/06/29 v1.4n Standard LaTeX document class
+(c:/texlive/2025/texmf-dist/tex/latex/base/size10.clo
+File: size10.clo 2024/06/29 v1.4n Standard LaTeX file (size option)
+)
+\c@part=\count272
+\c@chapter=\count273
+\c@section=\count274
+\c@subsection=\count275
+\c@subsubsection=\count276
+\c@paragraph=\count277
+\c@subparagraph=\count278
+\c@figure=\count279
+\c@table=\count280
+\abovecaptionskip=\skip49
+\belowcaptionskip=\skip50
+\bibindent=\dimen146
+) (c:/texlive/2025/texmf-dist/tex/latex/vntex/vietnam.sty
+Package: vietnam 2009/07/12 v1.3 support for Vietnamese
+ (c:/texlive/2025/texmf-dist/tex/latex/base/ifthen.sty
+Package: ifthen 2024/03/16 v1.1e Standard LaTeX ifthen package (DPC)
+) (c:/texlive/2025/texmf-dist/tex/latex/base/fontenc.sty
+Package: fontenc 2021/04/29 v2.0v Standard LaTeX package
+ (c:/texlive/2025/texmf-dist/tex/latex/vntex/t5enc.def
+File: t5enc.def 2006/11/21 v1.4 Vietnamese T5 encoding
+Now handling font encoding T5 ...
+... processing UTF-8 mapping file for font encoding T5
+ (c:/texlive/2025/texmf-dist/tex/latex/vntex/t5enc.dfu
+File: t5enc.dfu 2006/08/19 v1.1 UTF8 support for Vietnamese
+   defining Unicode char U+00AB (decimal 171)
+   defining Unicode char U+00BB (decimal 187)
+   defining Unicode char U+00C0 (decimal 192)
+   defining Unicode char U+00C1 (decimal 193)
+   defining Unicode char U+00C2 (decimal 194)
+   defining Unicode char U+00C3 (decimal 195)
+   defining Unicode char U+00C8 (decimal 200)
+   defining Unicode char U+00C9 (decimal 201)
+   defining Unicode char U+00CA (decimal 202)
+   defining Unicode char U+00CC (decimal 204)
+   defining Unicode char U+00CD (decimal 205)
+   defining Unicode char U+00D2 (decimal 210)
+   defining Unicode char U+00D3 (decimal 211)
+   defining Unicode char U+00D4 (decimal 212)
+   defining Unicode char U+00D5 (decimal 213)
+   defining Unicode char U+00D9 (decimal 217)
+   defining Unicode char U+00DA (decimal 218)
+   defining Unicode char U+00DD (decimal 221)
+   defining Unicode char U+00E0 (decimal 224)
+   defining Unicode char U+00E1 (decimal 225)
+   defining Unicode char U+00E2 (decimal 226)
+   defining Unicode char U+00E3 (decimal 227)
+   defining Unicode char U+00E8 (decimal 232)
+   defining Unicode char U+00E9 (decimal 233)
+   defining Unicode char U+00EA (decimal 234)
+   defining Unicode char U+00EC (decimal 236)
+   defining Unicode char U+00ED (decimal 237)
+   defining Unicode char U+00F2 (decimal 242)
+   defining Unicode char U+00F3 (decimal 243)
+   defining Unicode char U+00F4 (decimal 244)
+   defining Unicode char U+00F5 (decimal 245)
+   defining Unicode char U+00F9 (decimal 249)
+   defining Unicode char U+00FA (decimal 250)
+   defining Unicode char U+00FD (decimal 253)
+   defining Unicode char U+0102 (decimal 258)
+   defining Unicode char U+0103 (decimal 259)
+   defining Unicode char U+0110 (decimal 272)
+   defining Unicode char U+0111 (decimal 273)
+   defining Unicode char U+0128 (decimal 296)
+   defining Unicode char U+0129 (decimal 297)
+   defining Unicode char U+0131 (decimal 305)
+   defining Unicode char U+0168 (decimal 360)
+   defining Unicode char U+0169 (decimal 361)
+   defining Unicode char U+01A0 (decimal 416)
+   defining Unicode char U+01A1 (decimal 417)
+   defining Unicode char U+01AF (decimal 431)
+   defining Unicode char U+01B0 (decimal 432)
+   defining Unicode char U+1EA0 (decimal 7840)
+   defining Unicode char U+1EA1 (decimal 7841)
+   defining Unicode char U+1EA2 (decimal 7842)
+   defining Unicode char U+1EA3 (decimal 7843)
+   defining Unicode char U+1EA4 (decimal 7844)
+   defining Unicode char U+1EA5 (decimal 7845)
+   defining Unicode char U+1EA6 (decimal 7846)
+   defining Unicode char U+1EA7 (decimal 7847)
+   defining Unicode char U+1EA8 (decimal 7848)
+   defining Unicode char U+1EA9 (decimal 7849)
+   defining Unicode char U+1EAA (decimal 7850)
+   defining Unicode char U+1EAB (decimal 7851)
+   defining Unicode char U+1EAC (decimal 7852)
+   defining Unicode char U+1EAD (decimal 7853)
+   defining Unicode char U+1EAE (decimal 7854)
+   defining Unicode char U+1EAF (decimal 7855)
+   defining Unicode char U+1EB0 (decimal 7856)
+   defining Unicode char U+1EB1 (decimal 7857)
+   defining Unicode char U+1EB2 (decimal 7858)
+   defining Unicode char U+1EB3 (decimal 7859)
+   defining Unicode char U+1EB4 (decimal 7860)
+   defining Unicode char U+1EB5 (decimal 7861)
+   defining Unicode char U+1EB6 (decimal 7862)
+   defining Unicode char U+1EB7 (decimal 7863)
+   defining Unicode char U+1EB8 (decimal 7864)
+   defining Unicode char U+1EB9 (decimal 7865)
+   defining Unicode char U+1EBA (decimal 7866)
+   defining Unicode char U+1EBB (decimal 7867)
+   defining Unicode char U+1EBC (decimal 7868)
+   defining Unicode char U+1EBD (decimal 7869)
+   defining Unicode char U+1EBE (decimal 7870)
+   defining Unicode char U+1EBF (decimal 7871)
+   defining Unicode char U+1EC0 (decimal 7872)
+   defining Unicode char U+1EC1 (decimal 7873)
+   defining Unicode char U+1EC2 (decimal 7874)
+   defining Unicode char U+1EC3 (decimal 7875)
+   defining Unicode char U+1EC4 (decimal 7876)
+   defining Unicode char U+1EC5 (decimal 7877)
+   defining Unicode char U+1EC6 (decimal 7878)
+   defining Unicode char U+1EC7 (decimal 7879)
+   defining Unicode char U+1EC8 (decimal 7880)
+   defining Unicode char U+1EC9 (decimal 7881)
+   defining Unicode char U+1ECA (decimal 7882)
+   defining Unicode char U+1ECB (decimal 7883)
+   defining Unicode char U+1ECC (decimal 7884)
+   defining Unicode char U+1ECD (decimal 7885)
+   defining Unicode char U+1ECE (decimal 7886)
+   defining Unicode char U+1ECF (decimal 7887)
+   defining Unicode char U+1ED0 (decimal 7888)
+   defining Unicode char U+1ED1 (decimal 7889)
+   defining Unicode char U+1ED2 (decimal 7890)
+   defining Unicode char U+1ED3 (decimal 7891)
+   defining Unicode char U+1ED4 (decimal 7892)
+   defining Unicode char U+1ED5 (decimal 7893)
+   defining Unicode char U+1ED6 (decimal 7894)
+   defining Unicode char U+1ED7 (decimal 7895)
+   defining Unicode char U+1ED8 (decimal 7896)
+   defining Unicode char U+1ED9 (decimal 7897)
+   defining Unicode char U+1EDA (decimal 7898)
+   defining Unicode char U+1EDB (decimal 7899)
+   defining Unicode char U+1EDC (decimal 7900)
+   defining Unicode char U+1EDD (decimal 7901)
+   defining Unicode char U+1EDE (decimal 7902)
+   defining Unicode char U+1EDF (decimal 7903)
+   defining Unicode char U+1EE0 (decimal 7904)
+   defining Unicode char U+1EE1 (decimal 7905)
+   defining Unicode char U+1EE2 (decimal 7906)
+   defining Unicode char U+1EE3 (decimal 7907)
+   defining Unicode char U+1EE4 (decimal 7908)
+   defining Unicode char U+1EE5 (decimal 7909)
+   defining Unicode char U+1EE6 (decimal 7910)
+   defining Unicode char U+1EE7 (decimal 7911)
+   defining Unicode char U+1EE8 (decimal 7912)
+   defining Unicode char U+1EE9 (decimal 7913)
+   defining Unicode char U+1EEA (decimal 7914)
+   defining Unicode char U+1EEB (decimal 7915)
+   defining Unicode char U+1EEC (decimal 7916)
+   defining Unicode char U+1EED (decimal 7917)
+   defining Unicode char U+1EEE (decimal 7918)
+   defining Unicode char U+1EEF (decimal 7919)
+   defining Unicode char U+1EF0 (decimal 7920)
+   defining Unicode char U+1EF1 (decimal 7921)
+   defining Unicode char U+1EF2 (decimal 7922)
+   defining Unicode char U+1EF3 (decimal 7923)
+   defining Unicode char U+1EF4 (decimal 7924)
+   defining Unicode char U+1EF5 (decimal 7925)
+   defining Unicode char U+1EF6 (decimal 7926)
+   defining Unicode char U+1EF7 (decimal 7927)
+   defining Unicode char U+1EF8 (decimal 7928)
+   defining Unicode char U+1EF9 (decimal 7929)
+   defining Unicode char U+200C (decimal 8204)
+   defining Unicode char U+2013 (decimal 8211)
+   defining Unicode char U+2014 (decimal 8212)
+   defining Unicode char U+2018 (decimal 8216)
+   defining Unicode char U+2019 (decimal 8217)
+   defining Unicode char U+201A (decimal 8218)
+   defining Unicode char U+201C (decimal 8220)
+   defining Unicode char U+201D (decimal 8221)
+   defining Unicode char U+201E (decimal 8222)
+   defining Unicode char U+2030 (decimal 8240)
+   defining Unicode char U+2031 (decimal 8241)
+   defining Unicode char U+2039 (decimal 8249)
+   defining Unicode char U+203A (decimal 8250)
+   defining Unicode char U+2423 (decimal 9251)
+))
+LaTeX Font Info:    Trying to load font information for T5+cmr on input line 116.
+ (c:/texlive/2025/texmf-dist/tex/latex/vntex/t5cmr.fd
+File: t5cmr.fd 1999/05/25 v2.5h Standard LaTeX font definitions
+)) (c:/texlive/2025/texmf-dist/tex/latex/base/inputenc.sty
+Package: inputenc 2024/02/08 v1.3d Input encoding file
+\inpenc@prehook=\toks17
+\inpenc@posthook=\toks18
+) (c:/texlive/2025/texmf-dist/tex/latex/vntex/vncaps.tex
+File: vncaps.tex 2006/06/07 v1.1 Captions in Vietnamese
+)) (c:/texlive/2025/texmf-dist/tex/latex/amsmath/amsmath.sty
+Package: amsmath 2024/11/05 v2.17t AMS math features
+\@mathmargin=\skip51
+
+For additional information on amsmath, use the `?' option.
+(c:/texlive/2025/texmf-dist/tex/latex/amsmath/amstext.sty
+Package: amstext 2021/08/26 v2.01 AMS text
+ (c:/texlive/2025/texmf-dist/tex/latex/amsmath/amsgen.sty
+File: amsgen.sty 1999/11/30 v2.0 generic functions
+\@emptytoks=\toks19
+\ex@=\dimen147
+)) (c:/texlive/2025/texmf-dist/tex/latex/amsmath/amsbsy.sty
+Package: amsbsy 1999/11/29 v1.2d Bold Symbols
+\pmbraise@=\dimen148
+) (c:/texlive/2025/texmf-dist/tex/latex/amsmath/amsopn.sty
+Package: amsopn 2022/04/08 v2.04 operator names
+)
+\inf@bad=\count281
+LaTeX Info: Redefining \frac on input line 233.
+\uproot@=\count282
+\leftroot@=\count283
+LaTeX Info: Redefining \overline on input line 398.
+LaTeX Info: Redefining \colon on input line 409.
+\classnum@=\count284
+\DOTSCASE@=\count285
+LaTeX Info: Redefining \ldots on input line 495.
+LaTeX Info: Redefining \dots on input line 498.
+LaTeX Info: Redefining \cdots on input line 619.
+\Mathstrutbox@=\box53
+\strutbox@=\box54
+LaTeX Info: Redefining \big on input line 721.
+LaTeX Info: Redefining \Big on input line 722.
+LaTeX Info: Redefining \bigg on input line 723.
+LaTeX Info: Redefining \Bigg on input line 724.
+\big@size=\dimen149
+LaTeX Font Info:    Redeclaring font encoding OML on input line 742.
+LaTeX Font Info:    Redeclaring font encoding OMS on input line 743.
+\macc@depth=\count286
+LaTeX Info: Redefining \bmod on input line 904.
+LaTeX Info: Redefining \pmod on input line 909.
+LaTeX Info: Redefining \smash on input line 939.
+LaTeX Info: Redefining \relbar on input line 969.
+LaTeX Info: Redefining \Relbar on input line 970.
+\c@MaxMatrixCols=\count287
+\dotsspace@=\muskip17
+\c@parentequation=\count288
+\dspbrk@lvl=\count289
+\tag@help=\toks20
+\row@=\count290
+\column@=\count291
+\maxfields@=\count292
+\andhelp@=\toks21
+\eqnshift@=\dimen150
+\alignsep@=\dimen151
+\tagshift@=\dimen152
+\tagwidth@=\dimen153
+\totwidth@=\dimen154
+\lineht@=\dimen155
+\@envbody=\toks22
+\multlinegap=\skip52
+\multlinetaggap=\skip53
+\mathdisplay@stack=\toks23
+LaTeX Info: Redefining \[ on input line 2953.
+LaTeX Info: Redefining \] on input line 2954.
+) (c:/texlive/2025/texmf-dist/tex/latex/amsfonts/amsfonts.sty
+Package: amsfonts 2013/01/14 v3.01 Basic AMSFonts support
+\symAMSa=\mathgroup4
+\symAMSb=\mathgroup5
+LaTeX Font Info:    Redeclaring math symbol \hbar on input line 98.
+LaTeX Font Info:    Overwriting math alphabet `\mathfrak' in version `bold'
+(Font)                  U/euf/m/n --> U/euf/b/n on input line 106.
+) (c:/texlive/2025/texmf-dist/tex/latex/amsfonts/amssymb.sty
+Package: amssymb 2013/01/14 v3.01 AMS font symbols
+) (c:/texlive/2025/texmf-dist/tex/latex/graphics/graphicx.sty
+Package: graphicx 2021/09/16 v1.2d Enhanced LaTeX Graphics (DPC,SPQR)
+ (c:/texlive/2025/texmf-dist/tex/latex/graphics/keyval.sty
+Package: keyval 2022/05/29 v1.15 key=value parser (DPC)
+\KV@toks@=\toks24
+) (c:/texlive/2025/texmf-dist/tex/latex/graphics/graphics.sty
+Package: graphics 2024/08/06 v1.4g Standard LaTeX Graphics (DPC,SPQR)
+ (c:/texlive/2025/texmf-dist/tex/latex/graphics/trig.sty
+Package: trig 2023/12/02 v1.11 sin cos tan (DPC)
+) (c:/texlive/2025/texmf-dist/tex/latex/graphics-cfg/graphics.cfg
+File: graphics.cfg 2016/06/04 v1.11 sample graphics configuration
+)
+Package graphics Info: Driver file: pdftex.def on input line 106.
+ (c:/texlive/2025/texmf-dist/tex/latex/graphics-def/pdftex.def
+File: pdftex.def 2024/04/13 v1.2c Graphics/color driver for pdftex
+))
+\Gin@req@height=\dimen156
+\Gin@req@width=\dimen157
+) (c:/texlive/2025/texmf-dist/tex/latex/tools/longtable.sty
+Package: longtable 2024-10-27 v4.22 Multi-page Table package (DPC)
+\LTleft=\skip54
+\LTright=\skip55
+\LTpre=\skip56
+\LTpost=\skip57
+\LTchunksize=\count293
+\LTcapwidth=\dimen158
+\LT@head=\box55
+\LT@firsthead=\box56
+\LT@foot=\box57
+\LT@lastfoot=\box58
+\LT@gbox=\box59
+\LT@cols=\count294
+\LT@rows=\count295
+\c@LT@tables=\count296
+\c@LT@chunks=\count297
+\LT@p@ftn=\toks25
+) (c:/texlive/2025/texmf-dist/tex/latex/caption/caption.sty
+Package: caption 2023/08/05 v3.6o Customizing captions (AR)
+ (c:/texlive/2025/texmf-dist/tex/latex/caption/caption3.sty
+Package: caption3 2023/07/31 v2.4d caption3 kernel (AR)
+\caption@tempdima=\dimen159
+\captionmargin=\dimen160
+\caption@leftmargin=\dimen161
+\caption@rightmargin=\dimen162
+\caption@width=\dimen163
+\caption@indent=\dimen164
+\caption@parindent=\dimen165
+\caption@hangindent=\dimen166
+Package caption Info: Standard document class detected.
+)
+\c@caption@flags=\count298
+\c@continuedfloat=\count299
+Package caption Info: longtable package is loaded.
+ (c:/texlive/2025/texmf-dist/tex/latex/caption/ltcaption.sty
+Package: ltcaption 2021/01/08 v1.4c longtable captions (AR)
+)) (c:/texlive/2025/texmf-dist/tex/latex/booktabs/booktabs.sty
+Package: booktabs 2020/01/12 v1.61803398 Publication quality tables
+\heavyrulewidth=\dimen167
+\lightrulewidth=\dimen168
+\cmidrulewidth=\dimen169
+\belowrulesep=\dimen170
+\belowbottomsep=\dimen171
+\aboverulesep=\dimen172
+\abovetopsep=\dimen173
+\cmidrulesep=\dimen174
+\cmidrulekern=\dimen175
+\defaultaddspace=\dimen176
+\@cmidla=\count300
+\@cmidlb=\count301
+\@aboverulesep=\dimen177
+\@belowrulesep=\dimen178
+\@thisruleclass=\count302
+\@lastruleclass=\count303
+\@thisrulewidth=\dimen179
+) (c:/texlive/2025/texmf-dist/tex/latex/geometry/geometry.sty
+Package: geometry 2020/01/02 v5.9 Page Geometry
+ (c:/texlive/2025/texmf-dist/tex/generic/iftex/ifvtex.sty
+Package: ifvtex 2019/10/25 v1.7 ifvtex legacy package. Use iftex instead.
+ (c:/texlive/2025/texmf-dist/tex/generic/iftex/iftex.sty
+Package: iftex 2024/12/12 v1.0g TeX engine tests
+))
+\Gm@cnth=\count304
+\Gm@cntv=\count305
+\c@Gm@tempcnt=\count306
+\Gm@bindingoffset=\dimen180
+\Gm@wd@mp=\dimen181
+\Gm@odd@mp=\dimen182
+\Gm@even@mp=\dimen183
+\Gm@layoutwidth=\dimen184
+\Gm@layoutheight=\dimen185
+\Gm@layouthoffset=\dimen186
+\Gm@layoutvoffset=\dimen187
+\Gm@dimlist=\toks26
+) (c:/texlive/2025/texmf-dist/tex/latex/titlesec/titlesec.sty
+Package: titlesec 2025/01/04 v2.17 Sectioning titles
+\ttl@box=\box60
+\beforetitleunit=\skip58
+\aftertitleunit=\skip59
+\ttl@plus=\dimen188
+\ttl@minus=\dimen189
+\ttl@toksa=\toks27
+\titlewidth=\dimen190
+\titlewidthlast=\dimen191
+\titlewidthfirst=\dimen192
+) (c:/texlive/2025/texmf-dist/tex/latex/koma-script/scrextend.sty
+Package: scrextend 2024/10/24 v3.43 KOMA-Script package (extend other classes with features of KOMA-Script classes)
+ (c:/texlive/2025/texmf-dist/tex/latex/koma-script/scrkbase.sty
+Package: scrkbase 2024/10/24 v3.43 KOMA-Script package (KOMA-Script-dependent basics and keyval usage)
+ (c:/texlive/2025/texmf-dist/tex/latex/koma-script/scrbase.sty
+Package: scrbase 2024/10/24 v3.43 KOMA-Script package (KOMA-Script-independent basics and keyval usage)
+ (c:/texlive/2025/texmf-dist/tex/latex/koma-script/scrlfile.sty
+Package: scrlfile 2024/10/24 v3.43 KOMA-Script package (file load hooks)
+ (c:/texlive/2025/texmf-dist/tex/latex/koma-script/scrlfile-hook.sty
+Package: scrlfile-hook 2024/10/24 v3.43 KOMA-Script package (using LaTeX hooks)
+ (c:/texlive/2025/texmf-dist/tex/latex/koma-script/scrlogo.sty
+Package: scrlogo 2024/10/24 v3.43 KOMA-Script package (logo)
+)))
+Applying: [2021/05/01] Usage of raw or classic option list on input line 254.
+Already applied: [0000/00/00] Usage of raw or classic option list on input line 370.
+))) (c:/texlive/2025/texmf-dist/tex/latex/tools/enumerate.sty
+Package: enumerate 2023/07/04 v3.00 enumerate extensions (DPC)
+\@enLab=\toks28
+) (c:/texlive/2025/texmf-dist/tex/latex/pgf/frontendlayer/tikz.sty (c:/texlive/2025/texmf-dist/tex/latex/pgf/basiclayer/pgf.sty (c:/texlive/2025/texmf-dist/tex/latex/pgf/utilities/pgfrcs.sty (c:/texlive/2025/texmf-dist/tex/generic/pgf/utilities/pgfutil-common.tex
+\pgfutil@everybye=\toks29
+\pgfutil@tempdima=\dimen193
+\pgfutil@tempdimb=\dimen194
+) (c:/texlive/2025/texmf-dist/tex/generic/pgf/utilities/pgfutil-latex.def
+\pgfutil@abb=\box61
+) (c:/texlive/2025/texmf-dist/tex/generic/pgf/utilities/pgfrcs.code.tex (c:/texlive/2025/texmf-dist/tex/generic/pgf/pgf.revision.tex)
+Package: pgfrcs 2023-01-15 v3.1.10 (3.1.10)
+))
+Package: pgf 2023-01-15 v3.1.10 (3.1.10)
+ (c:/texlive/2025/texmf-dist/tex/latex/pgf/basiclayer/pgfcore.sty (c:/texlive/2025/texmf-dist/tex/latex/pgf/systemlayer/pgfsys.sty (c:/texlive/2025/texmf-dist/tex/generic/pgf/systemlayer/pgfsys.code.tex
+Package: pgfsys 2023-01-15 v3.1.10 (3.1.10)
+ (c:/texlive/2025/texmf-dist/tex/generic/pgf/utilities/pgfkeys.code.tex
+\pgfkeys@pathtoks=\toks30
+\pgfkeys@temptoks=\toks31
+ (c:/texlive/2025/texmf-dist/tex/generic/pgf/utilities/pgfkeyslibraryfiltered.code.tex
+\pgfkeys@tmptoks=\toks32
+))
+\pgf@x=\dimen195
+\pgf@y=\dimen196
+\pgf@xa=\dimen197
+\pgf@ya=\dimen198
+\pgf@xb=\dimen199
+\pgf@yb=\dimen256
+\pgf@xc=\dimen257
+\pgf@yc=\dimen258
+\pgf@xd=\dimen259
+\pgf@yd=\dimen260
+\w@pgf@writea=\write3
+\r@pgf@reada=\read2
+\c@pgf@counta=\count307
+\c@pgf@countb=\count308
+\c@pgf@countc=\count309
+\c@pgf@countd=\count310
+\t@pgf@toka=\toks33
+\t@pgf@tokb=\toks34
+\t@pgf@tokc=\toks35
+\pgf@sys@id@count=\count311
+ (c:/texlive/2025/texmf-dist/tex/generic/pgf/systemlayer/pgf.cfg
+File: pgf.cfg 2023-01-15 v3.1.10 (3.1.10)
+)
+Driver file for pgf: pgfsys-pdftex.def
+ (c:/texlive/2025/texmf-dist/tex/generic/pgf/systemlayer/pgfsys-pdftex.def
+File: pgfsys-pdftex.def 2023-01-15 v3.1.10 (3.1.10)
+ (c:/texlive/2025/texmf-dist/tex/generic/pgf/systemlayer/pgfsys-common-pdf.def
+File: pgfsys-common-pdf.def 2023-01-15 v3.1.10 (3.1.10)
+))) (c:/texlive/2025/texmf-dist/tex/generic/pgf/systemlayer/pgfsyssoftpath.code.tex
+File: pgfsyssoftpath.code.tex 2023-01-15 v3.1.10 (3.1.10)
+\pgfsyssoftpath@smallbuffer@items=\count312
+\pgfsyssoftpath@bigbuffer@items=\count313
+) (c:/texlive/2025/texmf-dist/tex/generic/pgf/systemlayer/pgfsysprotocol.code.tex
+File: pgfsysprotocol.code.tex 2023-01-15 v3.1.10 (3.1.10)
+)) (c:/texlive/2025/texmf-dist/tex/latex/xcolor/xcolor.sty
+Package: xcolor 2024/09/29 v3.02 LaTeX color extensions (UK)
+ (c:/texlive/2025/texmf-dist/tex/latex/graphics-cfg/color.cfg
+File: color.cfg 2016/01/02 v1.6 sample color configuration
+)
+Package xcolor Info: Driver file: pdftex.def on input line 274.
+ (c:/texlive/2025/texmf-dist/tex/latex/graphics/mathcolor.ltx)
+Package xcolor Info: Model `cmy' substituted by `cmy0' on input line 1349.
+Package xcolor Info: Model `hsb' substituted by `rgb' on input line 1353.
+Package xcolor Info: Model `RGB' extended on input line 1365.
+Package xcolor Info: Model `HTML' substituted by `rgb' on input line 1367.
+Package xcolor Info: Model `Hsb' substituted by `hsb' on input line 1368.
+Package xcolor Info: Model `tHsb' substituted by `hsb' on input line 1369.
+Package xcolor Info: Model `HSB' substituted by `hsb' on input line 1370.
+Package xcolor Info: Model `Gray' substituted by `gray' on input line 1371.
+Package xcolor Info: Model `wave' substituted by `hsb' on input line 1372.
+) (c:/texlive/2025/texmf-dist/tex/generic/pgf/basiclayer/pgfcore.code.tex
+Package: pgfcore 2023-01-15 v3.1.10 (3.1.10)
+ (c:/texlive/2025/texmf-dist/tex/generic/pgf/math/pgfmath.code.tex (c:/texlive/2025/texmf-dist/tex/generic/pgf/math/pgfmathutil.code.tex) (c:/texlive/2025/texmf-dist/tex/generic/pgf/math/pgfmathparser.code.tex
+\pgfmath@dimen=\dimen261
+\pgfmath@count=\count314
+\pgfmath@box=\box62
+\pgfmath@toks=\toks36
+\pgfmath@stack@operand=\toks37
+\pgfmath@stack@operation=\toks38
+) (c:/texlive/2025/texmf-dist/tex/generic/pgf/math/pgfmathfunctions.code.tex) (c:/texlive/2025/texmf-dist/tex/generic/pgf/math/pgfmathfunctions.basic.code.tex) (c:/texlive/2025/texmf-dist/tex/generic/pgf/math/pgfmathfunctions.trigonometric.code.tex) (c:/texlive/2025/texmf-dist/tex/generic/pgf/math/pgfmathfunctions.random.code.tex) (c:/texlive/2025/texmf-dist/tex/generic/pgf/math/pgfmathfunctions.comparison.code.tex) (c:/texlive/2025/texmf-dist/tex/generic/pgf/math/pgfmathfunctions.base.code.tex) (c:/texlive/2025/texmf-dist/tex/generic/pgf/math/pgfmathfunctions.round.code.tex) (c:/texlive/2025/texmf-dist/tex/generic/pgf/math/pgfmathfunctions.misc.code.tex) (c:/texlive/2025/texmf-dist/tex/generic/pgf/math/pgfmathfunctions.integerarithmetics.code.tex) (c:/texlive/2025/texmf-dist/tex/generic/pgf/math/pgfmathcalc.code.tex) (c:/texlive/2025/texmf-dist/tex/generic/pgf/math/pgfmathfloat.code.tex
+\c@pgfmathroundto@lastzeros=\count315
+)) (c:/texlive/2025/texmf-dist/tex/generic/pgf/math/pgfint.code.tex) (c:/texlive/2025/texmf-dist/tex/generic/pgf/basiclayer/pgfcorepoints.code.tex
+File: pgfcorepoints.code.tex 2023-01-15 v3.1.10 (3.1.10)
+\pgf@picminx=\dimen262
+\pgf@picmaxx=\dimen263
+\pgf@picminy=\dimen264
+\pgf@picmaxy=\dimen265
+\pgf@pathminx=\dimen266
+\pgf@pathmaxx=\dimen267
+\pgf@pathminy=\dimen268
+\pgf@pathmaxy=\dimen269
+\pgf@xx=\dimen270
+\pgf@xy=\dimen271
+\pgf@yx=\dimen272
+\pgf@yy=\dimen273
+\pgf@zx=\dimen274
+\pgf@zy=\dimen275
+) (c:/texlive/2025/texmf-dist/tex/generic/pgf/basiclayer/pgfcorepathconstruct.code.tex
+File: pgfcorepathconstruct.code.tex 2023-01-15 v3.1.10 (3.1.10)
+\pgf@path@lastx=\dimen276
+\pgf@path@lasty=\dimen277
+) (c:/texlive/2025/texmf-dist/tex/generic/pgf/basiclayer/pgfcorepathusage.code.tex
+File: pgfcorepathusage.code.tex 2023-01-15 v3.1.10 (3.1.10)
+\pgf@shorten@end@additional=\dimen278
+\pgf@shorten@start@additional=\dimen279
+) (c:/texlive/2025/texmf-dist/tex/generic/pgf/basiclayer/pgfcorescopes.code.tex
+File: pgfcorescopes.code.tex 2023-01-15 v3.1.10 (3.1.10)
+\pgfpic=\box63
+\pgf@hbox=\box64
+\pgf@layerbox@main=\box65
+\pgf@picture@serial@count=\count316
+) (c:/texlive/2025/texmf-dist/tex/generic/pgf/basiclayer/pgfcoregraphicstate.code.tex
+File: pgfcoregraphicstate.code.tex 2023-01-15 v3.1.10 (3.1.10)
+\pgflinewidth=\dimen280
+) (c:/texlive/2025/texmf-dist/tex/generic/pgf/basiclayer/pgfcoretransformations.code.tex
+File: pgfcoretransformations.code.tex 2023-01-15 v3.1.10 (3.1.10)
+\pgf@pt@x=\dimen281
+\pgf@pt@y=\dimen282
+\pgf@pt@temp=\dimen283
+) (c:/texlive/2025/texmf-dist/tex/generic/pgf/basiclayer/pgfcorequick.code.tex
+File: pgfcorequick.code.tex 2023-01-15 v3.1.10 (3.1.10)
+) (c:/texlive/2025/texmf-dist/tex/generic/pgf/basiclayer/pgfcoreobjects.code.tex
+File: pgfcoreobjects.code.tex 2023-01-15 v3.1.10 (3.1.10)
+) (c:/texlive/2025/texmf-dist/tex/generic/pgf/basiclayer/pgfcorepathprocessing.code.tex
+File: pgfcorepathprocessing.code.tex 2023-01-15 v3.1.10 (3.1.10)
+) (c:/texlive/2025/texmf-dist/tex/generic/pgf/basiclayer/pgfcorearrows.code.tex
+File: pgfcorearrows.code.tex 2023-01-15 v3.1.10 (3.1.10)
+\pgfarrowsep=\dimen284
+) (c:/texlive/2025/texmf-dist/tex/generic/pgf/basiclayer/pgfcoreshade.code.tex
+File: pgfcoreshade.code.tex 2023-01-15 v3.1.10 (3.1.10)
+\pgf@max=\dimen285
+\pgf@sys@shading@range@num=\count317
+\pgf@shadingcount=\count318
+) (c:/texlive/2025/texmf-dist/tex/generic/pgf/basiclayer/pgfcoreimage.code.tex
+File: pgfcoreimage.code.tex 2023-01-15 v3.1.10 (3.1.10)
+) (c:/texlive/2025/texmf-dist/tex/generic/pgf/basiclayer/pgfcoreexternal.code.tex
+File: pgfcoreexternal.code.tex 2023-01-15 v3.1.10 (3.1.10)
+\pgfexternal@startupbox=\box66
+) (c:/texlive/2025/texmf-dist/tex/generic/pgf/basiclayer/pgfcorelayers.code.tex
+File: pgfcorelayers.code.tex 2023-01-15 v3.1.10 (3.1.10)
+) (c:/texlive/2025/texmf-dist/tex/generic/pgf/basiclayer/pgfcoretransparency.code.tex
+File: pgfcoretransparency.code.tex 2023-01-15 v3.1.10 (3.1.10)
+) (c:/texlive/2025/texmf-dist/tex/generic/pgf/basiclayer/pgfcorepatterns.code.tex
+File: pgfcorepatterns.code.tex 2023-01-15 v3.1.10 (3.1.10)
+) (c:/texlive/2025/texmf-dist/tex/generic/pgf/basiclayer/pgfcorerdf.code.tex
+File: pgfcorerdf.code.tex 2023-01-15 v3.1.10 (3.1.10)
+))) (c:/texlive/2025/texmf-dist/tex/generic/pgf/modules/pgfmoduleshapes.code.tex
+File: pgfmoduleshapes.code.tex 2023-01-15 v3.1.10 (3.1.10)
+\pgfnodeparttextbox=\box67
+) (c:/texlive/2025/texmf-dist/tex/generic/pgf/modules/pgfmoduleplot.code.tex
+File: pgfmoduleplot.code.tex 2023-01-15 v3.1.10 (3.1.10)
+) (c:/texlive/2025/texmf-dist/tex/latex/pgf/compatibility/pgfcomp-version-0-65.sty
+Package: pgfcomp-version-0-65 2023-01-15 v3.1.10 (3.1.10)
+\pgf@nodesepstart=\dimen286
+\pgf@nodesepend=\dimen287
+) (c:/texlive/2025/texmf-dist/tex/latex/pgf/compatibility/pgfcomp-version-1-18.sty
+Package: pgfcomp-version-1-18 2023-01-15 v3.1.10 (3.1.10)
+)) (c:/texlive/2025/texmf-dist/tex/latex/pgf/utilities/pgffor.sty (c:/texlive/2025/texmf-dist/tex/latex/pgf/utilities/pgfkeys.sty (c:/texlive/2025/texmf-dist/tex/generic/pgf/utilities/pgfkeys.code.tex)) (c:/texlive/2025/texmf-dist/tex/latex/pgf/math/pgfmath.sty (c:/texlive/2025/texmf-dist/tex/generic/pgf/math/pgfmath.code.tex)) (c:/texlive/2025/texmf-dist/tex/generic/pgf/utilities/pgffor.code.tex
+Package: pgffor 2023-01-15 v3.1.10 (3.1.10)
+\pgffor@iter=\dimen288
+\pgffor@skip=\dimen289
+\pgffor@stack=\toks39
+\pgffor@toks=\toks40
+)) (c:/texlive/2025/texmf-dist/tex/generic/pgf/frontendlayer/tikz/tikz.code.tex
+Package: tikz 2023-01-15 v3.1.10 (3.1.10)
+ (c:/texlive/2025/texmf-dist/tex/generic/pgf/libraries/pgflibraryplothandlers.code.tex
+File: pgflibraryplothandlers.code.tex 2023-01-15 v3.1.10 (3.1.10)
+\pgf@plot@mark@count=\count319
+\pgfplotmarksize=\dimen290
+)
+\tikz@lastx=\dimen291
+\tikz@lasty=\dimen292
+\tikz@lastxsaved=\dimen293
+\tikz@lastysaved=\dimen294
+\tikz@lastmovetox=\dimen295
+\tikz@lastmovetoy=\dimen296
+\tikzleveldistance=\dimen297
+\tikzsiblingdistance=\dimen298
+\tikz@figbox=\box68
+\tikz@figbox@bg=\box69
+\tikz@tempbox=\box70
+\tikz@tempbox@bg=\box71
+\tikztreelevel=\count320
+\tikznumberofchildren=\count321
+\tikznumberofcurrentchild=\count322
+\tikz@fig@count=\count323
+ (c:/texlive/2025/texmf-dist/tex/generic/pgf/modules/pgfmodulematrix.code.tex
+File: pgfmodulematrix.code.tex 2023-01-15 v3.1.10 (3.1.10)
+\pgfmatrixcurrentrow=\count324
+\pgfmatrixcurrentcolumn=\count325
+\pgf@matrix@numberofcolumns=\count326
+)
+\tikz@expandcount=\count327
+ (c:/texlive/2025/texmf-dist/tex/generic/pgf/frontendlayer/tikz/libraries/tikzlibrarytopaths.code.tex
+File: tikzlibrarytopaths.code.tex 2023-01-15 v3.1.10 (3.1.10)
+))) (c:/texlive/2025/texmf-dist/tex/latex/float/float.sty
+Package: float 2001/11/08 v1.3d Float enhancements (AL)
+\c@float@type=\count328
+\float@exts=\toks41
+\float@box=\box72
+\@float@everytoks=\toks42
+\@floatcapt=\box73
+) (c:/texlive/2025/texmf-dist/tex/latex/tools/afterpage.sty
+Package: afterpage 2023/07/04 v1.08 After-Page Package (DPC)
+\AP@output=\toks43
+\AP@partial=\box74
+\AP@footins=\box75
+) (c:/texlive/2025/texmf-dist/tex/latex/multirow/multirow.sty
+Package: multirow 2024/11/12 v2.9 Span multiple rows of a table
+\multirow@colwidth=\skip60
+\multirow@cntb=\count329
+\multirow@dima=\skip61
+\bigstrutjot=\dimen299
+) (c:/texlive/2025/texmf-dist/tex/latex/sectsty/sectsty.sty
+Package: sectsty 2002/02/25 v2.0.2 Commands to change all sectional heading styles
+
+
+LaTeX Warning: Command \underbar  has changed.
+               Check if current package is valid.
+
+
+LaTeX Warning: Command \underline  has changed.
+               Check if current package is valid.
+
+) (c:/texlive/2025/texmf-dist/tex/latex/tocloft/tocloft.sty
+Package: tocloft 2017/08/31 v2.3i parameterised ToC, etc., typesetting
+Package tocloft Info: The document has chapter divisions on input line 51.
+\cftparskip=\skip62
+\cftbeforetoctitleskip=\skip63
+\cftaftertoctitleskip=\skip64
+\cftbeforepartskip=\skip65
+\cftpartnumwidth=\skip66
+\cftpartindent=\skip67
+\cftbeforechapskip=\skip68
+\cftchapindent=\skip69
+\cftchapnumwidth=\skip70
+\cftbeforesecskip=\skip71
+\cftsecindent=\skip72
+\cftsecnumwidth=\skip73
+\cftbeforesubsecskip=\skip74
+\cftsubsecindent=\skip75
+\cftsubsecnumwidth=\skip76
+\cftbeforesubsubsecskip=\skip77
+\cftsubsubsecindent=\skip78
+\cftsubsubsecnumwidth=\skip79
+\cftbeforeparaskip=\skip80
+\cftparaindent=\skip81
+\cftparanumwidth=\skip82
+\cftbeforesubparaskip=\skip83
+\cftsubparaindent=\skip84
+\cftsubparanumwidth=\skip85
+\cftbeforeloftitleskip=\skip86
+\cftafterloftitleskip=\skip87
+\cftbeforefigskip=\skip88
+\cftfigindent=\skip89
+\cftfignumwidth=\skip90
+\c@lofdepth=\count330
+\c@lotdepth=\count331
+\cftbeforelottitleskip=\skip91
+\cftafterlottitleskip=\skip92
+\cftbeforetabskip=\skip93
+\cfttabindent=\skip94
+\cfttabnumwidth=\skip95
+) (c:/texlive/2025/texmf-dist/tex/latex/tools/calc.sty
+Package: calc 2023/07/08 v4.3 Infix arithmetic (KKT,FJ)
+\calc@Acount=\count332
+\calc@Bcount=\count333
+\calc@Adimen=\dimen300
+\calc@Bdimen=\dimen301
+\calc@Askip=\skip96
+\calc@Bskip=\skip97
+LaTeX Info: Redefining \setlength on input line 80.
+LaTeX Info: Redefining \addtolength on input line 81.
+\calc@Ccount=\count334
+\calc@Cskip=\skip98
+) (c:/texlive/2025/texmf-dist/tex/latex/listings/listings.sty
+\lst@mode=\count335
+\lst@gtempboxa=\box76
+\lst@token=\toks44
+\lst@length=\count336
+\lst@currlwidth=\dimen302
+\lst@column=\count337
+\lst@pos=\count338
+\lst@lostspace=\dimen303
+\lst@width=\dimen304
+\lst@newlines=\count339
+\lst@lineno=\count340
+\lst@maxwidth=\dimen305
+ (c:/texlive/2025/texmf-dist/tex/latex/listings/lstpatch.sty
+File: lstpatch.sty 2024/09/23 1.10c (Carsten Heinz)
+) (c:/texlive/2025/texmf-dist/tex/latex/listings/lstmisc.sty
+File: lstmisc.sty 2024/09/23 1.10c (Carsten Heinz)
+\c@lstnumber=\count341
+\lst@skipnumbers=\count342
+\lst@framebox=\box77
+) (c:/texlive/2025/texmf-dist/tex/latex/listings/listings.cfg
+File: listings.cfg 2024/09/23 1.10c listings configuration
+))
+Package: listings 2024/09/23 1.10c (Carsten Heinz)
+ (c:/texlive/2025/texmf-dist/tex/latex/makecell/makecell.sty
+Package: makecell 2009/08/03 V0.1e Managing of Tab Column Heads and Cells
+ (c:/texlive/2025/texmf-dist/tex/latex/tools/array.sty
+Package: array 2024/10/17 v2.6g Tabular extension package (FMi)
+\col@sep=\dimen306
+\ar@mcellbox=\box78
+\extrarowheight=\dimen307
+\NC@list=\toks45
+\extratabsurround=\skip99
+\backup@length=\skip100
+\ar@cellbox=\box79
+)
+\rotheadsize=\dimen308
+\c@nlinenum=\count343
+\TeXr@lab=\toks46
+) (c:/texlive/2025/texmf-dist/tex/latex/natbib/natbib.sty
+Package: natbib 2010/09/13 8.31b (PWD, AO)
+\bibhang=\skip101
+\bibsep=\skip102
+LaTeX Info: Redefining \cite on input line 694.
+\c@NAT@ctr=\count344
+) (c:/texlive/2025/texmf-dist/tex/latex/physics/physics.sty
+Package: physics 
+ (c:/texlive/2025/texmf-dist/tex/latex/l3packages/xparse/xparse.sty (c:/texlive/2025/texmf-dist/tex/latex/l3kernel/expl3.sty
+Package: expl3 2025-04-14 L3 programming layer (loader) 
+ (c:/texlive/2025/texmf-dist/tex/latex/l3backend/l3backend-pdftex.def
+File: l3backend-pdftex.def 2025-04-14 L3 backend support: PDF output (pdfTeX)
+\l__color_backend_stack_int=\count345
+))
+Package: xparse 2024-08-16 L3 Experimental document command parser
+)) (c:/texlive/2025/texmf-dist/tex/latex/tools/bm.sty
+Package: bm 2023/12/19 v1.2f Bold Symbol Support (DPC/FMi)
+\symboldoperators=\mathgroup6
+\symboldletters=\mathgroup7
+\symboldsymbols=\mathgroup8
+Package bm Info: No bold for \OMX/cmex/m/n, using \pmb.
+Package bm Info: No bold for \U/msa/m/n, using \pmb.
+Package bm Info: No bold for \U/msb/m/n, using \pmb.
+LaTeX Font Info:    Redeclaring math alphabet \mathbf on input line 149.
+) (c:/texlive/2025/texmf-dist/tex/latex/caption/subcaption.sty
+Package: subcaption 2023/07/28 v1.6b Sub-captions (AR)
+Package caption Info: New subtype `subfigure' on input line 238.
+\c@subfigure=\count346
+Package caption Info: New subtype `subtable' on input line 238.
+\c@subtable=\count347
+) (c:/texlive/2025/texmf-dist/tex/generic/pgf/frontendlayer/tikz/libraries/tikzlibrarycalc.code.tex
+File: tikzlibrarycalc.code.tex 2023-01-15 v3.1.10 (3.1.10)
+) (c:/texlive/2025/texmf-dist/tex/latex/algorithms/algorithm.sty
+Package: algorithm 2009/08/24 v0.1 Document Style `algorithm' - floating environment
+\@float@every@algorithm=\toks47
+\c@algorithm=\count348
+) (c:/texlive/2025/texmf-dist/tex/latex/bigfoot/perpage.sty
+Package: perpage 2014/10/25 2.0 Reset/sort counters per page
+\c@abspage=\count349
+)
+\c@pp@a@footnote=\count350
+
+
+LaTeX Warning: Unused global option(s):
+    [13pt].
+
+No file thesis.aux.
+\openout1 = `thesis.aux'.
+
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 69.
+LaTeX Font Info:    ... okay on input line 69.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 69.
+LaTeX Font Info:    ... okay on input line 69.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 69.
+LaTeX Font Info:    ... okay on input line 69.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 69.
+LaTeX Font Info:    ... okay on input line 69.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 69.
+LaTeX Font Info:    ... okay on input line 69.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 69.
+LaTeX Font Info:    ... okay on input line 69.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 69.
+LaTeX Font Info:    ... okay on input line 69.
+LaTeX Font Info:    Checking defaults for T5/cmr/m/n on input line 69.
+LaTeX Font Info:    ... okay on input line 69.
+(c:/texlive/2025/texmf-dist/tex/context/base/mkii/supp-pdf.mkii
+[Loading MPS to PDF converter (version 2006.09.02).]
+\scratchcounter=\count351
+\scratchdimen=\dimen309
+\scratchbox=\box80
+\nofMPsegments=\count352
+\nofMParguments=\count353
+\everyMPshowfont=\toks48
+\MPscratchCnt=\count354
+\MPscratchDim=\dimen310
+\MPnumerator=\count355
+\makeMPintoPDFobject=\count356
+\everyMPtoPDFconversion=\toks49
+) (c:/texlive/2025/texmf-dist/tex/latex/epstopdf-pkg/epstopdf-base.sty
+Package: epstopdf-base 2020-01-24 v2.11 Base part for package epstopdf
+Package epstopdf-base Info: Redefining graphics rule for `.eps' on input line 485.
+ (c:/texlive/2025/texmf-dist/tex/latex/latexconfig/epstopdf-sys.cfg
+File: epstopdf-sys.cfg 2010/07/13 v1.3 Configuration of (r)epstopdf for TeX Live
+))
+Package caption Info: Begin \AtBeginDocument code.
+Package caption Info: float package is loaded.
+Package caption Info: listings package is loaded.
+Package caption Info: scrextend package is loaded.
+\caption@addmargin@hsize=\dimen311
+\caption@addmargin@linewidth=\dimen312
+Package caption Info: End \AtBeginDocument code.
+
+*geometry* driver: auto-detecting
+*geometry* detected driver: pdftex
+*geometry* verbose mode - [ preamble ] result:
+* driver: pdftex
+* paper: a4paper
+* layout: <same size as paper>
+* layoutoffset:(h,v)=(0.0pt,0.0pt)
+* modes: 
+* h-part:(L,W,R)=(85.35826pt, 455.24411pt, 56.9055pt)
+* v-part:(T,H,B)=(71.13188pt, 688.5567pt, 85.35826pt)
+* \paperwidth=597.50787pt
+* \paperheight=845.04684pt
+* \textwidth=455.24411pt
+* \textheight=688.5567pt
+* \oddsidemargin=13.08827pt
+* \evensidemargin=13.08827pt
+* \topmargin=-38.1381pt
+* \headheight=12.0pt
+* \headsep=25.0pt
+* \topskip=10.0pt
+* \footskip=30.0pt
+* \marginparwidth=57.0pt
+* \marginparsep=11.0pt
+* \columnsep=10.0pt
+* \skip\footins=11.69997pt plus 5.19942pt minus 2.60054pt
+* \hoffset=0.0pt
+* \voffset=0.0pt
+* \mag=1000
+* \@twocolumnfalse
+* \@twosidefalse
+* \@mparswitchfalse
+* \@reversemarginfalse
+* (1in=72.27pt=25.4mm, 1cm=28.453pt)
+
+\c@lstlisting=\count357
+(./cover.tex
+<figures/uet.jpg, id=4, 1125.20375pt x 1125.20375pt>
+File: figures/uet.jpg Graphic file (type jpg)
+<use figures/uet.jpg>
+Package pdftex.def Info: figures/uet.jpg  used on input line 22.
+(pdftex.def)             Requested size: 91.04742pt x 91.03111pt.
+File: figures/uet.jpg Graphic file (type jpg)
+<use figures/uet.jpg>
+Package pdftex.def Info: figures/uet.jpg  used on input line 53.
+(pdftex.def)             Requested size: 91.04742pt x 91.03111pt.
+
+
+[1
+
+{c:/texlive/2025/texmf-var/fonts/map/pdftex/updmap/pdftex.map} <./figures/uet.jpg>]
+File: figures/uet.jpg Graphic file (type jpg)
+<use figures/uet.jpg>
+Package pdftex.def Info: figures/uet.jpg  used on input line 90.
+(pdftex.def)             Requested size: 91.04742pt x 91.03111pt.
+
+
+[2])
+
+[3] (./chapters/acknowledgement.tex)
+
+[4
+
+
+] (./chapters/assurance.tex
+Underfull \hbox (badness 10000) in paragraph at lines 16--18
+
+ []
+
+)
+
+[1
+
+
+] (./chapters/abtract_vi.tex
+
+Package natbib Warning: Citation `zhao2023aliked' on page ii undefined on input line 8.
+
+
+Package natbib Warning: Citation `lindenberger2023LightGlue' on page ii undefined on input line 8.
+
+
+Package natbib Warning: Citation `Lowe04Distinctive' on page ii undefined on input line 8.
+
+
+Package natbib Warning: Citation `schoenberger2016mvs' on page ii undefined on input line 8.
+
+
+Package natbib Warning: Citation `Mildenhall2020NeRF' on page ii undefined on input line 8.
+
+)
+
+[2
+
+
+] (./chapters/abtract_en.tex
+
+Package natbib Warning: Citation `zhao2023aliked' on page iii undefined on input line 8.
+
+
+Package natbib Warning: Citation `lindenberger2023LightGlue' on page iii undefined on input line 8.
+
+
+Package natbib Warning: Citation `Lowe04Distinctive' on page iii undefined on input line 8.
+
+
+Package natbib Warning: Citation `schoenberger2016mvs' on page iii undefined on input line 8.
+
+
+Package natbib Warning: Citation `Mildenhall2020NeRF' on page iii undefined on input line 8.
+
+)
+
+[3
+
+
+]
+No file thesis.toc.
+\tf@toc=\write4
+\openout4 = `thesis.toc'.
+
+
+
+[4
+
+
+]
+No file thesis.lof.
+\tf@lof=\write5
+\openout5 = `thesis.lof'.
+
+
+
+[5
+
+
+]
+No file thesis.lot.
+\tf@lot=\write6
+\openout6 = `thesis.lot'.
+
+
+
+[6
+
+
+] (./chapters/glossary.tex
+LaTeX Font Info:    Calculating math sizes for size <10.83347> on input line 7.
+
+
+LaTeX Font Warning: Font shape `OT1/cmr/m/n' in size <7.58339> not available
+(Font)              size <8> substituted on input line 7.
+
+
+LaTeX Font Warning: Font shape `OT1/cmr/m/n' in size <5.41673> not available
+(Font)              size <5> substituted on input line 7.
+
+
+LaTeX Font Warning: Font shape `OML/cmm/m/it' in size <7.58339> not available
+(Font)              size <8> substituted on input line 7.
+
+
+LaTeX Font Warning: Font shape `OML/cmm/m/it' in size <5.41673> not available
+(Font)              size <5> substituted on input line 7.
+
+
+LaTeX Font Warning: Font shape `OMS/cmsy/m/n' in size <7.58339> not available
+(Font)              size <8> substituted on input line 7.
+
+
+LaTeX Font Warning: Font shape `OMS/cmsy/m/n' in size <5.41673> not available
+(Font)              size <5> substituted on input line 7.
+
+LaTeX Font Info:    Trying to load font information for U+msa on input line 7.
+(c:/texlive/2025/texmf-dist/tex/latex/amsfonts/umsa.fd
+File: umsa.fd 2013/01/14 v3.01 AMS symbols A
+)
+LaTeX Font Info:    Trying to load font information for U+msb on input line 7.
+ (c:/texlive/2025/texmf-dist/tex/latex/amsfonts/umsb.fd
+File: umsb.fd 2013/01/14 v3.01 AMS symbols B
+)
+
+LaTeX Font Warning: Font shape `OT1/cmr/bx/n' in size <7.58339> not available
+(Font)              size <8> substituted on input line 7.
+
+
+LaTeX Font Warning: Font shape `OT1/cmr/bx/n' in size <5.41673> not available
+(Font)              size <5> substituted on input line 7.
+
+
+LaTeX Font Warning: Font shape `OML/cmm/b/it' in size <7.58339> not available
+(Font)              size <8> substituted on input line 7.
+
+
+LaTeX Font Warning: Font shape `OML/cmm/b/it' in size <5.41673> not available
+(Font)              size <5> substituted on input line 7.
+
+
+LaTeX Font Warning: Font shape `OMS/cmsy/b/n' in size <7.58339> not available
+(Font)              size <8> substituted on input line 7.
+
+
+LaTeX Font Warning: Font shape `OMS/cmsy/b/n' in size <5.41673> not available
+(Font)              size <5> substituted on input line 7.
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 7--7
+|[]
+ []
+
+
+Overfull \hbox (4.58981pt too wide) in paragraph at lines 7--7
+[]
+ []
+
+
+Underfull \hbox (badness 4467) in paragraph at lines 12--12
+[]|\T5/cmr/m/n/13 Phöc düng c§u tróc tø
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 15--15
+[]|\T5/cmr/m/n/13 Differentiable ren-der-ing
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 21--21
+[]|\T5/cmr/m/n/13 T÷ìng quan ch²o ^^_÷ñc
+ []
+
+
+Underfull \hbox (badness 1430) in paragraph at lines 22--22
+\T5/cmr/m/n/13 point Ex-trac-tion and De-
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 24--24
+[]|\T5/cmr/m/n/13 Scale-Invariant Fea-ture
+ []
+
+
+Overfull \hbox (10.16623pt too wide) in alignment at lines 5--28
+ [] [] [] [] 
+ []
+
+)
+
+[7
+
+
+
+] (./chapters/c1/gioi_thieu.tex
+Ch\uhorn \ohorn ng 1.
+(./chapters/c1/li_cho_chon_de_tai.tex
+
+Package natbib Warning: Citation `viettel_construction_2020' on page 1 undefined on input line 2.
+
+
+LaTeX Warning: Reference `fig:gen-3d-pc' on page 1 undefined on input line 4.
+
+
+
+[1
+
+
+
+]
+<figures/c1/gen_3d_pc.png, id=48, 957.5775pt x 407.5225pt>
+File: figures/c1/gen_3d_pc.png Graphic file (type png)
+<use figures/c1/gen_3d_pc.png>
+Package pdftex.def Info: figures/c1/gen_3d_pc.png  used on input line 8.
+(pdftex.def)             Requested size: 364.19667pt x 154.99074pt.
+LaTeX Font Info:    Calculating math sizes for size <13> on input line 13.
+
+
+LaTeX Font Warning: Font shape `OT1/cmr/m/n' in size <13> not available
+(Font)              size <12> substituted on input line 13.
+
+
+LaTeX Font Warning: Font shape `OT1/cmr/m/n' in size <6.5> not available
+(Font)              size <6> substituted on input line 13.
+
+
+LaTeX Font Warning: Font shape `OML/cmm/m/it' in size <13> not available
+(Font)              size <12> substituted on input line 13.
+
+
+LaTeX Font Warning: Font shape `OML/cmm/m/it' in size <6.5> not available
+(Font)              size <6> substituted on input line 13.
+
+
+LaTeX Font Warning: Font shape `OMS/cmsy/m/n' in size <13> not available
+(Font)              size <12> substituted on input line 13.
+
+
+LaTeX Font Warning: Font shape `OMS/cmsy/m/n' in size <6.5> not available
+(Font)              size <6> substituted on input line 13.
+
+
+LaTeX Font Warning: Font shape `OT1/cmr/bx/n' in size <13> not available
+(Font)              size <12> substituted on input line 13.
+
+
+LaTeX Font Warning: Font shape `OT1/cmr/bx/n' in size <6.5> not available
+(Font)              size <6> substituted on input line 13.
+
+
+LaTeX Font Warning: Font shape `OML/cmm/b/it' in size <13> not available
+(Font)              size <12> substituted on input line 13.
+
+
+LaTeX Font Warning: Font shape `OML/cmm/b/it' in size <6.5> not available
+(Font)              size <6> substituted on input line 13.
+
+
+LaTeX Font Warning: Font shape `OMS/cmsy/b/n' in size <13> not available
+(Font)              size <12> substituted on input line 13.
+
+
+LaTeX Font Warning: Font shape `OMS/cmsy/b/n' in size <6.5> not available
+(Font)              size <6> substituted on input line 13.
+
+
+Package natbib Warning: Citation `xu2022critical' on page 2 undefined on input line 13.
+
+
+
+[2 <./figures/c1/gen_3d_pc.png>]
+
+LaTeX Font Warning: Font shape `TS1/cmr/m/n' in size <13> not available
+(Font)              size <12> substituted on input line 30.
+
+
+
+[3{c:/texlive/2025/texmf-dist/fonts/enc/dvips/cm-super/cm-super-ts1.enc}]
+
+[4]) (./chapters/c1/bo_cuc_luan_van.tex
+
+[5]))
+
+[6] (./chapters/c2/co_so_ly_thuyet.tex
+Ch\uhorn \ohorn ng 2.
+(./chapters/c2/gioi_thieu_3d.tex
+
+LaTeX Warning: Reference `fig:3D_pipeline' on page 7 undefined on input line 3.
+
+<figures/c2/quy_trinh_3d_from_image.png, id=70, 839.135pt x 244.915pt>
+File: figures/c2/quy_trinh_3d_from_image.png Graphic file (type png)
+<use figures/c2/quy_trinh_3d_from_image.png>
+Package pdftex.def Info: figures/c2/quy_trinh_3d_from_image.png  used on input line 7.
+(pdftex.def)             Requested size: 455.24411pt x 132.86873pt.
+
+
+[7
+
+
+
+ <./figures/c2/quy_trinh_3d_from_image.png>]
+
+[8]
+
+Package natbib Warning: Citation `Schonberger16SFMRevisited' on page 9 undefined on input line 24.
+
+
+Package natbib Warning: Citation `Seitz2006comparison' on page 9 undefined on input line 25.
+
+
+Package natbib Warning: Citation `Furukawa2015multi' on page 9 undefined on input line 25.
+
+
+Package natbib Warning: Citation `detone2018superpoint' on page 9 undefined on input line 31.
+
+
+Package natbib Warning: Citation `tyszkiewicz2020disk' on page 9 undefined on input line 31.
+
+
+Package natbib Warning: Citation `sarlin2020superglue' on page 9 undefined on input line 31.
+
+
+Package natbib Warning: Citation `lindenberger2023LightGlue' on page 9 undefined on input line 31.
+
+
+Package natbib Warning: Citation `Yao2018mvsnet' on page 9 undefined on input line 31.
+
+
+Package natbib Warning: Citation `wei2023safemvs' on page 9 undefined on input line 31.
+
+
+
+[9]
+
+Package natbib Warning: Citation `Mildenhall2020NeRF' on page 10 undefined on input line 32.
+
+) (./chapters/c2/sfm.tex
+
+Package natbib Warning: Citation `Snavely06Photo' on page 10 undefined on input line 3.
+
+
+Package natbib Warning: Citation `Schonberger16SFMRevisited' on page 10 undefined on input line 6.
+
+
+LaTeX Warning: Reference `fig:incre_sfm' on page 10 undefined on input line 6.
+
+
+
+[10]
+<figures/c3/incremental_sfm.png, id=85, 979.66pt x 218.8175pt>
+File: figures/c3/incremental_sfm.png Graphic file (type png)
+<use figures/c3/incremental_sfm.png>
+Package pdftex.def Info: figures/c3/incremental_sfm.png  used on input line 10.
+(pdftex.def)             Requested size: 455.24411pt x 101.6823pt.
+
+
+Package natbib Warning: Citation `McGlone80Manual' on page 11 undefined on input line 18.
+
+
+Package natbib Warning: Citation `Tuytelaars08Local' on page 11 undefined on input line 18.
+
+
+Package natbib Warning: Citation `Lowe04Distinctive' on page 11 undefined on input line 18.
+
+
+Package natbib Warning: Citation `Lowe04Distinctive' on page 11 undefined on input line 20.
+
+
+LaTeX Warning: Reference `fig:sift_detection' on page 11 undefined on input line 20.
+
+
+
+[11 <./figures/c3/incremental_sfm.png>]
+<figures/c2/sift_detection.png, id=92, 923.45pt x 311.1625pt>
+File: figures/c2/sift_detection.png Graphic file (type png)
+<use figures/c2/sift_detection.png>
+Package pdftex.def Info: figures/c2/sift_detection.png  used on input line 24.
+(pdftex.def)             Requested size: 409.71692pt x 138.05618pt.
+
+
+Package natbib Warning: Citation `Hartley03Multiple' on page 12 undefined on input line 31.
+
+
+Package natbib Warning: Citation `Fischler81RANSAC' on page 12 undefined on input line 31.
+
+
+
+[12 <./figures/c2/sift_detection.png>]
+
+LaTeX Warning: Reference `fig:incre_sfm' on page 13 undefined on input line 38.
+
+
+
+[13]
+
+Package natbib Warning: Citation `Beder06Determining' on page 14 undefined on input line 43.
+
+
+Package natbib Warning: Citation `Snavely08Thesis' on page 14 undefined on input line 43.
+
+
+Package natbib Warning: Citation `Lepetit09EPnP' on page 14 undefined on input line 51.
+
+
+Package natbib Warning: Citation `Schonberger16SFMRevisited' on page 14 undefined on input line 51.
+
+
+
+[14]
+
+[15]
+
+[16]
+
+Package natbib Warning: Citation `Triggs00Bundle' on page 17 undefined on input line 97.
+
+
+Package natbib Warning: Citation `triggs1999bundle' on page 17 undefined on input line 111.
+
+
+
+[17]
+
+Package natbib Warning: Citation `Snavely08Thesis' on page 18 undefined on input line 116.
+
+
+Package natbib Warning: Citation `Wu13Towards' on page 18 undefined on input line 116.
+
+) (./chapters/c2/feature_extraction.tex (./chapters/c2/aliked.tex
+
+Package natbib Warning: Citation `zhao2023aliked' on page 18 undefined on input line 3.
+
+
+
+[18]
+
+Package natbib Warning: Citation `Lowe04Distinctive' on page 19 undefined on input line 5.
+
+
+Package natbib Warning: Citation `rublee2011orb' on page 19 undefined on input line 5.
+
+
+Package natbib Warning: Citation `li2018megadepth' on page 19 undefined on input line 15.
+
+
+
+[19]
+
+[20]
+
+Package natbib Warning: Citation `zhao2023aliked' on page 21 undefined on input line 53.
+
+
+Package natbib Warning: Citation `zhao2023aliked' on page 21 undefined on input line 62.
+
+
+
+[21]) (./chapters/c2/lightglue.tex
+
+Package natbib Warning: Citation `lindenberger2023LightGlue' on page 22 undefined on input line 3.
+
+
+Package natbib Warning: Citation `sarlin2020superglue' on page 22 undefined on input line 3.
+
+
+
+[22]
+<figures/c3/kien_truc_light_glue.png, id=138, 700.6175pt x 198.7425pt>
+File: figures/c3/kien_truc_light_glue.png Graphic file (type png)
+<use figures/c3/kien_truc_light_glue.png>
+Package pdftex.def Info: figures/c3/kien_truc_light_glue.png  used on input line 16.
+(pdftex.def)             Requested size: 455.24411pt x 129.14166pt.
+
+
+Package natbib Warning: Citation `lindenberger2023LightGlue' on page 23 undefined on input line 17.
+
+
+Package natbib Warning: Citation `lindenberger2023LightGlue' on page 23 undefined on input line 17.
+
+
+LaTeX Warning: Reference `fig:lightglue' on page 23 undefined on input line 21.
+
+
+
+[23 <./figures/c3/kien_truc_light_glue.png>]
+
+Package natbib Warning: Citation `lindenberger2023LightGlue' on page 24 undefined on input line 56.
+
+
+
+[24]
+
+Package natbib Warning: Citation `lindenberger2023LightGlue' on page 25 undefined on input line 77.
+
+
+Package natbib Warning: Citation `lindenberger2023LightGlue' on page 25 undefined on input line 78.
+
+
+Package natbib Warning: Citation `Li2024Improved' on page 25 undefined on input line 87.
+
+)) (./chapters/c2/mvs.tex
+
+Package natbib Warning: Citation `Seitz2006comparison' on page 25 undefined on input line 4.
+
+
+Package natbib Warning: Citation `Furukawa2015multi' on page 25 undefined on input line 4.
+
+
+
+[25]
+
+Package natbib Warning: Citation `Seitz2006comparison' on page 26 undefined on input line 9.
+
+
+
+[26]
+
+[27]
+
+[28]
+
+Package natbib Warning: Citation `schoenberger2016mvs' on page 29 undefined on input line 73.
+
+
+
+[29]) (./chapters/c2/volume_rendering.tex
+
+Package natbib Warning: Citation `Kajiya84Ray' on page 30 undefined on input line 4.
+
+
+
+[30]) (./chapters/c2/nerf.tex
+
+Package natbib Warning: Citation `Mildenhall2020NeRF' on page 31 undefined on input line 4.
+
+
+LaTeX Warning: Reference `subsec:volume_rendering_detailed' on page 31 undefined on input line 4.
+
+
+Package natbib Warning: Citation `Mildenhall2020NeRF' on page 31 undefined on input line 15.
+
+
+
+[31]
+<figures/c3/nerf.png, id=169, 949.5475pt x 252.945pt>
+File: figures/c3/nerf.png Graphic file (type png)
+<use figures/c3/nerf.png>
+Package pdftex.def Info: figures/c3/nerf.png  used on input line 19.
+(pdftex.def)             Requested size: 455.24411pt x 121.26941pt.
+
+
+Package natbib Warning: Citation `Mildenhall2020NeRF' on page 32 undefined on input line 20.
+
+
+Package natbib Warning: Citation `Mildenhall2020NeRF' on page 32 undefined on input line 20.
+
+
+LaTeX Warning: Reference `fig:nerf' on page 32 undefined on input line 24.
+
+
+Package natbib Warning: Citation `Mildenhall2020NeRF' on page 32 undefined on input line 24.
+
+
+Package natbib Warning: Citation `Mildenhall2020NeRF' on page 32 undefined on input line 92.
+
+
+
+[32 <./figures/c3/nerf.png>]
+
+LaTeX Warning: Reference `color_cumulative' on page 33 undefined on input line 118.
+
+
+
+[33]
+
+LaTeX Warning: Reference `subsubsec:hierarchical_sampling' on page 34 undefined on input line 136.
+
+
+LaTeX Warning: Reference `do_truyen_qua' on page 34 undefined on input line 147.
+
+
+
+[34]
+
+LaTeX Warning: Reference `color_cumulative' on page 35 undefined on input line 149.
+
+
+Package natbib Warning: Citation `Rahaman18Spectral' on page 35 undefined on input line 156.
+
+) (./chapters/c2/related.tex
+
+[35]
+
+Package natbib Warning: Citation `kerbl2023gaussian' on page 36 undefined on input line 3.
+
+
+Package natbib Warning: Citation `detone2018superpoint' on page 36 undefined on input line 5.
+
+
+Package natbib Warning: Citation `dusmanu2019d2' on page 36 undefined on input line 5.
+
+
+Package natbib Warning: Citation `geometryaware2024' on page 36 undefined on input line 5.
+
+
+Package natbib Warning: Citation `Liu_2023_CVPR' on page 36 undefined on input line 7.
+
+
+Package natbib Warning: Citation `liu2024robust' on page 36 undefined on input line 7.
+
+
+
+[36]
+
+Package natbib Warning: Citation `Liu_2023_CVPR' on page 37 undefined on input line 11.
+
+))
+
+[37] (./chapters/c3/de_xuat.tex
+Ch\uhorn \ohorn ng 3.
+<figures/c3/overall_pipeline.png, id=190, 813.0375pt x 539.01375pt>
+File: figures/c3/overall_pipeline.png Graphic file (type png)
+<use figures/c3/overall_pipeline.png>
+Package pdftex.def Info: figures/c3/overall_pipeline.png  used on input line 9.
+(pdftex.def)             Requested size: 455.24411pt x 301.8045pt.
+
+LaTeX Warning: Reference `fig:overall' on page 38 undefined on input line 13.
+
+
+
+[38
+
+
+
+ <./figures/c3/overall_pipeline.png>]
+
+LaTeX Warning: Reference `subsec:exp_datasets' on page 39 undefined on input line 21.
+
+
+
+[39]
+<figures/c3/proposed_sfm.png, id=200, 1097.09875pt x 413.545pt>
+File: figures/c3/proposed_sfm.png Graphic file (type png)
+<use figures/c3/proposed_sfm.png>
+Package pdftex.def Info: figures/c3/proposed_sfm.png  used on input line 38.
+(pdftex.def)             Requested size: 455.24411pt x 171.59903pt.
+
+
+[40]
+
+LaTeX Warning: Reference `section:phan_tich_bai_toan' on page 41 undefined on input line 42.
+
+
+LaTeX Warning: Reference `fig:prosposed_sfm' on page 41 undefined on input line 42.
+
+
+
+[41 <./figures/c3/proposed_sfm.png>]
+
+LaTeX Warning: Reference `subsec:incremental_reconstruction' on page 42 undefined on input line 50.
+
+
+LaTeX Warning: Reference `section:phan_tich_bai_toan' on page 42 undefined on input line 54.
+
+
+LaTeX Warning: Reference `fig:detection_model' on page 42 undefined on input line 56.
+
+<figures/c3/box_detection.png, id=208, 1402.23875pt x 931.48pt>
+File: figures/c3/box_detection.png Graphic file (type png)
+<use figures/c3/box_detection.png>
+Package pdftex.def Info: figures/c3/box_detection.png  used on input line 60.
+(pdftex.def)             Requested size: 364.19667pt x 241.92325pt.
+
+
+[42]
+
+Package natbib Warning: Citation `zhao2023aliked' on page 43 undefined on input line 65.
+
+
+LaTeX Warning: Reference `fig:detection_aliked' on page 43 undefined on input line 65.
+
+<figures/c3/ALIKED_detection.png, id=212, 179.67125pt x 413.545pt>
+File: figures/c3/ALIKED_detection.png Graphic file (type png)
+<use figures/c3/ALIKED_detection.png>
+Package pdftex.def Info: figures/c3/ALIKED_detection.png  used on input line 69.
+(pdftex.def)             Requested size: 159.33821pt x 366.77292pt.
+
+
+[43 <./figures/c3/box_detection.png>]
+
+[44 <./figures/c3/ALIKED_detection.png>])
+
+[45] (./chapters/c4/thuc_nghiem_2.tex
+Ch\uhorn \ohorn ng 4.
+
+LaTeX Warning: Reference `fig:quy_dao_bay' on page 46 undefined on input line 7.
+
+<figures/c4/quy_dao_bay.png, id=225, 590.205pt x 396.48125pt>
+File: figures/c4/quy_dao_bay.png Graphic file (type png)
+<use figures/c4/quy_dao_bay.png>
+Package pdftex.def Info: figures/c4/quy_dao_bay.png  used on input line 10.
+(pdftex.def)             Requested size: 364.19667pt x 244.66031pt.
+
+Package natbib Warning: Citation `pix4d2023' on page 46 undefined on input line 11.
+
+
+Package natbib Warning: Citation `pix4d2023' on page 46 undefined on input line 11.
+
+
+LaTeX Warning: Reference `table:data' on page 46 undefined on input line 17.
+
+
+
+[46
+
+
+
+]
+
+LaTeX Warning: Reference `fig:bts01' on page 47 undefined on input line 35.
+
+
+LaTeX Warning: Reference `fig:bts02' on page 47 undefined on input line 35.
+
+
+LaTeX Warning: Reference `fig:bts03' on page 47 undefined on input line 35.
+
+
+LaTeX Warning: Reference `fig:bts04' on page 47 undefined on input line 35.
+
+
+LaTeX Warning: Reference `fig:bts05' on page 47 undefined on input line 35.
+
+
+
+[47 <./figures/c4/quy_dao_bay.png>]
+<figures/c4/bts1.png, id=234, 619.31375pt x 778.91pt>
+File: figures/c4/bts1.png Graphic file (type png)
+<use figures/c4/bts1.png>
+Package pdftex.def Info: figures/c4/bts1.png  used on input line 39.
+(pdftex.def)             Requested size: 204.85846pt x 257.64725pt.
+<figures/c4/bts2.png, id=235, 568.1225pt x 724.7075pt>
+File: figures/c4/bts2.png Graphic file (type png)
+<use figures/c4/bts2.png>
+Package pdftex.def Info: figures/c4/bts2.png  used on input line 46.
+(pdftex.def)             Requested size: 204.85846pt x 261.32576pt.
+<figures/c4/bts3.png, id=236, 591.20876pt x 783.92876pt>
+File: figures/c4/bts3.png Graphic file (type png)
+<use figures/c4/bts3.png>
+Package pdftex.def Info: figures/c4/bts3.png  used on input line 53.
+(pdftex.def)             Requested size: 204.85846pt x 271.62796pt.
+
+
+[48 <./figures/c4/bts1.png> <./figures/c4/bts2.png>]
+<figures/c4/bts4.png, id=242, 525.965pt x 740.7675pt>
+File: figures/c4/bts4.png Graphic file (type png)
+<use figures/c4/bts4.png>
+Package pdftex.def Info: figures/c4/bts4.png  used on input line 60.
+(pdftex.def)             Requested size: 204.85846pt x 288.52515pt.
+<figures/c4/bts5.png, id=243, 565.11125pt x 715.67375pt>
+File: figures/c4/bts5.png Graphic file (type png)
+<use figures/c4/bts5.png>
+Package pdftex.def Info: figures/c4/bts5.png  used on input line 67.
+(pdftex.def)             Requested size: 204.85846pt x 259.43327pt.
+
+
+[49 <./figures/c4/bts3.png> <./figures/c4/bts4.png>]
+
+[50 <./figures/c4/bts5.png>]
+
+[51]
+
+Package natbib Warning: Citation `Lowe04Distinctive' on page 52 undefined on input line 130.
+
+
+LaTeX Warning: Reference `tab:thresh_comparison' on page 52 undefined on input line 151.
+
+
+
+[52]
+
+LaTeX Warning: Reference `tab:sift_comparison' on page 53 undefined on input line 179.
+
+
+Overfull \hbox (2.43109pt too wide) in paragraph at lines 187--201
+ [][] 
+ []
+
+
+
+[53]
+
+LaTeX Warning: Reference `tab:comparison' on page 54 undefined on input line 205.
+
+
+LaTeX Warning: Reference `subsec:incremental_reconstruction' on page 54 undefined on input line 205.
+
+
+LaTeX Warning: Reference `fig:comparison_keypoints' on page 54 undefined on input line 205.
+
+<figures/c4/colmap_sfm.png, id=263, 621.32124pt x 699.61375pt>
+File: figures/c4/colmap_sfm.png Graphic file (type png)
+<use figures/c4/colmap_sfm.png>
+Package pdftex.def Info: figures/c4/colmap_sfm.png  used on input line 211.
+(pdftex.def)             Requested size: 174.13094pt x 196.07199pt.
+<figures/c4/colmap_deep_keys.png, id=264, 739.76375pt x 765.86125pt>
+File: figures/c4/colmap_deep_keys.png Graphic file (type png)
+<use figures/c4/colmap_deep_keys.png>
+Package pdftex.def Info: figures/c4/colmap_deep_keys.png  used on input line 217.
+(pdftex.def)             Requested size: 174.13094pt x 180.26956pt.
+
+
+[54]
+
+LaTeX Warning: Reference `tab:comparison' on page 55 undefined on input line 224.
+
+
+LaTeX Warning: Reference `tab:track_length_comparison' on page 55 undefined on input line 246.
+
+
+
+[55 <./figures/c4/colmap_sfm.png> <./figures/c4/colmap_deep_keys.png>]
+
+LaTeX Warning: Reference `tab:time' on page 56 undefined on input line 252.
+
+
+
+[56]
+
+[57]
+<figures/c4/sift_1_a1.png, id=280, 188.705pt x 595.22375pt>
+File: figures/c4/sift_1_a1.png Graphic file (type png)
+<use figures/c4/sift_1_a1.png>
+Package pdftex.def Info: figures/c4/sift_1_a1.png  used on input line 314.
+(pdftex.def)             Requested size: 61.45815pt x 193.85413pt.
+<figures/c4/deep_1_a1.png, id=281, 172.645pt x 596.2275pt>
+File: figures/c4/deep_1_a1.png Graphic file (type png)
+<use figures/c4/deep_1_a1.png>
+Package pdftex.def Info: figures/c4/deep_1_a1.png  used on input line 315.
+(pdftex.def)             Requested size: 55.99608pt x 193.38043pt.
+<figures/c4/sift_1_a2.png, id=282, 188.705pt x 595.22375pt>
+File: figures/c4/sift_1_a2.png Graphic file (type png)
+<use figures/c4/sift_1_a2.png>
+Package pdftex.def Info: figures/c4/sift_1_a2.png  used on input line 322.
+(pdftex.def)             Requested size: 61.45815pt x 193.85413pt.
+<figures/c4/deep_1_a2.png, id=283, 188.705pt x 595.22375pt>
+File: figures/c4/deep_1_a2.png Graphic file (type png)
+<use figures/c4/deep_1_a2.png>
+Package pdftex.def Info: figures/c4/deep_1_a2.png  used on input line 323.
+(pdftex.def)             Requested size: 61.45815pt x 193.85413pt.
+<figures/c4/sift_1_a3.png, id=284, 188.705pt x 595.22375pt>
+File: figures/c4/sift_1_a3.png Graphic file (type png)
+<use figures/c4/sift_1_a3.png>
+Package pdftex.def Info: figures/c4/sift_1_a3.png  used on input line 330.
+(pdftex.def)             Requested size: 61.45815pt x 193.85413pt.
+<figures/c4/deep_1_a3.png, id=285, 188.705pt x 595.22375pt>
+File: figures/c4/deep_1_a3.png Graphic file (type png)
+<use figures/c4/deep_1_a3.png>
+Package pdftex.def Info: figures/c4/deep_1_a3.png  used on input line 331.
+(pdftex.def)             Requested size: 61.45815pt x 193.85413pt.
+<figures/c4/sift_3_a1.png, id=286, 198.7425pt x 642.4pt>
+File: figures/c4/sift_3_a1.png Graphic file (type png)
+<use figures/c4/sift_3_a1.png>
+Package pdftex.def Info: figures/c4/sift_3_a1.png  used on input line 345.
+(pdftex.def)             Requested size: 61.45815pt x 198.65182pt.
+<figures/c4/deep_3_a1.png, id=287, 198.7425pt x 642.4pt>
+File: figures/c4/deep_3_a1.png Graphic file (type png)
+<use figures/c4/deep_3_a1.png>
+Package pdftex.def Info: figures/c4/deep_3_a1.png  used on input line 346.
+(pdftex.def)             Requested size: 61.45815pt x 198.65182pt.
+<figures/c4/sift_3_a2.png, id=288, 198.7425pt x 642.4pt>
+File: figures/c4/sift_3_a2.png Graphic file (type png)
+<use figures/c4/sift_3_a2.png>
+Package pdftex.def Info: figures/c4/sift_3_a2.png  used on input line 353.
+(pdftex.def)             Requested size: 61.45815pt x 198.65182pt.
+<figures/c4/deep_3_a2.png, id=289, 198.7425pt x 642.4pt>
+File: figures/c4/deep_3_a2.png Graphic file (type png)
+<use figures/c4/deep_3_a2.png>
+Package pdftex.def Info: figures/c4/deep_3_a2.png  used on input line 354.
+(pdftex.def)             Requested size: 61.45815pt x 198.65182pt.
+<figures/c4/sift_3_a3.png, id=290, 198.7425pt x 642.4pt>
+File: figures/c4/sift_3_a3.png Graphic file (type png)
+<use figures/c4/sift_3_a3.png>
+Package pdftex.def Info: figures/c4/sift_3_a3.png  used on input line 361.
+(pdftex.def)             Requested size: 61.45815pt x 198.65182pt.
+<figures/c4/deep_3_a3.png, id=291, 198.7425pt x 642.4pt>
+File: figures/c4/deep_3_a3.png Graphic file (type png)
+<use figures/c4/deep_3_a3.png>
+Package pdftex.def Info: figures/c4/deep_3_a3.png  used on input line 362.
+(pdftex.def)             Requested size: 61.45815pt x 198.65182pt.
+
+
+[58 <./figures/c4/sift_1_a1.png> <./figures/c4/deep_1_a1.png> <./figures/c4/sift_1_a2.png> <./figures/c4/deep_1_a2.png> <./figures/c4/sift_1_a3.png> <./figures/c4/deep_1_a3.png>]
+<figures/c4/sift_5_a1.png, id=301, 185.69376pt x 790.955pt>
+File: figures/c4/sift_5_a1.png Graphic file (type png)
+<use figures/c4/sift_5_a1.png>
+Package pdftex.def Info: figures/c4/sift_5_a1.png  used on input line 376.
+(pdftex.def)             Requested size: 61.45815pt x 261.7763pt.
+<figures/c4/deep_5_a1.png, id=302, 185.69376pt x 790.955pt>
+File: figures/c4/deep_5_a1.png Graphic file (type png)
+<use figures/c4/deep_5_a1.png>
+Package pdftex.def Info: figures/c4/deep_5_a1.png  used on input line 377.
+(pdftex.def)             Requested size: 61.45815pt x 261.7763pt.
+<figures/c4/sift_5_a2.png, id=303, 185.69376pt x 790.955pt>
+File: figures/c4/sift_5_a2.png Graphic file (type png)
+<use figures/c4/sift_5_a2.png>
+Package pdftex.def Info: figures/c4/sift_5_a2.png  used on input line 384.
+(pdftex.def)             Requested size: 61.45815pt x 261.7763pt.
+<figures/c4/deep_5_a2.png, id=304, 185.69376pt x 790.955pt>
+File: figures/c4/deep_5_a2.png Graphic file (type png)
+<use figures/c4/deep_5_a2.png>
+Package pdftex.def Info: figures/c4/deep_5_a2.png  used on input line 385.
+(pdftex.def)             Requested size: 61.45815pt x 261.7763pt.
+<figures/c4/sift_5_a3.png, id=305, 185.69376pt x 790.955pt>
+File: figures/c4/sift_5_a3.png Graphic file (type png)
+<use figures/c4/sift_5_a3.png>
+Package pdftex.def Info: figures/c4/sift_5_a3.png  used on input line 392.
+(pdftex.def)             Requested size: 61.45815pt x 261.7763pt.
+<figures/c4/deep_5_a3.png, id=306, 185.69376pt x 790.955pt>
+File: figures/c4/deep_5_a3.png Graphic file (type png)
+<use figures/c4/deep_5_a3.png>
+Package pdftex.def Info: figures/c4/deep_5_a3.png  used on input line 393.
+(pdftex.def)             Requested size: 61.45815pt x 261.7763pt.
+
+
+LaTeX Warning: Reference `tab:Smoothness_comparison_mvs' on page 59 undefined on input line 400.
+
+
+LaTeX Warning: Reference `fig:mvs_device_bts01' on page 59 undefined on input line 400.
+
+
+LaTeX Warning: Reference `fig:mvs_device_bts03' on page 59 undefined on input line 400.
+
+
+LaTeX Warning: Reference `fig:mvs_device_bts05' on page 59 undefined on input line 400.
+
+
+
+[59 <./figures/c4/sift_3_a1.png> <./figures/c4/deep_3_a1.png> <./figures/c4/sift_3_a2.png> <./figures/c4/deep_3_a2.png> <./figures/c4/sift_3_a3.png> <./figures/c4/deep_3_a3.png> <./figures/c4/sift_5_a1.png> <./figures/c4/deep_5_a1.png> <./figures/c4/sift_5_a2.png> <./figures/c4/deep_5_a2.png> <./figures/c4/sift_5_a3.png> <./figures/c4/deep_5_a3.png>]
+
+LaTeX Warning: Reference `tab:Smoothness_comparison_nerf' on page 60 undefined on input line 426.
+
+
+LaTeX Warning: Reference `subsec:eval_mvs_impact' on page 60 undefined on input line 426.
+
+
+LaTeX Warning: Reference `tab:Smoothness_comparison_mvs' on page 60 undefined on input line 426.
+
+
+LaTeX Warning: Reference `tab:Smoothness_comparison_nerf' on page 60 undefined on input line 426.
+
+<figures/c4/nerf_sift_1_a1.png, id=322, 242.9075pt x 879.285pt>
+File: figures/c4/nerf_sift_1_a1.png Graphic file (type png)
+<use figures/c4/nerf_sift_1_a1.png>
+Package pdftex.def Info: figures/c4/nerf_sift_1_a1.png  used on input line 434.
+(pdftex.def)             Requested size: 61.45815pt x 222.46382pt.
+<figures/c4/nerf_deep_1_a1.png, id=323, 242.9075pt x 879.285pt>
+File: figures/c4/nerf_deep_1_a1.png Graphic file (type png)
+<use figures/c4/nerf_deep_1_a1.png>
+Package pdftex.def Info: figures/c4/nerf_deep_1_a1.png  used on input line 435.
+(pdftex.def)             Requested size: 61.45815pt x 222.46382pt.
+<figures/c4/nerf_sift_1_a2.png, id=324, 242.9075pt x 879.285pt>
+File: figures/c4/nerf_sift_1_a2.png Graphic file (type png)
+<use figures/c4/nerf_sift_1_a2.png>
+Package pdftex.def Info: figures/c4/nerf_sift_1_a2.png  used on input line 442.
+(pdftex.def)             Requested size: 61.45815pt x 222.46382pt.
+<figures/c4/nerf_deep_1_a2.png, id=325, 242.9075pt x 879.285pt>
+File: figures/c4/nerf_deep_1_a2.png Graphic file (type png)
+<use figures/c4/nerf_deep_1_a2.png>
+Package pdftex.def Info: figures/c4/nerf_deep_1_a2.png  used on input line 443.
+(pdftex.def)             Requested size: 61.45815pt x 222.46382pt.
+<figures/c4/nerf_sift_1_a3.png, id=326, 242.9075pt x 879.285pt>
+File: figures/c4/nerf_sift_1_a3.png Graphic file (type png)
+<use figures/c4/nerf_sift_1_a3.png>
+Package pdftex.def Info: figures/c4/nerf_sift_1_a3.png  used on input line 450.
+(pdftex.def)             Requested size: 61.45815pt x 222.46382pt.
+<figures/c4/nerf_deep_1_a3.png, id=327, 242.9075pt x 879.285pt>
+File: figures/c4/nerf_deep_1_a3.png Graphic file (type png)
+<use figures/c4/nerf_deep_1_a3.png>
+Package pdftex.def Info: figures/c4/nerf_deep_1_a3.png  used on input line 451.
+(pdftex.def)             Requested size: 61.45815pt x 222.46382pt.
+
+
+[60]
+<figures/c4/nerf_sift_3_a1.png, id=331, 242.9075pt x 879.285pt>
+File: figures/c4/nerf_sift_3_a1.png Graphic file (type png)
+<use figures/c4/nerf_sift_3_a1.png>
+Package pdftex.def Info: figures/c4/nerf_sift_3_a1.png  used on input line 465.
+(pdftex.def)             Requested size: 61.45815pt x 222.46382pt.
+<figures/c4/nerf_deep_3_a1.png, id=332, 242.9075pt x 879.285pt>
+File: figures/c4/nerf_deep_3_a1.png Graphic file (type png)
+<use figures/c4/nerf_deep_3_a1.png>
+Package pdftex.def Info: figures/c4/nerf_deep_3_a1.png  used on input line 466.
+(pdftex.def)             Requested size: 61.45815pt x 222.46382pt.
+<figures/c4/nerf_sift_3_a2.png, id=333, 242.9075pt x 879.285pt>
+File: figures/c4/nerf_sift_3_a2.png Graphic file (type png)
+<use figures/c4/nerf_sift_3_a2.png>
+Package pdftex.def Info: figures/c4/nerf_sift_3_a2.png  used on input line 473.
+(pdftex.def)             Requested size: 61.45815pt x 222.46382pt.
+<figures/c4/nerf_deep_3_a2.png, id=334, 242.9075pt x 879.285pt>
+File: figures/c4/nerf_deep_3_a2.png Graphic file (type png)
+<use figures/c4/nerf_deep_3_a2.png>
+Package pdftex.def Info: figures/c4/nerf_deep_3_a2.png  used on input line 474.
+(pdftex.def)             Requested size: 61.45815pt x 222.46382pt.
+<figures/c4/nerf_sift_5_a3.png, id=335, 242.9075pt x 879.285pt>
+File: figures/c4/nerf_sift_5_a3.png Graphic file (type png)
+<use figures/c4/nerf_sift_5_a3.png>
+Package pdftex.def Info: figures/c4/nerf_sift_5_a3.png  used on input line 481.
+(pdftex.def)             Requested size: 61.45815pt x 222.46382pt.
+<figures/c4/nerf_deep_5_a3.png, id=336, 242.9075pt x 879.285pt>
+File: figures/c4/nerf_deep_5_a3.png Graphic file (type png)
+<use figures/c4/nerf_deep_5_a3.png>
+Package pdftex.def Info: figures/c4/nerf_deep_5_a3.png  used on input line 482.
+(pdftex.def)             Requested size: 61.45815pt x 222.46382pt.
+File: figures/c4/nerf_sift_1_a1.png Graphic file (type png)
+<use figures/c4/nerf_sift_1_a1.png>
+Package pdftex.def Info: figures/c4/nerf_sift_1_a1.png  used on input line 496.
+(pdftex.def)             Requested size: 61.45815pt x 222.46382pt.
+File: figures/c4/nerf_deep_1_a1.png Graphic file (type png)
+<use figures/c4/nerf_deep_1_a1.png>
+Package pdftex.def Info: figures/c4/nerf_deep_1_a1.png  used on input line 497.
+(pdftex.def)             Requested size: 61.45815pt x 222.46382pt.
+File: figures/c4/nerf_sift_1_a1.png Graphic file (type png)
+<use figures/c4/nerf_sift_1_a1.png>
+Package pdftex.def Info: figures/c4/nerf_sift_1_a1.png  used on input line 504.
+(pdftex.def)             Requested size: 61.45815pt x 222.46382pt.
+File: figures/c4/nerf_deep_1_a1.png Graphic file (type png)
+<use figures/c4/nerf_deep_1_a1.png>
+Package pdftex.def Info: figures/c4/nerf_deep_1_a1.png  used on input line 505.
+(pdftex.def)             Requested size: 61.45815pt x 222.46382pt.
+File: figures/c4/nerf_sift_1_a1.png Graphic file (type png)
+<use figures/c4/nerf_sift_1_a1.png>
+Package pdftex.def Info: figures/c4/nerf_sift_1_a1.png  used on input line 512.
+(pdftex.def)             Requested size: 61.45815pt x 222.46382pt.
+File: figures/c4/nerf_deep_1_a1.png Graphic file (type png)
+<use figures/c4/nerf_deep_1_a1.png>
+Package pdftex.def Info: figures/c4/nerf_deep_1_a1.png  used on input line 513.
+(pdftex.def)             Requested size: 61.45815pt x 222.46382pt.
+
+
+[61 <./figures/c4/nerf_sift_1_a1.png> <./figures/c4/nerf_deep_1_a1.png> <./figures/c4/nerf_sift_1_a2.png> <./figures/c4/nerf_deep_1_a2.png> <./figures/c4/nerf_sift_1_a3.png> <./figures/c4/nerf_deep_1_a3.png> <./figures/c4/nerf_sift_3_a1.png> <./figures/c4/nerf_deep_3_a1.png> <./figures/c4/nerf_sift_3_a2.png> <./figures/c4/nerf_deep_3_a2.png> <./figures/c4/nerf_sift_5_a3.png> <./figures/c4/nerf_deep_5_a3.png>]
+
+LaTeX Warning: Reference `fig:nerf_device_bts01' on page 62 undefined on input line 520.
+
+
+LaTeX Warning: Reference `fig:nerf_device_bts03' on page 62 undefined on input line 520.
+
+
+LaTeX Warning: Reference `fig:nerf_device_bts05' on page 62 undefined on input line 520.
+
+
+LaTeX Warning: Reference `tab:Smoothness_comparison_nerf' on page 62 undefined on input line 520.
+
+
+LaTeX Warning: Reference `tab:Smoothness_comparison_mvs' on page 62 undefined on input line 520.
+
+File: figures/c4/deep_1_a2.png Graphic file (type png)
+<use figures/c4/deep_1_a2.png>
+Package pdftex.def Info: figures/c4/deep_1_a2.png  used on input line 530.
+(pdftex.def)             Requested size: 71.01938pt x 224.0076pt.
+File: figures/c4/nerf_deep_1_a2.png Graphic file (type png)
+<use figures/c4/nerf_deep_1_a2.png>
+Package pdftex.def Info: figures/c4/nerf_deep_1_a2.png  used on input line 531.
+(pdftex.def)             Requested size: 61.45815pt x 222.46382pt.
+File: figures/c4/deep_3_a1.png Graphic file (type png)
+<use figures/c4/deep_3_a1.png>
+Package pdftex.def Info: figures/c4/deep_3_a1.png  used on input line 538.
+(pdftex.def)             Requested size: 68.28731pt x 220.72644pt.
+File: figures/c4/nerf_deep_3_a1.png Graphic file (type png)
+<use figures/c4/nerf_deep_3_a1.png>
+Package pdftex.def Info: figures/c4/nerf_deep_3_a1.png  used on input line 539.
+(pdftex.def)             Requested size: 60.7767pt x 219.99513pt.
+File: figures/c4/deep_5_a1.png Graphic file (type png)
+<use figures/c4/deep_5_a1.png>
+Package pdftex.def Info: figures/c4/deep_5_a1.png  used on input line 546.
+(pdftex.def)             Requested size: 51.21547pt x 218.14691pt.
+<figures/c4/nerf_deep_5_a1.png, id=352, 242.9075pt x 879.285pt>
+File: figures/c4/nerf_deep_5_a1.png Graphic file (type png)
+<use figures/c4/nerf_deep_5_a1.png>
+Package pdftex.def Info: figures/c4/nerf_deep_5_a1.png  used on input line 547.
+(pdftex.def)             Requested size: 60.09315pt x 217.52644pt.
+
+
+[62]
+
+LaTeX Warning: Reference `fig:3d_mvs_nerf_bts01' on page 63 undefined on input line 555.
+
+
+LaTeX Warning: Reference `fig:3d_mvs_nerf_bts03' on page 63 undefined on input line 555.
+
+
+LaTeX Warning: Reference `fig:3d_mvs_nerf_bts05' on page 63 undefined on input line 555.
+
+
+LaTeX Warning: Reference `fig:mvs_nerf_device' on page 63 undefined on input line 555.
+
+
+LaTeX Warning: Reference `tab:Smoothness_comparison_mvs' on page 63 undefined on input line 555.
+
+
+LaTeX Warning: Reference `tab:Smoothness_comparison_nerf' on page 63 undefined on input line 555.
+
+<figures/c4/bts01_mvs_1.png, id=357, 379.4175pt x 697.60625pt>
+File: figures/c4/bts01_mvs_1.png Graphic file (type png)
+<use figures/c4/bts01_mvs_1.png>
+Package pdftex.def Info: figures/c4/bts01_mvs_1.png  used on input line 562.
+(pdftex.def)             Requested size: 163.88815pt x 301.32735pt.
+<figures/c4/bts01_mvs_2.png, id=358, 319.1925pt x 685.56125pt>
+File: figures/c4/bts01_mvs_2.png Graphic file (type png)
+<use figures/c4/bts01_mvs_2.png>
+Package pdftex.def Info: figures/c4/bts01_mvs_2.png  used on input line 566.
+(pdftex.def)             Requested size: 141.12456pt x 303.10193pt.
+<figures/c4/bts01_mvs_3.png, id=359, 319.1925pt x 685.56125pt>
+File: figures/c4/bts01_mvs_3.png Graphic file (type png)
+<use figures/c4/bts01_mvs_3.png>
+Package pdftex.def Info: figures/c4/bts01_mvs_3.png  used on input line 570.
+(pdftex.def)             Requested size: 141.12456pt x 303.10193pt.
+<figures/c4/bts01_nerf_1.png, id=360, 480.79625pt x 712.6625pt>
+File: figures/c4/bts01_nerf_1.png Graphic file (type png)
+<use figures/c4/bts01_nerf_1.png>
+Package pdftex.def Info: figures/c4/bts01_nerf_1.png  used on input line 577.
+(pdftex.def)             Requested size: 191.20169pt x 283.40704pt.
+<figures/c4/bts01_nerf_2.png, id=361, 296.10625pt x 712.6625pt>
+File: figures/c4/bts01_nerf_2.png Graphic file (type png)
+<use figures/c4/bts01_nerf_2.png>
+Package pdftex.def Info: figures/c4/bts01_nerf_2.png  used on input line 582.
+(pdftex.def)             Requested size: 118.36096pt x 284.86421pt.
+<figures/c4/bts01_nerf_3.png, id=362, 308.15125pt x 712.6625pt>
+File: figures/c4/bts01_nerf_3.png Graphic file (type png)
+<use figures/c4/bts01_nerf_3.png>
+Package pdftex.def Info: figures/c4/bts01_nerf_3.png  used on input line 587.
+(pdftex.def)             Requested size: 122.91785pt x 284.26613pt.
+
+
+[63 <./figures/c4/nerf_deep_5_a1.png>]
+<figures/c4/bts03_mvs_1.png, id=367, 490.83376pt x 847.165pt>
+File: figures/c4/bts03_mvs_1.png Graphic file (type png)
+<use figures/c4/bts03_mvs_1.png>
+Package pdftex.def Info: figures/c4/bts03_mvs_1.png  used on input line 600.
+(pdftex.def)             Requested size: 127.46779pt x 219.99916pt.
+<figures/c4/bts03_mvs_2.png, id=368, 579.16376pt x 845.1575pt>
+File: figures/c4/bts03_mvs_2.png Graphic file (type png)
+<use figures/c4/bts03_mvs_2.png>
+Package pdftex.def Info: figures/c4/bts03_mvs_2.png  used on input line 604.
+(pdftex.def)             Requested size: 150.23138pt x 219.21992pt.
+<figures/c4/bts03_mvs_3.png, id=369, 579.16376pt x 845.1575pt>
+File: figures/c4/bts03_mvs_3.png Graphic file (type png)
+<use figures/c4/bts03_mvs_3.png>
+Package pdftex.def Info: figures/c4/bts03_mvs_3.png  used on input line 608.
+(pdftex.def)             Requested size: 150.23138pt x 219.21992pt.
+<figures/c4/bts03_nerf_1.png, id=370, 470.75874pt x 808.01875pt>
+File: figures/c4/bts03_nerf_1.png Graphic file (type png)
+<use figures/c4/bts03_nerf_1.png>
+Package pdftex.def Info: figures/c4/bts03_nerf_1.png  used on input line 615.
+(pdftex.def)             Requested size: 136.57462pt x 234.41808pt.
+<figures/c4/bts03_nerf_2.png, id=371, 582.175pt x 834.11626pt>
+File: figures/c4/bts03_nerf_2.png Graphic file (type png)
+<use figures/c4/bts03_nerf_2.png>
+Package pdftex.def Info: figures/c4/bts03_nerf_2.png  used on input line 620.
+(pdftex.def)             Requested size: 163.88815pt x 234.81099pt.
+<figures/c4/bts03_nerf_3.png, id=372, 480.79625pt x 834.11626pt>
+File: figures/c4/bts03_nerf_3.png Graphic file (type png)
+<use figures/c4/bts03_nerf_3.png>
+Package pdftex.def Info: figures/c4/bts03_nerf_3.png  used on input line 625.
+(pdftex.def)             Requested size: 132.01773pt x 229.03267pt.
+
+
+[64 <./figures/c4/bts01_mvs_1.png> <./figures/c4/bts01_mvs_2.png> <./figures/c4/bts01_mvs_3.png> <./figures/c4/bts01_nerf_1.png> <./figures/c4/bts01_nerf_2.png> <./figures/c4/bts01_nerf_3.png>]
+<figures/c4/bts05_mvs_1.png, id=382, 512.91624pt x 801.99625pt>
+File: figures/c4/bts05_mvs_1.png Graphic file (type png)
+<use figures/c4/bts05_mvs_1.png>
+Package pdftex.def Info: figures/c4/bts05_mvs_1.png  used on input line 639.
+(pdftex.def)             Requested size: 168.4381pt x 263.3624pt.
+<figures/c4/bts05_mvs_2.png, id=383, 338.26375pt x 696.6025pt>
+File: figures/c4/bts05_mvs_2.png Graphic file (type png)
+<use figures/c4/bts05_mvs_2.png>
+Package pdftex.def Info: figures/c4/bts05_mvs_2.png  used on input line 643.
+(pdftex.def)             Requested size: 127.46779pt x 262.50081pt.
+<figures/c4/bts05_mvs_3.png, id=384, 338.26375pt x 696.6025pt>
+File: figures/c4/bts05_mvs_3.png Graphic file (type png)
+<use figures/c4/bts05_mvs_3.png>
+Package pdftex.def Info: figures/c4/bts05_mvs_3.png  used on input line 647.
+(pdftex.def)             Requested size: 127.46779pt x 262.50081pt.
+<figures/c4/bts05_nerf_1.png, id=385, 480.79625pt x 834.11626pt>
+File: figures/c4/bts05_nerf_1.png Graphic file (type png)
+<use figures/c4/bts05_nerf_1.png>
+Package pdftex.def Info: figures/c4/bts05_nerf_1.png  used on input line 654.
+(pdftex.def)             Requested size: 159.33821pt x 276.43015pt.
+<figures/c4/bts05_nerf_2.png, id=386, 410.53375pt x 834.11626pt>
+File: figures/c4/bts05_nerf_2.png Graphic file (type png)
+<use figures/c4/bts05_nerf_2.png>
+Package pdftex.def Info: figures/c4/bts05_nerf_2.png  used on input line 659.
+(pdftex.def)             Requested size: 136.57462pt x 277.48654pt.
+<figures/c4/bts05_nerf_3.png, id=387, 334.24875pt x 745.78625pt>
+File: figures/c4/bts05_nerf_3.png Graphic file (type png)
+<use figures/c4/bts05_nerf_3.png>
+Package pdftex.def Info: figures/c4/bts05_nerf_3.png  used on input line 664.
+(pdftex.def)             Requested size: 125.18935pt x 279.32776pt.
+
+
+[65 <./figures/c4/bts03_mvs_1.png> <./figures/c4/bts03_mvs_2.png> <./figures/c4/bts03_mvs_3.png> <./figures/c4/bts03_nerf_1.png> <./figures/c4/bts03_nerf_2.png> <./figures/c4/bts03_nerf_3.png>]
+
+LaTeX Warning: Reference `sec:eval_pose' on page 66 undefined on input line 695.
+
+
+
+[66 <./figures/c4/bts05_mvs_1.png> <./figures/c4/bts05_mvs_2.png> <./figures/c4/bts05_mvs_3.png> <./figures/c4/bts05_nerf_1.png> <./figures/c4/bts05_nerf_2.png> <./figures/c4/bts05_nerf_3.png>]
+
+LaTeX Warning: Reference `sec:eval_dense' on page 67 undefined on input line 704.
+
+
+
+[67]
+
+[68])
+
+[69] (./chapters/c5/ket luan.tex
+Ch\uhorn \ohorn ng 5.
+
+Package natbib Warning: Citation `zhao2023aliked' on page 70 undefined on input line 4.
+
+
+Package natbib Warning: Citation `lindenberger2023LightGlue' on page 70 undefined on input line 4.
+
+)
+
+[70
+
+
+
+]
+
+[71] (./thesis.bbl
+./thesis.bbl:39: Undefined control sequence.
+l.39 \newblock \url
+                   {https://support.pix4d.com/hc/en-us/articles/8945985029277},
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 37--42
+[]\T5/cmr/m/n/13 Pix4D.  Pix4d sup-port: Ar-ti-cle on drone map-ping.
+ []
+
+
+Underfull \hbox (badness 4981) in paragraph at lines 37--42
+\T5/cmr/m/n/13 https://support.pix4d.com/hc/en-us/articles/8945985029277, 2023.  Ac-
+ []
+
+
+
+[72
+
+
+
+]
+
+LaTeX Font Warning: Font shape `TS1/cmr/m/it' in size <13> not available
+(Font)              size <12> substituted on input line 74.
+
+
+
+[73]
+
+[74]
+Underfull \hbox (badness 2680) in paragraph at lines 230--234
+[]\T5/cmr/m/n/13 Shaohui Liu, Yi-dan Gao, Tianyi Zhang, R²mi Pau-trat, Jo-hannes L
+ []
+
+)
+
+[75]
+
+Package natbib Warning: There were undefined citations.
+
+(./thesis.aux
+
+Package natbib Warning: Citation(s) may have changed.
+(natbib)                Rerun to get citations correct.
+
+)
+ ***********
+LaTeX2e <2024-11-01> patch level 2
+L3 programming layer <2025-04-14>
+ ***********
+
+
+LaTeX Font Warning: Size substitutions with differences
+(Font)              up to 1.0pt have occurred.
+
+
+LaTeX Warning: There were undefined references.
+
+
+LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.
+
+ ) 
+Here is how much of TeX's memory you used:
+ 21647 strings out of 469608
+ 408918 string characters out of 5474779
+ 790551 words of memory out of 5000000
+ 48018 multiletter control sequences out of 15000+600000
+ 661660 words of font info for 114 fonts, out of 8000000 for 9000
+ 1141 hyphenation exceptions out of 8191
+ 108i,16n,107p,2718b,521s stack positions out of 10000i,1000n,20000p,200000b,200000s
+<c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx9.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi12.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi6.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi9.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmr6.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmr9.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy6.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy9.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/symbols/msbm10.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/cm-super/sfrm1200.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/cm-super/sfti1200.pfb><c:/texlive/2025/texmf-dist/fonts/type1/vntex/vnr/vnbx10.pfb><c:/texlive/2025/texmf-dist/fonts/type1/vntex/vnr/vnbx12.pfb><c:/texlive/2025/texmf-dist/fonts/type1/vntex/vnr/vnr10.pfb><c:/texlive/2025/texmf-dist/fonts/type1/vntex/vnr/vnr12.pfb><c:/texlive/2025/texmf-dist/fonts/type1/vntex/vnr/vnr9.pfb><c:/texlive/2025/texmf-dist/fonts/type1/vntex/vnr/vnti12.pfb>
+Output written on thesis.pdf (86 pages, 24211750 bytes).
+PDF statistics:
+ 528 PDF objects out of 1000 (max. 8388607)
+ 260 compressed objects within 3 object streams
+ 0 named destinations out of 1000 (max. 500000)
+ 353 words of extra memory for PDF output out of 10000 (max. 10000000)
+

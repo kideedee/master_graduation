@@ -1,0 +1,13 @@
+\addvspace {10\p@ }
+\addvspace {10\p@ }
+\addvspace {10\p@ }
+\addvspace {10\p@ }
+\contentsline {table}{\numberline {4.1}{\ignorespaces Thông tin về dữ liệu}}{47}{}%
+\contentsline {table}{\numberline {4.2}{\ignorespaces So sánh sự ảnh hưởng của giá trị ngưỡng lọc điểm nhiễu dựa trên bản đồ độ sâu tương đối lên độ chính xác của camera pose với độ đo MRE (pixel), với NF=K có nghĩa là sử dụng bộ lọc nhiễu với ngưỡng THRESH=K.}}{52}{}%
+\contentsline {table}{\numberline {4.3}{\ignorespaces So sánh độ hiệu quả của việc sử dụng bộ lọc điểm nhiễu dựa trên bản đồ độ sâu tương đối lên độ chính xác của camera pose với độ đo MRE (pixel), với NF=K có nghĩa là sử dụng bộ lọc nhiễu với ngưỡng THRESH=K.}}{53}{}%
+\contentsline {table}{\numberline {4.4}{\ignorespaces So sánh giá trị MRE (pixel) khi tính toán camera pose giữa giải pháp SfM truyền thống và giải pháp Hybrid-SfM đề xuất, các kết quả MRE trên đều đi kèm với tỉ lệ ảnh được đăng ký khi thực hiện SfM là 100\%.}}{54}{}%
+\contentsline {table}{\numberline {4.5}{\ignorespaces So sánh giá trị Độ dài chuỗi ảnh quan sát trung bình (ảnh) khi tính toán camera pose giữa giải pháp SfM truyền thống và giải pháp Hybrid-SfM đề xuất, các kết quả Độ dài ảnh quan sát trên đều đi kèm với tỉ lệ ảnh được đăng ký khi thực hiện SfM là 100\%.}}{55}{}%
+\contentsline {table}{\numberline {4.6}{\ignorespaces So sánh thời gian (phút) thực thi thuật toán trung bình giữa giải pháp SfM truyền thống và giải pháp Hybrid-SfM đề xuất trên 5 tập ảnh thử nghiệm.}}{56}{}%
+\contentsline {table}{\numberline {4.7}{\ignorespaces So sánh chỉ số PCS của mô hình mây điểm tái tạo từ MVS với 2 đầu vào từ 2 phương pháp: SfM truyền thống và Hybrid-SfM đề xuất.}}{58}{}%
+\contentsline {table}{\numberline {4.8}{\ignorespaces So sánh chỉ số PCS của mô hình mây điểm tái tạo từ Nerfacto với 2 đầu vào từ 2 phương pháp: SfM truyền thống và Hybrid-SfM đề xuất.}}{60}{}%
+\addvspace {10\p@ }

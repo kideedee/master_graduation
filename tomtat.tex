@@ -1,0 +1,130 @@
+\documentclass[a4paper,13pt]{report}
+\usepackage[utf8]{vietnam}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{graphicx}
+\usepackage{caption}
+\usepackage{booktabs}
+\usepackage[unicode]{hyperref}
+\usepackage[left=3cm,right=2cm,top=2.5cm,bottom=3cm]{geometry}
+\usepackage{titlesec} 
+\usepackage{scrextend}
+\usepackage{enumerate}
+\usepackage{tikz}
+\usepackage{float}
+\usepackage{sectsty}
+\usepackage{tocloft,calc}
+\usepackage{makecell}
+\usetikzlibrary{calc}
+
+\def\changemargin#1#2{\list{}{\rightmargin#2\leftmargin#1}\item[]}
+\let\endchangemargin=\endlist 
+
+\changefontsizes{13pt}
+
+\sectionfont{\fontsize{15}{15}\selectfont}
+\subsectionfont{\fontsize{13}{15}\selectfont}
+
+\titleformat{\chapter}[display]   
+{\normalfont\huge\bfseries}{\chaptertitlename\ \thechapter}{0pt}{\LARGE}
+\titlespacing*{\chapter}{0cm}{-\topskip}{0pt}[0pt]
+
+\renewcommand{\baselinestretch}{1.3}
+%\renewcommand{\cftsecpresnum}{Chương\space}
+\renewcommand{\cftchappresnum}{Chương }
+\AtBeginDocument{\addtolength\cftchapnumwidth{\widthof{\bfseries Chương }}}
+\setlength{\parskip}{0.4em}
+\setlength{\parindent}{0pt}
+%
+\title{Phát hiện và phân loại mã độc dựa trên các kĩ thuật học sâu}	%% title
+\author{Trần Minh Tuấn}			%% author's name
+
+%
+\newcommand{\argmax}{\arg\!\max}
+
+\begin{document}
+%\input{cover}\newpage\cleardoublepage
+
+\pagenumbering{gobble}
+\begin{center}
+	
+	\begin{tikzpicture}[overlay,remember picture]
+	\draw [line width=3pt,rounded corners=0pt,
+	]
+	($ (current page.north west) + (25mm,-25mm) $)
+	rectangle
+	($ (current page.south east) + (-15mm,25mm) $);
+	\draw [line width=1pt,rounded corners=0pt]
+	($ (current page.north west) + (26.5mm,-26.5mm) $)
+	rectangle
+	($ (current page.south east) + (-16.5mm,26.5mm) $);
+	\end{tikzpicture}
+	\\[1mm]
+	\textbf{ĐẠI HỌC QUỐC GIA HÀ NỘI\\TRƯỜNG ĐẠI HỌC CÔNG NGHỆ}
+	\\[1cm]
+	\includegraphics[width=0.2\linewidth]{figures/uet}
+	\\[0.3cm]
+	\textbf{Trần Minh Tuấn}
+	\\[2cm]
+	
+	\textbf{PHÁT HIỆN VÀ PHÂN LOẠI MÃ ĐỘC DỰA TRÊN CÁC KĨ THUẬT HỌC SÂU}
+	\\[2.6cm]
+	\textbf{KHÓA LUẬN TỐT NGHIỆP ĐẠI HỌC HỆ CHÍNH QUY
+		\\[2mm]
+	Ngành: Công nghệ thông tin}
+\end{center}
+\vspace{16mm}
+\textbf{ Cán bộ hướng dân: TS. Võ Đình Hiếu}
+\vfill
+\begin{center}
+	\textbf{HÀ NỘI - 2018}
+	\vspace{10mm}
+\end{center}
+
+\pagenumbering{gobble}
+\begin{center}
+	
+	\begin{tikzpicture}[overlay,remember picture]
+	\draw [line width=3pt,rounded corners=0pt,
+	]
+	($ (current page.north west) + (25mm,-25mm) $)
+	rectangle
+	($ (current page.south east) + (-15mm,25mm) $);
+	\draw [line width=1pt,rounded corners=0pt]
+	($ (current page.north west) + (26.5mm,-26.5mm) $)
+	rectangle
+	($ (current page.south east) + (-16.5mm,26.5mm) $);
+	\end{tikzpicture}
+	\\[1mm]
+	\textbf{ VIETNAM NATIONAL UNIVERSITY, HANOI\\UNIVERSITY OF ENGINEERING AND TECHNOLOGY}
+	\\[1cm]
+	\includegraphics[width=0.2\linewidth]{figures/uet}
+	\\[0.3cm]
+	\textbf{Tran Minh Tuan}
+	\\[2cm]
+	
+	\textbf{MALWARE DETECTION AND CLASSIFICATION BASED ON DEEP LEARNING TECHNIQUES}
+	\\[2.6cm]
+	\textbf{THE BS THESIS
+		\\[2mm]
+		Major: Information Technology}
+\end{center}
+\vspace{16mm}
+\textbf{ Supervisor: Dr. Vo Dinh Hieu}
+\vfill
+\begin{center}
+	\textbf{HA NOI - 2018}
+	\vspace{4mm}
+\end{center}
+\newpage\cleardoublepage
+
+\setcounter{page}{1}
+\pagenumbering{arabic}
+% Abstract Vietnamese
+\input{chapters/abtract_vi}\newpage\cleardoublepage
+% Abstract English
+\input{chapters/abtract_en}\newpage\cleardoublepage
+
+\end{document}

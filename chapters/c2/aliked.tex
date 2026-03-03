@@ -1,0 +1,67 @@
+\subsection{Thuật toán trích xuất đặc trưng ALIKED} \label{sec:aliked}
+
+Thuật toán ALIKED là một thuật toán trích xuất và mô tả đặc trưng hình ảnh hiện đại, được thiết kế để phát hiện và mô tả các điểm đặc trưng bất biến với các biến đổi hình học như xoay, thay đổi tỷ lệ, và biến đổi affine \citep{zhao2023aliked}. ALIKED nổi bật với khả năng hoạt động hiệu quả trong các ứng dụng thị giác máy tính như ghép ảnh, tái tạo 3D, định vị robot và lập bản đồ. Trong phần này, luận văn sẽ trình bày bản chất ý tưởng, kiến trúc mô hình, các công thức liên quan, cũng như phân tích điểm mạnh và điểm yếu của thuật toán.
+
+\textbf{Bản chất ý tưởng và mô hình}. ALIKED được phát triển dựa trên sự kết hợp giữa học sâu và các kỹ thuật truyền thống trong trích xuất đặc trưng, nhằm giải quyết các hạn chế của các thuật toán cổ điển như SIFT \citep{Lowe04Distinctive} hay ORB \citep{rublee2011orb} trong các điều kiện ánh sáng thay đổi và biến đổi hình học phức tạp. Ý tưởng cốt lõi của ALIKED là sử dụng mạng nơ-ron sâu để đồng thời phát hiện các điểm đặc trưng và tạo ra các mô tả đặc trưng bất biến với các biến đổi affine. 
+
+%%%%% CHÈN ẢNH CHO ALIKED
+Kiến trúc mô hình của ALIKED bao gồm ba thành phần chính:
+\begin{enumerate}
+    \item Mạng phát hiện điểm đặc trưng: Sử dụng kiến trúc dựa trên mạng tích chập để xác định các điểm đặc trưng có tính lặp lại cao trên hình ảnh.
+    \item Mạng mô tả đặc trưng: Tạo ra các vector mô tả đặc trưng bất biến với các biến đổi hình học và ánh sáng.
+    \item Hàm mất mát tối ưu hóa: Đảm bảo rằng các điểm đặc trưng được phát hiện có tính lặp lại và các mô tả đặc trưng có khả năng phân biệt cao.
+\end{enumerate}
+
+Kiến trúc mạng của ALIKED thường dựa trên các lớp tích chập với các bộ lọc học được, kết hợp với các kỹ thuật chuẩn hóa và kích hoạt phi tuyến như ReLU. Mạng được huấn luyện trên các tập dữ liệu lớn như MegaDepth \citep{li2018megadepth} để đảm bảo khả năng tổng quát hóa.
+
+\textbf{Quy trình trích xuất và mô tả đặc trưng}. Quá trình trích xuất đặc trưng trong ALIKED có thể được mô tả thông qua các bước sau:
+\begin{itemize}
+   \item Phát hiện điểm đặc trưng: Đầu vào là một hình ảnh \( I \in \mathbb{R}^{H \times W \times C} \), trong đó \( H \), \( W \), \( C \) lần lượt là chiều cao, chiều rộng và số kênh màu. Mạng phát hiện điểm đặc trưng ánh xạ hình ảnh thành một bản đồ điểm đặc trưng (gọi là score map) \( S \in \mathbb{R}^{H' \times W'} \), với \( H' \leq H \), \( W' \leq W \). Score map \( S \) biểu thị mức độ "đặc trưng" của mỗi vị trí trên hình ảnh, trong đó giá trị cao hơn tại một điểm \( (x, y) \) cho thấy điểm đó có khả năng cao là một điểm đặc trưng ổn định và lặp lại được qua các biến đổi hình học. Bản đồ này được tính bằng:
+   \begin{equation}
+       S = f_{\text{det}}(I; \theta_{\text{det}}),
+   \end{equation}
+   trong đó \( f_{\text{det}} \) là hàm mạng phát hiện với tham số \( \theta_{\text{det}} \). Để chọn các điểm đặc trưng, ALIKED áp dụng kỹ thuật tìm cực đại cục bộ (non-maximum suppression) trên \( S \), đảm bảo chỉ giữ lại các điểm có giá trị \( S(x, y) \) lớn hơn các điểm lân cận trong một cửa sổ lân cận (ví dụ, cửa sổ \( 3 \times 3 \)). Điều này giúp loại bỏ các điểm đặc trưng yếu hoặc không ổn định. Ngoài ra, để tăng tính chính xác, ALIKED có thể sử dụng kỹ thuật nội suy để xác định vị trí điểm đặc trưng ở độ phân giải thấp hơn \( (H', W') \) và ánh xạ ngược về không gian hình ảnh gốc.
+
+   \item  Mô tả đặc trưng: Với mỗi điểm đặc trưng \( p_i = (x_i, y_i) \), mạng mô tả tạo ra một vector mô tả \( d_i \in \mathbb{R}^D \), trong đó \( D \) là chiều của vector mô tả (thường là 128 hoặc 256). Vector mô tả được tính bằng:
+   \begin{equation}
+       d_i = f_{\text{desc}}(I, p_i; \theta_{\text{desc}}),
+   \end{equation}
+   trong đó \( f_{\text{desc}} \) là hàm biểu diễn mạng mô tả đặc trưng với tham số \( \theta_{\text{desc}} \).
+   \item Hàm mất mát:  ALIKED sử dụng hàm mất mát kết hợp để tối ưu hóa cả phát hiện và mô tả đặc trưng. Hàm mất mát tổng quát có dạng:
+   \begin{equation}
+       \mathcal{L} = \mathcal{L}_{\text{det}} + \lambda \mathcal{L}_{\text{desc}},
+   \end{equation}
+   trong đó \( \mathcal{L}_{\text{det}} \) là mất mát cho phát hiện điểm đặc trưng, \( \mathcal{L}_{\text{desc}} \) là mất mát cho mô tả đặc trưng, và \( \lambda \) là trọng số cân bằng hai thành phần này.
+
+   Mục tiêu của mất mát phát hiện đặc trưng (\( \mathcal{L}_{\text{det}} \)) là đảm bảo các điểm đặc trưng được phát hiện có tính lặp lại cao, tức là các điểm này có thể được phát hiện lại trong các hình ảnh liên quan. Ví dụ, hình ảnh có cùng cảnh nhưng được chụp từ các góc nhìn khác nhau. Mất mát phát hiện đặc trưng được thiết kế dựa trên bản đồ điểm đặc trưng \( S \). Một cách tiếp cận phổ biến là sử dụng hàm mất mát dựa trên xác suất softmax để ưu tiên các điểm đặc trưng thực sự:
+   \begin{equation}
+       \mathcal{L}_{\text{det}} = -\sum_{p_i \in \mathcal{P}} \log \left( \frac{\exp(S(p_i))}{\sum_{p_j \in \mathcal{N}_i} \exp(S(p_j))} \right),
+   \end{equation}
+   trong đó \( \mathcal{P} \) là tập hợp các điểm đặc trưng thực, và \( \mathcal{N}_i \) là tập hợp các điểm lân cận của \( p_i \) trên score map. Hàm này khuyến khích giá trị \( S(p_i) \) tại các điểm đặc trưng thực cao hơn so với các điểm lân cận, từ đó tăng tính lặp lại và độ chính xác của việc phát hiện. Ngoài ra, để xử lý các trường hợp có ít điểm đặc trưng, ALIKED có thể sử dụng các kỹ thuật cân bằng như focal loss để giảm thiểu ảnh hưởng của các vùng không chứa đặc trưng.
+
+   Mục tiêu của Mất mát mô tả (\( \mathcal{L}_{\text{desc}} \)) là đảm bảo các vector mô tả \( d_i \) có tính phân biệt cao, tức là khoảng cách giữa các vector mô tả của các điểm đặc trưng khớp nhau nhỏ, trong khi khoảng cách với các điểm không khớp lớn. ALIKED sử dụng mất mát triplet:
+   \begin{equation}
+       \mathcal{L}_{\text{desc}} = \sum_{(d_i, d_j, d_k)} \max \left( 0, \| d_i - d_j \|_2^2 - \| d_i - d_k \|_2^2 + m \right),
+   \end{equation}
+   trong đó \( (d_i, d_j, d_k) \) là một bộ ba đặc trưng (đặc trưng gốc, đặc trưng khớp, đặc trưng không khớp), \( \| \cdot \|_2^2 \) là bình phương khoảng cách Euclid, và \( m \) là ngưỡng margin (thường được chọn trong khoảng 0.5 đến 1.0). Mất mát triplet đảm bảo rằng khoảng cách giữa \( d_i \) và \( d_j \) nhỏ hơn khoảng cách giữa \( d_i \) và \( d_k \) ít nhất bằng \( m \), từ đó cải thiện khả năng phân biệt của các mô tả đặc trưng. Để tăng hiệu quả huấn luyện, ALIKED thường sử dụng kỹ thuật "Khai thác mẫu âm khó" (hay hard negative mining), tức là lựa chọn các đặc trưng không khớp có khoảng cách gần nhất với đặc trưng gốc để tối ưu hóa.
+\end{itemize}
+
+\textbf{Điểm mạnh}
+
+ALIKED có một số điểm mạnh nổi bật:
+\begin{itemize}
+    \item Bất biến với biến đổi affine: Nhờ sử dụng các kỹ thuật học sâu, ALIKED duy trì hiệu suất cao trong các điều kiện có biến đổi hình học phức tạp \citep{zhao2023aliked}.
+    \item Hiệu quả tính toán: So với các phương pháp truyền thống như SIFT, ALIKED có tốc độ xử lý nhanh hơn trên phần cứng hiện đại, đặc biệt khi sử dụng GPU.
+    \item Tính lặp lại cao: Các điểm đặc trưng được phát hiện bởi ALIKED có độ lặp lại tốt, ngay cả trong các điều kiện ánh sáng thay đổi hoặc góc nhìn khác nhau.
+\end{itemize}
+
+\textbf{Điểm yếu}
+
+Mặc dù có nhiều ưu điểm, ALIKED cũng tồn tại một số hạn chế:
+\begin{itemize}
+    \item Phụ thuộc vào dữ liệu huấn luyện: Hiệu suất của ALIKED phụ thuộc lớn vào chất lượng và độ đa dạng của tập dữ liệu huấn luyện. Trong các kịch bản chưa được huấn luyện trước, hiệu suất có thể giảm \citep{zhao2023aliked}.
+    \item Yêu cầu tài nguyên tính toán cao: Mặc dù nhanh hơn SIFT, ALIKED vẫn đòi hỏi phần cứng mạnh (như GPU) để đạt hiệu suất thời gian thực.
+    \item Độ phức tạp mô hình: Kiến trúc mạng sâu của ALIKED có thể khó tối ưu hóa hoặc điều chỉnh cho các ứng dụng cụ thể so với các phương pháp truyền thống đơn giản hơn.
+\end{itemize}
+
+ALIKED là một thuật toán trích xuất đặc trưng tiên tiến, kết hợp sức mạnh của học sâu với các yêu cầu về bất biến hình học và ánh sáng trong thị giác máy tính. Mặc dù còn tồn tại một vài hạn chế, ALIKED vẫn rất tiềm năng để ứng dụng cho các bài toán thực tế như bài toán tái tạo mây điểm 3D chi tiết, chính xác cho đối tượng cột ăng-ten.
