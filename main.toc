@@ -1,0 +1,35 @@
+\xpg@aux {}{vietnamese}
+\contentsline {chapter}{Lời cam đoan}{}{section*.2}%
+\contentsline {chapter}{Lời cảm ơn}{}{section*.4}%
+\contentsline {chapter}{Tóm tắt}{}{section*.6}%
+\contentsline {chapter}{Mục lục}{i}{section*.8}%
+\contentsline {chapter}{Tóm tắt}{iii}{section*.9}%
+\contentsline {chapter}{Danh mục hình vẽ}{iv}{section*.11}%
+\contentsline {chapter}{Danh mục bảng biểu}{vi}{section*.12}%
+\contentsline {chapter}{{Mở đầu}}{1}{section*.13}%
+\contentsline {chapter}{\numberline {1}TỔNG QUAN VỀ CÁC HỆ THỐNG XÁC ĐỊNH HƯỚNG SÓNG ĐẾN}{4}{chapter.1}%
+\contentsline {section}{\numberline {1.1}Khái niệm và ứng dụng của hệ xác định hướng sóng đến}{4}{section.1.1}%
+\contentsline {section}{\numberline {1.2}Các công nghệ xác định hướng sóng đến điển hình}{5}{section.1.2}%
+\contentsline {subsection}{\numberline {1.2.1}Phương pháp tạo búp sóng}{6}{subsection.1.2.1}%
+\contentsline {subsection}{\numberline {1.2.2}Thuật toán Maximum Likelihood}{8}{subsection.1.2.2}%
+\contentsline {section}{\numberline {1.3}Hệ thống xác định hướng sóng đến với thuật toán MUSIC}{10}{section.1.3}%
+\contentsline {chapter}{\numberline {2}TRIỂN KHAI THUẬT TOÁN MUSIC TRÊN THIẾT BỊ SDR}{14}{chapter.2}%
+\contentsline {section}{\numberline {2.1}Phần mềm GNU Radio và thiết bị vô tuyến định nghĩa bằng phần mềm SDR}{14}{section.2.1}%
+\contentsline {subsection}{\numberline {2.1.1}Phần mềm GNU Radio}{14}{subsection.2.1.1}%
+\contentsline {subsection}{\numberline {2.1.2}Thiết bị vô tuyến định nghĩa bằng phần mềm SDR}{18}{subsection.2.1.2}%
+\contentsline {section}{\numberline {2.2}Phần cứng và phần mềm của BladeRF}{20}{section.2.2}%
+\contentsline {subsection}{\numberline {2.2.1}BladeRF x115}{20}{subsection.2.2.1}%
+\contentsline {subsection}{\numberline {2.2.2}Phần mềm của BladeRF}{22}{subsection.2.2.2}%
+\contentsline {section}{\numberline {2.3}Triển khai hệ thống xác định hướng sóng đến trên hệ BladeRF}{24}{section.2.3}%
+\contentsline {chapter}{\numberline {3}KẾT QUẢ MÔ PHỎNG, THỰC NGHIỆM HỆ THỐNG}{35}{chapter.3}%
+\contentsline {section}{\numberline {3.1}Mô phỏng hệ thống trên GNU Radio}{35}{section.3.1}%
+\contentsline {subsection}{\numberline {3.1.1}Mô phỏng với dữ liệu Matlab}{35}{subsection.3.1.1}%
+\contentsline {subsection}{\numberline {3.1.2}Mô phỏng với dữ liệu giả lập BladeRF}{38}{subsection.3.1.2}%
+\contentsline {section}{\numberline {3.2}Thực nghiệm hệ thống}{39}{section.3.2}%
+\contentsline {subsection}{\numberline {3.2.1}Tín hiệu nguồn phát và thiết lập hệ thu}{40}{subsection.3.2.1}%
+\contentsline {subsection}{\numberline {3.2.2}Tình huống thực nghiệm}{41}{subsection.3.2.2}%
+\contentsline {subsection}{\numberline {3.2.3}Kết quả thực nghiệm}{42}{subsection.3.2.3}%
+\contentsline {chapter}{{KẾT LUẬN VÀ HƯỚNG NGHIÊN CỨU TIẾP THEO}}{48}{section*.62}%
+\contentsline {chapter}{{PHỤ LỤC}}{50}{section*.64}%
+\contentsline {chapter}{{TÀI LIỆU THAM KHẢO}}{56}{section*.71}%
+\contentsfinish 
