@@ -1,0 +1,143 @@
+## Core LaTeX auxiliary files
+*.aux
+*.lof
+*.log
+*.lot
+*.fls
+*.out
+*.toc
+*.fmt
+*.fot
+*.cb
+*.cb2
+.*.lb
+
+## Intermediate documents
+*.dvi
+*.xdv
+*-converted-to.*
+
+## Bibliography auxiliary files
+*.bbl
+*.bcf
+*.blg
+*-blx.aux
+*-blx.bib
+*.run.xml
+
+## Build tool auxiliary files
+*.fdb_latexmk
+*.synctex
+*.synctex(busy)
+*.synctex.gz
+*.synctex.gz(busy)
+*.pdfsync
+
+## Build tool directories
+latex.out/
+
+## Auxiliary and intermediate files from other packages
+*.makefile
+*.dpth
+*.md5
+*.auxlock
+
+## Glossaries
+*.acn
+*.acr
+*.glg
+*.glo
+*.gls
+*.glsdefs
+*.lzo
+*.lzs
+*.slg
+*.slo
+*.sls
+
+## Uncomment to ignore compiled PDFs (remove if you want to track PDFs)
+# *.pdf
+
+## Gnuplot
+*.gnuplot
+*.table
+
+## Hyperref
+*.brf
+
+## Knitr
+*-concordance.tex
+
+## Listings
+*.lol
+
+## Makeindex
+*.idx
+*.ilg
+*.ind
+
+## Minitoc
+*.maf
+*.mlf
+*.mlt
+*.mtc[0-9]*
+*.slf[0-9]*
+*.slt[0-9]*
+*.stc[0-9]*
+
+## Minted
+_minted*
+*.pyg
+
+## Morewrites
+*.mw
+
+## Nomencl
+*.nlg
+*.nlo
+*.nls
+
+## Pax
+*.pax
+
+## Pdfpcnotes
+*.pdfpc
+
+## Sagetex
+*.sagetex.sage
+*.sagetex.py
+*.sagetex.scmd
+
+## Scrwfile
+*.wrt
+
+## Sympy
+*.sout
+*.sympy
+sympy-plots-for-*.tex/
+
+## TikZ & PGF
+*.dpth
+*.md5
+*.auxlock
+
+## Todonotes
+*.tdo
+
+## Xindy
+*.xdy
+
+## WinEdt
+*.bak
+*.sav
+
+## Editors
+*~
+.DS_Store
+*.swp
+*.swo
+*~
+
+## OS files
+Thumbs.db
+.DS_Store
