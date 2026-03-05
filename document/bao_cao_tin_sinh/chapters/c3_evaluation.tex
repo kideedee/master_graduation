@@ -1,0 +1,60 @@
+
+\chapter{Đánh giá các phương pháp}
+\section{Thảo luận mở rộng}
+
+\subsection{Vấn đề về tính giải thích của mô hình}
+
+Một trong những thách thức lớn nhất hiện nay trong việc áp dụng các mô hình học sâu vào phân loại thực khuẩn thể là tính khó giải thích (\textit{interpretability}). Các mô hình như \textbf{DeepPL} hay \textbf{PhaTYP} hoạt động như “hộp đen”, khiến cho việc truy vết nguyên nhân sinh học đằng sau dự đoán trở nên khó khăn.
+
+\begin{itemize}
+    \item Với các mô hình truyền thống như \textbf{PHACTS} hay \textbf{BACPHLIP}, các đặc trưng (như protein domain, mức độ tương đồng protein) dễ dàng liên hệ với kiến thức sinh học.
+    \item Trong khi đó, các mô hình học sâu chỉ cung cấp đầu ra phân loại mà không lý giải cụ thể đặc trưng nào ảnh hưởng tới kết quả.
+\end{itemize}
+
+Điều này gây khó khăn khi kết hợp kết quả mô hình với thực nghiệm sinh học hoặc khi cần kiểm chứng trong môi trường lâm sàng. Vì vậy, hướng nghiên cứu cần tập trung phát triển các mô hình \textbf{có khả năng giải thích} (\textit{explainable AI – XAI}) hoặc kết hợp giữa các lớp học máy và sinh học chức năng.
+
+\subsection{Khả năng mở rộng và cập nhật mô hình}
+
+Hầu hết các mô hình hiện nay đều cần \textbf{tái huấn luyện khi có dữ liệu mới}, đặc biệt là các mô hình học sâu như PhageAI hay DeepPL. Điều này gây khó khăn trong thực tiễn vì:
+
+\begin{itemize}
+    \item Dữ liệu thực khuẩn thể liên tục được cập nhật.
+    \item Tập huấn luyện cần duy trì độ cân bằng giữa hai vòng đời.
+    \item Yêu cầu phần cứng lớn khi huấn luyện lại mô hình với toàn bộ dữ liệu.
+\end{itemize}
+
+Do đó, hướng tiếp cận \textbf{học liên tục} (\textit{continual learning}) hoặc \textbf{học bán giám sát} (\textit{semi-supervised learning}) có thể là giải pháp tiềm năng, cho phép mô hình thích ứng dần với dữ liệu mới mà không cần tái huấn luyện hoàn toàn.
+
+\subsection{Ứng dụng trong môi trường metagenomics}
+
+Dữ liệu metagenomics là môi trường đặc biệt, chứa nhiều contig ngắn chưa rõ nguồn gốc. Các phương pháp như \textbf{DeePhage} và \textbf{PhaTYP} cho thấy khả năng vượt trội trong việc xử lý loại dữ liệu này, tuy nhiên vẫn tồn tại các giới hạn:
+
+\begin{itemize}
+    \item Các contig quá ngắn (<100 bp) hoặc chứa nhiều tạp nhiễu vẫn gây khó khăn cho mô hình.
+    \item Thiếu annotation khiến việc xác nhận vòng đời phage ngoài thực nghiệm là bất khả thi.
+\end{itemize}
+
+Giải pháp có thể là kết hợp phân loại phage với các phương pháp xác định vị trí chèn gen, tìm gene dấu hiệu lysogeny, hoặc kết hợp thêm thông tin từ vật chủ vi khuẩn để tăng độ tin cậy.
+
+\subsection{Kết hợp nhiều phương pháp (ensemble)}
+
+Một hướng đi nhiều tiềm năng là xây dựng hệ thống phân loại phage đa tầng (multi-stage pipeline), kết hợp nhiều mô hình:
+
+\begin{itemize}
+    \item Giai đoạn đầu: Lọc nhanh các contig nghi ngờ bằng DeePhage hoặc mô hình CNN đơn giản.
+    \item Giai đoạn hai: Áp dụng DeepPL hoặc DNABERT để phân tích chuyên sâu.
+    \item Giai đoạn ba: Ánh xạ kết quả với dữ liệu protein, domain để tăng tính giải thích.
+\end{itemize}
+
+Cách tiếp cận này giúp tận dụng sức mạnh của từng mô hình, đồng thời cân bằng giữa tốc độ, độ chính xác và khả năng giải thích kết quả.
+
+\subsection{Hướng nghiên cứu tương lai}
+
+Dựa trên những quan sát và đánh giá ở trên, các hướng nghiên cứu tiềm năng bao gồm:
+
+\begin{itemize}
+    \item Phát triển các mô hình học sâu có khả năng giải thích (\textit{interpretable deep learning}).
+    \item Ứng dụng kỹ thuật học liên tục hoặc học bán giám sát để cập nhật mô hình với chi phí thấp.
+    \item Kết hợp thêm thông tin từ hệ gen vật chủ hoặc môi trường sinh học xung quanh.
+    \item Chuẩn hóa tập dữ liệu benchmark để dễ dàng đánh giá mô hình một cách khách quan.
+\end{itemize}

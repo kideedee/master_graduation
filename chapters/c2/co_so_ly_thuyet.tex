@@ -1,6 +1,8 @@
 \chapter{Cơ sở lý thuyết}
 \label{chap:theory}
 
+Chương này trình bày các kiến thức nền tảng cần thiết để hiểu phương pháp PhaBERT-CNN được đề xuất trong luận văn. Nội dung chương bao gồm cả kiến thức sinh học về thực khuẩn thể và các kỹ thuật học sâu hiện đại được áp dụng trong phân loại chuỗi genome. Chương được tổ chức thành các phần chính: Section \ref{sec:bacteriophage} giới thiệu về sinh học thực khuẩn thể, chu trình sống, và cơ chế phân biệt lối sống virulent và temperate; Section \ref{sec:metagenomics} trình bày về metagenomics và các thách thức trong phân tích dữ liệu metagenomic; Section \ref{sec:machine_learning} và \ref{sec:deep_learning} giới thiệu các khái niệm cơ bản về học máy và học sâu; Section \ref{sec:cnn} mô tả kiến trúc mạng nơ-ron tích chập (CNN) và ứng dụng trong xử lý chuỗi; Section \ref{sec:transformer}, \ref{sec:bert}, và \ref{sec:dnabert} trình bày chi tiết về kiến trúc Transformer, mô hình BERT, và biến thể chuyên biệt cho chuỗi DNA (DNABERT); Section \ref{sec:dnabert2} giới thiệu DNABERT-2 - mô hình nền tảng genome thế hệ mới với BPE tokenization và ALiBi positional encoding; Section \ref{sec:transfer_learning} giải thích về học chuyển giao và fine-tuning; cuối cùng, Section \ref{sec:related_work} tổng quan các nghiên cứu liên quan về phân loại lối sống thực khuẩn thể.
+
 \input{chapters/c2/bacteriophage}
 \input{chapters/c2/metagenomics}
 \input{chapters/c2/machine_learning}
@@ -9,6 +11,6 @@
 \input{chapters/c2/transformer}
 \input{chapters/c2/bert}
 \input{chapters/c2/dnabert}
-\input{chapters/c2/dnabert2}
+\input{chapters/c2/dnabert2_model}
 \input{chapters/c2/transfer_learning}
 \input{chapters/c2/related_work}

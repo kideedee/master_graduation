@@ -5,9 +5,15 @@
 \addcontentsline{toc}{chapter}{Tóm tắt}
 
 \begin{small}
-Tóm tắt
+Thực khuẩn thể (bacteriophage) là virus xâm nhiễm vi khuẩn, có tiềm năng ứng dụng trong liệu pháp phage thay thế kháng sinh. Việc phân loại chính xác lối sống của thực khuẩn thể - độc lực (virulent) hay ôn hòa (temperate) - là yêu cầu thiết yếu cho các ứng dụng trị liệu, vì chỉ phage độc lực mới an toàn để sử dụng. Các phương pháp truyền thống dựa vào nuôi cấy tốn thời gian và không áp dụng được cho phần lớn phage chưa nuôi cấy được. Các công cụ tính toán hiện có như PhaTYP và DeePhage vẫn gặp hạn chế khi xử lý các contig ngắn từ dữ liệu metagenomic.
+
+Luận văn này đề xuất PhaBERT-CNN, một kiến trúc học sâu kết hợp mô hình nền tảng genome DNABERT-2 với mạng nơ-ron tích chập đa tỷ lệ và cơ chế attention pooling. Khác với PhaTYP phụ thuộc vào dự đoán protein, PhaBERT-CNN hoạt động trực tiếp trên chuỗi DNA thô, khắc phục hạn chế khi xử lý contig ngắn. Mô hình tận dụng biểu diễn tiền huấn luyện từ DNABERT-2, sử dụng các nhánh CNN song song với kernel sizes 3, 5, và 7 để trích xuất đặc trưng đa tỷ lệ, và áp dụng self-attention để tập trung vào các vùng genome có tính thông tin cao.
+
+Thực nghiệm trên bốn nhóm độ dài contig (100-400 bp, 400-800 bp, 800-1200 bp, 1200-1800 bp) với 5-fold cross-validation cho thấy PhaBERT-CNN đạt accuracy 81.59\%, 87.91\%, 90.01\%, và 90.69\% tương ứng, cải thiện 0.91-5.98\% so với các phương pháp tiên tiến như PhaTYP, DeePhage, và ProkBERT. Mô hình duy trì sự cân bằng tốt giữa sensitivity (82.00\%-91.12\%) và specificity (80.15\%-90.95\%) trên tất cả các phạm vi độ dài.
+
+Kết quả nghiên cứu chứng minh hiệu quả của việc kết hợp mô hình nền tảng genome với kiến trúc chuyên biệt task-specific, cung cấp một paradigm đầy hứa hẹn cho các nhiệm vụ phân tích chuỗi sinh học, đặc biệt trong bối cảnh phân tích metagenomic với các chuỗi không hoàn chỉnh.
 
 \vspace*{1cm}
-\textbf{Từ khóa}: \textit{Ước lượng camera pose}, \textit{Tái tạo đám mây điểm 3D}, \textit{Phục dựng cấu trúc từ chuyển động}, \textit{Trường bức xạ nơ-ron}, \textit{Quản lý thiết bị vô tuyến}, \textit{Máy bay không người lái}
+\textbf{Từ khóa}: \textit{Thực khuẩn thể}, \textit{Phân loại lối sống}, \textit{Học sâu}, \textit{BERT}, \textit{Mạng nơ-ron tích chập}, \textit{Sinh tin học}, \textit{Metagenomics}
 
 \end{small}

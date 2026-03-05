@@ -5,12 +5,10 @@
 \usepackage{amsfonts}
 \usepackage{amssymb}
 \usepackage{graphicx}
-\usepackage{longtable}
 % \usepackage{caption}
 \usepackage[font=small]{caption}
 \usepackage{booktabs}
-% \usepackage[unicode]{hyperref}d
-\usepackage{url}
+\usepackage[unicode]{hyperref}
 \usepackage[left=3cm,right=2cm,top=2.5cm,bottom=3cm]{geometry}
 \usepackage{titlesec} 
 \usepackage{scrextend}
@@ -23,14 +21,9 @@
 \usepackage{tocloft,calc}
 \usepackage{listings}
 \usepackage{makecell}
-\usepackage[numbers,sort&compress]{natbib}
-\usepackage{physics}
-\usepackage{bm}
-\usepackage{subcaption}
-
+\usepackage[sort&compress]{natbib}
 \usetikzlibrary{calc}
 \usepackage{algorithm}
-\usepackage{algpseudocode}
 % \usepackage[perpage]{footmisc}
 \usepackage{perpage} %the perpage package
 \MakePerPage{footnote} %the perpage package command
@@ -63,64 +56,53 @@
 \setlength{\parskip}{0.4em}
 \setlength{\parindent}{0pt}
 %
-\title{Phân loại lối sống thực khuẩn thể \\ dựa trên phương pháp học sâu}	%% title
-\author{Vũ Quang Sơn}			%% author's name
+\title{Một số phương pháp phân loại thực khuẩn}	%% title
+\author{Trịnh Bá Tú, Vũ Quang Sơn, Lê Thế Nam}			%% author's name
 
 %
 \newcommand{\argmax}{\arg\!\max}
+
 \begin{document}
 \input{cover}\newpage\cleardoublepage
 
 % Acknowledgement
-\input{chapters/acknowledgement}\newpage\cleardoublepage
+% \input{chapters/acknowledgement}\newpage\cleardoublepage
 % Assurance
-\input{chapters/assurance}\newpage\cleardoublepage
+% \input{chapters/assurance}\newpage\cleardoublepage
 % Abstract Vietnamese
 \input{chapters/abtract_vi}\newpage\cleardoublepage
 % Abstract English
-\input{chapters/abtract_en}\newpage\cleardoublepage
+% \input{chapters/abtract_en}\newpage\cleardoublepage
 \addcontentsline{toc}{chapter}{Mục lục}
 \tableofcontents\newpage\cleardoublepage
 %
 
-% \newpage
-% \addcontentsline{toc}{chapter}{\listfigurename}
-% \listoffigures\cleardoublepage
-
-% \newpage
-% \addcontentsline{toc}{chapter}{\listtablename}
-% \listoftables\cleardoublepage
-
-% \newpage
-% \input{chapters/glossary}\newpage\cleardoublepage
-
 \newpage
 \addcontentsline{toc}{chapter}{\listfigurename}
-\listoffigures
-\cleardoublepage
+\listoffigures\cleardoublepage
 
 \newpage
 \addcontentsline{toc}{chapter}{\listtablename}
 \listoftables
-\cleardoublepage
 
 \newpage
-\input{chapters/glossary}
-\cleardoublepage
+\input{chapters/glossary}\newpage\cleardoublepage
+%\listoftables
 
-\pagenumbering{arabic}
-\input{chapters/c1/gioi_thieu}\newpage\cleardoublepage
-\input{chapters/c2/co_so_ly_thuyet}\newpage\cleardoublepage
-\input{chapters/c3/chapter_3.tex}\newpage\cleardoublepage
-\input{chapters/c4/thuc_nghiem_2}\newpage\cleardoublepage
-\input{chapters/c5/ket luan}\newpage\cleardoublepage
+
+%
+\input{chapters/c0_introduction}\newpage\cleardoublepage
+\input{chapters/c1_methods}\newpage\cleardoublepage
+\input{chapters/c1.1_machinelearing_methods}\newpage\cleardoublepage
+\input{chapters/c1.2_deeplearning_methods}\newpage\cleardoublepage
+\input{chapters/c2_experiments}\newpage\cleardoublepage
+\input{chapters/c3_evaluation}\newpage\cleardoublepage
+\input{chapters/c4_conclusion}\newpage\cleardoublepage
+
 
 %\nocite{*}
-\phantomsection
+\phantomsection 
 \addcontentsline{toc}{chapter}{Tài liệu tham khảo}
 \bibliography{references}\newpage\cleardoublepage
+\bibliographystyle{plain}
 \end{document}
-
-% Paper 1: https://www.sciencedirect.com/science/article/abs/pii/S0313592622000522
-
-% Paper 2: https://www.sciencedirect.com/science/article/pii/S1352231023004132

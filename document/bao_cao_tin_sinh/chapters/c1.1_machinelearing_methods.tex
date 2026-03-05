@@ -1,0 +1,197 @@
+\section{PHACTS - Phage Classification Tool Set \cite{PHACTS_10.1093/bioinformatics/bts014}}
+
+PHACTS là một trong những công cụ tiên phong trong việc phân loại thực khuẩn thể theo vòng đời dựa trên bộ gen đầy đủ. Công cụ này sử dụng thuật toán \textbf{Random Forest (Rừng ngẫu nhiên)} để xây dựng mô hình học máy dựa trên mức độ tương đồng protein giữa các thực khuẩn.
+
+\subsection{Dữ liệu huấn luyện}
+
+\begin{itemize}
+    \item Dữ liệu thu thập từ cơ sở dữ liệu PHANTOME, gồm 654 bộ gen thực khuẩn.
+    \item Dữ liệu huấn luyện: 227 thực khuẩn có vòng đời đã được xác nhận bằng phương pháp thủ công từ nhiều nguồn tài liệu khác nhau.
+    \item Thành phần tập huấn luyện: 
+    \begin{itemize}
+        \item 148 thực khuẩn thể ôn hoà (temperate)
+        \item 79 thực khuẩn thể độc lực (virulent)
+    \end{itemize}
+\end{itemize}
+Đặc điểm của tập dữ liệu này là tỷ lệ lớp không cân bằng (2:1), phản ánh sự phổ biến của thực khuẩn thể ôn hoà trong dữ liệu.
+
+Để đảm bảo tính khách quan trong đánh giá mô hình, các thực khuẩn có độ tương đồng cao về protein (>90\% protein giống nhau với >90\% độ tương đồng) với thực khuẩn đang được kiểm tra sẽ bị loại khỏi tập huấn luyện. Điều này giúp tránh tình trạng mô hình "học tủ" và đánh giá chính xác khả năng tổng quát hóa.
+
+
+\subsection{Phương pháp}
+
+PHACTS hoạt động qua ba bước chính để dự đoán lối sống của thực khuẩn:
+
+\textbf{Tạo tập protein chuẩn} (\textit{query proteins}) $Q = \{P_1, P_2, \dots, P_M\}$:
+    \begin{itemize}
+        \item Tập $Q$ bao gồm $M$ protein được chọn ngẫu nhiên từ toàn bộ protein của các phage trong tập huấn luyện. 
+        \item Các protein này đóng vai trò là "mẫu" để so sánh với protein của phage cần phân loại.
+        \item Số lượng protein $M$ ảnh hưởng đến hiệu suất và độ chính xác của mô hình. Trong nghiên cứu, $M = 600$ được xác định là tối ưu. 
+            \begin{itemize}
+                \item $M$ quá nhỏ có thể làm giảm độ chính xác. 
+                \item $M$ quá lớn làm tăng thời gian tính toán mà không cải thiện đáng kể độ chính xác.
+            \end{itemize}
+        \item Để chọn ra $M$ proteins, từ mỗi lớp (ôn hòa và độc lực), $M/C$ proteins được chọn ngẫu nhiên, với $C$ là số lượng lớp (ở đây $C = 2$). 
+    \end{itemize}
+    
+\textbf{Tạo vector tương đồng}:
+    \begin{itemize}
+        \item Công cụ \texttt{FASTA} được sử dụng để so sánh từng protein của phage đầu vào với mỗi protein $P_i$ trong tập $Q$. 
+        \item Vector tương đồng $X = [S_1, S_2, \dots, S_M]$ được xây dựng, trong đó $S_i$ là phần trăm độ tương đồng cao nhất giữa bất kỳ protein nào của phage đầu vào và protein chuẩn $P_i$. 
+        \item Mỗi giá trị $S_i$ thể hiện mức độ giống nhau giữa protein của phage lạ và protein chuẩn thứ $i$ trong tập $Q$, từ đó mã hóa đặc trưng của thực khuẩn dựa trên so sánh với tập protein chuẩn.
+    \end{itemize}
+    
+\textbf{Huấn luyện mô hình phân loại}:
+    \begin{itemize}
+        \item Dữ liệu huấn luyện cho mô hình Random Forest bao gồm các cặp $(X, y)$, trong đó:
+            \begin{itemize}
+                \item $X$ là vector tương đồng biểu diễn đặc trưng của một phage.
+                \item $y$ là nhãn vòng đời tương ứng (0: ôn hòa, 1: độc lực).
+            \end{itemize}
+         \item Mô hình Random Forest được huấn luyện với 1001 cây quyết định. Số lượng cây lớn giúp tăng độ ổn định và giảm nguy cơ quá khớp. 
+         \item Mỗi cây quyết định trong Random Forest đưa ra một dự đoán về thể của thực khuẩn. 
+         \item Kết quả cuối cùng được xác định bằng cách bình chọn theo đa số: thể của thực khuẩn được dự đoán bởi đa số cây sẽ là kết quả cuối cùng của mô hình. 
+    \end{itemize}
+
+
+\subsection{Tối ưu và đánh giá}
+
+\textbf{Lọc đặc trưng quan trọng}:
+    \begin{itemize}
+        \item Để tăng độ chính xác và hiệu quả tính toán, PHACTS sử dụng phương pháp Gini Importance để đánh giá mức độ quan trọng của từng protein trong việc phân loại. 
+        \item Gini Importance đo lường mức độ đóng góp của một protein vào khả năng phân biệt giữa các lớp (ôn hòa và độc lực).
+            \begin{itemize}
+                \item Giá trị Gini Importance cao cho thấy protein đó có vai trò quan trọng trong việc phân loại.
+                \item Giá trị Gini Importance thấp cho thấy protein đó ít đóng góp vào việc phân loại. 
+            \end{itemize}
+         \item Chỉ các protein có Gini Importance vượt qua một ngưỡng nhất định (trong nghiên cứu là gấp đôi giá trị trung bình) mới được giữ lại để xây dựng vector tương đồng. 
+         \item Việc loại bỏ các protein ít quan trọng giúp giảm nhiễu, tăng tốc độ xử lý và cải thiện độ chính xác của mô hình.
+    \end{itemize}
+    
+\textbf{Đánh giá hiệu năng}: 
+    \begin{itemize}
+        \item PHACTS đạt độ chính xác cao trong việc phân loại thực khuẩn.
+        \item Độ chính xác (Precision): đạt 99\% (197/199 phage được phân loại chắc chắn). 
+        \item Độ nhạy (Sensitivity): đạt 88\%. 
+        \item Đối với bộ gen không đầy đủ (chỉ sử dụng một phần protein), PHACTS vẫn duy trì được độ chính xác tương đối cao: \~90\% khi sử dụng khoảng 20 proteins. 
+    \end{itemize}
+
+PHACTS có thể đưa ra dự đoán với độ chính xác chấp nhận được ngay cả khi chỉ có một phần bộ gen của thực khuẩn. Việc sử dụng mô hình Rừng ngẫu nhiên (Random Forest) giúp cho PHACTS dễ hiểu và có thể được giải thích. Tuy nhiên, PHACTS sử dụng tập dữ liệu chỉ với 227 mẫu gen đầy đủ đã được gán nhãn là một hạn chế lớn. 
+
+\section{PhageAI - Bacteriophage Life Cycle Recognition with Machine Learning and Natural Language Processing \cite{PhageAI_Tynecki2020.07.11.198606}}
+
+PhageAI sử dụng phương pháp tiếp cận dựa trên Học máy và Xử lý ngôn ngữ tự nhiên để phân loại thực khuẩn dựa trên trình tự nucleotide mà không cần dựa vào chức năng giả định của gen.
+
+\subsection{Nguồn dữ liệu}
+
+Trong nghiên cứu này, dữ liệu được thu thập từ hai cơ sở dữ liệu chuyên biệt về thực khuẩn thể là \textbf{ACLAME} và \textbf{PhagesDB}. Tổng cộng có hơn 600 bộ gen thực khuẩn. Trong đó mỗi mẫu đều được gán nhãn về chu kỳ sống — bao gồm chu kỳ sinh tan (\textit{lytic cycle}) tương ứng với thực khuẩn thể độc lực và chu kỳ tiềm tan (\textit{lysogenic cycle}) tương ứng với thực khuẩn thể ôn hoà.
+
+Tập dữ liệu được phân chia thành hai phần chính:
+
+\begin{itemize}
+\item \textbf{Tập huấn luyện}: Gồm 278 mẫu thực khuẩn thể độc lực và 174 mẫu thực khuẩn thể ôn hoà.
+\item \textbf{Tập kiểm tra}: Gồm 54 mẫu thực khuẩn thể độc lực và 30 mẫu thực khuẩn thể ôn hoà, được lựa chọn từ các họ và loài thực khuẩn thể khác với các mẫu trong tập huấn luyện, nhằm đảm bảo khả năng tổng quát hóa của mô hình.
+\end{itemize}
+
+\subsection{Nguyên lý hoạt động}
+
+PhageAI được xây dựng dựa trên một pipeline tích hợp các kỹ thuật học máy và xử lý ngôn ngữ tự nhiên hiện đại, bao gồm các bước chính sau:
+
+\textbf{Phân chia dữ liệu huấn luyện}
+
+Để kiểm soát và theo dõi quá trình học của mô hình phân loại, PhageAI sử dụng chiến lược phân chia dữ liệu như sau:
+
+\begin{itemize}
+    \item \textbf{Phép kiểm định chéo phân tầng}: Dữ liệu được chia ngẫu nhiên thành 10 phần bằng nhau. Trong mỗi vòng lặp, 80\% dữ liệu được sử dụng để huấn luyện, và 20\% còn lại dùng để kiểm tra trong quá trình học. Việc phân tầng được thực hiện dựa trên vòng đời và họ của thực khuẩn, nhằm đảm bảo tính đại diện của các nhóm trong từng phần dữ liệu.
+    
+    \item \textbf{Phép kiểm định giữ lại một phần cố định}: Một tập gồm 84 mẫu chưa từng được sử dụng trong quá trình huấn luyện được giữ lại để làm dữ liệu kiểm tra độc lập. Tập này được dùng để đánh giá khách quan hiệu suất của mô hình sau khi quá trình học kết thúc.
+    
+    \item \textbf{Bộ dữ liệu kiểm tra bên ngoài}: Một tập dữ liệu thứ hai gồm 61 mẫu, do công ty Proteon Pharmaceuticals S.A. cung cấp, cũng không được sử dụng trong giai đoạn huấn luyện. Tập này được dùng để ước lượng các chỉ số hiệu suất cuối cùng của mô hình khi áp dụng lên dữ liệu thực tế hoàn toàn mới.
+\end{itemize}
+
+\textbf{Tăng cường dữ liệu bằng phương pháp bổ sung chuỗi đảo ngược}
+
+Sau khi phân chia dữ liệu, PhageAI áp dụng kỹ thuật tăng cường dữ liệu bằng cách sử dụng chuỗi bổ sung đảo ngược (reverse complement) của các trình tự thực khuẩn như các mẫu bổ sung. Điều này cho phép mô hình học máy tự động học các mối quan hệ phức tạp giữa các trình tự DNA sợi đôi. Kỹ thuật này còn giúp tăng gấp đôi kích thước tập dữ liệu, từ đó cải thiện hiệu suất của mô hình.
+
+\textbf{Biểu diễn từ DNA hiệu quả}
+
+Trình tự gen của thực khuẩn ở tệp tin dạng FASTA thường là các chuỗi tương đối dài (từ 5.000 đến 300.000 bp) bao gồm các nucleotide \{A, C, G, T\}. PhageAI đã áp dụng các kỹ thuật xử lý ngôn ngữ tự nhiên phổ biến để xây dựng không gian vector đại diện cho các trình tự thực khuẩn và giảm đáng kể yêu cầu bộ nhớ nhằm tăng tốc quá trình phân loại. Cụ thể, nhóm nghiên cứu đã sử dụng phương pháp biểu diễn phân tán của các thành phần k-mer chồng lấn và nhúng từ.
+
+Để có được các vector đặc trưng có kích thước cố định đại diện cho các gen, nhóm nghiên cứu đã áp dụng phương pháp nhúng từ dựa trên Word2Vec với mô hình Skip-gram. Cuối cùng, DNA của thực khuẩn được biểu diễn bằng trung bình của các vector nhúng k-mer của các từ cấu thành trình tự, có nghĩa là mỗi gen được mô tả bằng các giá trị số trung bình trong không gian vector.
+
+\textbf{Phân loại với Học máy}
+\begin{itemize}
+    \item Lựa chọn đặc trưng hiệu quả: các đặc trưng không đồng nhất được trích xuất từ trung bình của các vector nhúng k-mer có thể phản ánh thông tin mẫu tốt hơn. Vì mục đích này, nhóm nghiên cứu đã áp dụng RFECV (Feature ranking with recursive feature elimination and cross-validated selection of the best number of features), một phương pháp lựa chọn tính năng hiệu quả để loại bỏ các thuộc tính không liên quan và tăng khả năng tổng quát hóa của mô hình ở bước tiếp theo. Thông qua quá trình này, 150 đặc trưng quan trọng đã được chọn từ tổng số 300 đặc trưng để sử dụng trong quá trình phân loại.
+    \item Học có giám sát: nhóm tác giả đã huấn luyện và so sánh kết quả từ 11 thuật toán học máy có giám sát:
+    \begin{itemize}
+        \item Mô hình Bayesian: MultinomialNB - Multinomial Naive Bayes
+        \item Máy vector hỗ trợ: SVC - Support Vector Classification, SGDClassifier - Stochastic Gradient Descent Classifier
+        \item Mô hình tuyến tính: Logistic Regression
+        \item Mạng nơ-ron: MLPClassifier - Multilayer Perceptron Classifier
+        \item Cây quyết định: Random Forest Classifier
+        \item Thuật toán dựa trên tương đồng: K-Neighbors Classifier
+        \item Gradient boosting: Gradient Boosting Classifier, XGBoost - Extreme Gradient Boosting, CatBoostClassifier - Categorical Boosting Classifier, LightGBM - Light Gradient Boosting Machine
+    \end{itemize}
+\end{itemize}
+
+Để điều chỉnh siêu tham số của mô hình, thay vì sử dụng các kỹ thuật như Grid Search và Randomized Search - vốn tìm kiếm qua toàn bộ không gian các kết hợp tham số có sẵn theo cách biệt lập mà không cải thiện dựa trên các kết quả trước đó - nhóm nghiên cứu đã áp dụng phương pháp tối ưu hóa Bayesian, giúp giảm thiểu thời gian cần thiết để có được một tập hợp tham số mô hình tối ưu.
+
+\subsection{Kết quả và hiệu suất của PhageAI}
+
+Kết quả tốt nhất đạt được với bộ phân loại Support Vector Machine với kernel tuyến tính, cho độ chính xác trung bình là 98,90\% trên các tập đánh giá.
+    \begin{itemize}
+        \item Accuracy: 98.90\% trên tập validation.
+        \item AUC: 99.63.
+        \item Precision, Recall, F1-score: đều đạt 0.99.
+        \item Accuracy trên tập kiểm thử: 97.18\%.
+        \item Dự đoán chính xác toàn bộ 61 thực khuẩn trong tập dữ liệu riêng của Proteon Pharmaceuticals.
+    \end{itemize}
+
+Để xác nhận khả năng tổng quát hóa dữ liệu mới của mô hình, nhóm nghiên cứu cũng thử nghiệm nó trên một tập dữ liệu không có sẵn công khai do công ty Proteon Pharmaceuticals S.A. cung cấp. Tất cả 61 thực khuẩn (49 độc lực, 12 ôn hòa) đều đạt được dự đoán chính xác bởi mô hình, phù hợp với kết quả dự đoán chu kỳ sống được thực hiện thủ công.
+
+\section{BACPHLIP - Bacteriophage Lifestyle Predictor \cite{BACPHLIP_Hockenberry2020.05.13.094805}}
+
+BACPHLIP là công cụ phân loại thực khuẩn được phát triển vào năm 2021, sử dụng mô hình học máy \textbf{Rừng ngẫu nhiên (Random Forest)} và tập trung vào việc khai thác các \textbf{protein domain bảo tồn} trong bộ gen thực khuẩn. 
+
+Protein domain bảo tồn trong bộ gen thực khuẩn là các vùng chức năng trong chuỗi axit amin của protein, được duy trì qua quá trình tiến hóa và thường xuất hiện ở nhiều loài thực khuẩn khác nhau. Những domain này thường liên quan đến các chức năng thiết yếu như lắp ráp cấu trúc virus, xâm nhập tế bào chủ, sao chép DNA và ly giải tế bào vi khuẩn
+
+BACPHLIP được thiết kế để hoạt động trên bộ gen đầy đủ, với khả năng phân loại giữa hai thể: \textit{thực khuẩn thể ôn hoà} và \textit{thực khuẩn thể độc lực}.
+
+\subsection*{Dữ liệu sử dụng}
+BACPHLIP sử dụng bộ dữ liệu bao gồm 1.057 bộ gen thực khuẩn được Mavrich và Hatfull thu thập năm 2027. Bộ dữ liệu được chia thành 2 tập nhỏ với tỉ lệ 60:40 để làm tập dữ liệu huấn luyện và tập dữ liệu kiểm thử. 
+\begin{itemize}
+    \item \textbf{Tập huấn luyện}: 634 bộ gen thực khuẩn thể đã được gán nhãn.
+    \item \textbf{Tập kiểm thử độc lập}: 423 bộ gen thực khuẩn thể khác, không trùng lặp với tập huấn luyện. Trong đó có: 240 thực khuẩn thể ôn hoà và 183 thực khuẩn thể độc lực
+\end{itemize}
+
+\subsection*{Phương pháp và kỹ thuật chính}
+
+BACPHLIP xây dựng mô hình theo các bước chính sau:
+
+\begin{enumerate}
+    \item \textbf{Xác định domain protein}: Sử dụng công cụ \textbf{HMMER3} để phát hiện các \textit{protein domain} có mặt trong bộ gen thực khuẩn, dựa trên các mô hình Markov ẩn (Hidden Markov Models – HMMs).
+    
+    \item \textbf{Tạo vector đặc trưng nhị phân}: Với mỗi domain, nếu nó xuất hiện trong bộ gen thực khẩn thì gán giá trị 1, nếu không thì gán 0. Kết quả là một vector nhị phân đại diện cho mỗi bộ gen thực khuẩn.
+    
+    \item \textbf{Huấn luyện mô hình}: Sử dụng thuật toán \textbf{Random Forest Classifier} để phân loại vòng đời dựa trên vector đặc trưng nhị phân.
+\end{enumerate}
+
+\subsection*{Kết quả thực nghiệm}
+Mô hình \textbf{BACPHLIP} cho thấy hiệu năng vượt trội so với \textbf{PHACTS}, cả về độ chính xác và các chỉ số đánh giá khác. Một trong những nguyên nhân chính là BACPHLIP được huấn luyện trên tập dữ liệu lớn hơn đáng kể, với tổng cộng \textbf{1057} bộ gen thực khuẩn thể có nhãn rõ ràng về vòng đời, so với chỉ \textbf{277} mẫu được sử dụng trong PHACTS. Việc mở rộng quy mô dữ liệu huấn luyện giúp mô hình học được đặc trưng đa dạng và tổng quát hơn của các loại thực khuẩn thể.
+
+Kết quả đánh giá trên tập kiểm thử cho thấy BACPHLIP đạt độ chính xác lên tới \textbf{98.3\%}, cao hơn nhiều so với \textbf{79.0\%} của PHACTS. Các chỉ số khác cũng phản ánh sự vượt trội của BACPHLIP: \textit{balanced accuracy} đạt \textbf{97.0\%} so với \textbf{52.8\%}, hệ số tương quan Matthews (\textit{MCC}) là \textbf{96.7\%} so với \textbf{58.6\%}, và \textit{F1-score} đạt \textbf{98.5\%} trong khi PHACTS chỉ đạt \textbf{83.7\%}. 
+\begin{table}[h]
+\centering
+\caption{So sánh kết quả của BACPHLIP với các Mavrich và PHACTS.}
+\label{tab:BACPHLIP_result}
+\begin{tabular}{lccc}
+\hline
+& \textbf{BACPHLIP} & \textbf{Mavrich} & \textbf{PHACTS} \\
+\hline
+Accuracy          & \textbf{0.983} & 0.955 & 0.790  \\
+Balanced accuracy & \textbf{0.970} & 0.917 & 0.528 \\
+MCC               & \textbf{0.967} & 0.911 & 0.586 \\
+F1-score          & \textbf{0.985} & 0.939 & 0.837 \\
+\hline
+\end{tabular}
+\end{table}

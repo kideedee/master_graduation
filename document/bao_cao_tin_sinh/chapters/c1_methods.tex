@@ -1,0 +1,38 @@
+\chapter{Các phương pháp phân loại thực khuẩn}
+
+Chương này trình bày tổng quan và phân tích các phương pháp phân loại thực khuẩn dựa trên dữ liệu di truyền. Hai tiêu chí chính được sử dụng để tổ chức và đánh giá các phương pháp bao gồm: (1) phân loại theo loại thuật toán học máy được áp dụng, và (2) sắp xếp theo trình tự thời gian công bố nhằm phản ánh tiến trình phát triển của lĩnh vực.
+
+\section{Phân loại theo phương pháp học máy}
+
+Dựa trên kỹ thuật xử lý dữ liệu và loại mô hình học máy sử dụng, các phương pháp phân loại thực khuẩn có thể chia thành hai nhóm chính:
+
+\begin{itemize}
+    \item \textbf{Nhóm 1:} Các phương pháp học máy truyền thống, sử dụng các thuật toán như Random Forest (Rừng ngẫu nhiên), SVM (Support Vector Machine - Máy vector hỗ trợ), v.v. với đầu vào là bộ gen thực khuẩn đầy đủ. Báo cáo này thực hiện trên 3 phương pháp của \textbf{PHACTS}, \textbf{PhageAI}, và \textbf{BACPHLIP}.
+    
+    \item \textbf{Nhóm 2:} Các phương pháp học sâu, có khả năng xử lý dữ liệu không hoàn chỉnh nên có khả năng tận dụng được lượng dữ liệu lớn từ nguồn dữ liệu metagenomics. Báo cáo này thực hiện trên 3 phương pháp của \textbf{DeePhage}, \textbf{PhaTYP}, và \textbf{DeepPL}.
+\end{itemize}
+
+\section{Sắp xếp theo thứ tự thời gian công bố}
+
+Bên cạnh phân loại theo kỹ thuật, các phương pháp còn được trình bày theo thứ tự thời gian công bố để thể hiện xu hướng phát triển qua các giai đoạn và so sánh kết quả của phương pháp mới với phương pháp trước đó. Thời gian công bố của từng phương pháp như sau:
+
+\begin{enumerate}
+    \item \textbf{PHACTS} – tháng 01 năm 2012
+    \item \textbf{PhageAI} – tháng 07 năm 2020
+    \item \textbf{BACPHLIP} – tháng 05 năm 2021
+    \item \textbf{DeePhage} – tháng 09 năm 2021
+    \item \textbf{PhaTYP} – tháng 01 năm 2023
+    \item \textbf{DeepPL} – tháng 10 năm 2024
+\end{enumerate}
+
+\section{Phương pháp trình bày trong các phần tiếp theo}
+
+Để đảm bảo tính nhất quán và thuận tiện cho việc đánh giá, mỗi phương pháp được trình bày một số điểm chính bao gồm:
+
+\begin{enumerate}
+    \item \textbf{Mô tả chung} về phương pháp, động lực, phương pháp thực hiện và mục tiêu.
+    \item \textbf{Tập dữ liệu:} Mô tả nguồn dữ liệu, số lượng mẫu, tính chất dữ liệu (hoàn chỉnh hay contig), và phương pháp gán nhãn.
+    \item \textbf{Phương pháp thực hiện:} Thuật toán hoặc mô hình được áp dụng, kiến trúc mạng (nếu có), kỹ thuật xử lý đặc trưng và quy trình huấn luyện.
+    \item \textbf{Kết quả thu được:} Các chỉ số đánh giá như độ chính xác, độ nhạy, độ đặc hiệu, F1-score, v.v..
+    \item \textbf{So sánh với các phương pháp trước:} Ưu điểm nổi bật, cải tiến kỹ thuật, sự khác biệt về khả năng dự đoán.
+\end{enumerate}

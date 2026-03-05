@@ -1,0 +1,127 @@
+\section{DNABERT-2}
+\label{sec:dnabert2}
+
+DNABERT-2 \cite{zhou2023dnabert} là mô hình nền tảng genome (genome foundation model) thế hệ mới, được cải tiến từ DNABERT gốc với nhiều đột phá về kiến trúc và phương pháp huấn luyện. DNABERT-2 được sử dụng làm backbone trong nhiều ứng dụng phân tích chuỗi genome, bao gồm phân loại lối sống thực khuẩn thể trong nghiên cứu này.
+
+\subsection{Tokenization với BPE}
+
+Khác với DNABERT gốc sử dụng k-mer tokenization, DNABERT-2 áp dụng Byte Pair Encoding (BPE) \cite{sennrich2015neural} thông qua SentencePiece \cite{kudo2018sentencepiece}:
+
+\begin{itemize}
+    \item \textbf{Vocabulary size}: 4,096 tokens
+    \item \textbf{Average token length}: ~5 nucleotides
+    \item \textbf{Sequence length reduction}: ~5× so với chuỗi gốc
+    \item \textbf{Special tokens}: [CLS], [SEP], [PAD], [MASK], [UNK]
+\end{itemize}
+
+\textbf{Ví dụ tokenization:}
+\begin{verbatim}
+Input:  ATCGATCGATCGATCG (16 bp)
+Tokens: [CLS] ATCG ATCG ATCG ATCG [SEP] (6 tokens)
+\end{verbatim}
+
+BPE tokenization mang lại nhiều lợi ích so với k-mer cố định:
+\begin{itemize}
+    \item Giảm độ dài chuỗi token, tăng hiệu quả tính toán
+    \item Vocabulary nhỏ hơn, giảm số tham số embedding layer
+    \item Linh hoạt hơn trong việc biểu diễn các mẫu chuỗi đa dạng
+\end{itemize}
+
+\subsection{Kiến trúc mô hình}
+
+DNABERT-2 sử dụng kiến trúc Transformer encoder với các thông số sau:
+
+\begin{itemize}
+    \item \textbf{Layers}: 12 transformer encoder layers
+    \item \textbf{Hidden size}: 768 dimensions
+    \item \textbf{Attention heads}: 12 heads (64 dimensions per head)
+    \item \textbf{Intermediate size}: 3,072 (FFN hidden layer)
+    \item \textbf{Total parameters}: ~117M
+    \item \textbf{Activation}: GELU
+    \item \textbf{Normalization}: Layer Normalization
+    \item \textbf{Dropout}: 0.1
+\end{itemize}
+
+\subsection{Positional encoding: ALiBi}
+
+DNABERT-2 sử dụng Attention with Linear Biases (ALiBi) \cite{press2021train} thay vì learned positional embeddings truyền thống:
+
+\begin{equation}
+\text{Attention}(\mathbf{Q}, \mathbf{K}, \mathbf{V}) = \text{softmax}\left(\frac{\mathbf{Q}\mathbf{K}^T}{\sqrt{d_k}} + \mathbf{B}\right)\mathbf{V}
+\end{equation}
+
+với bias matrix:
+\begin{equation}
+\mathbf{B}_{ij} = m \cdot (j - i)
+\end{equation}
+
+trong đó $m$ là slope khác nhau cho mỗi attention head.
+
+\textbf{Ưu điểm của ALiBi:}
+\begin{itemize}
+    \item Xử lý chuỗi có độ dài biến thiên mà không cần retrain
+    \item Extrapolate tốt sang chuỗi dài hơn hoặc ngắn hơn training sequences
+    \item Không cần học thêm positional embeddings, giảm số tham số
+\end{itemize}
+
+Đặc điểm này đặc biệt quan trọng cho phân tích metagenomic, nơi contigs có độ dài rất đa dạng (từ vài trăm đến hàng nghìn base pairs).
+
+\subsection{Pre-training}
+
+DNABERT-2 được tiền huấn luyện trên corpus genome đa loài:
+
+\textbf{Corpus:}
+\begin{itemize}
+    \item Multi-species genome corpus (bacteria, archaea, viruses, eukaryotes)
+    \item Average sequence length: ~700 bp
+    \item Masked Language Modeling (MLM) objective
+\end{itemize}
+
+\textbf{Masking strategy:}
+\begin{itemize}
+    \item 15\% tokens được mask
+    \item 80\%: Thay bằng [MASK]
+    \item 10\%: Thay bằng random token
+    \item 10\%: Giữ nguyên
+\end{itemize}
+
+Quá trình pre-training giúp DNABERT-2 học được các mẫu chuỗi phổ quát (universal sequence patterns) từ nhiều loài sinh vật khác nhau, tạo nền tảng tốt cho các tác vụ downstream như phân loại, dự đoán chức năng gen, và phân tích biến thể.
+
+\subsection{Output representations}
+
+DNABERT-2 tạo ra ba loại representations:
+
+\begin{enumerate}
+    \item \textbf{Token-level embeddings}: $\mathbf{H} \in \mathbb{R}^{L \times 768}$ - Contextualized embedding cho mỗi token trong chuỗi
+    \item \textbf{[CLS] embedding}: $\mathbf{h}_{\text{CLS}} \in \mathbb{R}^{768}$ - Sequence-level representation tổng hợp
+    \item \textbf{Pooled output}: Linear transformation của [CLS] embedding
+\end{enumerate}
+
+Tùy vào tác vụ cụ thể, người dùng có thể chọn sử dụng:
+\begin{itemize}
+    \item \textbf{[CLS] embedding}: Cho các tác vụ phân loại chuỗi đơn giản
+    \item \textbf{Token-level embeddings}: Cho các tác vụ cần phân tích chi tiết từng vị trí (token classification, feature extraction)
+    \item \textbf{Pooled output}: Cho các tác vụ regression hoặc classification với thêm một lớp transformation
+\end{itemize}
+
+\subsection{So sánh với DNABERT gốc}
+
+\begin{table}[h]
+\centering
+\caption{So sánh DNABERT và DNABERT-2}
+\label{tab:dnabert_comparison}
+\begin{tabular}{lcc}
+\toprule
+\textbf{Đặc điểm} & \textbf{DNABERT} & \textbf{DNABERT-2} \\
+\midrule
+Tokenization & k-mer (k=3,4,5,6) & BPE \\
+Vocabulary size & $4^k$ (64-4096) & 4,096 \\
+Positional encoding & Learned embeddings & ALiBi \\
+Max sequence length & 512 tokens & Flexible \\
+Parameters & ~110M & ~117M \\
+Training corpus & Single-species & Multi-species \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+DNABERT-2 cải thiện đáng kể so với DNABERT gốc về khả năng xử lý chuỗi dài, hiệu quả tính toán, và khả năng tổng quát hóa nhờ pre-training trên corpus đa loài.

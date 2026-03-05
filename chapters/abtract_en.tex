@@ -5,8 +5,14 @@
 \addcontentsline{toc}{chapter}{Abstract}
 \begin{small}
 
-Abstract
+Bacteriophages are viruses that infect bacteria, showing promise as alternatives to antibiotics in phage therapy. Accurate classification of phage lifestyle - virulent or temperate - is essential for therapeutic applications, as only virulent phages are safe for use. Traditional laboratory-based methods are time-consuming and inapplicable to the majority of unculturable phages. Existing computational tools such as PhaTYP and DeePhage still face limitations when processing short contigs from metagenomic data.
+
+This thesis proposes PhaBERT-CNN, a novel hybrid deep learning architecture that combines the DNABERT-2 genome foundation model with multi-scale convolutional neural networks and attention pooling mechanism. Unlike PhaTYP which relies on protein prediction, PhaBERT-CNN operates directly on raw DNA sequences, overcoming limitations when processing short contigs. The model leverages pre-trained representations from DNABERT-2, uses parallel CNN branches with kernel sizes 3, 5, and 7 to extract multi-scale features, and applies self-attention mechanism to focus on highly informative genomic regions.
+
+Experiments on four contig length groups (100-400 bp, 400-800 bp, 800-1200 bp, 1200-1800 bp) with 5-fold cross-validation demonstrate that PhaBERT-CNN achieves accuracies of 81.59\%, 87.91\%, 90.01\%, and 90.69\% respectively, improving 0.91-5.98\% over state-of-the-art methods including PhaTYP, DeePhage, and ProkBERT. The model maintains a good balance between sensitivity (82.00\%-91.12\%) and specificity (80.15\%-90.95\%) across all length ranges.
+
+The research results demonstrate the effectiveness of combining genome foundation models with task-specific architectures, providing a promising paradigm for biological sequence analysis tasks, particularly in metagenomic analysis with incomplete sequences.
 
 \vspace*{1cm}
-\textbf{Keywords}: \textit{Camera pose estimation}, \textit{3D point cloud reconstruction}, \textit{Structure from Motion}, \textit{Neural Radiance Fields}, \textit{Wireless device management}, \textit{Unmanned Aerial Vehicle}
+\textbf{Keywords}: \textit{Bacteriophage}, \textit{Lifestyle classification}, \textit{Deep learning}, \textit{BERT}, \textit{Convolutional neural networks}, \textit{Bioinformatics}, \textit{Metagenomics}
 \end{small}

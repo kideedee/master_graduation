@@ -51,10 +51,22 @@ pdflatex slide.tex      # Presentation slides
 
 **Chapters:** `chapters/c1/` through `chapters/c5/`
 - c1: Introduction (Giới thiệu)
+  - Background, problem statement, objectives, contributions, scope, organization
 - c2: Theoretical Background (Cơ sở lý thuyết)
+  - Bacteriophage biology, metagenomics, ML/DL fundamentals
+  - CNN, Transformer, BERT, DNABERT, DNABERT-2
+  - Transfer learning, related work
 - c3: Proposed Method - PhaBERT_CNN (Phương pháp đề xuất)
+  - Section 3.1: Overview (motivation, pipeline, advantages)
+  - Section 3.2: Data collection & preprocessing (sources, sliding window, augmentation, class imbalance)
+  - Section 3.3: Architecture (DNABERT-2 backbone, multi-scale CNN, attention pooling, classification head)
+  - Section 3.4: Training strategy (two-phase fine-tuning, discriminative learning rates, regularization)
 - c4: Experiments and Evaluation (Thực nghiệm)
+  - Dataset construction, hardware/software setup, baseline methods
+  - Results on 4 contig length groups (100-400, 400-800, 800-1200, 1200-1800 bp)
+  - Performance comparison, analysis, ablation study
 - c5: Conclusion (Kết luận)
+  - Summary, main results, contributions, limitations, future work
 
 **Supporting:**
 - `imgs/` - Figures and diagrams (PhaBERT-CNN architecture, results)
@@ -76,6 +88,13 @@ pdflatex slide.tex      # Presentation slides
 3. **UTF-8 encoding required** for Vietnamese characters
 4. **Cross-reference everything** - all figures, tables, equations must have \label{} and be referenced
 5. **Consistent terminology** - use Vietnamese ↔ English mapping from `.claude/rules/vietnamese-terms.md`
+6. **Vietnamese language requirement** - Write the entire thesis in Vietnamese. Only use English for:
+   - Technical terms that have no Vietnamese equivalent (e.g., "BPE tokenization", "attention pooling", "embedding")
+   - Model/algorithm names (e.g., "DNABERT-2", "PhaBERT-CNN", "Random Forest")
+   - Citations and references
+   - Mathematical notation and variable names
+   - Code snippets and technical specifications
+   - Proper nouns (e.g., "SentencePiece framework", "ALiBi")
 
 ## Paper to Thesis Workflow
 
@@ -84,6 +103,17 @@ pdflatex slide.tex      # Presentation slides
 3. Add implementation details, design decisions, ablation studies
 4. Maintain terminology consistency
 5. Ensure all citations in references.bib
+
+**Chapter 3 Structure (Updated):**
+- Based on Material and Methods section from `document/phabert_cnn.tex`
+- Expanded with detailed explanations, rationale, and mathematical formulations
+- Four main sections:
+  1. Overview: Motivation, pipeline, advantages
+  2. Data preprocessing: Sources, sliding window algorithm, augmentation, class imbalance handling
+  3. Architecture: DNABERT-2 backbone, dual parallel branches (multi-scale CNN + attention pooling), classification head
+  4. Training strategy: Two-phase fine-tuning with discriminative learning rates
+- All content written directly in `chapters/c3/chapter_3.tex` (single file, not split into subsections)
+- Includes algorithms, equations, tables for parameters and hyperparameters
 
 ## Detailed Guidance
 

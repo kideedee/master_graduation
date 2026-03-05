@@ -1,6 +1,8 @@
 \chapter{Kết luận}
 \label{chap:conclusion}
 
+Chương này tổng kết toàn bộ nghiên cứu về phương pháp PhaBERT-CNN cho phân loại lối sống thực khuẩn thể và đề xuất các hướng phát triển trong tương lai. Chương được tổ chức như sau: Section \ref{sec:summary} tóm tắt lại toàn bộ nghiên cứu, từ động lực thiết kế đến kiến trúc PhaBERT-CNN kết hợp DNABERT-2 với multi-scale CNN và attention pooling; Section \ref{sec:main_results} trình bày các kết quả chính đạt được, bao gồm hiệu suất vượt trội trên contig ngắn-trung bình (81.59-90.01\% accuracy), sự cân bằng tốt giữa sensitivity và specificity, và khả năng khắc phục hạn chế của các phương pháp hiện có; Section \ref{sec:contributions} liệt kê các đóng góp của luận văn về kiến trúc mới, chiến lược huấn luyện, và đánh giá toàn diện; Section \ref{sec:limitations} thảo luận các hạn chế về xử lý class imbalance, chi phí tính toán, và validation data; Section \ref{sec:future_work} đề xuất các hướng nghiên cứu tương lai bao gồm cải thiện phương pháp (thử các kỹ thuật xử lý imbalance khác, ablation studies chi tiết, tối ưu inference speed), mở rộng ứng dụng (đánh giá trên real metagenomic data, phân loại họ phage, dự đoán host), và nghiên cứu cơ bản (interpretability analysis, transfer learning cross-domain, multi-task learning); cuối cùng, Section \ref{sec:final_conclusion} đưa ra kết luận cuối cùng về ý nghĩa và tiềm năng của PhaBERT-CNN trong phân tích metagenomic và ứng dụng phage therapy.
+
 \section{Tóm tắt nghiên cứu}
 
 Luận văn đã trình bày PhaBERT-CNN, một phương pháp học sâu lai kết hợp mô hình nền tảng genome DNABERT-2 với mạng nơ-ron tích chập đa tỷ lệ và cơ chế attention pooling để phân loại lối sống thực khuẩn thể từ các contig metagenomic. Phương pháp được thiết kế để giải quyết các thách thức chính trong phân loại phage, đặc biệt là trên các contig ngắn và trung bình (100-1200 bp) - phạm vi độ dài phổ biến nhất trong phân tích metagenomic thực tế.
@@ -68,7 +70,7 @@ PhaBERT-CNN duy trì sự cân bằng tốt giữa sensitivity (82.00\%-91.12\%)
     \begin{itemize}
         \item Phân loại họ phage (family classification)
         \item Dự đoán vi khuẩn chủ (host prediction)
-        \item Phát hiện prophage trong bộ gen vi khuẩn
+        \item Phát hiện prophage trong hệ gen vi khuẩn
     \end{itemize}
     \item Phát triển web server hoặc command-line tool cho cộng đồng
 \end{itemize}

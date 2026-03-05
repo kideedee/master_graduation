@@ -21,7 +21,7 @@ Luận văn tập trung vào phạm vi nghiên cứu cụ thể sau đây, với
 
 Các contig ngắn hơn 100 bp hoặc dài hơn 1800 bp không được đánh giá chi tiết trong nghiên cứu này, mặc dù phương pháp về mặt kỹ thuật có thể xử lý các chuỗi có độ dài tùy ý nhờ ALiBi positional encoding của DNABERT-2.
 
-\textbf{Nguồn dữ liệu:} Tập dữ liệu được xây dựng từ hai nghiên cứu gần đây: DeePhage \cite{wu2021deephage} và DeepPL \cite{zhang2024deeppl}, bao gồm 2,241 bộ gen phage hoàn chỉnh (707 temperate, 1,534 virulent). Các contig được tạo ra bằng phương pháp sliding window để mô phỏng kịch bản metagenomic thực tế.
+\textbf{Nguồn dữ liệu:} Tập dữ liệu được xây dựng từ hai nghiên cứu gần đây: DeePhage \cite{wu2021deephage} và DeepPL \cite{zhang2024deeppl}, bao gồm 2,241 hệ gen phage hoàn chỉnh (707 temperate, 1,534 virulent). Các contig được tạo ra bằng phương pháp sliding window để mô phỏng kịch bản metagenomic thực tế.
 
 \textbf{Giới hạn về đa dạng sinh học:} Mặc dù tập dữ liệu bao gồm nhiều họ phage khác nhau, nó vẫn chỉ đại diện cho một phần nhỏ của sự đa dạng phage trong tự nhiên. Hiệu suất của mô hình trên các phage thuộc các họ hiếm gặp hoặc chưa được nghiên cứu có thể khác với kết quả báo cáo.
 
@@ -58,7 +58,7 @@ Các contig ngắn hơn 100 bp hoặc dài hơn 1800 bp không được đánh g
     \item Không bị ô nhiễm bởi DNA vi khuẩn chủ
 \end{itemize}
 
-\textbf{Giới hạn về tổng quát hóa:} Hiệu suất của mô hình được đánh giá trên dữ liệu mô phỏng (simulated data) được tạo từ bộ gen hoàn chỉnh. Hiệu suất trên dữ liệu metagenomic thực tế từ các môi trường đa dạng có thể khác biệt và cần được xác thực thêm.
+\textbf{Giới hạn về tổng quát hóa:} Hiệu suất của mô hình được đánh giá trên dữ liệu mô phỏng (simulated data) được tạo từ hệ gen hoàn chỉnh. Hiệu suất trên dữ liệu metagenomic thực tế từ các môi trường đa dạng có thể khác biệt và cần được xác thực thêm.
 
 \textbf{Không xem xét các yếu tố sinh học phức tạp:} Luận văn không xem xét các trường hợp đặc biệt như:
 \begin{itemize}

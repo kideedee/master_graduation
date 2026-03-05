@@ -1,0 +1,155 @@
+\chapter{Mở đầu}
+% \addcontentsline{toc}{chapter}{Mở đầu}
+\setcounter{page}{1}
+\pagenumbering{arabic}
+\section{Giới thiệu}
+
+\subsection{Vi khuẩn, vi-rút và thực khuẩn}
+
+Vi khuẩn (\textit{bacteria}) là sinh vật đơn bào có kích thước nhỏ (0{,}2–5 µm), có cấu tạo đơn giản bao gồm tế bào chất, màng tế bào và vách tế bào. Vi khuẩn sinh sản chủ yếu bằng phương pháp phân đôi. Ngược lại, vi-rút (\textit{virus}) không phải là sinh vật sống hoàn chỉnh do không có cấu trúc tế bào, mà chỉ bao gồm vật liệu di truyền (ADN hoặc ARN) được bao bọc bởi lớp vỏ protein. Vi-rút chỉ có thể sao chép khi xâm nhập vào tế bào vật chủ và khai thác bộ máy sinh học của tế bào đó.
+
+Trong nhóm vi-rút, \textbf{thực khuẩn} (\textit{bacteriophage}, hay phage) là loại xâm nhiễm vào vi khuẩn. Mỗi loại vi khuẩn thường bị nhiễm bởi một hoặc một vài loại thực khuẩn đặc trưng. Thực khuẩn đóng vai trò quan trọng trong điều hòa quần thể vi khuẩn tự nhiên và đang được nghiên cứu ứng dụng trong y học.
+
+\subsection{Phân loại thực khuẩn}
+
+Dựa trên chu kì sống bên trong vi khuẩn, thực khuẩn được chia thành hai nhóm chính:
+
+\begin{itemize}
+    \item \textbf{Thực khuẩn thể độc lực} (\textit{virulent phage}): Sau khi xâm nhập vào tế bào vi khuẩn, thực khuẩn chiếm quyền kiểm soát, nhân bản, và phá hủy tế bào để giải phóng các bản sao mới. Quá trình này được gọi là \textbf{chu kỳ tan} (\textit{lytic cycle}).
+    \item \textbf{Thực khuẩn thể ôn hoà} (\textit{temperate phage}): Thực khuẩn tích hợp vật liệu di truyền của mình vào hệ gen của vi khuẩn, nhân bản cùng vật chủ mà không phá hủy tế bào. Quá trình này gọi là \textbf{chu kỳ tiền tan} (\textit{lysogenic cycle}) và có thể chuyển sang chu kỳ tan khi gặp điều kiện kích hoạt.
+\end{itemize}
+
+\subsection{Ý nghĩa của phân loại thực khuẩn}
+
+Việc phân loại thực khuẩn theo vòng đời mang lại nhiều lợi ích thiết thực:
+
+\begin{itemize}
+    \item Làm rõ mối quan hệ tương tác giữa thực khuẩn và vi khuẩn trong hệ vi sinh.
+    \item Hỗ trợ phát triển liệu pháp điều trị bằng thực khuẩn (\textit{phage therapy}) thay thế kháng sinh, đặc biệt trong trường hợp vi khuẩn kháng thuốc hoặc bệnh nhân dị ứng kháng sinh.
+    \item Góp phần phát hiện và sử dụng các thực khuẩn có tiềm năng cao trong công nghệ sinh học và y học cá thể hóa.
+\end{itemize}
+
+\subsection{Phương pháp phân loại truyền thống}
+
+Phương pháp truyền thống trong phân loại thực khuẩn dựa trên nuôi cấy và quan sát hành vi của thực khuẩn trong phòng thí nghiệm. Tuy nhiên, cách tiếp cận này tồn tại nhiều hạn chế:
+
+\begin{itemize}
+    \item Tốn kém thời gian và chi phí thực nghiệm.
+    \item Không linh hoạt khi xuất hiện thực khuẩn mới, do cần lặp lại toàn bộ quy trình.
+    \item Không khả thi với số lượng lớn dữ liệu thu thập từ môi trường tự nhiên hoặc từ giải trình tự thế hệ mới (\textit{Next-Generation Sequencing – NGS}).
+\end{itemize}
+
+\subsection{Phương pháp phân loại dựa trên dữ liệu số}
+
+Sự phát triển của các cơ sở dữ liệu di truyền như NCBI, PhageScope, PhageDB và các kỹ thuật học máy (\textit{Machine Learning – ML}) cùng với học sâu (\textit{Deep Learning – DL}) đã mở ra hướng tiếp cận mới: phân loại thực khuẩn dựa trên phân tích chuỗi DNA.
+
+Mục tiêu của báo cáo là cung cấp một cái nhìn tổng quan và hệ thống về hiện trạng nghiên cứu trong lĩnh vực phân loại thực khuẩn, các thành tựu đã đạt được ở thời điểm đầu năm 2025, đồng thời đánh giá tiềm năng phát triển của các hướng tiếp cận hiện nay.
+
+
+\section{Phát biểu bài toán}
+
+Trong bối cảnh số lượng lớn thực khuẩn được phát hiện thông qua các công nghệ giải trình tự thế hệ mới (\textit{Next-Generation Sequencing – NGS}), việc phân loại thực khuẩn bằng các phương pháp truyền thống là không khả thi. Do đó, xu hướng hiện nay, người ta sử dụng các phương pháp học máy và học sâu để huấn luyện các mô hình phân loại. Từ đó, có thể sử dụng các mô hình đã huấn luyện để dự đoán thể của thực khuẩn mới phát hiện.
+
+\subsection{Định nghĩa bài toán}
+
+\begin{itemize}
+    \item \textbf{Dữ liệu đầu vào}: Chuỗi DNA đầy đủ hoặc tập hợp các đoạn DNA ngắn được lấy từ bộ gen của thực khuẩn. Các chuỗi này thường ở định dạng \texttt{FASTA} hoặc \texttt{GenBank}.
+    \item \textbf{Dữ liệu đầu ra}: Dự đoán thể của thực khuẩn tương ứng với chuỗi DNA đầu vào, được phân loại thành hai nhóm:
+    \begin{itemize}
+        \item \textbf{Thực khuẩn thể độc lực}
+        \item \textbf{Thực khuẩn thể ôn hoà}
+    \end{itemize}
+\end{itemize}
+
+\subsection{Đặc điểm của bài toán}
+
+\begin{itemize}
+    \item Xét ở khía cạnh học máy, bài toán phân loại thực khuẩn là bài toán phân loại nhị phân (\textit{binary classification}).
+    \item Dữ liệu đầu vào có độ dài và chất lượng không đồng đều, bao gồm cả các trình tự ngắn hoặc có chứa nhiễu sinh học.
+    \item Các mô hình cần đảm bảo tính chính xác cao, khả năng khái quát tốt với dữ liệu chưa thấy trong quá trình huấn luyện.
+    \item Phải xử lý được dữ liệu có nguồn gốc từ các họ thực khuẩn khác nhau và có tính đa dạng về mặt di truyền học.
+\end{itemize}
+
+\subsection{Thách thức trong quá trình thực hiện}
+
+\begin{itemize}
+    \item \textbf{Thiếu dữ liệu huấn luyện chất lượng cao}: Mặc dù số lượng thực khuẩn trong tự nhiên được ước tính lên đến khoảng $10^{31}$ \cite{doi:10.1128/jb.00052-20}, nhưng hiện nay chỉ có một lượng rất nhỏ bộ gen thực khuẩn đã được giải trình tự hoàn chỉnh và đưa vào cơ sở dữ liệu. Phần lớn các thực khuẩn này vẫn chưa được xác định đặc điểm sinh học cụ thể, bao gồm cả thông tin về vòng đời (chu kỳ sinh tan hay tiềm tan). Điều này dẫn đến sự thiếu hụt dữ liệu được gán nhãn rõ ràng và chính xác, gây khó khăn cho quá trình huấn luyện các mô hình học máy trong bài toán phân loại vòng đời thực khuẩn.
+    \item \textbf{Không tồn tại chỉ dấu sinh học phổ quát}: Không giống như vi khuẩn có gen 16S rRNA được bảo tồn cao, đóng vai trò như một chỉ dấu phân tử phổ quát trong phân loại và phân tích phát sinh loài, thực khuẩn không sở hữu bất kỳ gen nào có mặt đồng nhất và bảo tồn trên toàn bộ các nhóm thực khuẩn \cite{PMID:31061483}. Do đó, việc phân loại thực khuẩn thường dựa trên nội dung bộ gen hoặc các gen đặc trưng cho từng nhóm nhỏ.
+    \item \textbf{Tính tương đồng di truyền với vật chủ}: Nhiều đoạn gen của phage có thể có trình tự tương tự hoặc thậm chí đồng nhất với gen vi khuẩn, do quá trình tiến hóa đồng hành hoặc sự trao đổi gen thông qua cơ chế di truyền ngang.
+    \item \textbf{Xử lý dữ liệu không đầy đủ}: Trong những nghiên cứu gần đây, dữ liệu được thu thập thông qua metagenomics – phương pháp giải trình tự toàn bộ DNA có trong mẫu môi trường (như đất, nước, ruột sinh vật) mà không cần phải nuôi cấy vi sinh vật trong phòng thí nghiệm. Tuy nhiên, một đặc điểm hạn chế của phương pháp này là chỉ thu được các đoạn DNA ngắn, rời rạc và không hoàn chỉnh, thay vì toàn bộ bộ gen đầy đủ của một loại thực khuẩn. Điều này gây khó khăn vì các đoạn trình tự thu được có thể không chứa đủ thông tin đặc trưng, dễ bị nhiễu hoặc nhầm lẫn với vật liệu di truyền từ các sinh vật khác trong mẫu. Do đó, việc xử lý dữ liệu từ metagenomics đòi hỏi các phương pháp phân tích chuyên biệt để bù đắp cho tính không đầy đủ và phân mảnh của dữ liệu..
+\end{itemize}
+
+Với các đặc điểm nêu trên, bài toán phân loại thực khuẩn đòi hỏi sự kết hợp giữa kiến thức sinh học phân tử và các kỹ thuật trong lĩnh vực học máy và học sâu. Đây chính là trọng tâm của các phương pháp được khảo sát trong báo cáo này.
+
+\section{Nguồn dữ liệu và định dạng dữ liệu}
+
+\subsection{Nguồn dữ liệu}
+
+Các phương pháp phân loại được đề cập đến trong báo cáo này lấy dữ liệu từ các nguồn sau:
+
+\begin{itemize}
+    \item \textbf{NCBI (National Center for Biotechnology Information - \url{https://www.ncbi.nlm.nih.gov/})}: Là một trong những kho dữ liệu sinh học lớn và toàn diện nhất, chứa thông tin về trình tự DNA, protein, gen, và các chú thích liên quan. NCBI cung cấp cả dữ liệu thô và đã được gán nhãn, là nguồn phổ biến cho việc huấn luyện và đánh giá mô hình phân loại.
+    
+    \item \textbf{PhageScope - \url{https://phagescope.deepomics.org/database}}: Là cơ sở dữ liệu chuyên biệt dành cho thực khuẩn, hỗ trợ phân tích chức năng, xác định vòng đời và các đặc điểm phân tử. PhageScope tích hợp các công cụ tính toán, hỗ trợ xử lý và khám phá dữ liệu thực khuẩn ở mức độ chi tiết.
+    
+    \item \textbf{PhageDB - \url{https://phagesdb.org}}: Là kho dữ liệu tập trung vào thu thập và lưu trữ thông tin thực nghiệm về các chủng thực khuẩn đã được phát hiện. PhageDB thường được sử dụng để đánh giá mô hình phân loại trên các bộ dữ liệu thực tế.
+\end{itemize}
+
+\subsection{Định dạng dữ liệu}
+
+Khi xử lý dữ liệu thực khuẩn, hai định dạng tập tin phổ biến là \texttt{FASTA} và \texttt{GenBank}. Mỗi định dạng cung cấp một cách biểu diễn riêng cho trình tự nucleotide và thông tin liên quan.
+
+\subsubsection{Định dạng FASTA}
+
+Định dạng \texttt{FASTA} là định dạng văn bản đơn giản dùng để lưu trữ trình tự nucleotide hoặc amino acid. Tệp tin định dạng FASTA có phần mở rộng là *.fasta. Cấu trúc của tập tin FASTA bao gồm hai phần:
+
+\begin{itemize}
+    \item \textbf{Dòng tiêu đề} (header): Bắt đầu bằng ký tự \texttt{>}, tiếp theo là thông tin mô tả, thường bao gồm ID chuỗi, tên sinh vật, tên gen hoặc nguồn gốc.
+    \item \textbf{Trình tự} (sequence): Nằm ở các dòng tiếp theo, chứa các ký tự đại diện cho nucleotide (\texttt{A}, \texttt{T}, \texttt{G}, \texttt{C}) hoặc acid amin.
+\end{itemize}
+
+\noindent Ví dụ: file $NC\_000866\_Lytic.fasta$ có nội dung như sau:
+\begin{verbatim}
+>NC_000866.4 Enterobacteria phage T4, complete genome
+AATTTTCCTTATTAGGCCGCAAGGGCCTTCATAGTTTTAGCGATTTGGGAAACTTCATCA
+TCACTTAAAGAGTTGCGATAACCGATGAAGTCGGAAACAATACGGAATTTCTTGGTAAAC
+TCAGCAACCATTTTATCACTGTTTTTTGAAGCATTATTTGATAATACATCAAAAAGATTA
+GTTACTGTCCAAATGTCATGACCGATGGTATCTTTTCCACCATTAAAATATACACCCTGT
+.....
+\end{verbatim}
+
+\subsubsection{Định dạng GenBank}
+
+Định dạng \texttt{GenBank} là định dạng tiêu chuẩn của NCBI, chứa thông tin chi tiết hơn so với FASTA. Tệp tin định dạng FASTA có phần mở rộng là *.gb.  Một tệp tin GenBank bao gồm ba phần chính:
+
+\begin{itemize}
+    \item \textbf{Phần tiêu đề} (Header): Mô tả chung về bộ gen, bao gồm số hiệu truy cập, nguồn sinh vật, độ dài chuỗi và các đặc điểm chung.
+    \item \textbf{Phần đặc trưng} (Features): Liệt kê các đặc trưng sinh học của chuỗi, bao gồm vị trí gen, loại protein mã hóa, chú thích chức năng.
+    \item \textbf{Phần trình tự} (Sequence): Trình bày toàn bộ chuỗi nucleotide của bộ gen.
+\end{itemize}
+
+Ví dụ dưới đây là một phần của file $AF503408\_Lysogneic.gb$
+\begin{verbatim}
+LOCUS       AF503408    101660 bp    DNA     linear   PHG 28-APR-2006
+DEFINITION  Enterobacteria phage P7, complete genome.
+ACCESSION   AF503408
+.....
+FEATURES             Location/Qualifiers
+     source          1..101660
+                     /organism="Enterobacteria phage P7"
+                     /mol_type="genomic DNA"
+                     /db_xref="taxon:10682"
+....
+ORIGIN      
+  1 acattatacg aagttatatt aagggttatt gaacatgatc aatttacctg taaatccata
+ 61 cagttcaata ccttatcagg tcaaatagtg atcacttgat catttgatca agtttgcgct
+121 acgtaaaatc tgtgaaaagt tggcagtgtt agtgctccag atttcgcgta gcgcacttag
+181 caccaccaat caatcagagg tgaaaaatgg gatattcagc tgctaaagtg tccactcatc
+241 ttgagcttga gaaaaaccgt ggttactggc gggcaaaagg gtttgatcgt gatagttgcc
+301 aactgtcatt atcgcgcggt gaagagaaaa tagtacgcac gcgcggtcgc tggcgtttct
+\end{verbatim}
+
+
+Định dạng GenBank hỗ trợ các phần mềm sinh học phân tử và hệ thống phân tích chú thích gen trong quá trình tiền xử lý dữ liệu.
+
+\cleardoublepage

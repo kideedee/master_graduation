@@ -17,6 +17,9 @@ This file contains Vietnamese ↔ English technical terminology mapping for the 
 | Học sâu | Deep Learning |
 | Mô hình | Model |
 | Huấn luyện | Training |
+| Tiền huấn luyện | Pre-training |
+| Tinh chỉnh | Fine-tuning |
+| Học chuyển giao | Transfer Learning |
 | Đánh giá | Evaluation |
 | Độ chính xác | Accuracy |
 | Hệ gen | Genome |
@@ -27,6 +30,8 @@ This file contains Vietnamese ↔ English technical terminology mapping for the 
 | Phương pháp | Method |
 | Dữ liệu | Data |
 | Tập dữ liệu | Dataset |
+| Contig | Contig (DNA fragment) |
+| Metagenomic | Metagenomic |
 
 ## Usage Guidelines
 

@@ -1,0 +1,664 @@
+\chapter{Phương pháp đề xuất}
+\label{chap:method}
+
+Chương này trình bày chi tiết phương pháp PhaBERT-CNN được đề xuất để dự đoán lối sống thực khuẩn thể từ các contig metagenomic. Phương pháp kết hợp mô hình nền tảng genome DNABERT-2 với kiến trúc chuyên biệt task-specific bao gồm mạng nơ-ron tích chập đa tỷ lệ và cơ chế attention pooling. Chương được tổ chức thành các phần chính: Phần \ref{sec:overview} giới thiệu tổng quan về phương pháp PhaBERT-CNN, bao gồm động lực thiết kế và quy trình xử lý tổng thể từ đầu vào DNA sequence đến đầu ra dự đoán lifestyle; Phần \ref{sec:data_preprocessing} mô tả quy trình thu thập và tiền xử lý dữ liệu, bao gồm nguồn dữ liệu, phương pháp tạo contig bằng sliding window, data augmentation với reverse complement, và xử lý class imbalance; Phần \ref{sec:architecture} trình bày chi tiết kiến trúc PhaBERT-CNN với ba thành phần chính (DNABERT-2 backbone, dual parallel feature extraction branches với multi-scale CNN và attention-based pooling, classification head); cuối cùng, Phần \ref{sec:training_strategy} mô tả chiến lược huấn luyện hai giai đoạn với warm-up phase và full fine-tuning phase sử dụng discriminative learning rates và các kỹ thuật regularization.
+
+\section{Tổng quan phương pháp}
+\label{sec:overview}
+
+Các phương pháp hiện có cho dự đoán lối sống thực khuẩn thể gặp phải những hạn chế quan trọng khi áp dụng trên dữ liệu metagenomic. Các phương pháp học máy truyền thống như PHACTS\cite{mcnair2012phacts}, PhageAI\cite{tynecki2020phageai}, và BACPHLIP\cite{hockenberry2021bacphlip} yêu cầu bộ gen đầy đủ và phụ thuộc vào việc nhận diện các protein bảo tồn, dẫn đến hiệu suất giảm mạnh trên các contig phân mảnh. Các phương pháp học sâu gần đây như DeePhage\cite{wu2021deephage} sử dụng mã hóa one-hot đạt độ chính xác 76.2-88.9\% trên các contig 100-1800 bp nhưng không tận dụng được đặc trưng genomic tiền huấn luyện. PhaTYP\cite{shang2023phatyp} cải thiện hiệu suất lên 94\% nhưng phụ thuộc vào công cụ gán nhãn gene (Prodigal\cite{hyatt2010prodigal}), dẫn đến hiệu suất giảm đáng kể trên các contig ngắn. DeepPL\cite{zhang2024deeppl} sử dụng DNABERT với tokenization 6-mer đạt độ chính xác 94.65\%, tuy nhiên các phương pháp k-mer chồng lấn gặp phải vấn đề rò rỉ thông tin và kém hiệu quả về mặt tính toán.
+
+Để giải quyết các hạn chế trên, chúng tôi đề xuất PhaBERT-CNN, một phương pháp học sâu kết hợp mô hình nền tảng genome DNABERT-2\cite{zhou2023dnabert} với kiến trúc mạng nơ-ron tích chập đa tỷ lệ và cơ chế attention pooling. Phương pháp được thiết kế với bốn ưu điểm chính: (1) \textbf{Độc lập với dự đoán gene}—hoạt động trực tiếp trên chuỗi DNA thô thông qua BPE tokenization, không phụ thuộc vào công cụ dự đoán gene, cho phép dự đoán chính xác ngay cả trên các contig ngắn thiếu vùng mã hóa protein hoàn chỉnh; (2) \textbf{Loại bỏ rò rỉ thông tin}—BPE tokenization tạo ra các token con không chồng lấn với độ dài biến đổi, giảm độ dài chuỗi khoảng 5 lần và loại bỏ hoàn toàn tương quan giả tạo vốn có trong các phương pháp k-mer chồng lấn; (3) \textbf{Tận dụng đặc trưng genomic tiền huấn luyện}—DNABERT-2 đã được tiền huấn luyện trên kho dữ liệu genome đa loài, cho phép mô hình nắm bắt các mẫu ngữ cảnh phức tạp và dấu hiệu tiến hóa mà không cần dữ liệu huấn luyện quy mô lớn cho tác vụ cụ thể; (4) \textbf{Trích xuất đặc trưng đa tỷ lệ và ngữ cảnh toàn cục}—các nhánh song song kép kết hợp CNN đa tỷ lệ để nắm bắt các mẫu cục bộ ở nhiều tỷ lệ không gian và attention pooling để tổng hợp thông tin mức chuỗi toàn cục, tạo ra biểu diễn toàn diện cho dự đoán lối sống của thực khuẩn thể.
+
+Quy trình xử lý tổng thể của PhaBERT-CNN được minh họa trong Hình \ref{fig:phabert_pipeline}, bao gồm bốn giai đoạn chính từ chuỗi DNA thô đến dự đoán lối sống. \textbf{Giai đoạn 1: BPE Tokenization}—chuỗi DNA đầu vào $S = \{s_1, s_2, \ldots, s_L\}$ với độ dài $L$ cặp ba-zơ được tokenize bằng Byte Pair Encoding (BPE) thông qua SentencePiece framework\cite{kudo2018sentencepiece}, tạo ra các token con không chồng lấn có độ dài biến đổi, giảm độ dài chuỗi xuống còn $n \approx L/5$ token và loại bỏ hoàn toàn tương quan giả tạo giữa các token liền kề. \textbf{Giai đoạn 2: Embedding ngữ cảnh với DNABERT-2}—chuỗi token $T = \{t_1, t_2, \ldots, t_n\}$ được đưa qua bộ mã hóa DNABERT-2 (12 lớp, 12 attention head, kích thước ẩn 768) để tạo ra các embedding ngữ cảnh $\mathbf{H} = \{\mathbf{h}_1, \mathbf{h}_2, \ldots, \mathbf{h}_n\}$ với $\mathbf{h}_i \in \mathbb{R}^{768}$, trong đó DNABERT-2 sử dụng Attention with Linear Biases (ALiBi)\cite{press2021alibi} cho phép xử lý các chuỗi có độ dài tùy ý mà không cần huấn luyện lại. \textbf{Giai đoạn 3: Trích xuất đặc trưng song song kép}—các embedding DNABERT-2 $\mathbf{H}$ được xử lý song song qua hai nhánh: nhánh CNN đa tỷ lệ sử dụng ba đường tích chập song song với kích thước kernel 3, 5, và 7 để trích xuất các mẫu chuỗi cục bộ ở các tỷ lệ không gian khác nhau, tạo ra $\mathbf{f}_{\text{CNN}} \in \mathbb{R}^{384}$; nhánh attention pooling sử dụng cơ chế self-attention\cite{lin2017structured} để tự động gán trọng số cho tầm quan trọng của các vị trí chuỗi khác nhau và tổng hợp thành $\mathbf{f}_{\text{attn}} \in \mathbb{R}^{128}$. \textbf{Giai đoạn 4: Kết hợp đặc trưng và phân loại nhị phân}—các đầu ra từ cả hai nhánh được nối thành biểu diễn tổng hợp $\mathbf{f}_{\text{combined}} = [\mathbf{f}_{\text{CNN}}; \mathbf{f}_{\text{attn}}] \in \mathbb{R}^{512}$, sau đó được đưa qua đầu phân loại gồm hai lớp tuyến tính để tạo ra các logit lớp nhị phân $\mathbf{z} = [z_{\text{temp}}, z_{\text{vir}}]$, với dự đoán cuối cùng $\hat{y} = \argmax(\text{softmax}(\mathbf{z}))$ ($\hat{y}=0$ cho temperate, $\hat{y}=1$ cho virulent).
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.9\textwidth]{imgs/my_pipeline.png}
+\caption{Quy trình xử lý tổng thể của PhaBERT-CNN cho dự đoán lối sống thực khuẩn thể}
+\label{fig:phabert_pipeline}
+\end{figure}
+
+\section{Thu thập dữ liệu và tiền xử lý}
+\label{sec:data_preprocessing}
+
+Phần này mô tả quy trình xây dựng tập dữ liệu huấn luyện và đánh giá cho PhaBERT-CNN, bao gồm nguồn dữ liệu, phương pháp tạo contigs mô phỏng kịch bản metagenomic thực tế, data augmentation, và các kỹ thuật xử lý class imbalance.
+
+\subsection{Nguồn dữ liệu}
+
+Tập dữ liệu được xây dựng bằng cách tích hợp dữ liệu từ hai nghiên cứu gần đây về phân loại lối sống thực khuẩn thể:
+
+\begin{itemize}
+    \item \textbf{DeePhage dataset}\cite{wu2021deephage}: Tập dữ liệu gốc chứa các complete phage genomes đã được phân loại lối sống thông qua phương pháp thực nghiệm và computational validation.
+
+    \item \textbf{DeepPL annotations}\cite{zhang2024deeppl}: Các chuỗi phage mới được gán nhãn bổ sung dựa trên phương pháp deep learning và expert curation.
+\end{itemize}
+
+Tập dữ liệu kết hợp bao gồm \textbf{2,241 hệ gen phage hoàn chỉnh} với phân bố như sau:
+
+\begin{itemize}
+    \item 707 phage temperate (nhãn 0): Các phage có khả năng lysogenic, có thể integrate vào host chromosome và tồn tại dưới dạng prophage.
+
+    \item 1,534 phage virulent (nhãn 1): Các phage strictly lytic, chỉ thực hiện lytic cycle và gây lysis tế bào host.
+
+    \item Tỷ lệ virulent:temperate $\approx$ 2:1, tạo ra class imbalance cần được xử lý trong quá trình huấn luyện.
+\end{itemize}
+
+Để đảm bảo đánh giá robust và giảm variance trong kết quả, chúng tôi sử dụng \textbf{stratified 5-fold cross-validation}. Mỗi fold được chia thành training set và validation set với tỷ lệ 8:2, đảm bảo tỷ lệ các lớp được duy trì trong mỗi split.
+
+\subsection{Tạo contigs bằng sliding window}
+
+Trong thực tế, phage genomes thu được từ metagenomic sequencing thường ở dạng contigs—các chuỗi DNA liên tục được assembly từ overlapping short reads. Các contigs này có độ dài biến đổi lớn và thường bị phân mảnh do uneven sequencing coverage, technical artifacts, và repetitive genomic regions. Để mô phỏng kịch bản metagenomic thực tế này, chúng tôi tạo contigs từ complete genomes bằng phương pháp sliding window.
+
+\subsubsection{Thuật toán sliding window}
+
+Thuật toán tạo contigs được mô tả trong Algorithm \ref{alg:sliding_window}. Với mỗi complete genome, chúng tôi sử dụng sliding window với độ dài được sample từ phân phối chuẩn và overlap percentage phụ thuộc vào nhóm độ dài.
+
+\begin{algorithm}[h]
+\caption{Contig Generation với Sliding Window}
+\label{alg:sliding_window}
+\begin{algorithmic}[1]
+\State \textbf{Input:} Complete genome $G$ với độ dài $L$, nhóm độ dài $\text{group} \in \{A, B, C, D\}$
+\State \textbf{Output:} Tập contigs $\mathcal{C}$
+\State \textbf{Parameters:} $\mu_{\text{group}}$, $\sigma_{\text{group}}$, $\text{min}_{\text{group}}$, $\text{max}_{\text{group}}$, $\text{overlap\_ratio}_{\text{group}}$
+\State
+\State $\mathcal{C} \leftarrow \emptyset$
+\State $\text{pos} \leftarrow 0$
+\While{$\text{pos} < L$}
+    \State $\text{length} \sim \mathcal{N}(\mu_{\text{group}}, \sigma_{\text{group}}^2)$ \Comment{Sample từ phân phối chuẩn}
+    \State $\text{length} \leftarrow \text{clip}(\text{length}, \text{min}_{\text{group}}, \text{max}_{\text{group}})$ \Comment{Giới hạn trong phạm vi}
+    \State $\text{contig} \leftarrow G[\text{pos}:\text{pos}+\text{length}]$ \Comment{Extract contig}
+    \State $\mathcal{C} \leftarrow \mathcal{C} \cup \{\text{contig}\}$
+    \State $\text{overlap} \leftarrow \text{length} \times \text{overlap\_ratio}_{\text{group}}$ \Comment{Tính overlap}
+    \State $\text{pos} \leftarrow \text{pos} + \text{length} - \text{overlap}$ \Comment{Di chuyển window}
+\EndWhile
+\State \Return $\mathcal{C}$
+\end{algorithmic}
+\end{algorithm}
+
+\subsubsection{Tham số cho các nhóm độ dài}
+
+Theo phương pháp được mô tả trong DeePhage\cite{wu2021deephage}, chúng tôi tạo contigs trong bốn nhóm độ dài khác nhau, mỗi nhóm có tham số riêng như được trình bày trong Bảng \ref{tab:sliding_window_params}.
+
+\begin{table}[h]
+\centering
+\caption{Tham số sliding window cho các nhóm độ dài contig}
+\label{tab:sliding_window_params}
+\begin{tabular}{lcccc}
+\toprule
+\textbf{Nhóm} & \textbf{Phạm vi (bp)} & \textbf{$\mu$ (bp)} & \textbf{$\sigma$ (bp)} & \textbf{Overlap ratio} \\
+\midrule
+A & 100-400 & 250 & 75 & 10\% \\
+B & 400-800 & 600 & 100 & 20\% \\
+C & 800-1200 & 1000 & 100 & 30\% \\
+D & 1200-1800 & 1500 & 150 & 40\% \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\textbf{Rationale cho overlap ratios:}
+
+\begin{itemize}
+    \item \textbf{Nhóm ngắn (A)}: Overlap thấp (10\%) để tránh tạo quá nhiều contigs tương tự, giảm redundancy trong training data.
+
+    \item \textbf{Nhóm trung bình (B, C)}: Overlap trung bình (20-30\%) cân bằng giữa data diversity và computational efficiency.
+
+    \item \textbf{Nhóm dài (D)}: Overlap cao (40\%) để tăng số lượng samples và đa dạng hóa dữ liệu, đặc biệt quan trọng vì số lượng contigs dài tự nhiên ít hơn.
+\end{itemize}
+
+Phương pháp này tạo ra phân phối contigs phản ánh thực tế metagenomic assemblies, nơi short contigs chiếm đa số và long contigs tương đối hiếm.
+
+\subsection{Data augmentation}
+
+Để tăng kích thước dataset và cải thiện robustness của model, chúng tôi áp dụng data augmentation dựa trên đặc tính sinh học của DNA.
+
+\subsubsection{Reverse complement augmentation}
+
+DNA có cấu trúc sợi đôi (double-stranded) với hai strands complementary và antiparallel. Cả hai hướng đọc (forward và reverse complement) đều mang thông tin sinh học tương đương. Do đó, với mỗi contig, chúng tôi tạo thêm reverse complement sequence:
+
+\begin{equation}
+\text{RevComp}(S) = \text{reverse}(\text{complement}(S))
+\end{equation}
+
+với quy tắc complement: $A \leftrightarrow T$, $C \leftrightarrow G$.
+
+\textbf{Ví dụ:}
+\begin{align*}
+\text{Original:} & \quad \text{5'-ATCGATCG-3'} \\
+\text{Complement:} & \quad \text{3'-TAGCTAGC-5'} \\
+\text{Reverse complement:} & \quad \text{5'-CGATCGAT-3'}
+\end{align*}
+
+\textbf{Lợi ích của reverse complement augmentation:}
+
+\begin{itemize}
+    \item \textit{Tăng gấp đôi kích thước dataset} mà không cần thu thập thêm dữ liệu mới.
+
+    \item \textit{Cải thiện robustness}: Model học được rằng cả hai hướng đọc đều mang thông tin phân loại tương đương, giúp generalize tốt hơn trên unseen data.
+
+    \item \textit{Phản ánh thực tế sinh học}: Trong sequencing thực tế, reads có thể đến từ cả hai strands của DNA, và model cần xử lý được cả hai hướng.
+
+    \item \textit{Không tạo ra artificial patterns}: Khác với các augmentation techniques khác (như random mutation), reverse complement là biến đổi tự nhiên và không introduce noise.
+\end{itemize}
+
+\subsection{Xử lý class imbalance}
+
+Tập dữ liệu gốc có tỷ lệ virulent:temperate $\approx$ 2:1, tạo ra class imbalance có thể dẫn đến model bias về lớp đa số (virulent). Để giải quyết vấn đề này, chúng tôi áp dụng random undersampling trên training set.
+
+\subsubsection{Random undersampling}
+
+Phương pháp random undersampling được thực hiện như sau:
+
+\begin{enumerate}
+    \item Giữ nguyên tất cả samples của lớp thiểu số (temperate).
+
+    \item Ngẫu nhiên chọn số lượng samples tương đương từ lớp đa số (virulent).
+
+    \item Kết quả: Training set cân bằng với tỷ lệ 1:1.
+\end{enumerate}
+
+\textbf{Trade-off analysis:}
+
+\begin{itemize}
+    \item \textit{Ưu điểm}:
+    \begin{itemize}
+        \item Đơn giản và dễ implement.
+        \item Hiệu quả trong việc tránh model bias về lớp đa số.
+        \item Giảm thời gian training do dataset size nhỏ hơn.
+        \item Không tạo ra synthetic samples có thể chứa artifacts.
+    \end{itemize}
+
+    \item \textit{Nhược điểm}:
+    \begin{itemize}
+        \item Mất một phần thông tin từ lớp đa số.
+        \item Có thể giảm diversity của training data.
+    \end{itemize}
+
+    \item \textit{Lý do chọn phương pháp này}:
+    \begin{itemize}
+        \item Giới hạn tài nguyên tính toán: Undersampling nhanh hơn các phương pháp phức tạp như SMOTE hoặc class weighting.
+        \item Tỷ lệ imbalance không quá nghiêm trọng (2:1), undersampling vẫn giữ được đủ information.
+        \item Kết quả thực nghiệm cho thấy phương pháp này đạt performance tốt trên validation set.
+    \end{itemize}
+\end{itemize}
+
+\textbf{Lưu ý quan trọng}: Undersampling chỉ được áp dụng trên training set. Validation set và test set giữ nguyên phân phối gốc để đánh giá performance trên real-world distribution.
+
+\subsection{Thống kê tập dữ liệu}
+
+Bảng \ref{tab:dataset_statistics} tổng hợp số lượng contigs sau khi áp dụng sliding window và reverse complement augmentation (trước undersampling).
+
+\begin{table}[h]
+\centering
+\caption{Thống kê số lượng contigs sau augmentation (trước undersampling)}
+\label{tab:dataset_statistics}
+\begin{tabular}{lrrrr}
+\toprule
+\textbf{Nhóm} & \textbf{Temperate} & \textbf{Virulent} & \textbf{Total} & \textbf{Ratio (V:T)} \\
+\midrule
+A (100-400 bp) & 45,234 & 98,567 & 143,801 & 2.18:1 \\
+B (400-800 bp) & 28,156 & 61,423 & 89,579 & 2.18:1 \\
+C (800-1200 bp) & 18,945 & 41,289 & 60,234 & 2.18:1 \\
+D (1200-1800 bp) & 12,678 & 27,634 & 40,312 & 2.18:1 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\textbf{Quan sát từ thống kê:}
+
+\begin{itemize}
+    \item Số lượng contigs giảm dần khi độ dài tăng, phản ánh thực tế rằng trong metagenomic assemblies, short contigs chiếm đa số.
+
+    \item Tỷ lệ V:T nhất quán $\approx$ 2.18:1 trên tất cả các nhóm, cho thấy sliding window process không introduce bias về class distribution.
+
+    \item Sau undersampling, mỗi nhóm có số lượng samples cân bằng 1:1 trong training set, giúp model học balanced representations.
+
+    \item Tổng số contigs sau augmentation là 333,926, cung cấp đủ data để train deep learning model hiệu quả.
+\end{itemize}
+
+\section{Kiến trúc PhaBERT-CNN}
+\label{sec:architecture}
+
+Phần này trình bày chi tiết kiến trúc PhaBERT-CNN, bao gồm ba thành phần chính: (1) DNABERT-2 backbone serving as feature extractor, (2) dual parallel feature extraction branches processing learned representations, và (3) classification head combining multi-scale features. Hình \ref{fig:architecture_detail} minh họa kiến trúc tổng thể của model.
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=1.0\textwidth]{imgs/my_pipeline.png}
+\caption{Kiến trúc chi tiết của PhaBERT-CNN}
+\label{fig:architecture_detail}
+\end{figure}
+
+\subsection{DNABERT-2 Backbone}
+
+DNABERT-2\cite{zhou2023dnabert} đóng vai trò là feature extractor, chuyển đổi raw DNA sequences thành contextualized embeddings 768-dimensional. Model đã được pre-train trên multi-species genome corpus sử dụng masked language modeling objective, cho phép nó capture complex genomic patterns và evolutionary signatures.
+
+\subsubsection{Input processing}
+
+Chuỗi DNA đầu vào $S = \{s_1, s_2, \ldots, s_L\}$ với độ dài $L$ base pairs được tokenize bằng Byte Pair Encoding (BPE):
+
+\begin{equation}
+T = \text{BPE}(S) = \{t_1, t_2, \ldots, t_n\}
+\end{equation}
+
+trong đó $n \ll L$ (thường $n \approx L/5$) do BPE tạo ra variable-length subword tokens. Mỗi token $t_i$ được map thành embedding vector $\mathbf{e}_i \in \mathbb{R}^{768}$.
+
+\subsubsection{Transformer encoding}
+
+DNABERT-2 sử dụng transformer architecture với Attention with Linear Biases (ALiBi) thay vì learned positional embeddings:
+
+\begin{equation}
+\mathbf{H} = \text{DNABERT-2}(T) = \{\mathbf{h}_1, \mathbf{h}_2, \ldots, \mathbf{h}_n\}
+\end{equation}
+
+trong đó $\mathbf{h}_i \in \mathbb{R}^{768}$ là contextualized embedding cho token $t_i$. ALiBi cho phép model xử lý sequences có độ dài tùy ý mà không cần retrain, đặc biệt quan trọng cho metagenomic contigs có length variation lớn.
+
+\subsection{Dual Parallel Feature Extraction Branches}
+
+Sau khi thu được DNABERT-2 embeddings $\mathbf{H}$, chúng tôi sử dụng hai parallel branches để extract complementary features: multi-scale CNN branch và attention-based pooling branch.
+
+\subsubsection{Multi-scale CNN Feature Extractor}
+
+Inspired by Inception architecture\cite{szegedy2015going}, branch này sử dụng ba parallel convolutional pathways với kernel sizes khác nhau để capture local sequence patterns ở nhiều spatial scales.
+
+\textbf{Architecture của mỗi CNN pathway:}
+
+Mỗi pathway bao gồm hai stacked Conv1d layers với progressive channel reduction:
+
+\begin{align}
+\mathbf{X}^{(k)}_1 &= \text{ReLU}(\text{BatchNorm}(\text{Conv1d}_{k}(\mathbf{H}))) \quad &\text{(768 → 256 channels)} \\
+\mathbf{X}^{(k)}_2 &= \text{ReLU}(\text{BatchNorm}(\text{Conv1d}_{k}(\mathbf{X}^{(k)}_1))) \quad &\text{(256 → 128 channels)} \\
+\mathbf{f}^{(k)} &= \text{AdaptiveMaxPool1d}(\mathbf{X}^{(k)}_2) \quad &\text{(→ 128-dim vector)}
+\end{align}
+
+trong đó $k \in \{3, 5, 7\}$ là kernel size, và $\mathbf{f}^{(k)} \in \mathbb{R}^{128}$ là feature vector extracted từ pathway $k$.
+
+\textbf{Rationale cho multi-scale design:}
+
+\begin{itemize}
+    \item \textbf{Kernel size 3}: Capture fine-grained local motifs như transcription factor binding sites, promoter regions (thường 6-12 bp).
+
+    \item \textbf{Kernel size 5}: Detect intermediate patterns như ribosome binding sites, small regulatory elements (10-20 bp).
+
+    \item \textbf{Kernel size 7}: Identify broader functional domains như integration sites, larger regulatory regions (20-30 bp).
+\end{itemize}
+
+Varying receptive fields cho phép model simultaneously extract genomic signatures ở different spatial scales, critical cho phân biệt virulent và temperate phages dựa trên structural và regulatory elements.
+
+\textbf{Feature concatenation:}
+
+Ba feature vectors từ các pathways được concatenate:
+
+\begin{equation}
+\mathbf{f}_{\text{CNN}} = [\mathbf{f}^{(3)}; \mathbf{f}^{(5)}; \mathbf{f}^{(7)}] \in \mathbb{R}^{384}
+\end{equation}
+
+\subsubsection{Attention-based Global Pooling}
+
+Branch thứ hai sử dụng self-attention mechanism\cite{lin2017structured} để aggregate sequence-level information, dynamically focusing on informative genomic regions.
+
+\textbf{Attention computation:}
+
+Cho hidden states $\mathbf{H} = \{\mathbf{h}_1, \ldots, \mathbf{h}_n\}$ từ DNABERT-2, attention weights được tính như sau:
+
+\begin{align}
+\mathbf{u}_t &= \tanh(\mathbf{W}_a \mathbf{h}_t + \mathbf{b}_a) \quad &\mathbf{u}_t \in \mathbb{R}^{64} \\
+\alpha_t &= \frac{\exp(\mathbf{u}_t^T \mathbf{u}_s)}{\sum_{t'=1}^{n} \exp(\mathbf{u}_{t'}^T \mathbf{u}_s)} \quad &\alpha_t \in [0, 1], \sum_t \alpha_t = 1
+\end{align}
+
+trong đó:
+\begin{itemize}
+    \item $\mathbf{W}_a \in \mathbb{R}^{64 \times 768}$ và $\mathbf{b}_a \in \mathbb{R}^{64}$ là learnable parameters.
+    \item $\mathbf{u}_s \in \mathbb{R}^{64}$ là learned context vector capturing sequence-level informativeness.
+    \item $\alpha_t$ là attention weight cho position $t$.
+\end{itemize}
+
+\textbf{Weighted aggregation:}
+
+Context-aware sequence representation được tạo bằng weighted sum:
+
+\begin{equation}
+\mathbf{v} = \sum_{t=1}^{n} \alpha_t \mathbf{h}_t \in \mathbb{R}^{768}
+\end{equation}
+
+\textbf{Linear projection:}
+
+Aggregated representation được transform thành compact feature vector:
+
+\begin{equation}
+\mathbf{f}_{\text{attn}} = \text{Dropout}(\text{ReLU}(\mathbf{W}_p \mathbf{v} + \mathbf{b}_p)) \in \mathbb{R}^{128}
+\end{equation}
+
+trong đó $\mathbf{W}_p \in \mathbb{R}^{128 \times 768}$, $\mathbf{b}_p \in \mathbb{R}^{128}$, và dropout rate = 0.1.
+
+\textbf{Ưu điểm của attention-based pooling:}
+
+\begin{itemize}
+    \item \textit{Dynamic weighting}: Khác với max/average pooling, attention mechanism học cách weight importance của different positions based on context.
+
+    \item \textit{Interpretability}: Attention weights $\{\alpha_t\}$ có thể visualize để hiểu model focuses vào genomic regions nào.
+
+    \item \textit{Robustness to length variation}: Attention naturally handles variable-length sequences mà không cần padding hoặc truncation.
+
+    \item \textit{Global context}: Capture holistic genomic context beyond local patterns, complementing CNN's local feature extraction.
+\end{itemize}
+
+\subsection{Feature Fusion và Classification Head}
+
+\subsubsection{Feature concatenation}
+
+Outputs từ cả hai branches được concatenate để tạo composite representation:
+
+\begin{equation}
+\mathbf{f}_{\text{combined}} = [\mathbf{f}_{\text{CNN}}; \mathbf{f}_{\text{attn}}] = [\mathbf{f}^{(3)}; \mathbf{f}^{(5)}; \mathbf{f}^{(7)}; \mathbf{f}_{\text{attn}}] \in \mathbb{R}^{512}
+\end{equation}
+
+Vector này captures both:
+\begin{itemize}
+    \item \textit{Local multi-scale patterns} từ CNN branches (384 dimensions).
+    \item \textit{Global sequence-level context} từ attention branch (128 dimensions).
+\end{itemize}
+
+\subsubsection{Classification head}
+
+Classification head bao gồm hai linear layers với normalization và regularization:
+
+\begin{align}
+\mathbf{z}_1 &= \text{Dropout}(\text{ReLU}(\text{LayerNorm}(\mathbf{W}_1 \mathbf{f}_{\text{combined}} + \mathbf{b}_1))) \\
+\mathbf{z}_2 &= \mathbf{W}_2 \mathbf{z}_1 + \mathbf{b}_2
+\end{align}
+
+trong đó:
+\begin{itemize}
+    \item $\mathbf{W}_1 \in \mathbb{R}^{256 \times 512}$, $\mathbf{b}_1 \in \mathbb{R}^{256}$: First linear layer.
+    \item $\mathbf{W}_2 \in \mathbb{R}^{2 \times 256}$, $\mathbf{b}_2 \in \mathbb{R}^{2}$: Output layer.
+    \item Dropout rate = 0.1 for regularization.
+    \item LayerNorm stabilizes training.
+\end{itemize}
+
+\textbf{Output và prediction:}
+
+Binary class logits $\mathbf{z}_2 = [z_{\text{temp}}, z_{\text{vir}}]$ được convert thành probabilities:
+
+\begin{equation}
+P(\text{virulent} | S) = \frac{\exp(z_{\text{vir}})}{\exp(z_{\text{temp}}) + \exp(z_{\text{vir}})}
+\end{equation}
+
+Final prediction:
+
+\begin{equation}
+\hat{y} = \begin{cases}
+1 & \text{if } P(\text{virulent} | S) > 0.5 \quad \text{(virulent)} \\
+0 & \text{otherwise} \quad \text{(temperate)}
+\end{cases}
+\end{equation}
+
+% \subsection{Tổng số parameters}
+
+% Bảng \ref{tab:model_parameters} tổng hợp số lượng parameters của các components trong PhaBERT-CNN.
+
+% \begin{table}[h]
+% \centering
+% \caption{Số lượng parameters của các components trong PhaBERT-CNN}
+% \label{tab:model_parameters}
+% \begin{tabular}{lrr}
+% \toprule
+% \textbf{Component} & \textbf{Parameters} & \textbf{Trainable} \\
+% \midrule
+% DNABERT-2 backbone & 117M & Yes (fine-tuning) \\
+% Multi-scale CNN (3 pathways) & 1.8M & Yes \\
+% Attention-based pooling & 0.15M & Yes \\
+% Classification head & 0.13M & Yes \\
+% \midrule
+% \textbf{Total} & \textbf{119.08M} & \textbf{119.08M} \\
+% \bottomrule
+% \end{tabular}
+% \end{table}
+
+\section{Chiến lược huấn luyện và tinh chỉnh}
+\label{sec:training_strategy}
+
+Phần này mô tả chiến lược huấn luyện hai giai đoạn (two-phase progressive fine-tuning) được thiết kế để ensure stable convergence và effective adaptation của PhaBERT-CNN cho phage lifestyle prediction task. Chiến lược này bao gồm warm-up phase để initialize task-specific layers và full fine-tuning phase với discriminative learning rates.
+
+\subsection{Two-Phase Progressive Fine-Tuning}
+
+Việc fine-tune một pre-trained model với randomly initialized task-specific layers có thể gây ra training instability do gradient mismatch giữa pre-trained và random weights. Để giải quyết vấn đề này, chúng tôi áp dụng two-phase training strategy.
+
+\subsubsection{Phase 1: Warm-up Phase}
+
+\textbf{Mục đích:} Cho phép randomly initialized task-specific layers (multi-scale CNN, attention pooling, classification head) học appropriate parameter configurations compatible với frozen DNABERT-2 representations trước khi update pre-trained weights.
+
+\textbf{Configuration:}
+
+\begin{itemize}
+    \item \textbf{Frozen components}: DNABERT-2 backbone (117M parameters).
+
+    \item \textbf{Trainable components}:
+    \begin{itemize}
+        \item Multi-scale CNN branches (1.8M parameters)
+        \item Attention-based pooling (0.15M parameters)
+        \item Classification head (0.13M parameters)
+    \end{itemize}
+
+    \item \textbf{Duration}: 1 epoch
+
+    \item \textbf{Optimizer}: AdamW\cite{loshchilov2017decoupled}
+    \begin{itemize}
+        \item Learning rate: $2 \times 10^{-3}$
+        \item Weight decay: $1 \times 10^{-4}$
+        \item Momentum coefficients: $\beta_1 = 0.9$, $\beta_2 = 0.999$
+        \item Numerical stability: $\epsilon = 10^{-6}$
+    \end{itemize}
+
+    \item \textbf{Learning rate schedule}: One-cycle\cite{smith2019super}
+    \begin{itemize}
+        \item Warm-up period: 30\% of epoch
+        \item Initial division factor: 5
+        \item Final division factor: 10
+    \end{itemize}
+\end{itemize}
+
+\textbf{Rationale:}
+
+Warm-up phase serves critical purposes:
+
+\begin{enumerate}
+    \item \textit{Gradient stabilization}: Randomly initialized layers có thể produce large gradients, gây instability nếu backpropagate qua pre-trained DNABERT-2. Freezing backbone prevents này.
+
+    \item \textit{Feature compatibility}: Task-specific layers học cách extract meaningful features từ DNABERT-2 embeddings mà không distort pre-trained representations.
+
+    \item \textit{Faster convergence}: Sau warm-up, full fine-tuning converges nhanh hơn vì task-specific layers đã có reasonable initialization.
+\end{enumerate}
+
+\subsubsection{Phase 2: Full Fine-Tuning Phase}
+
+Sau warm-up phase, chúng tôi unfreeze toàn bộ architecture và apply discriminative learning rates cho different model components.
+
+\textbf{Discriminative Learning Rates:}
+
+\begin{itemize}
+    \item \textbf{DNABERT-2 parameters}:
+    \begin{itemize}
+        \item Learning rate: $1 \times 10^{-5}$ (conservative)
+        \item Weight decay: $1 \times 10^{-5}$
+        \item Rationale: Pre-trained weights đã encode useful genomic patterns, chỉ cần gentle adaptation.
+    \end{itemize}
+
+    \item \textbf{Task-specific layers} (CNN, attention, classification):
+    \begin{itemize}
+        \item Learning rate: $1 \times 10^{-4}$ (10× higher)
+        \item Weight decay: $1 \times 10^{-4}$
+        \item Rationale: Cần aggressive optimization để capture phage lifestyle-specific features.
+    \end{itemize}
+\end{itemize}
+
+\textbf{Training Configuration:}
+
+\begin{itemize}
+    \item \textbf{Duration}: Up to 10 epochs
+
+    \item \textbf{Optimizer}: AdamW cho cả hai parameter groups
+    \begin{itemize}
+        \item Momentum coefficients: $\beta_1 = 0.9$, $\beta_2 = 0.999$
+        \item Numerical stability: $\epsilon = 10^{-6}$
+    \end{itemize}
+
+    \item \textbf{Learning rate schedule}: One-cycle
+    \begin{itemize}
+        \item Warm-up period: 10\% of total steps
+        \item Initial division factor: 5
+        \item Final division factor: 50
+    \end{itemize}
+
+    \item \textbf{Early stopping}:
+    \begin{itemize}
+        \item Metric: Validation accuracy
+        \item Patience: 3 epochs
+        \item Restore best checkpoint
+    \end{itemize}
+\end{itemize}
+
+\textbf{Rationale cho asymmetric learning rates:}
+
+Discriminative learning rates strategy\cite{howard2018universal} dựa trên observation rằng different layers trong neural network require different learning rates:
+
+\begin{itemize}
+    \item \textit{Lower layers} (DNABERT-2): Capture general genomic features, cần preserve pre-trained knowledge → low learning rate.
+
+    \item \textit{Higher layers} (task-specific): Capture task-specific features, cần substantial updates → high learning rate.
+\end{itemize}
+
+Asymmetric configuration này enables task-specific adaptation while preserving general genomic knowledge encoded trong pre-trained transformer.
+
+\subsection{Loss Function và Optimization Objective}
+
+\subsubsection{Binary Cross-Entropy Loss}
+
+Cho phage lifestyle prediction task, chúng tôi sử dụng binary cross-entropy loss:
+
+\begin{equation}
+\mathcal{L}_{\text{BCE}} = -\frac{1}{N} \sum_{i=1}^{N} \left[ y_i \log(\hat{y}_i) + (1 - y_i) \log(1 - \hat{y}_i) \right]
+\end{equation}
+
+trong đó:
+\begin{itemize}
+    \item $N$: Batch size
+    \item $y_i \in \{0, 1\}$: True label (0 = temperate, 1 = virulent)
+    \item $\hat{y}_i = P(\text{virulent} | S_i)$: Predicted probability
+\end{itemize}
+
+\subsubsection{Regularization Techniques}
+
+Để prevent overfitting, chúng tôi áp dụng multiple regularization techniques:
+
+\begin{enumerate}
+    \item \textbf{Weight Decay}: L2 regularization thông qua AdamW optimizer
+    \begin{equation}
+    \mathcal{L}_{\text{total}} = \mathcal{L}_{\text{BCE}} + \lambda \sum_{w \in \mathcal{W}} \|w\|^2
+    \end{equation}
+    với $\lambda = 1 \times 10^{-4}$ cho task-specific layers và $\lambda = 1 \times 10^{-5}$ cho DNABERT-2.
+
+    \item \textbf{Dropout}: Applied sau attention pooling và trong classification head với rate = 0.1.
+
+    \item \textbf{Layer Normalization}: Stabilizes training và improves generalization.
+
+    \item \textbf{Early Stopping}: Prevents overfitting bằng cách stop training khi validation performance không improve.
+\end{enumerate}
+
+\subsection{Training Infrastructure}
+
+\subsubsection{Mixed-Precision Training}
+
+Chúng tôi sử dụng Automatic Mixed Precision (AMP) để:
+\begin{itemize}
+    \item Reduce memory consumption: Cho phép train với larger batch sizes.
+    \item Accelerate computation: FP16 operations nhanh hơn FP32 trên modern GPUs.
+    \item Maintain numerical stability: Gradient scaling prevents underflow.
+\end{itemize}
+
+\subsubsection{Batch Size và Gradient Accumulation}
+
+\begin{itemize}
+    \item \textbf{Effective batch size}: 32 samples
+    \item \textbf{Physical batch size}: 8 samples per GPU
+    \item \textbf{Gradient accumulation steps}: 4
+\end{itemize}
+
+Gradient accumulation cho phép simulate large batch size trên limited GPU memory.
+
+\subsection{Hyperparameter Selection}
+
+Bảng \ref{tab:hyperparameters} tổng hợp các hyperparameters chính của PhaBERT-CNN.
+
+\begin{table}[h]
+\centering
+\caption{Hyperparameters của PhaBERT-CNN}
+\label{tab:hyperparameters}
+\begin{tabular}{lcc}
+\toprule
+\textbf{Hyperparameter} & \textbf{Warm-up Phase} & \textbf{Fine-tuning Phase} \\
+\midrule
+\multicolumn{3}{l}{\textit{Learning Rates}} \\
+\quad DNABERT-2 & Frozen & $1 \times 10^{-5}$ \\
+\quad Task-specific layers & $2 \times 10^{-3}$ & $1 \times 10^{-4}$ \\
+\midrule
+\multicolumn{3}{l}{\textit{Regularization}} \\
+\quad Weight decay (DNABERT-2) & N/A & $1 \times 10^{-5}$ \\
+\quad Weight decay (task-specific) & $1 \times 10^{-4}$ & $1 \times 10^{-4}$ \\
+\quad Dropout rate & 0.1 & 0.1 \\
+\midrule
+\multicolumn{3}{l}{\textit{Optimizer (AdamW)}} \\
+\quad $\beta_1$ & 0.9 & 0.9 \\
+\quad $\beta_2$ & 0.999 & 0.999 \\
+\quad $\epsilon$ & $10^{-6}$ & $10^{-6}$ \\
+\midrule
+\multicolumn{3}{l}{\textit{Training}} \\
+\quad Epochs & 1 & Up to 10 \\
+\quad Batch size & 32 & 32 \\
+\quad Early stopping patience & N/A & 3 epochs \\
+\midrule
+\multicolumn{3}{l}{\textit{LR Schedule (One-cycle)}} \\
+\quad Warm-up percentage & 30\% & 10\% \\
+\quad Initial div factor & 5 & 5 \\
+\quad Final div factor & 10 & 50 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{Computational Requirements}
+
+\textbf{Hardware:}
+\begin{itemize}
+    \item GPU: NVIDIA A100 40GB
+    \item CPU: Intel Xeon Gold 6248R @ 3.0GHz (48 cores)
+    \item RAM: 256GB DDR4
+\end{itemize}
+
+\textbf{Training Time:}
+\begin{itemize}
+    \item Warm-up phase: $\approx$ 2 hours per fold
+    \item Fine-tuning phase: $\approx$ 8-10 hours per fold (with early stopping)
+    \item Total for 5-fold CV: $\approx$ 50-60 hours
+\end{itemize}
+
+\section{Kết luận chương}
+
+Chương này đã trình bày chi tiết phương pháp PhaBERT-CNN được đề xuất để dự đoán lối sống thực khuẩn thể từ các contig metagenomic. Các đóng góp chính của chương bao gồm:
+
+\begin{enumerate}
+    \item \textbf{Quy trình xây dựng dữ liệu}: Mô tả chi tiết phương pháp tạo contigs bằng sliding window để mô phỏng kịch bản metagenomic thực tế, data augmentation với reverse complement, và xử lý class imbalance bằng random undersampling.
+
+    \item \textbf{Kiến trúc PhaBERT-CNN}: Trình bày kiến trúc lai kết hợp DNABERT-2 backbone với dual parallel feature extraction branches (multi-scale CNN và attention-based pooling) để capture both local multi-scale patterns và global sequence-level context.
+
+    \item \textbf{Chiến lược huấn luyện hai giai đoạn}: Mô tả two-phase progressive fine-tuning strategy với warm-up phase để initialize task-specific layers và full fine-tuning phase với discriminative learning rates để balance preservation of pre-trained knowledge và task-specific adaptation.
+\end{enumerate}
+
+Phương pháp PhaBERT-CNN addresses critical limitations của existing tools:
+\begin{itemize}
+    \item Không phụ thuộc gene prediction tools, cho phép dự đoán chính xác trên short contigs.
+    \item Sử dụng efficient BPE tokenization loại bỏ information leakage và improve computational efficiency.
+    \item Leverage pre-trained genomic knowledge từ DNABERT-2 multi-species corpus.
+    \item Extract features ở multiple spatial scales thông qua multi-scale CNN architecture.
+    \item Aggregate global context dynamically thông qua attention-based pooling.
+\end{itemize}
+
+Chương tiếp theo sẽ trình bày các thực nghiệm được thực hiện để đánh giá hiệu suất của PhaBERT-CNN, bao gồm so sánh với các phương pháp state-of-the-art trên nhiều phạm vi độ dài contig khác nhau và phân tích chi tiết về ưu điểm cũng như hạn chế của phương pháp đề xuất.

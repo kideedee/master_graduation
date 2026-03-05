@@ -13,7 +13,12 @@
       "Bash(pdflatex thesis.tex)",
       "Bash(bibtex thesis)",
       "Bash(grep -E \"\\\\\\\\bibdata|\\\\\\\\bibstyle\" thesis.aux)",
-      "Bash(pdflatex -interaction=nonstopmode thesis.tex)"
+      "Bash(pdflatex -interaction=nonstopmode thesis.tex)",
+      "Bash(ls -la *.aux *.bbl *.blg)",
+      "Bash(grep -o '^@[a-zA-Z]*{[^,]*' references.bib)",
+      "Bash(grep -h \"\\\\includegraphics\" chapters/**/*.tex)",
+      "Bash(ls -la chapters/c2/related*.tex)",
+      "Bash(ls -lh imgs/*.png)"
     ]
   }
 }

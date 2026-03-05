@@ -1,0 +1,155 @@
+
+@article{PHACTS_10.1093/bioinformatics/bts014,
+    author = {McNair, Katelyn and Bailey, Barbara A. and Edwards, Robert A.},
+    title = {PHACTS, a computational approach to classifying the lifestyle of phages},
+    journal = {Bioinformatics},
+    volume = {28},
+    number = {5},
+    pages = {614-618},
+    year = {2012},
+    month = {01},
+    abstract = {Motivation: Bacteriophages have two distinct lifestyles: virulent and temperate. The virulent lifestyle has many implications for phage therapy, genomics and microbiology. Determining which lifestyle a newly sequenced phage falls into is currently determined using standard culturing techniques. Such laboratory work is not only costly and time consuming, but also cannot be used on phage genomes constructed from environmental sequencing. Therefore, a computational method that utilizes the sequence data of phage genomes is needed.Results: Phage Classification Tool Set (PHACTS) utilizes a novel similarity algorithm and a supervised Random Forest classifier to make a prediction whether the lifestyle of a phage, described by its proteome, is virulent or temperate. The similarity algorithm creates a training set from phages with known lifestyles and along with the lifestyle annotation, trains a Random Forest to classify the lifestyle of a phage. PHACTS predictions are shown to have a 99\% precision rate.Availability and implementation: PHACTS was implemented in the PERL programming language and utilizes the FASTA program (Pearson and Lipman, 1988) and the R programming language library ‘Random Forest’ (Liaw and Weiner, 2010). The PHACTS software is open source and is available as downloadable stand-alone version or can be accessed online as a user-friendly web interface. The source code, help files and online version are available at http://www.phantome.org/PHACTS/.Contact:  katelyn@rohan.sdsu.edu; redwards@sciences.sdsu.eduSupplementary information:  Supplementary data are available at Bioinformatics online.},
+    issn = {1367-4803},
+    doi = {10.1093/bioinformatics/bts014},
+    url = {https://doi.org/10.1093/bioinformatics/bts014},
+    eprint = {https://academic.oup.com/bioinformatics/article-pdf/28/5/614/48874319/bioinformatics\_28\_5\_614.pdf},
+}
+
+
+@article {PhageAI_Tynecki2020.07.11.198606,
+	author = {Tynecki, Piotr and Guzi{\'n}ski, Arkadiusz and Kazimierczak, Joanna and Jadczuk, Micha{\l} and Dastych, Jaros{\l}aw and Onisko, Agnieszka},
+	title = {PhageAI - Bacteriophage Life Cycle Recognition with Machine Learning and Natural Language Processing},
+	elocation-id = {2020.07.11.198606},
+	year = {2020},
+	doi = {10.1101/2020.07.11.198606},
+	publisher = {Cold Spring Harbor Laboratory},
+	abstract = {Background As antibiotic resistance is becoming a major problem nowadays in a treatment of infections, bacteriophages (also known as phages) seem to be an alternative. However, to be used in a therapy, their life cycle should be strictly lytic. With the growing popularity of Next Generation Sequencing (NGS) technology, it is possible to gain such information from the genome sequence. A number of tools are available which help to define phage life cycle. However, there is still no unanimous way to deal with this problem, especially in the absence of well-defined open reading frames. To overcome this limitation, a new tool is definitely needed.Results We developed a novel tool, called PhageAI, that allows to access more than 10 000 publicly available bacteriophages and differentiate between their major types of life cycles: lytic and lysogenic. The tool included life cycle classifier which achieved 98.90\% accuracy on a validation set and 97.18\% average accuracy on a test set. We adopted nucleotide sequences embedding based on the Word2Vec with Ship-gram model and linear Support Vector Machine with 10-fold cross-validation for supervised classification. PhageAI is free of charge and it is available at https://phage.ai/. PhageAI is a REST web service and available as Python package.Conclusions Machine learning and Natural Language Processing allows to extract information from bacteriophages nucleotide sequences for lifecycle prediction tasks. The PhageAI tool classifies phages into either virulent or temperate with a higher accuracy than any existing methods and shares interactive 3D visualization to help interpreting model classification results.Competing Interest StatementIn accordance with PhageAI - Bacteriophage Life Cycle Recognition with Machine Learning and Natural Language Processing policy, the authors are reporting that the PhageAI platform was developed by the authors and Proteon Pharmaceuticals is the owner of the platform.AUCArea Under CurveMLMachine LearningMLPMulti-layer Perceptron classifierNGSNext Generation SequencingNLPNatural Language ProcessingRFECVFeature ranking with recursive feature elimination and cross-validated selection of the best number of featuresROC AUCarea under an ROC curveSVMSupport Vector MachineUMAPUniform Manifold Approximation and Projection},
+	URL = {https://www.biorxiv.org/content/early/2020/07/12/2020.07.11.198606},
+	eprint = {https://www.biorxiv.org/content/early/2020/07/12/2020.07.11.198606.full.pdf},
+	journal = {bioRxiv}
+}
+
+
+@article {BACPHLIP_Hockenberry2020.05.13.094805,
+	author = {Hockenberry, Adam J. and Wilke, Claus O.},
+	title = {BACPHLIP: Predicting bacteriophage lifestyle from conserved protein domains},
+	elocation-id = {2020.05.13.094805},
+	year = {2021},
+	doi = {10.1101/2020.05.13.094805},
+	publisher = {Cold Spring Harbor Laboratory},
+	abstract = {Bacteriophages are broadly classified into two distinct lifestyles: temperate and virulent. Temperate phages are capable of a latent phase of infection within a host cell (lysogenic cycle), whereas virulent phages directly replicate and lyse host cells upon infection (lytic cycle). Accurate lifestyle identification is critical for determining the role of individual phage species within ecosystems and their effect on host evolution. Here, we present BACPHLIP, a BACterioPHage LIfestyle Predictor. BACPHLIP detects the presence of a set of conserved protein domains within an input genome and uses this data to predict lifestyle via a Random Forest classifier that was trained on a dataset of 634 phage genomes. On an independent test set of 423 phages, BACPHLIP has an accuracy of 98\%, greatly exceeding that of the previously existing tools (79\%). BACPHLIP is freely available on GitHub (https://github.com/adamhockenberry/bacphlip) and the code used to build and test the classifier is provided in a separate repository (https://github.com/adamhockenberry/bacphlip-model-dev) for users wishing to interrogate and re-train the underlying classification model.Competing Interest StatementThe authors have declared no competing interest.},
+	URL = {https://www.biorxiv.org/content/early/2021/04/06/2020.05.13.094805},
+	eprint = {https://www.biorxiv.org/content/early/2021/04/06/2020.05.13.094805.full.pdf},
+	journal = {bioRxiv}
+}
+
+
+@article{DeePhage_10.1093/gigascience/giab056,
+    author = {Wu, Shufang and Fang, Zhencheng and Tan, Jie and Li, Mo and Wang, Chunhui and Guo, Qian and Xu, Congmin and Jiang, Xiaoqing and Zhu, Huaiqiu},
+    title = {DeePhage: distinguishing virulent and temperate phage-derived sequences in metavirome data with a deep learning approach},
+    journal = {GigaScience},
+    volume = {10},
+    number = {9},
+    pages = {giab056},
+    year = {2021},
+    month = {09},
+    abstract = {Prokaryotic viruses referred to as phages can be divided into virulent and temperate phages. Distinguishing virulent and temperate phage–derived sequences in metavirome data is important for elucidating their different roles in interactions with bacterial hosts and regulation of microbial communities. However, there is no experimental or computational approach to effectively classify their sequences in culture-independent metavirome. We present a new computational method, DeePhage, which can directly and rapidly judge each read or contig as a virulent or temperate phage–derived fragment.DeePhage uses a “one-hot” encoding form to represent DNA sequences in detail. Sequence signatures are detected via a convolutional neural network to obtain valuable local features. The accuracy of DeePhage on 5-fold cross-validation reaches as high as 89\%, nearly 10\% and 30\% higher than that of 2 similar tools, PhagePred and PHACTS. On real metavirome, DeePhage correctly predicts the highest proportion of contigs when using BLAST as annotation, without apparent preferences. Besides, DeePhage reduces running time vs PhagePred and PHACTS by 245 and 810 times, respectively, under the same computational configuration. By direct detection of the temperate viral fragments from metagenome and metavirome, we furthermore propose a new strategy to explore phage transformations in the microbial community. The ability to detect such transformations provides us a new insight into the potential treatment for human disease.DeePhage is a novel tool developed to rapidly and efficiently identify 2 kinds of phage fragments especially for metagenomics analysis. DeePhage is freely available via http://cqb.pku.edu.cn/ZhuLab/DeePhage or https://github.com/shufangwu/DeePhage.},
+    issn = {2047-217X},
+    doi = {10.1093/gigascience/giab056},
+    url = {https://doi.org/10.1093/gigascience/giab056},
+    eprint = {https://academic.oup.com/gigascience/article-pdf/10/9/giab056/60690846/giab056.pdf},
+}
+
+
+@article{PhaTYP_10.1093/bib/bbac487,
+    author = {Shang, Jiayu and Tang, Xubo and Sun, Yanni},
+    title = {PhaTYP: predicting the lifestyle for bacteriophages using BERT},
+    journal = {Briefings in Bioinformatics},
+    volume = {24},
+    number = {1},
+    pages = {bbac487},
+    year = {2022},
+    month = {11},
+    abstract = {Bacteriophages (or phages), which infect bacteria, have two distinct lifestyles: virulent and temperate. Predicting the lifestyle of phages helps decipher their interactions with their bacterial hosts, aiding phages’ applications in fields such as phage therapy. Because experimental methods for annotating the lifestyle of phages cannot keep pace with the fast accumulation of sequenced phages, computational method for predicting phages’ lifestyles has become an attractive alternative. Despite some promising results, computational lifestyle prediction remains difficult because of the limited known annotations and the sheer amount of sequenced phage contigs assembled from metagenomic data. In particular, most of the existing tools cannot precisely predict phages’ lifestyles for short contigs. In this work, we develop PhaTYP (Phage TYPe prediction tool) to improve the accuracy of lifestyle prediction on short contigs. We design two different training tasks, self-supervised and fine-tuning tasks, to overcome lifestyle prediction difficulties. We rigorously tested and compared PhaTYP with four state-of-the-art methods: DeePhage, PHACTS, PhagePred and BACPHLIP. The experimental results show that PhaTYP outperforms all these methods and achieves more stable performance on short contigs. In addition, we demonstrated the utility of PhaTYP for analyzing the phage lifestyle on human neonates’ gut data. This application shows that PhaTYP is a useful means for studying phages in metagenomic data and helps extend our understanding of microbial communities.},
+    issn = {1477-4054},
+    doi = {10.1093/bib/bbac487},
+    url = {https://doi.org/10.1093/bib/bbac487},
+    eprint = {https://academic.oup.com/bib/article-pdf/24/1/bbac487/48782477/bbac487.pdf},
+}
+
+
+
+
+@article{DeepPL_10.1371/journal.pcbi.1012525,
+    doi = {10.1371/journal.pcbi.1012525},
+    author = {Zhang, Yujie AND Mao, Mark AND Zhang, Robert AND Liao, Yen-Te AND Wu, Vivian C. H.},
+    journal = {PLOS Computational Biology},
+    publisher = {Public Library of Science},
+    title = {DeepPL: A deep-learning-based tool for the prediction of bacteriophage lifecycle},
+    year = {2024},
+    month = {10},
+    volume = {20},
+    url = {https://doi.org/10.1371/journal.pcbi.1012525},
+    pages = {1-13},
+    abstract = {Bacteriophages (phages) are viruses that infect bacteria and can be classified into two different lifecycles. Virulent phages (or lytic phages) have a lytic cycle that can lyse the bacteria host after their infection. Temperate phages (or lysogenic phages) can integrate their phage genomes into bacterial chromosomes and replicate with bacterial hosts via the lysogenic cycle. Identifying phage lifecycles is a crucial step in developing suitable applications for phages. Compared to the complicated traditional biological experiments, several tools have been designed for predicting phage lifecycle using different algorithms, such as random forest (RF), linear support-vector classifier (SVC), and convolutional neural network (CNN). In this study, we developed a natural language processing (NLP)-based tool—DeepPL—for predicting phage lifecycles via nucleotide sequences. The test results showed that our DeepPL had an accuracy of 94.65% with a sensitivity of 92.24% and a specificity of 95.91%. Moreover, DeepPL had 100% accuracy in lifecycle prediction on the phages we isolated and biologically verified previously in the lab. Additionally, a mock phage community metagenomic dataset was used to test the potential usage of DeepPL in viral metagenomic research. DeepPL displayed a 100% accuracy for individual phage complete genomes and high accuracies ranging from 71.14% to 100% on phage contigs produced by various next-generation sequencing technologies. Overall, our study indicates that DeepPL has a reliable performance on phage lifecycle prediction using the most fundamental nucleotide sequences and can be applied to future phage and metagenomic research.},
+    number = {10},
+
+}
+
+@article{doi:10.1128/jb.00052-20,
+author = {A. R. Mushegian},
+title = {Are There 10<sup>31</sup> Virus Particles on Earth, or More, or Fewer?},
+journal = {Journal of Bacteriology},
+volume = {202},
+number = {9},
+pages = {10.1128/jb.00052-20},
+year = {2020},
+doi = {10.1128/jb.00052-20},
+
+URL = {https://journals.asm.org/doi/abs/10.1128/jb.00052-20},
+eprint = {https://journals.asm.org/doi/pdf/10.1128/jb.00052-20}
+,
+    abstract = { 
+The number of virus particles on Earth is frequently reported in the scientific literature and in general-interest publications as being on the order of 1031, with some confusion about whether this is a high or low estimate. This number is often given without a source, although it should be attributed to a paper by Hendrix et al. published in 1999 (R. W. Hendrix, M. C. Smith, R. N. Burns, M. E. Ford, and G. F. Hatfull, Proc Natl Acad Sci U S A 96:2192–2197, 1999, https://doi.org/10.1073/pnas.96.5.2192).
+ABSTRACT 
+The number of virus particles on Earth is frequently reported in the scientific literature and in general-interest publications as being on the order of 1031, with some confusion about whether this is a high or low estimate. This number is often given without a source, although it should be attributed to a paper by Hendrix et al. published in 1999 (R. W. Hendrix, M. C. Smith, R. N. Burns, M. E. Ford, and G. F. Hatfull, Proc Natl Acad Sci U S A 96:2192–2197, 1999, https://doi.org/10.1073/pnas.96.5.2192). As with any oft-repeated statistic, it is informative to know how it has been derived and whether it should be revised in the light of new evidence. I review the history of the 1031 estimate and use more recent assessments of the number of bacterial and viral particles in various habitats to conclude that the best estimate of the number of virus particles on Earth (“the Hendrix product”) remains close to 1031 and is unlikely to be either much less or much more than that.
+ }
+}
+
+@article {PMID:31061483,
+	Title = {Taxonomic assignment of uncultivated prokaryotic virus genomes is enabled by gene-sharing networks},
+	Author = {Bin Jang, Ho and Bolduc, Benjamin and Zablocki, Olivier and Kuhn, Jens H and Roux, Simon and Adriaenssens, Evelien M and Brister, J Rodney and Kropinski, Andrew M and Krupovic, Mart and Lavigne, Rob and Turner, Dann and Sullivan, Matthew B},
+	DOI = {10.1038/s41587-019-0100-8},
+	Number = {6},
+	Volume = {37},
+	Month = {June},
+	Year = {2019},
+	Journal = {Nature biotechnology},
+	ISSN = {1087-0156},
+	Pages = {632—639},
+	Abstract = {Microbiomes from every environment contain a myriad of uncultivated archaeal and bacterial viruses, but studying these viruses is hampered by the lack of a universal, scalable taxonomic framework. We present vConTACT v.2.0, a network-based application utilizing whole genome gene-sharing profiles for virus taxonomy that integrates distance-based hierarchical clustering and confidence scores for all taxonomic predictions. We report near-identical (96%) replication of existing genus-level viral taxonomy assignments from the International Committee on Taxonomy of Viruses for National Center for Biotechnology Information virus RefSeq. Application of vConTACT v.2.0 to 1,364 previously unclassified viruses deposited in virus RefSeq as reference genomes produced automatic, high-confidence genus assignments for 820 of the 1,364. We applied vConTACT v.2.0 to analyze 15,280 Global Ocean Virome genome fragments and were able to provide taxonomic assignments for 31% of these data, which shows that our algorithm is scalable to very large metagenomic datasets. Our taxonomy tool can be automated and applied to metagenomes from any environment for virus classification.},
+	URL = {https://lirias.kuleuven.be/bitstream/123456789/644759/3/vContact2_text_FINAL_accepted.docx},
+}
+
+
+
+@misc{ncbi,
+  author = {{National Center for Biotechnology Information}},
+  title = {NCBI Database},
+  year = {2024},
+  howpublished = {\url{https://www.ncbi.nlm.nih.gov}}
+}
+
+@misc{phagescope,
+  author = {{PhageScope}},
+  title = {PhageScope Database},
+  year = {2024},
+  howpublished = {\url{https://phagescope.org}}
+}
+
+@misc{phagedb,
+  author = {{PhageDB}},
+  title = {The Bacteriophage Database},
+  year = {2024},
+  howpublished = {\url{https://phagedb.org}}
+}
