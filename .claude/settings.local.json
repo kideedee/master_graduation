@@ -32,7 +32,8 @@
       "Bash(grep -oE '\\\\\\\\ref\\\\{[^}]+\\\\}' \"e:/master/documentation/graduation/chapters/c3/chapter_3.tex\")",
       "Bash(grep -o '\\\\\\\\cite{[^}]*}' \"e:\\\\master\\\\documentation\\\\graduation\\\\chapters\\\\c2\\\\co_so_ly_thuyet.tex\")",
       "Bash(git add chapters/c2/chapter_2.tex chapters/c4/chapter_4.tex chapters/c5/chapter_5.tex)",
-      "Bash(git add -A)"
+      "Bash(git add -A)",
+      "Bash(git commit:*)"
     ]
   }
 }
