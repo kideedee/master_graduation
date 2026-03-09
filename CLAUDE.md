@@ -71,6 +71,8 @@ pdflatex slide.tex      # Presentation slides
 **Supporting:**
 - `imgs/` - Figures and diagrams (PhaBERT-CNN architecture, results)
 - `snipet/` - Python code examples
+- `implementation/` - Python implementation of models
+  - `phabert_cnn_model.py` - `Dnabert2CnnModel` (PhaBERT-CNN) and `Dnabert2DenseModel` (baseline)
 - `document/phabert_cnn.tex` - Source research paper (LaTeX)
 
 ## LaTeX Configuration
@@ -96,15 +98,45 @@ pdflatex slide.tex      # Presentation slides
    - Code snippets and technical specifications
    - Proper nouns (e.g., "SentencePiece framework", "ALiBi")
 
-## Paper to Thesis Workflow
+## Mandatory Writing Workflow
 
-1. Extract sections from paper → expand for thesis chapters
-2. Chapter 2 should be 2-3x longer than paper's related work
-3. Add implementation details, design decisions, ablation studies
-4. Maintain terminology consistency
-5. Ensure all citations in references.bib
+**Every time you write or expand thesis content, follow all 3 steps in order. Do not skip any step.**
 
-**Chapter 3 Structure (Updated):**
+### Step 1 — Plan
+
+Before writing any LaTeX, create a plan file at `plans/<chapter>_<section>_plan.md`.
+
+The plan must include:
+1. **Outline** — numbered sections and subsections (I, II, III / 1, 2, 3)
+2. **Paragraph descriptions** — for each paragraph: one sentence describing what it argues or explains
+3. **Required citations** — list every citation key you intend to use, with a short note on why
+4. **Numbers to verify** — list every number that will appear (accuracy, F1, dataset sizes, parameter counts)
+
+Do not proceed to Step 2 until the plan file is saved.
+
+### Step 2 — Write
+
+Write LaTeX content following the plan exactly.
+- Write entirely in Vietnamese (see Critical Rule #6 for exceptions)
+- Use terminology from `.claude/rules/vietnamese-terms.md`
+- Every figure, table, and equation must have `\label{}` and be referenced in text
+- Every claim with a number must have `\cite{}`
+
+### Step 3 — Verify
+
+After writing, verify before presenting output:
+1. **Citation keys** — confirm every `\cite{key}` exists in `references.bib`
+2. **Claim verification** — use WebFetch to retrieve cited papers and confirm claims are accurate
+3. **Number verification** — cross-check every number against `document/phabert_cnn.tex` (this work's results) or the cited paper (other works' results)
+4. **Vietnamese terminology** — check every technical term against `.claude/rules/vietnamese-terms.md`
+
+Report verification results. Fix all failures before finalizing output.
+
+---
+
+## Paper to Thesis Notes
+
+**Chapter 3 Structure:**
 - Based on Material and Methods section from `document/phabert_cnn.tex`
 - Expanded with detailed explanations, rationale, and mathematical formulations
 - Four main sections:
@@ -129,20 +161,17 @@ For detailed instructions, see `.claude/rules/`:
 ## Multi-Agent Workflows
 
 Specialized agents available via slash commands:
-- `/citation-check` - Validate citations and cross-references
 - `/compile` - Compile thesis and debug errors
-- `/review` - Review content consistency and structure
-- `/figures` - Manage figures and images
-- `/vietnamese` - Validate Vietnamese language
-- `/paper2thesis` - Convert paper content to thesis format
+- `/review` - Review content consistency, structure, citations, and terminology
+- `/paper2thesis` - Convert paper content to thesis format (uses 3-step workflow)
 - `/plagiarism` - Check self-plagiarism and paraphrasing
-- `/write-content` - Write new thesis content
+- `/write-content` - Write new thesis content (uses 3-step workflow)
+- `/terminology` - Manage terminology and abbreviations (add terms, check consistency, verify abbreviation expansion)
 
 See `.claude/commands/` for agent details.
 
 ## Git Workflow
 
 - Main branch: `master`
-- Development: `develop` (current)
 - LaTeX auxiliary files gitignored
 - PDF tracked in repository

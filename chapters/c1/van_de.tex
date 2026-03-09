@@ -1,50 +1,8 @@
 \section{Vấn đề nghiên cứu}
 \label{sec:problem}
 
-Các phương pháp tính toán để dự đoán lối sống của thực khuẩn thể phải đối mặt với bốn thách thức chính: hạn chế về dữ liệu, thiếu gen đánh dấu đặc trưng, độ dài đoạn DNA ngắn, và vấn đề tương đồng trình tự.
+Các phương pháp tính toán để dự đoán lối sống thực khuẩn thể phải đối mặt với bốn thách thức chính. Thứ nhất, cơ sở dữ liệu hệ gen phage hiện có vẫn còn rất hạn chế so với sự đa dạng khổng lồ của phage trong tự nhiên, phần lớn chưa được phân lập và nghiên cứu đặc tính~\cite{hayes2017metagenomic}. Thứ hai, không giống vi khuẩn có gen 16S rRNA làm gen đánh dấu phổ quát, thực khuẩn thể không có gen đánh dấu tương tự~\cite{mokili2012metagenomics}, khiến các phương pháp phân loại dựa trên gen đánh dấu không khả thi. Thứ ba, dữ liệu metagenomic thường chứa nhiều đoạn DNA ngắn bao gồm chỉ một phần gen hoặc các chuỗi gen không hoàn chỉnh, làm phức tạp các chiến lược phân loại dựa trên gen chức năng~\cite{jiang2017ensvmb}. Thứ tư, thực khuẩn thể có thể chia sẻ các chuỗi gen với vi khuẩn chủ thông qua chuyển gen ngang, đặc biệt trong trường hợp prophage được tích hợp vào hệ gen vi khuẩn~\cite{rozov2017recycler}, dẫn đến phân loại sai trong quá trình gán phân loại học.
 
-\subsection{Hạn chế về dữ liệu huấn luyện}
+Dựa trên các thách thức trên, bài toán dự đoán lối sống thực khuẩn thể được phát biểu như sau: cho một tập hợp các contig $\mathcal{S} = \{S_1, S_2, \ldots, S_n\}$ thu được từ giải trình tự và lắp ráp metagenomic, trong đó mỗi contig $S_i$ có độ dài $L_i$ base pairs, nhiệm vụ là học hàm phân loại $f: \mathcal{S} \rightarrow \{0, 1\}$ trong đó $0$ đại diện cho lớp temperate và $1$ đại diện cho lớp virulent, sao cho $f$ hoạt động hiệu quả trên các contig có độ dài biến thiên lớn mà không phụ thuộc vào các công cụ dự đoán gen bên ngoài.
 
-Cơ sở dữ liệu hệ gen thực khuẩn thể hiện có vẫn còn rất hạn chế so với sự đa dạng khổng lồ của phage trong tự nhiên. Mặc dù thực khuẩn thể là dạng sống phong phú nhất trên Trái Đất, phần lớn chúng chưa được phân lập và nghiên cứu đặc tính \cite{hayes2017metagenomic}. Sự thiếu hụt dữ liệu có nhãn (labeled data) này tạo ra thách thức lớn cho việc huấn luyện các mô hình học máy, đặc biệt là các mô hình học sâu đòi hỏi lượng dữ liệu lớn để đạt hiệu suất tốt. Hơn nữa, sự phân bố không cân bằng giữa các lớp (class imbalance) - với số lượng phage độc lực thường nhiều hơn phage ôn hòa trong các tập dữ liệu công khai - có thể dẫn đến mô hình thiên lệch (biased model) ưu tiên dự đoán lớp đa số.
-
-\subsection{Thiếu gen đánh dấu phổ quát}
-
-Không giống như vi khuẩn có gen 16S rRNA làm gen đánh dấu phổ quát (universal marker gene) cho phân loại phân loại học, thực khuẩn thể không có gen đánh dấu tương tự \cite{mokili2012metagenomics}. Sự thiếu vắng này khiến các phương pháp phân loại dựa trên gen đánh dấu (marker gene-based approaches) không khả thi đối với phage. Mặc dù một số gen như integrase, repressor, hoặc các gen liên quan đến chu trình lysogen có thể chỉ thị lối sống ôn hòa, nhưng chúng không phải lúc nào cũng hiện diện hoặc dễ dàng nhận diện trong các chuỗi gen ngắn và phân mảnh.
-
-\subsection{Thách thức với các đoạn DNA ngắn}
-
-Dữ liệu metagenomic thường chứa nhiều đoạn DNA ngắn bao gồm chỉ một phần gen hoặc các chuỗi gen không hoàn chỉnh, làm phức tạp các chiến lược phân loại dựa trên gen chức năng \cite{jiang2017ensvmb}. Các contig ngắn (dưới 1000 bp) đặc biệt khó phân loại vì:
-
-\begin{itemize}
-    \item Chúng có thể không chứa đủ thông tin về gen để xác định lối sống
-    \item Các công cụ dự đoán gen như Prodigal \cite{hyatt2010prodigal} có hiệu suất giảm đáng kể trên các đoạn ngắn hơn 200 bp \cite{trimble2012short}
-    \item Bản chất phân mảnh của lắp ráp metagenomic có thể không chứa các chuỗi gen hoàn chỉnh cần thiết để nhận dạng protein chính xác
-    \item Tín hiệu thống kê từ thành phần nucleotide (nucleotide composition) yếu hơn trên các chuỗi ngắn
-\end{itemize}
-
-Trong thực tế, phân tích metagenomic thường tạo ra các contig với phân bố độ dài rộng, từ vài trăm base pairs đến hàng chục kilobase pairs, tùy thuộc vào độ phủ giải trình tự (sequencing coverage), độ phức tạp của mẫu, và chất lượng lắp ráp. Các contig ngắn chiếm tỷ lệ đáng kể trong các tập dữ liệu metagenomic thực tế, do đó việc phát triển các phương pháp có thể xử lý hiệu quả các chuỗi ngắn là cần thiết cho ứng dụng thực tiễn.
-
-\subsection{Vấn đề tương đồng trình tự với vi khuẩn chủ}
-
-Thực khuẩn thể có thể chia sẻ các chuỗi gen với vi khuẩn chủ của chúng thông qua quá trình chuyển gen ngang (horizontal gene transfer), đặc biệt là trong trường hợp của prophage được tích hợp vào hệ gen vi khuẩn \cite{rozov2017recycler}. Sự tương đồng trình tự này có thể dẫn đến phân loại sai trong quá trình gán phân loại học (taxonomic assignment). Hơn nữa, các phage ôn hòa có thể mang theo các gen có nguồn gốc từ vi khuẩn, làm mờ ranh giới giữa trình tự phage và trình tự vi khuẩn. Điều này đặc biệt problematic khi phân tích các contig metagenomic, nơi không rõ liệu một contig cụ thể có phải là phage độc lập, prophage được tích hợp, hay một phần của hệ gen vi khuẩn chứa các yếu tố giống phage.
-
-\subsection{Phát biểu bài toán}
-
-Dựa trên các thách thức trên, bài toán dự đoán lối sống thực khuẩn thể có thể được phát biểu chính thức như sau: Cho một tập hợp các contig $\mathcal{S} = \{S_1, S_2, \ldots, S_n\}$ thu được từ giải trình tự và lắp ráp metagenomic, trong đó mỗi contig $S_i$ có độ dài $L_i$ base pairs, nhiệm vụ là dự đoán lối sống của phage là độc lực (lytic) hoặc ôn hòa (lysogenic).
-
-Bài toán này có thể được mô hình hóa như một bài toán phân loại nhị phân (binary classification):
-
-\begin{equation}
-f: \mathcal{S} \rightarrow \{0, 1\}
-\end{equation}
-
-trong đó $f$ là hàm phân loại cần học, $0$ đại diện cho lớp temperate (ôn hòa), và $1$ đại diện cho lớp virulent (độc lực). Thách thức chính là thiết kế hàm $f$ sao cho:
-
-\begin{itemize}
-    \item Hoạt động hiệu quả trên các contig có độ dài biến thiên lớn ($L_i$ từ 100 bp đến hàng nghìn bp)
-    \item Không phụ thuộc vào các công cụ dự đoán gen bên ngoài có thể thất bại trên các chuỗi ngắn
-    \item Có khả năng tổng quát hóa tốt trên các phage chưa được nhìn thấy (unseen phage) mặc dù dữ liệu huấn luyện hạn chế
-    \item Phân biệt được các đặc trưng phage thực sự từ các chuỗi có nguồn gốc vi khuẩn
-\end{itemize}
-
-Các phương pháp hiện có đã đạt được tiến bộ đáng kể trong việc giải quyết bài toán này, nhưng vẫn còn những hạn chế quan trọng, đặc biệt là trong việc xử lý các contig ngắn và trung bình (100-1200 bp) - phạm vi độ dài phổ biến nhất trong các lắp ráp metagenomic thực tế.
+Các phương pháp hiện có đã đạt được tiến bộ đáng kể nhưng vẫn còn những hạn chế quan trọng. Các phương pháp học máy truyền thống như PHACTS~\cite{mcnair2012phacts}, PhageAI~\cite{tynecki2020phageai}, và BACPHLIP~\cite{hockenberry2021bacphlip} được thiết kế cho hệ gen hoàn chỉnh và hiệu suất giảm mạnh trên contig phân mảnh. DeePhage~\cite{wu2021deephage} sử dụng CNN trên mã hóa one-hot nhưng thiếu tri thức tiền huấn luyện, hạn chế khả năng tổng quát hóa trên các contig ngắn với thông tin ngữ cảnh hạn chế. PhaTYP~\cite{shang2023phatyp} cải thiện hiệu suất nhờ kiến trúc BERT nhưng phụ thuộc vào Prodigal~\cite{hyatt2010prodigal} để dự đoán protein—công cụ này có hiệu suất giảm đáng kể trên các đoạn ngắn hơn 200 bp~\cite{trimble2012short}, khiến PhaTYP kém hiệu quả trên contig ngắn thiếu vùng mã hóa protein hoàn chỉnh. DeepPL~\cite{zhang2024deeppl} và ProkBERT~\cite{ligeti2024prokbert} sử dụng tokenization k-mer chồng lấp, gây ra rò rỉ thông tin trong quá trình masked language modeling và kém hiệu quả tính toán do độ dài chuỗi token gần bằng độ dài chuỗi gốc~\cite{zhou2023dnabert}.

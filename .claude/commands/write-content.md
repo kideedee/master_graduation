@@ -1,66 +1,59 @@
 # Agent: Content Writer
 
-## Purpose
-Write new content for thesis chapters based on research paper and user guidance.
-
-## When to Use
-- Writing new sections not in paper
-- Expanding background and related work
-- Writing Vietnamese translations
-- Creating chapter introductions/conclusions
-- Writing abstract and acknowledgements
+Write new thesis content following the mandatory 3-step workflow: Plan → Write → Verify.
 
 ## Slash Command
-`/write-content [section_type] [chapter] [topic]`
+
+`/write-content [chapter] [section] [topic]`
 
 Examples:
-- `/write-content background c2 "BERT architecture"` - Write BERT background
-- `/write-content related-work c2 "phage classification methods"` - Write related work
-- `/write-content introduction c1` - Write chapter introduction
-- `/write-content abstract vi` - Write Vietnamese abstract
+- `/write-content c2 background "DNABERT-2 architecture"`
+- `/write-content c3 methodology "sliding window algorithm"`
+- `/write-content c4 analysis "ablation study results"`
 
-## Tasks
-1. Understand the section type and requirements
-2. Research topic if needed (from paper or general knowledge)
-3. Write content in appropriate style:
-   - Academic tone for thesis
-   - Vietnamese language for Vietnamese sections
-   - Proper technical terminology
-   - Appropriate length for section type
-4. Include proper citations (add to references.bib if needed)
-5. Add cross-references where appropriate
-6. Follow thesis formatting guidelines
-7. Maintain consistency with existing content
+## Process
+
+### Step 1 — Plan
+
+1. Read the relevant section in `document/phabert_cnn.tex` for source material
+2. Read `references.bib` to identify available citation keys
+3. Create a plan file at `plans/<chapter>_<section>_plan.md` containing:
+   - **Outline** (I, II, III / 1, 2, 3): hierarchical structure of sections and paragraphs
+   - **Paragraph descriptions**: one sentence per paragraph describing what it conveys
+   - **Citation list**: every citation key you intend to use + short reason
+   - **Numbers to verify**: every number that will appear in the content
+4. Present the plan to the user and wait for confirmation before writing
+
+### Step 2 — Write
+
+Write LaTeX content following the confirmed plan:
+- Write entirely in Vietnamese (see Critical Rule #6 in CLAUDE.md for exceptions)
+- Use terminology from `.claude/rules/vietnamese-terms.md`
+- Every figure, table, and equation must have `\label{}` and be referenced in text
+- Every claim with a number must have `\cite{}`
+- If deviating from the plan, update the plan file first
+
+### Step 3 — Verify
+
+After writing, run all checks and report results:
+
+1. **Citation keys**: confirm every `\cite{key}` exists in `references.bib`
+2. **Claim verification**: use WebFetch to retrieve cited papers and confirm claims are accurate
+3. **Number verification**: cross-check every number against the source (paper or cited work)
+4. **Terminology**: check every technical term against `.claude/rules/vietnamese-terms.md`
+
+Fix all issues found before presenting final output.
 
 ## Output Format
-**Section:** [section name]
-**Length:** X words / Y paragraphs
 
-**Content:**
-```latex
-[LaTeX content ready to paste]
 ```
+**Plan saved at:** plans/<chapter>_<section>_plan.md
 
-**Citations Added:**
-- [citation_key]: [full reference]
+**Verification report:**
+- Citation keys: [OK / MISSING: list]
+- Numbers verified: [OK / MISMATCH: list]
+- Terminology: [OK / INCONSISTENT: list]
 
-**Figures/Tables Needed:**
-- [description of needed visual]
-
-**Cross-References:**
-- References to: [list of sections/figures/tables]
-
-## Section Types Supported
-- **background**: Theoretical background (2-3 pages)
-- **related-work**: Literature review (3-5 pages)
-- **introduction**: Chapter/section introduction (0.5-1 page)
-- **conclusion**: Chapter/section conclusion (0.5-1 page)
-- **abstract**: Thesis abstract (1 page)
-- **methodology**: Method description (2-4 pages)
-- **analysis**: Results analysis (1-2 pages)
-
-## Example Usage
-"Write background section on BERT for Chapter 2"
-"Write Vietnamese abstract based on English version"
-"Write related work on phage classification methods"
-"Write introduction for Chapter 3"
+**LaTeX content:**
+[content]
+```

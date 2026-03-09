@@ -81,3 +81,33 @@ As shown in previous studies \cite{ref1,ref2}, ...
 1. Run `bibtex thesis` to process bibliography
 2. Run `pdflatex thesis.tex` twice to update citations
 3. Check that citations appear correctly in PDF
+
+## Verifying Claims Before Citing (Step 3)
+
+Before writing a claim about another paper's results, verify it using WebFetch:
+
+### Verification procedure
+
+1. **Find the paper URL** from the `doi` or `eprint` field in `references.bib`:
+   - DOI: `https://doi.org/<doi_value>`
+   - arXiv: `https://arxiv.org/abs/<eprint_value>`
+   - PubMed: `https://pmc.ncbi.nlm.nih.gov/articles/<pmcid>/`
+
+2. **Use WebFetch** to retrieve the paper and confirm:
+   - Does the cited number (accuracy, F1, dataset size...) actually appear in the paper?
+   - Does the described method match the claim in the thesis?
+   - Do the publication year and authors match the `.bib` entry?
+
+3. **Report results**:
+   - OK: claim verified
+   - MISMATCH: describe the discrepancy specifically and fix the content
+
+### Example
+
+```
+Claim in thesis: "DNABERT-2 achieves 94.2% accuracy on dataset X \cite{zhou2023dnabert2}"
+→ WebFetch https://arxiv.org/abs/2306.15006
+→ Found: paper reports 94.2% on benchmark Y, not X
+→ Fix: correct the dataset name or the number
+```
+

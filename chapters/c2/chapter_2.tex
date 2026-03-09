@@ -1,0 +1,224 @@
+\chapter{Cơ sở lý thuyết}
+\label{chap:theory}
+
+Chương này trình bày các kiến thức nền tảng cần thiết để hiểu phương pháp PhaBERT-CNN được đề xuất trong luận văn. Nội dung được tổ chức thành bốn phần chính: (1) các khái niệm sinh học phân tử và tin sinh học bao gồm DNA, gen, thực khuẩn thể, siêu hệ gen và siêu hệ gen virus; (2) nền tảng học máy và học sâu gồm mạng nơ-ron tích chập, Transformer, BERT và các chỉ số đánh giá hiệu năng; (3) tổng quan về học chuyển giao trong tin sinh học; và (4) tổng quan các công trình liên quan về phân loại lối sống phage.
+
+% =====================================================================
+\section{Nền tảng sinh học phân tử và tin sinh học}
+\label{sec:bio_foundation}
+
+\subsection{DNA, gen và bộ gen}
+\label{subsec:dna_gene}
+
+Axit deoxyribonucleic (DNA) là phân tử mang thông tin di truyền của hầu hết các sinh vật sống và nhiều loại virus. Năm 1953, Watson và Crick xác định rằng DNA có cấu trúc dạng chuỗi xoắn kép, được tạo thành từ hai chuỗi polynucleotide liên kết bổ sung với nhau~\cite{watson1953molecular}. Mỗi nucleotide bao gồm một phân tử đường deoxyribose, một nhóm phosphate, và một trong bốn bazơ nitơ: adenine (A), thymine (T), guanine (G), và cytosine (C). Theo nguyên tắc bổ sung Chargaff, A luôn ghép cặp với T và G luôn ghép cặp với C. Trật tự sắp xếp của bốn ký tự nucleotide dọc theo chuỗi DNA mã hóa toàn bộ thông tin di truyền của sinh vật, tạo thành cơ sở cho biểu diễn chuỗi hệ gen trong tin sinh học.
+
+\textbf{Gen} là đơn vị cơ bản của thông tin di truyền---một đoạn DNA mã hóa cho một sản phẩm chức năng, thông thường là protein thông qua quá trình \textbf{phiên mã} (DNA sang RNA) rồi \textbf{dịch mã} (RNA sang chuỗi axit amin). \textbf{Bộ gen} là toàn bộ vật liệu di truyền của một sinh vật, bao gồm tất cả các gen và các vùng DNA không mã hóa. Kích thước bộ gen biến thiên rất lớn giữa các loài sinh vật: từ vài kilobase (kb) ở các virus nhỏ đến hàng tỷ cặp bazơ (bp) ở sinh vật bậc cao.
+
+Đối với thực khuẩn thể, bộ gen có thể là DNA hoặc RNA, dạng sợi đơn hoặc sợi kép, và có kích thước dao động rộng---từ khoảng 3,5 kb đến hơn 500 kb~\cite{hendrix2009bacteriophage}. Phần lớn các phage có kích thước bộ gen nằm trong khoảng 15--200 kb, với giá trị trung vị khoảng 52 kb đối với các phage hoàn chỉnh trong cơ sở dữ liệu hiện nay~\cite{al2020huge}. Sự đa dạng về kích thước và thành phần nucleotide (tỉ lệ GC) của bộ gen phage đặt ra thách thức đáng kể cho các phương pháp phân tích dựa trên thống kê thành phần chuỗi.
+
+\subsection{Thực khuẩn thể và phân loại lối sống}
+\label{sec:bacteriophage}
+
+Thực khuẩn thể (bacteriophage), hay còn gọi tắt là phage, là các virus có khả năng xâm nhiễm và nhân lên bên trong tế bào vi khuẩn. Thực khuẩn thể là dạng sống phong phú nhất trên Trái Đất, với số lượng ước tính lên tới $10^{31}$ cá thể~\cite{suttle2007marine}, và hiện diện ở hầu hết mọi môi trường có vi khuẩn. Phage đóng vai trò quan trọng trong sinh thái vi sinh vật thông qua việc điều hòa quần thể vi khuẩn và là động lực chính của quá trình \textbf{chuyển gen ngang} (horizontal gene transfer) giữa các vi khuẩn thông qua quá trình \textbf{tải nạp} (transduction)~\cite{koskella2014bacteria}.
+
+Dựa trên chiến lược nhân lên, thực khuẩn thể được phân loại thành hai nhóm chính~\cite{mcnair2012phacts,wu2021deephage}:
+
+\textbf{Thực khuẩn thể độc lực} (virulent phage) chỉ thực hiện \textbf{chu trình tan} (lytic cycle). Sau khi gắn kết đặc hiệu lên bề mặt tế bào vi khuẩn và tiêm vật liệu di truyền vào tế bào chủ, phage độc lực chiếm đoạt bộ máy tổng hợp của tế bào để nhân bản DNA và tổng hợp các protein cấu trúc, lắp ráp thành hàng chục đến hàng trăm hạt virus con, sau đó phá vỡ (làm tan) tế bào vi khuẩn để giải phóng các hạt virus này và tiếp tục chu trình xâm nhiễm mới.
+
+\textbf{Thực khuẩn thể ôn hòa} (temperate phage) có khả năng thực hiện cả chu trình tan lẫn \textbf{chu trình tiềm tan} (lysogenic cycle). Trong chu trình tiềm tan, DNA phage được tích hợp vào nhiễm sắc thể vi khuẩn chủ thông qua quá trình \textbf{tái tổ hợp tại điểm đặc hiệu} (site-specific recombination), được xúc tác bởi enzyme integrase, trở thành \textbf{prophage}. Prophage tồn tại ở trạng thái im lặng và được nhân lên cùng với hệ gen vi khuẩn qua nhiều thế hệ~\cite{howard2017lysogeny}. Khi gặp các điều kiện bất lợi như tia UV, nhiệt độ cao, hoặc thiếu dinh dưỡng, prophage có thể được kích hoạt (induction) để tách khỏi nhiễm sắc thể vi khuẩn và chuyển sang chu trình tan~\cite{feiner2015new}.
+
+Việc phân loại chính xác lối sống phage có ý nghĩa quan trọng cho nhiều ứng dụng y sinh. Trong \textbf{liệu pháp phage}---ứng dụng phage để điều trị nhiễm trùng vi khuẩn kháng kháng sinh~\cite{gorski2016phage,azimi2019phage}---chỉ có phage độc lực mới phù hợp vì chúng tiêu diệt vi khuẩn hiệu quả mà không tích hợp vào hệ gen chủ. Ngược lại, phage ôn hòa có thể truyền các gen độc lực hoặc kháng kháng sinh cho vi khuẩn bệnh nguyên thông qua biến đổi lysogen (lysogenic conversion)~\cite{cobian2016viruses}, và do đó cần được loại trừ khỏi các ứng dụng trị liệu.
+
+\subsection{Siêu hệ gen, siêu hệ gen virus và dữ liệu contig}
+\label{sec:metagenomics}
+
+\textbf{Siêu hệ gen} (metagenomics) là phương pháp nghiên cứu vật liệu di truyền được thu thập trực tiếp từ các mẫu môi trường, cho phép phân tích toàn bộ cộng đồng vi sinh vật mà không cần nuôi cấy từng loài riêng lẻ~\cite{mokili2012metagenomics}. Phương pháp này đặc biệt quan trọng vì phần lớn vi sinh vật trong tự nhiên không thể nuôi cấy được trong phòng thí nghiệm. \textbf{Siêu hệ gen virus} (metavirome hay viral metagenome) là ứng dụng chuyên biệt của siêu hệ gen cho cộng đồng virus, cho phép khám phá các phage mới và nghiên cứu cấu trúc cộng đồng phage trong các môi trường đa dạng~\cite{hayes2017metagenomic}.
+
+Trong phân tích siêu hệ gen, dữ liệu thô từ \textbf{giải trình tự thế hệ mới} (Next-Generation Sequencing --- NGS) là các đoạn đọc (read) ngắn. Các đoạn đọc này được ghép nối thành các chuỗi liên tục dài hơn gọi là \textbf{contig} (từ ``contiguous'') thông qua quá trình \textbf{lắp ráp} (assembly)~\cite{setubal2021metagenome,ghurye2016metagenomic}. Do nhiều yếu tố như độ phủ giải trình tự không đồng đều, vùng lặp lại trong bộ gen, và sự đa dạng của cộng đồng vi sinh vật, phần lớn các contig thu được từ dữ liệu siêu hệ gen thực tế có độ dài ngắn và không hoàn chỉnh so với bộ gen gốc.
+
+Các công trình nghiên cứu phân loại lối sống phage từ dữ liệu siêu hệ gen---bao gồm DeePhage~\cite{wu2021deephage} và PhaTYP~\cite{shang2023phatyp}---đã thống nhất đánh giá hiệu năng trên bốn nhóm độ dài contig: \textbf{Nhóm A} (100--400 bp), \textbf{Nhóm B} (400--800 bp), \textbf{Nhóm C} (800--1200 bp), và \textbf{Nhóm D} (1200--1800 bp). Theo PhaTYP~\cite{shang2023phatyp}, bốn nhóm này được thiết kế để bao phủ độ dài của các đoạn đọc thô và các contig ngắn từ dữ liệu siêu hệ gen. Cụ thể: Nhóm A (100--400 bp) bao phủ độ dài điển hình của các đoạn đọc thô từ giải trình tự đọc ngắn Illumina (thường 75--300 bp); Nhóm B--C (400--1200 bp) bao phủ phần lớn contig ngắn thường gặp sau lắp ráp siêu hệ gen; và Nhóm D (1200--1800 bp) đại diện cho các contig trung bình vẫn còn phân mảnh so với bộ gen phage hoàn chỉnh (thường 15--200 kb). Nghiên cứu này kế thừa cùng phân chia nhóm độ dài để đảm bảo khả năng so sánh trực tiếp với các phương pháp tiền nhiệm.
+
+Các contig ngắn (dưới 400 bp) đặc biệt thách thức cho phân loại vì thường không chứa gen hoàn chỉnh, dẫn đến các công cụ dự đoán gen như Prodigal có hiệu suất giảm mạnh trên các đoạn DNA dưới 200 bp~\cite{trimble2012short}. Đây là một trong những động lực chính cho việc phát triển các phương pháp học sâu hoạt động trực tiếp trên chuỗi DNA thô như PhaBERT-CNN.
+
+% =====================================================================
+\section{Học máy và học sâu}
+\label{sec:deep_learning}
+
+\subsection{Tổng quan học máy}
+\label{subsec:ml_overview}
+
+Học máy (machine learning) là lĩnh vực của trí tuệ nhân tạo nghiên cứu các thuật toán có khả năng tự động học và cải thiện hiệu năng thông qua kinh nghiệm mà không cần được lập trình tường minh cho từng tác vụ. Các phương pháp học máy truyền thống như \textbf{máy vector hỗ trợ} (Support Vector Machine --- SVM), \textbf{rừng ngẫu nhiên} (Random Forest) và \textbf{K láng giềng gần nhất} ($k$-nearest neighbors) đòi hỏi \textbf{kỹ thuật tạo đặc trưng} (feature engineering) thủ công---người dùng phải tự định nghĩa và trích xuất các đặc trưng có ý nghĩa từ dữ liệu thô trước khi đưa vào mô hình. Trong phân tích chuỗi hệ gen, các đặc trưng truyền thống thường bao gồm tần số k-mer, thành phần GC, hệ số sử dụng codon, hoặc các vector tương đồng protein~\cite{mcnair2012phacts,tynecki2020phageai}.
+
+\textbf{Học sâu} (deep learning) là một nhánh của học máy sử dụng mạng nơ-ron nhân tạo với nhiều lớp ẩn để tự động học các biểu diễn phân cấp của dữ liệu. Khác với học máy truyền thống, học sâu có khả năng tự động phát hiện đặc trưng từ dữ liệu thô thông qua quá trình huấn luyện toàn trình (end-to-end), loại bỏ sự phụ thuộc vào kỹ thuật tạo đặc trưng thủ công và cho phép nắm bắt các mẫu phức tạp mà các phương pháp thống kê đơn giản khó mô tả.
+
+\subsection{Mạng nơ-ron tích chập}
+\label{subsec:cnn}
+
+Mạng nơ-ron tích chập (Convolutional Neural Network --- CNN) là kiến trúc học sâu đặc biệt hiệu quả cho dữ liệu có cấu trúc không gian hoặc tuần tự. CNN một chiều áp dụng phép tích chập trên chiều chuỗi để trích xuất các đặc trưng cục bộ. Với một chuỗi nhúng $\mathbf{X} \in \mathbb{R}^{L \times d}$ (độ dài $L$, chiều nhúng $d$), phép tích chập một chiều với kích thước nhân $k$ và $C$ kênh đầu ra tạo ra:
+\begin{equation}
+\mathbf{Y}_i = \text{ReLU}(\mathbf{W} * \mathbf{X}_{i:i+k-1} + b), \quad \mathbf{W} \in \mathbb{R}^{C \times k \times d}
+\end{equation}
+
+TextCNN~\cite{kim2014convolutional} đề xuất sử dụng các bộ lọc tích chập song song có kích thước khác nhau lên biểu diễn từ (word embeddings), sau đó áp dụng phép gộp cực đại theo thời gian (max-over-time pooling) để trích xuất đặc trưng nổi bật nhất. Kiến trúc \textbf{CNN đa tỷ lệ} (multi-scale CNN), lấy cảm hứng từ Inception~\cite{szegedy2015going}, sử dụng nhiều nhánh tích chập song song với các kích thước nhân khác nhau (ví dụ $k \in \{3, 5, 7\}$) để nắm bắt các mẫu ở nhiều tỷ lệ không gian đồng thời---từ các mô-tif cục bộ ngắn đến các miền chức năng rộng hơn~\cite{johnson2017deep}. Phương pháp này đã được chứng minh hiệu quả không chỉ trong xử lý ngôn ngữ tự nhiên mà còn trong phân tích chuỗi sinh học~\cite{wu2021deephage}.
+
+\subsection{Kiến trúc Transformer và cơ chế chú ý}
+\label{subsec:transformer}
+
+Kiến trúc Transformer~\cite{vaswani2017attention} đã cách mạng hóa xử lý chuỗi bằng cơ chế \textbf{tự chú ý} (self-attention), cho phép xử lý song song toàn bộ chuỗi và nắm bắt \textbf{phụ thuộc dài hạn} (long-range dependencies) hiệu quả hơn so với mạng nơ-ron hồi tiếp. Cơ chế \textit{scaled dot-product attention} được định nghĩa là:
+\begin{equation}
+\text{Attention}(\mathbf{Q}, \mathbf{K}, \mathbf{V}) = \text{softmax}\!\left(\frac{\mathbf{Q}\mathbf{K}^T}{\sqrt{d_k}}\right)\mathbf{V}
+\end{equation}
+trong đó $\mathbf{Q} = \mathbf{X}\mathbf{W}^Q$ (truy vấn), $\mathbf{K} = \mathbf{X}\mathbf{W}^K$ (khóa), $\mathbf{V} = \mathbf{X}\mathbf{W}^V$ (giá trị) là các phép chiếu tuyến tính của chuỗi đầu vào, và $d_k$ là chiều của vector khóa dùng để ổn định gradient. \textbf{Chú ý đa đầu} (multi-head attention) cho phép mô hình chú ý đến nhiều khía cạnh thông tin đồng thời:
+\begin{equation}
+\text{MultiHead}(\mathbf{Q}, \mathbf{K}, \mathbf{V}) = \text{Concat}(\text{head}_1, \ldots, \text{head}_h)\mathbf{W}^O, \quad \text{head}_i = \text{Attention}(\mathbf{Q}\mathbf{W}_i^Q, \mathbf{K}\mathbf{W}_i^K, \mathbf{V}\mathbf{W}_i^V)
+\end{equation}
+
+Vì cơ chế tự chú ý không mang thông tin về thứ tự vị trí, cần bổ sung \textbf{mã hóa vị trí} (positional encoding). \textbf{Attention with Linear Biases (ALiBi)}~\cite{press2021train} là một chiến lược thay thế cho biểu diễn vị trí học được (learned positional embeddings), hoạt động bằng cách thêm độ lệch tuyến tính vào điểm chú ý: $\mathbf{B}_{ij} = m \cdot (j - i)$, trong đó $m$ là hệ số độ dốc khác nhau cho mỗi đầu chú ý. ALiBi cho phép xử lý chuỗi có độ dài tùy ý mà không cần huấn luyện lại---một đặc điểm quan trọng khi làm việc với dữ liệu siêu hệ gen có độ dài contig rất đa dạng.
+
+\textbf{Gộp chú ý} (attention pooling)~\cite{lin2017structured} là cơ chế tổng hợp thông tin mức chuỗi từ các biểu diễn Transformer. Với các trạng thái ẩn $\{\mathbf{h}_t\}_{t=1}^{n}$, biểu diễn chuỗi được tính qua:
+\begin{align}
+\mathbf{u}_t &= \tanh(\mathbf{W}_a \mathbf{h}_t + \mathbf{b}_a), \qquad
+\alpha_t = \frac{\exp(\mathbf{u}_t^T \mathbf{u}_s)}{\sum_{t'} \exp(\mathbf{u}_{t'}^T \mathbf{u}_s)}, \qquad
+\mathbf{v} = \sum_{t=1}^{n} \alpha_t \mathbf{h}_t
+\end{align}
+trong đó $\mathbf{u}_s$ là vector ngữ cảnh học được. So với phép gộp cực đại hoặc gộp trung bình, gộp chú ý gán trọng số động cho từng vị trí dựa trên ngữ cảnh, cho phép mô hình tập trung vào các vùng hệ gen có tính phân biệt cao nhất cho bài toán phân loại.
+
+\subsection{Mô hình BERT và ứng dụng cho phân tích chuỗi hệ gen}
+\label{subsec:bert}
+
+\textbf{BERT} (Bidirectional Encoder Representations from Transformers)~\cite{devlin2019bert} là mô hình ngôn ngữ dựa trên bộ mã hóa Transformer, được \textbf{huấn luyện trước} (pre-training) trên kho ngữ liệu văn bản lớn với mục tiêu \textbf{mô hình hóa ngôn ngữ có mặt nạ} (Masked Language Modeling --- MLM): 15\% token trong chuỗi đầu vào được che ngẫu nhiên và mô hình học dự đoán chúng từ ngữ cảnh hai chiều. Mô hình huấn luyện trước kết hợp \textbf{tinh chỉnh} (fine-tuning) của BERT---huấn luyện trước trên dữ liệu không nhãn quy mô lớn, sau đó tinh chỉnh cho tác vụ cụ thể---đã chứng minh hiệu quả vượt trội trong nhiều bài toán xử lý ngôn ngữ tự nhiên và được mở rộng sang phân tích chuỗi hệ gen.
+
+\subsection{Các chỉ số đánh giá hiệu năng phân loại}
+\label{subsec:metrics}
+
+Trong bài toán phân loại nhị phân lối sống phage, hiệu năng mô hình được đánh giá thông qua \textbf{ma trận nhầm lẫn} (confusion matrix). Với quy ước: Dương tính thật (True Positive --- TP)---phage độc lực được dự đoán đúng; Âm tính thật (True Negative --- TN)---phage ôn hòa được dự đoán đúng; Dương tính giả (False Positive --- FP)---phage ôn hòa bị dự đoán nhầm thành độc lực; Âm tính giả (False Negative --- FN)---phage độc lực bị dự đoán nhầm thành ôn hòa; ba chỉ số sau được sử dụng~\cite{wu2021deephage,shang2023phatyp}:
+
+\begin{itemize}
+\item \textbf{Độ nhạy} (Sensitivity --- Sn): đo khả năng nhận diện đúng phage độc lực.
+\begin{equation}
+\text{Sn} = \frac{\text{TP}}{\text{TP} + \text{FN}}
+\end{equation}
+
+\item \textbf{Độ đặc hiệu} (Specificity --- Sp): đo khả năng nhận diện đúng phage ôn hòa.
+\begin{equation}
+\text{Sp} = \frac{\text{TN}}{\text{TN} + \text{FP}}
+\end{equation}
+
+\item \textbf{Độ chính xác} (Accuracy --- Acc): đo tỷ lệ dự đoán đúng trên toàn bộ tập dữ liệu.
+\begin{equation}
+\text{Acc} = \frac{\text{TP} + \text{TN}}{\text{TP} + \text{FN} + \text{TN} + \text{FP}}
+\end{equation}
+\end{itemize}
+
+Trong bài toán phân loại lối sống phage, cả ba chỉ số cần được xem xét đồng thời vì hai loại lỗi có hậu quả khác nhau trong ứng dụng thực tế. Dương tính giả (phage ôn hòa bị nhận nhầm là độc lực) có thể dẫn đến lựa chọn phage không phù hợp trong liệu pháp phage; âm tính giả (phage độc lực không được nhận ra) có thể bỏ sót ứng viên trị liệu tiềm năng. Nghiên cứu này sử dụng ba chỉ số Sn, Sp và Acc để đánh giá và so sánh trực tiếp với các phương pháp tiền nhiệm theo cùng quy ước~\cite{wu2021deephage,shang2023phatyp}.
+
+% =====================================================================
+\section{DNABERT và DNABERT-2}
+\label{sec:dnabert}
+
+\subsection{DNABERT}
+\label{subsec:dnabert1}
+
+\textbf{DNABERT}~\cite{ji2021dnabert} là mô hình đầu tiên áp dụng kiến trúc BERT cho phân tích chuỗi DNA. DNABERT sử dụng \textbf{phân tách token k-mer có chồng lấp} (overlapping k-mer tokenization): với $k=3$, chuỗi ``ATCGATCG'' được phân tách thành ``ATC TCG CGA GAT ATC TCG'', trong đó các token liền kề chia sẻ $k-1$ nucleotide. DNABERT được huấn luyện trước trên hệ gen người và đạt hiệu suất tốt trên nhiều tác vụ hệ gen cụ thể (downstream genomics tasks), chứng minh hiệu quả của học chuyển giao cho phân tích chuỗi hệ gen.
+
+Tuy nhiên, DNABERT có bốn hạn chế chính~\cite{zhou2023dnabert}. Thứ nhất, \textbf{rò rỉ thông tin} (information leakage): do các token liền kề chia sẻ $k-1$ nucleotide, mô hình có thể suy luận được nội dung của token bị che từ các token xung quanh trong MLM, làm giảm hiệu quả học. Thứ hai, \textbf{kém hiệu quả tính toán}: số token xấp xỉ độ dài chuỗi gốc ($L - k + 1 \approx L$), dẫn đến chi phí tính toán cao. Thứ ba, \textbf{giới hạn độ dài 512 token}: do sử dụng biểu diễn vị trí học được, DNABERT không thể xử lý chuỗi dài hơn 512 token mà không huấn luyện lại---tương đương khoảng 500 bp với $k=6$. Thứ tư, \textbf{huấn luyện trước trên một loài duy nhất}: DNABERT chỉ được huấn luyện trước trên hệ gen người, hạn chế khả năng tổng quát hóa sang các loài khác, đặc biệt là virus và vi khuẩn.
+
+\subsection{DNABERT-2}
+\label{subsec:dnabert2}
+
+\textbf{DNABERT-2}~\cite{zhou2023dnabert} là mô hình nền tảng hệ gen (genome foundation model) thế hệ mới, cải tiến từ DNABERT với ba đột phá chính.
+
+\textbf{(1) Mã hóa cặp byte (BPE).} DNABERT-2 áp dụng Byte Pair Encoding (BPE)~\cite{sennrich2015neural} thông qua bộ khung SentencePiece~\cite{kudo2018sentencepiece} thay cho phân tách k-mer có chồng lấp. BPE xây dựng từ điển bằng cách lặp lại việc ghép các cặp ký tự liền kề xuất hiện thường xuyên nhất trong kho ngữ liệu, đến khi đạt kích thước từ điển mong muốn. DNABERT-2 sử dụng từ điển 4.096 token với độ dài token trung bình khoảng 5 nucleotide, giảm độ dài chuỗi khoảng 5 lần so với DNABERT. Quan trọng hơn, BPE loại bỏ hoàn toàn rò rỉ thông tin vì các token không chồng lấp nhau. Ngoài ra, BPE biến đổi MLM thành bài toán dự đoán đoạn---mô hình cần dự đoán cả số lượng nucleotide lẫn danh tính của chúng trong token bị che, được chứng minh giúp tăng hiệu quả học~\cite{raffel2020exploring}.
+
+\textbf{(2) Mã hóa vị trí ALiBi.} DNABERT-2 sử dụng Attention with Linear Biases (ALiBi)~\cite{press2021train} thay cho biểu diễn vị trí học được truyền thống, cho phép xử lý chuỗi có độ dài tùy ý mà không cần huấn luyện lại. Điều này đặc biệt quan trọng cho phân tích siêu hệ gen, nơi các contig có độ dài rất đa dạng.
+
+\textbf{(3) Flash Attention và huấn luyện trước đa loài.} DNABERT-2 tích hợp Flash Attention~\cite{dao2022flashattention} để giảm tiêu thụ bộ nhớ và tăng tốc huấn luyện, làm cho mô hình hiệu quả hơn DNABERT 3 lần với chỉ 1/3 phép tính thực dấu phẩy động dù có thêm 30\% tham số. Đồng thời, DNABERT-2 được huấn luyện trước trên kho ngữ liệu hệ gen đa loài (vi khuẩn, cổ khuẩn, virus, sinh vật nhân chuẩn), khắc phục hạn chế huấn luyện trên một loài duy nhất của DNABERT.
+
+DNABERT-2 có kiến trúc gồm 12 lớp bộ mã hóa Transformer, kích thước ẩn 768, 12 đầu chú ý, tổng cộng khoảng 117 triệu tham số. Trên bộ chuẩn GUE---36 tác vụ hệ gen thuộc 9 hạng mục với độ dài chuỗi từ 70 đến 10.000 bp---DNABERT-2 đạt hiệu năng tương đương mô hình Nucleotide Transformer 2,5 tỉ tham số~\cite{dalla2025nucleotide} trong khi nhỏ hơn 21 lần và cần ít hơn khoảng 92 lần thời gian GPU huấn luyện trước~\cite{zhou2023dnabert}. Mô hình tạo ra \textit{biểu diễn mức token} $\mathbf{H} \in \mathbb{R}^{L \times 768}$ cho mỗi vị trí trong chuỗi---đây là đầu vào cho các lớp đặc thù tác vụ của PhaBERT-CNN.
+
+Bảng~\ref{tab:dnabert_comparison} so sánh DNABERT và DNABERT-2 theo các đặc điểm chính.
+
+\begin{table}[h]
+\centering
+\caption{So sánh DNABERT và DNABERT-2~\cite{ji2021dnabert,zhou2023dnabert}}
+\label{tab:dnabert_comparison}
+\begin{tabular}{lcc}
+\toprule
+\textbf{Đặc điểm} & \textbf{DNABERT} & \textbf{DNABERT-2} \\
+\midrule
+Phân tách token & k-mer có chồng lấp & BPE \\
+Rò rỉ thông tin & Có & Không \\
+Kích thước từ điển & $4^k$ (64--4096) & 4.096 \\
+Mã hóa vị trí & Biểu diễn vị trí học được & ALiBi \\
+Độ dài chuỗi tối đa & 512 token & Linh hoạt \\
+Flash Attention & Không & Có \\
+Số tham số & $\sim$110 triệu & $\sim$117 triệu \\
+Kho ngữ liệu huấn luyện & Hệ gen người & Đa loài \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+% =====================================================================
+\section{Học chuyển giao trong tin sinh học}
+\label{sec:transfer_learning}
+
+Học chuyển giao (transfer learning) là mô hình học máy trong đó một mô hình được \textbf{huấn luyện trước} trên một tác vụ hoặc kho ngữ liệu lớn, sau đó được \textbf{tinh chỉnh} trên tác vụ mục tiêu cụ thể với dữ liệu có nhãn hạn chế hơn~\cite{pan2009survey}. Mô hình này đặc biệt phù hợp với tin sinh học, nơi dữ liệu có nhãn thường khan hiếm và tốn kém, trong khi dữ liệu chuỗi hệ gen không nhãn rất phong phú trong các cơ sở dữ liệu công khai.
+
+Có ba chiến lược tinh chỉnh chính. \textbf{Trích xuất đặc trưng} (feature extraction) đóng băng toàn bộ mạng nền (backbone) và chỉ huấn luyện các lớp đặc thù tác vụ, bảo toàn hoàn toàn tri thức huấn luyện trước nhưng hạn chế khả năng thích nghi. \textbf{Tinh chỉnh toàn bộ} (full fine-tuning) cập nhật toàn bộ tham số, cho phép thích nghi tối đa nhưng có nguy cơ \textbf{quá khớp} (overfitting) khi dữ liệu có nhãn ít. \textbf{Tinh chỉnh phân biệt} (discriminative fine-tuning)~\cite{howard2018universal} áp dụng tốc độ học khác nhau cho các nhóm tham số---tốc độ học thấp cho mạng nền để bảo toàn tri thức huấn luyện trước, tốc độ học cao hơn cho các lớp đặc thù tác vụ để thích nghi nhanh. Chiến lược này cân bằng giữa bảo toàn tri thức tổng quát và thích nghi đặc thù của bài toán.
+
+Một thách thức quan trọng là \textbf{quên thảm khốc} (catastrophic forgetting)---hiện tượng mô hình quên tri thức đã học trong huấn luyện trước khi tinh chỉnh quá mạnh trên tác vụ cụ thể. Để giảm thiểu, các kỹ thuật như tốc độ học phân biệt, mở khóa dần dần (gradual unfreezing, dần mở khóa các lớp từ trên xuống dưới) và chính quy hóa (regularization: giảm trọng số, dropout) thường được kết hợp~\cite{howard2018universal}.
+
+PhaBERT-CNN áp dụng chiến lược \textbf{tinh chỉnh hai giai đoạn}: giai đoạn đầu đóng băng mạng nền DNABERT-2 để khởi tạo ổn định các lớp đặc thù tác vụ mới (CNN, gộp chú ý); giai đoạn hai mở khóa toàn bộ với tốc độ học phân biệt---chi tiết được trình bày trong Chương~\ref{chap:method}.
+
+% =====================================================================
+\section{Các công trình liên quan}
+\label{sec:related_work}
+
+\subsection{Các phương pháp học máy truyền thống}
+\label{subsec:ml_methods}
+
+\textbf{PHACTS}~\cite{mcnair2012phacts} sử dụng rừng ngẫu nhiên kết hợp đặc trưng tương đồng protein, được mã hóa qua hai bước: xây dựng tập protein chuẩn và tạo vector tương đồng bằng công cụ FASTA. PHACTS đạt độ chính xác cao trên bộ gen phage hoàn chỉnh, nhưng hiệu năng giảm mạnh trên contig ngắn---chỉ đạt khoảng 50\% độ chính xác (tương đương dự đoán ngẫu nhiên) trên các nhóm contig từ 100--1800 bp~\cite{wu2021deephage}, do thiếu protein hoàn chỉnh để tạo tín hiệu tương đồng.
+
+\textbf{PhageAI}~\cite{tynecki2020phageai} ứng dụng kỹ thuật xử lý ngôn ngữ tự nhiên cho dữ liệu di truyền, sử dụng k-mer để chuyển đổi chuỗi gen sang dạng văn bản và Word2Vec để tạo biểu diễn đặc trưng. Kết hợp với loại bỏ đặc trưng đệ quy có kiểm định chéo (Recursive Feature Elimination with Cross-Validation --- RFECV) và máy vector hỗ trợ, PhageAI đạt hiệu năng tốt trên bộ gen hoàn chỉnh nhưng bị hạn chế trên contig ngắn do tín hiệu ngữ cảnh không đủ.
+
+\textbf{BACPHLIP}~\cite{hockenberry2021bacphlip} tập trung khai thác các miền protein bảo tồn kết hợp với rừng ngẫu nhiên. Tương tự PHACTS, BACPHLIP không hoạt động hiệu quả khi các miền protein không hoàn chỉnh trong các contig phân mảnh. Hạn chế chung của cả ba phương pháp truyền thống là chúng được thiết kế và tối ưu hóa cho bộ gen phage hoàn chỉnh, không phù hợp với bối cảnh siêu hệ gen thực tế.
+
+\subsection{Các phương pháp học sâu}
+\label{subsec:dl_methods}
+
+\textbf{DeePhage}~\cite{wu2021deephage} là phương pháp học sâu đầu tiên cho bài toán phân loại lối sống phage, sử dụng mạng nơ-ron tích chập với mã hóa one-hot trực tiếp trên chuỗi DNA thô. DeePhage không phụ thuộc vào dự đoán gen, có thể xử lý contig ngắn, đạt độ chính xác kiểm định chéo 5 lần lên đến 89\%, vượt trội PHACTS và PhagePred lần lượt khoảng 30\% và 10\%, đồng thời nhanh hơn 245--810 lần về thời gian tính toán~\cite{wu2021deephage}. DeePhage cũng thiết lập bốn nhóm độ dài contig A--D (100--1800 bp) làm chuẩn đánh giá cho các nghiên cứu tiếp theo. Hạn chế chính của DeePhage là huấn luyện mạng nơ-ron tích chập từ đầu (from scratch) mà không sử dụng huấn luyện trước, do đó không tận dụng được tri thức hệ gen tổng quát từ kho ngữ liệu lớn.
+
+\textbf{PhaTYP}~\cite{shang2023phatyp} là phương pháp dựa trên BERT đầu tiên, kết hợp học tự giám sát và tinh chỉnh BERT trên chuỗi protein, sử dụng Prodigal~\cite{hyatt2010prodigal} để dự đoán khung đọc mở (ORF). PhaTYP đạt hiệu năng mạnh trên contig dài (Nhóm D: độ nhạy 92,29\%, độ đặc hiệu 89,75\%, độ chính xác 91,02\%), nhưng phụ thuộc hoàn toàn vào Prodigal---một công cụ được thiết kế cho bộ gen hoàn chỉnh với hiệu suất giảm mạnh trên DNA dưới 200 bp~\cite{trimble2012short}. Điều này dẫn đến PhaTYP bị hạn chế đáng kể trên các contig ngắn và phân mảnh.
+
+\textbf{DeepPL}~\cite{zhang2024deeppl} sử dụng DNABERT (phân tách k-mer có chồng lấp, thường $k=6$) cho phân loại lối sống phage, không phụ thuộc vào dự đoán gen. Tuy nhiên, DeepPL kế thừa các hạn chế của DNABERT gốc, đặc biệt là giới hạn độ dài chuỗi tối đa 512 token do biểu diễn vị trí học được---tương đương khoảng 500 bp với $k=6$. Do hạn chế này, DeepPL không thể đánh giá trên các contig dài hơn trong bộ chuẩn của nghiên cứu này (lên đến 1800 bp) và do đó bị loại khỏi so sánh trực tiếp~\cite{zhou2023dnabert}.
+
+\textbf{ProkBERT}~\cite{ligeti2024prokbert} là họ mô hình ngôn ngữ hệ gen sử dụng phân tách token nhận thức ngữ cảnh cục bộ (Local Context-Aware --- LCA)---một biến thể của k-mer có chồng lấp, do đó vẫn gặp vấn đề rò rỉ thông tin tương tự DNABERT~\cite{zhou2023dnabert,ligeti2024prokbert}. Trong thực nghiệm của nghiên cứu này, ProkBERT đạt độ chính xác từ 80,68\% đến 85,35\%, với hiện tượng đáng chú ý là \textit{trì trệ hiệu năng} (performance stagnation) trên contig dài: độ chính xác đạt đỉnh ở Nhóm B (85,35\%) rồi giảm xuống khoảng 84\% ở Nhóm C và D, cho thấy hạn chế trong việc nắm bắt phụ thuộc dài hạn hoặc các mẫu phức tạp trong các đoạn hệ gen dài hơn.
+
+\subsection{Tổng hợp và khoảng trống nghiên cứu}
+\label{subsec:research_gap}
+
+Bảng~\ref{tab:method_comparison} tóm tắt các phương pháp hiện có theo các tiêu chí chính.
+
+\begin{table}[h]
+\centering
+\caption{So sánh các phương pháp phân loại lối sống phage}
+\label{tab:method_comparison}
+\resizebox{\textwidth}{!}{%
+\begin{tabular}{lccccc}
+\toprule
+\textbf{Phương pháp} & \textbf{Dự đoán gen} & \textbf{Phân tách token} & \textbf{Huấn luyện trước} & \textbf{Contig ngắn} & \textbf{Tài liệu} \\
+\midrule
+PHACTS      & Có & Tương đồng protein & Không & Yếu ($\sim$50\%)  & \cite{mcnair2012phacts} \\
+PhageAI     & Không & Word2Vec (k-mer)   & Có    & Trung bình         & \cite{tynecki2020phageai} \\
+BACPHLIP    & Có & Miền protein    & Không & Yếu                & \cite{hockenberry2021bacphlip} \\
+DeePhage    & Không & Mã hóa one-hot           & Không & Trung bình         & \cite{wu2021deephage} \\
+PhaTYP      & Có (Prodigal) & BERT protein & Có & Yếu              & \cite{shang2023phatyp} \\
+DeepPL      & Không & k-mer có chồng lấp (DNABERT) & Có & Bị loại ($\leq$500 bp) & \cite{zhang2024deeppl} \\
+ProkBERT    & Không & LCA k-mer có chồng lấp & Có    & Trung bình (trì trệ) & \cite{ligeti2024prokbert} \\
+\textbf{PhaBERT-CNN} & \textbf{Không} & \textbf{BPE (DNABERT-2)} & \textbf{Có} & \textbf{Tốt} & Nghiên cứu này \\
+\bottomrule
+\end{tabular}%
+}
+\end{table}
+
+Qua tổng quan, có thể xác định bốn khoảng trống nghiên cứu cần giải quyết: (1) sự phụ thuộc vào dự đoán gen khiến PhaTYP thất bại trên contig ngắn; (2) rò rỉ thông tin từ phân tách k-mer có chồng lấp trong DNABERT, DeepPL và ProkBERT; (3) giới hạn độ dài chuỗi 512 token của DeepPL do biểu diễn vị trí học được; và (4) việc huấn luyện từ đầu của DeePhage không tận dụng được tri thức hệ gen từ huấn luyện trước. PhaBERT-CNN được đề xuất nhằm giải quyết đồng thời các hạn chế này: sử dụng DNABERT-2 với phân tách BPE và ALiBi (giải quyết khoảng trống 2 và 3), huấn luyện bằng học chuyển giao (giải quyết 4), và hoạt động trực tiếp trên chuỗi DNA thô không cần dự đoán gen (giải quyết 1).

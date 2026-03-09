@@ -1,0 +1,28 @@
+\chapter{Kết luận}
+\label{chap:conclusion}
+
+Chương này tổng kết toàn bộ nghiên cứu về PhaBERT-CNN, phân tích ưu điểm và hạn chế của phương pháp dựa trên kết quả thực nghiệm, và đề xuất các hướng phát triển trong tương lai.
+
+\section{Tóm tắt đóng góp}
+\label{sec:summary}
+
+Luận văn đã đề xuất PhaBERT-CNN, một phương pháp học sâu lai kết hợp mô hình nền tảng genome DNABERT-2 với mô đun Modified TextCNN gồm nhánh CNN đa tỷ lệ và nhánh attention pooling để phân loại lối sống thực khuẩn thể từ các contig metagenomic. Phương pháp hoạt động trực tiếp trên chuỗi DNA thô thông qua BPE tokenization, không phụ thuộc vào công cụ dự đoán gene, và được đánh giá toàn diện trên bốn nhóm độ dài contig (100--1800 bp) thông qua stratified 5-fold cross-validation. PhaBERT-CNN đạt hiệu suất tốt nhất trên ba nhóm contig ngắn và trung bình (A, B, C) với accuracy lần lượt là 81.59\%, 87.91\%, và 90.01\%, cải thiện 0.91--5.98\% so với các phương pháp tiên tiến, đồng thời duy trì kết quả cạnh tranh trên contig dài với 90.69\% accuracy ở Nhóm D.
+
+\section{Phân tích kết quả}
+\label{sec:analysis}
+
+\textbf{Ưu điểm của PhaBERT-CNN.} Hiệu suất vượt trội trên các Nhóm A, B, C xuất phát từ ba yếu tố bổ sung cho nhau. Thứ nhất, PhaBERT-CNN hoạt động trực tiếp trên chuỗi DNA thô thông qua BPE tokenization, không phụ thuộc vào công cụ dự đoán gene như Prodigal~\cite{hyatt2010prodigal} mà PhaTYP yêu cầu. Trên contig ngắn dưới 400 bp, Prodigal thường không phát hiện được ORF hoàn chỉnh~\cite{trimble2012short}, khiến PhaTYP mất đi nguồn thông tin chính; trong khi đó PhaBERT-CNN vẫn khai thác được tín hiệu từ chuỗi nucleotide thô. Thứ hai, DNABERT-2 đã được tiền huấn luyện trên corpus genome đa loài, cho phép mô hình tổng quát hóa tốt hơn DeePhage vốn được huấn luyện từ đầu trên tập dữ liệu hạn chế. Thứ ba, kiến trúc nhánh song song kép—CNN đa tỷ lệ kết hợp attention pooling—cho phép mô hình đồng thời nắm bắt các motif cục bộ ở nhiều tỷ lệ không gian và tổng hợp ngữ cảnh toàn cục có trọng số, tạo ra biểu diễn phong phú hơn so với chỉ dùng DNABERT-2 đơn thuần.
+
+\textbf{Đánh giá đóng góp kiến trúc.} Kết quả so sánh giữa DNABERT-2 baseline và PhaBERT-CNN (Hình~\ref{fig:dnabert2_vs_phabertcnn}) cho thấy các thành phần task-specific đóng góp đáng kể vào hiệu suất tổng thể. Cải thiện tăng dần theo độ dài contig—từ 0.07\% ở Nhóm A lên 3.43\% ở Nhóm D về accuracy—phản ánh rằng khi chuỗi dài hơn, các motif chức năng trở nên rõ ràng hơn và CNN có thể khai thác chúng hiệu quả hơn. Đặc biệt, cải thiện specificity ở Nhóm A (6.90\%) cho thấy attention pooling giúp mô hình tập trung vào các vùng thông tin nhất của chuỗi ngắn, giảm false positive trong phát hiện phage ôn hòa.
+
+\textbf{Hạn chế.} Trên Nhóm D, PhaTYP vượt PhaBERT-CNN nhờ tận dụng được protein features từ các ORF hoàn chỉnh có mặt trong contig dài. Điều này gợi ý rằng việc kết hợp thêm thông tin protein vào PhaBERT-CNN theo kiến trúc multi-modal có thể cải thiện hiệu suất trên contig dài trong khi vẫn duy trì ưu thế trên contig ngắn. Ngoài ra, random undersampling được áp dụng để xử lý class imbalance có thể gây mất thông tin từ lớp đa số; các chiến lược thay thế như class weighting hoặc focal loss có thể được khảo sát trong nghiên cứu tương lai. Cuối cùng, thời gian inference của PhaBERT-CNN chậm hơn DeePhage do kích thước mô hình lớn hơn (117M tham số DNABERT-2), tuy nhiên với phần cứng GPU hiện đại điều này không ảnh hưởng đáng kể đến khả năng ứng dụng thực tế.
+
+\section{Hướng nghiên cứu tương lai}
+\label{sec:future_work}
+
+Dựa trên các hạn chế được xác định, ba hướng phát triển chính được đề xuất. Hướng thứ nhất là cải thiện xử lý mất cân bằng dữ liệu: thay thế random undersampling bằng các chiến lược như focal loss, class weighting, hoặc oversampling tổng hợp để giảm mất thông tin từ lớp đa số trong khi vẫn đảm bảo huấn luyện cân bằng. Hướng thứ hai là mở rộng kiến trúc theo hướng multi-modal: kết hợp thêm protein features từ các ORF được dự đoán bởi Prodigal vào PhaBERT-CNN khi contig đủ dài, tận dụng cả tín hiệu nucleotide và protein để cải thiện hiệu suất trên contig dài trong khi vẫn duy trì khả năng xử lý contig ngắn. Hướng thứ ba là mở rộng phạm vi đánh giá và ứng dụng: kiểm tra PhaBERT-CNN trên các tập dữ liệu metagenomic thực tế từ các môi trường đa dạng, phân tích interpretability để xác định các vùng genomic quan trọng cho phân loại, và khảo sát khả năng chuyển giao sang các tác vụ liên quan như dự đoán vi khuẩn chủ và phát hiện prophage.
+
+\section{Kết luận}
+\label{sec:final_conclusion}
+
+PhaBERT-CNN đã chứng minh tính hiệu quả của việc kết hợp mô hình nền tảng genome tiền huấn luyện với kiến trúc chuyên biệt task-specific cho bài toán phân loại lối sống thực khuẩn thể từ dữ liệu metagenomic. Phương pháp không chỉ cải thiện độ chính xác phân loại trên contig ngắn và trung bình mà còn đặt ra một hướng tiếp cận đầy hứa hẹn cho việc áp dụng genomic foundation models vào các bài toán sinh tin học downstream, nơi sự kết hợp giữa biểu diễn ngữ cảnh toàn cục và trích xuất đặc trưng cục bộ chuyên biệt tạo ra lợi thế rõ rệt so với từng thành phần riêng lẻ.

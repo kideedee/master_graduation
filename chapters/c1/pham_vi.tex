@@ -1,6 +1,8 @@
 \section{Phạm vi nghiên cứu}
 \label{sec:scope}
 
+Luận văn tập trung vào bài toán phân loại nhị phân lối sống thực khuẩn thể (virulent/temperate) từ các contig DNA trong phạm vi độ dài 100--1800 bp, được chia thành bốn nhóm: Nhóm A (100--400 bp), Nhóm B (400--800 bp), Nhóm C (800--1200 bp), và Nhóm D (1200--1800 bp). Tập dữ liệu được xây dựng từ 2,241 hệ gen phage hoàn chỉnh (707 temperate, 1,534 virulent) tổng hợp từ DeePhage~\cite{wu2021deephage} và DeepPL~\cite{zhang2024deeppl}; các contig được tạo bằng phương pháp sliding window để mô phỏng kịch bản metagenomic thực tế. Mô hình nền tảng sử dụng là DNABERT-2~\cite{zhou2023dnabert}; các mô hình nền tảng khác không được đánh giá trong phạm vi luận văn này. Hiệu suất được đo bằng ba chỉ số sensitivity, specificity, và accuracy nhất quán với các nghiên cứu trước, sử dụng stratified 5-fold cross-validation. Các contig đầu vào được giả định đã được xác định là có nguồn gốc từ phage; luận văn không xem xét bước nhận dạng phage từ dữ liệu metagenomic thô.
+
 Luận văn tập trung vào phạm vi nghiên cứu cụ thể sau đây, với các giới hạn và giả định rõ ràng:
 
 \subsection{Phạm vi về bài toán}

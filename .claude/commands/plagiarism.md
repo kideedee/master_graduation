@@ -17,7 +17,7 @@ Examples:
 - `/plagiarism chapters/c4/thuc_nghiem_2.tex` - Check specific file
 
 ## Tasks
-1. Compare thesis content with source paper (document/my_work/phabert_cnn.pdf)
+1. Compare thesis content with source paper (document/phabert_cnn.tex)
 2. Identify sections with high similarity (>70% word overlap)
 3. Check if direct quotes are properly marked with quotation marks
 4. Verify all borrowed ideas are cited

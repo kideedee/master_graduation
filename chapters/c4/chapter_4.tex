@@ -1,0 +1,80 @@
+\chapter{Thực nghiệm và Đánh giá}
+\label{chap:thuc_nghiem_danh_gia}
+
+Chương này trình bày các thực nghiệm được thực hiện để đánh giá hiệu suất của PhaBERT-CNN trong phân loại lối sống thực khuẩn thể. Quy trình xây dựng tập dữ liệu, kiến trúc mô hình và chiến lược huấn luyện đã được mô tả chi tiết trong Chương~\ref{chap:method}; chương này tập trung vào thiết lập thực nghiệm, kết quả so sánh với các phương pháp tiên tiến, và phân tích ưu điểm cũng như hạn chế của phương pháp đề xuất. Phần~\ref{sec:thiet_lap_thuc_nghiem} mô tả môi trường phần cứng, các phương pháp baseline và chỉ số đánh giá; Phần~\ref{sec:ket_qua} trình bày kết quả so sánh trên bốn nhóm độ dài contig.
+
+\section{Thiết lập thực nghiệm}
+\label{sec:thiet_lap_thuc_nghiem}
+
+Tất cả các thực nghiệm được thực hiện trên GPU NVIDIA RTX 5070Ti với CPU Intel i5 13500 và 64GB RAM, sử dụng Python 3.10, PyTorch 2.1.0 với CUDA 12.1, và thư viện Transformers 4.35.0. Tập dữ liệu được xây dựng theo quy trình mô tả trong Phần~\ref{sec:data_preprocessing}, bao gồm 2,241 hệ gen phage hoàn chỉnh được chia thành bốn nhóm độ dài contig A (100--400 bp), B (400--800 bp), C (800--1200 bp), và D (1200--1800 bp), với đánh giá theo stratified 5-fold cross-validation.
+
+PhaBERT-CNN được so sánh với bốn phương pháp: \textbf{DNABERT-2}~\cite{zhou2023dnabert} với đầu phân loại tuyến tính đơn giản (dense head) đóng vai trò baseline trực tiếp để đánh giá đóng góp của kiến trúc CNN và attention pooling; \textbf{DeePhage}~\cite{wu2021deephage}, phương pháp học sâu sớm sử dụng CNN trên mã hóa one-hot; \textbf{PhaTYP}~\cite{shang2023phatyp}, phương pháp dựa trên BERT với protein features được trích xuất bởi Prodigal~\cite{hyatt2010prodigal}; và \textbf{ProkBERT}~\cite{ligeti2024prokbert}, mô hình BERT tiền huấn luyện trên genome prokaryote với tokenization LCA. DeepPL~\cite{zhang2024deeppl} bị loại khỏi so sánh do DNABERT nền tảng của nó sử dụng positional embeddings học được với giới hạn tối đa 512 bp, không phù hợp để đánh giá trên các contig lên đến 1800 bp trong thiết kế thực nghiệm này.
+
+Hiệu suất được đánh giá bằng ba chỉ số nhất quán với các nghiên cứu trước~\cite{wu2021deephage,shang2023phatyp}: sensitivity ($\text{sn} = \text{TP}/(\text{TP}+\text{FN})$) đo khả năng phát hiện đúng phage độc lực, specificity ($\text{sp} = \text{TN}/(\text{TN}+\text{FP})$) đo khả năng phát hiện đúng phage ôn hòa, và accuracy ($\text{acc} = (\text{TP}+\text{TN})/(\text{TP}+\text{FN}+\text{TN}+\text{FP})$) đo hiệu suất phân loại tổng thể. Sự cân bằng giữa sensitivity và specificity đặc biệt quan trọng trong ứng dụng phage therapy, nơi cả việc bỏ sót phage độc lực lẫn phân loại nhầm phage ôn hòa đều có hậu quả thực tiễn.
+
+\section{Kết quả thực nghiệm}
+\label{sec:ket_qua}
+
+\subsection{So sánh PhaBERT-CNN và DNABERT-2}
+
+Để đánh giá đóng góp của kiến trúc task-specific, học viên so sánh trực tiếp PhaBERT-CNN với DNABERT-2 baseline trên cả bốn nhóm độ dài. Hình~\ref{fig:dnabert2_vs_phabertcnn} minh họa kết quả so sánh này.
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.85\textwidth]{imgs/dnabert2_vs_phabertcnn.png}
+    \caption{So sánh hiệu suất của DNABERT-2 và PhaBERT-CNN trên bốn nhóm độ dài contig}
+    \label{fig:dnabert2_vs_phabertcnn}
+\end{figure}
+
+PhaBERT-CNN vượt trội DNABERT-2 nhất quán trên tất cả các nhóm độ dài. Ở Nhóm A, cả hai mô hình đạt accuracy tương đương (DNABERT-2: 81.52\%, PhaBERT-CNN: 81.59\%), nhưng PhaBERT-CNN cải thiện đáng kể về specificity (80.15\% so với 73.25\% của DNABERT-2, tức tăng 6.90\%) với mức đánh đổi sensitivity không đáng kể. Cải thiện về accuracy tăng dần theo độ dài contig: Nhóm B và C đạt mức tăng lần lượt 2.35\% và 2.76\%, trong khi Nhóm D ghi nhận cải thiện rõ rệt nhất với 3.43\% về accuracy và 5.20\% về specificity. Kết quả này cho thấy thành phần CNN trích xuất hiệu quả các mẫu cục bộ và phụ thuộc tầm xa đặc trưng của genome phage, bổ sung cho biểu diễn ngữ cảnh toàn cục của transformer encoder, đặc biệt khi chuỗi đủ dài để chứa các motif chức năng hoàn chỉnh.
+
+\subsection{So sánh với các phương pháp tiên tiến}
+
+Bảng~\ref{tab:main_results} trình bày kết quả so sánh toàn diện giữa PhaBERT-CNN và các phương pháp baseline trên bốn nhóm độ dài contig, sử dụng 5-fold cross-validation.
+
+\begin{table}[h]
+    \centering
+    \caption{So sánh hiệu suất PhaBERT-CNN, PhaTYP, DeePhage và ProkBERT theo 5-fold cross-validation trên bốn nhóm độ dài contig}
+    \label{tab:main_results}
+    \resizebox{\textwidth}{!}{%
+    \begin{tabular}{rclllll}
+        \hline
+        Phương pháp & Chỉ số (\%) &
+        \multicolumn{1}{c}{\begin{tabular}[c]{@{}c@{}}Nhóm A\\ (100--400 bp)\end{tabular}} &
+        \multicolumn{1}{c}{\begin{tabular}[c]{@{}c@{}}Nhóm B\\ (400--800 bp)\end{tabular}} &
+        \multicolumn{1}{c}{\begin{tabular}[c]{@{}c@{}}Nhóm C\\ (800--1200 bp)\end{tabular}} &
+        \multicolumn{1}{c}{\begin{tabular}[c]{@{}c@{}}Nhóm D\\ (1200--1800 bp)\end{tabular}} \\ \hline
+        \multirow{3}{*}{PhaBERT-CNN} & sn  & \textbf{82.00} & \textbf{89.91} & \textbf{91.12} & 88.47 \\
+                                     & sp  & 80.15          & 80.44          & 85.93          & \textbf{90.95} \\
+                                     & acc & \textbf{81.59} & \textbf{87.91} & \textbf{90.01} & 90.69 \\ \hline
+        \multirow{3}{*}{PhaTYP}      & sn  & 79.07          & 86.74          & 90.09          & \textbf{92.29} \\
+                                     & sp  & 78.77          & \textbf{85.06} & \textbf{87.65} & 89.75 \\
+                                     & acc & 78.92          & 85.90          & 88.87          & \textbf{91.02} \\ \hline
+        \multirow{3}{*}{DeePhage}    & sn  & 80.09          & 86.46          & 89.17          & 91.17 \\
+                                     & sp  & 71.79          & 77.18          & 80.13          & 80.84 \\
+                                     & acc & 78.07          & 84.17          & 87.40          & 89.09 \\ \hline
+        \multirow{3}{*}{ProkBERT}    & sn  & 80.65          & 85.67          & 83.61          & 85.00 \\
+                                     & sp  & \textbf{80.80} & 84.15          & 85.72          & 83.68 \\
+                                     & acc & 80.68          & 85.35          & 84.03          & 84.73 \\ \hline
+    \end{tabular}%
+    }
+\end{table}
+
+Hình~\ref{fig:primary_contig_exp} minh họa trực quan hiệu suất của các phương pháp trên bốn nhóm độ dài.
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.85\textwidth]{imgs/primary_contig_exp.png}
+    \caption{Hiệu suất phân loại của DeePhage, PhaTYP, ProkBERT và PhaBERT-CNN trên các nhóm A, B, C, D}
+    \label{fig:primary_contig_exp}
+\end{figure}
+
+PhaBERT-CNN đạt hiệu suất tốt nhất trên ba nhóm contig ngắn và trung bình (A, B, C), với accuracy lần lượt là 81.59\%, 87.91\%, và 90.01\%. Trên các nhóm này, PhaBERT-CNN cải thiện 0.91--2.67\% so với PhaTYP, 2.17--3.24\% so với DeePhage, và 0.91--5.98\% so với ProkBERT. Đặc biệt, mô hình duy trì sensitivity cao (82.00\%--91.12\%) trong khi đạt specificity cạnh tranh (80.15\%--85.93\%), cho thấy khả năng phân loại cân bằng giữa hai lớp phage.
+
+Trên Nhóm D (1200--1800 bp), PhaTYP đạt accuracy cao nhất (91.02\%) với sensitivity vượt trội (92.29\%), trong khi PhaBERT-CNN đạt 90.69\% accuracy, kém PhaTYP chỉ 0.34\%. Tuy nhiên, PhaBERT-CNN vẫn vượt trội DeePhage 1.60\% và ProkBERT 5.96\% trên nhóm này. Đáng chú ý, PhaBERT-CNN đạt specificity cao nhất ở Nhóm D (90.95\%), vượt PhaTYP (89.75\%), cho thấy khả năng phát hiện phage ôn hòa tốt hơn trên contig dài.
+
+DeePhage thể hiện hiệu suất trung bình với accuracy từ 78.07\% đến 89.09\%, cải thiện đều đặn theo độ dài contig nhưng luôn thấp hơn các phương pháp dựa trên transformer. ProkBERT có xu hướng đặc biệt: accuracy đạt đỉnh ở Nhóm B (85.35\%) rồi giảm xuống khoảng 84\% ở Nhóm C và D, gợi ý rằng tokenization LCA chồng lấn của ProkBERT gặp khó khăn trong việc nắm bắt các phụ thuộc tầm xa trong chuỗi dài hơn.
+
+\section{Kết luận chương}
+
+Chương này đã trình bày kết quả đánh giá PhaBERT-CNN trên bốn nhóm độ dài contig thông qua 5-fold cross-validation. PhaBERT-CNN đạt hiệu suất tốt nhất trên contig ngắn và trung bình (100--1200 bp) với accuracy 81.59\%--90.01\%, cải thiện 0.91--5.98\% so với các phương pháp tiên tiến, đồng thời duy trì kết quả cạnh tranh trên contig dài với 90.69\% accuracy ở Nhóm D. Chương tiếp theo phân tích chi tiết các kết quả này, thảo luận về ưu điểm và hạn chế của phương pháp, và đề xuất hướng nghiên cứu tương lai.
