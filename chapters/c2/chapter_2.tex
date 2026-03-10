@@ -113,8 +113,40 @@ Trong bài toán phân loại nhị phân lối sống phage, hiệu năng mô h
 Trong bài toán phân loại lối sống phage, cả ba chỉ số cần được xem xét đồng thời vì hai loại lỗi có hậu quả khác nhau trong ứng dụng thực tế. Dương tính giả (phage ôn hòa bị nhận nhầm là độc lực) có thể dẫn đến lựa chọn phage không phù hợp trong liệu pháp phage; âm tính giả (phage độc lực không được nhận ra) có thể bỏ sót ứng viên trị liệu tiềm năng. Nghiên cứu này sử dụng ba chỉ số Sn, Sp và Acc để đánh giá và so sánh trực tiếp với các phương pháp tiền nhiệm theo cùng quy ước~\cite{wu2021deephage,shang2023phatyp}.
 
 % =====================================================================
-\section{DNABERT và DNABERT-2}
-\label{sec:dnabert}
+\section{Học chuyển giao trong tin sinh học}
+\label{sec:transfer_learning}
+
+Học chuyển giao (transfer learning) là mô hình học máy trong đó một mô hình được \textbf{huấn luyện trước} trên một tác vụ hoặc kho ngữ liệu lớn, sau đó được \textbf{tinh chỉnh} trên tác vụ mục tiêu cụ thể với dữ liệu có nhãn hạn chế hơn~\cite{pan2009survey}. Mô hình này đặc biệt phù hợp với tin sinh học, nơi dữ liệu có nhãn thường khan hiếm và tốn kém, trong khi dữ liệu chuỗi hệ gen không nhãn rất phong phú trong các cơ sở dữ liệu công khai.
+
+Có ba chiến lược tinh chỉnh chính. \textbf{Trích xuất đặc trưng} (feature extraction) đóng băng toàn bộ mạng nền (backbone) và chỉ huấn luyện các lớp đặc thù tác vụ, bảo toàn hoàn toàn tri thức huấn luyện trước nhưng hạn chế khả năng thích nghi. \textbf{Tinh chỉnh toàn bộ} (full fine-tuning) cập nhật toàn bộ tham số, cho phép thích nghi tối đa nhưng có nguy cơ \textbf{quá khớp} (overfitting) khi dữ liệu có nhãn ít. \textbf{Tinh chỉnh phân biệt} (discriminative fine-tuning)~\cite{howard2018universal} áp dụng tốc độ học khác nhau cho các nhóm tham số---tốc độ học thấp cho mạng nền để bảo toàn tri thức huấn luyện trước, tốc độ học cao hơn cho các lớp đặc thù tác vụ để thích nghi nhanh. Chiến lược này cân bằng giữa bảo toàn tri thức tổng quát và thích nghi đặc thù của bài toán.
+
+Một thách thức quan trọng là \textbf{quên thảm khốc} (catastrophic forgetting)---hiện tượng mô hình quên tri thức đã học trong huấn luyện trước khi tinh chỉnh quá mạnh trên tác vụ cụ thể. Để giảm thiểu, các kỹ thuật như tốc độ học phân biệt, mở khóa dần dần (gradual unfreezing, dần mở khóa các lớp từ trên xuống dưới) và chính quy hóa (regularization: giảm trọng số, dropout) thường được kết hợp~\cite{howard2018universal}.
+
+PhaBERT-CNN áp dụng chiến lược \textbf{tinh chỉnh hai giai đoạn}: giai đoạn đầu đóng băng mạng nền DNABERT-2 để khởi tạo ổn định các lớp đặc thù tác vụ mới (CNN, gộp chú ý); giai đoạn hai mở khóa toàn bộ với tốc độ học phân biệt---chi tiết được trình bày trong Chương~\ref{chap:method}.
+
+% =====================================================================
+\section{Các công trình liên quan}
+\label{sec:related_work}
+
+\subsection{Các phương pháp học máy truyền thống}
+\label{subsec:ml_methods}
+
+\textbf{PHACTS}~\cite{mcnair2012phacts} sử dụng rừng ngẫu nhiên kết hợp đặc trưng tương đồng protein, được mã hóa qua hai bước: xây dựng tập protein chuẩn và tạo vector tương đồng bằng công cụ FASTA. PHACTS đạt độ chính xác cao trên bộ gen phage hoàn chỉnh, nhưng hiệu năng giảm mạnh trên contig ngắn---chỉ đạt khoảng 50\% độ chính xác (tương đương dự đoán ngẫu nhiên) trên các nhóm contig từ 100--1800 bp~\cite{wu2021deephage}, do thiếu protein hoàn chỉnh để tạo tín hiệu tương đồng.
+
+\textbf{PhageAI}~\cite{tynecki2020phageai} ứng dụng kỹ thuật xử lý ngôn ngữ tự nhiên cho dữ liệu di truyền, sử dụng k-mer để chuyển đổi chuỗi gen sang dạng văn bản và Word2Vec để tạo biểu diễn đặc trưng. Kết hợp với loại bỏ đặc trưng đệ quy có kiểm định chéo (Recursive Feature Elimination with Cross-Validation --- RFECV) và máy vector hỗ trợ, PhageAI đạt hiệu năng tốt trên bộ gen hoàn chỉnh nhưng bị hạn chế trên contig ngắn do tín hiệu ngữ cảnh không đủ.
+
+\textbf{BACPHLIP}~\cite{hockenberry2021bacphlip} tập trung khai thác các miền protein bảo tồn kết hợp với rừng ngẫu nhiên. Tương tự PHACTS, BACPHLIP không hoạt động hiệu quả khi các miền protein không hoàn chỉnh trong các contig phân mảnh. Hạn chế chung của cả ba phương pháp truyền thống là chúng được thiết kế và tối ưu hóa cho bộ gen phage hoàn chỉnh, không phù hợp với bối cảnh siêu hệ gen thực tế.
+
+\subsection{Các phương pháp học sâu}
+\label{subsec:dl_methods}
+
+\textbf{DeePhage}~\cite{wu2021deephage} là phương pháp học sâu đầu tiên cho bài toán phân loại lối sống phage, sử dụng mạng nơ-ron tích chập với mã hóa one-hot trực tiếp trên chuỗi DNA thô. DeePhage không phụ thuộc vào dự đoán gen, có thể xử lý contig ngắn, đạt độ chính xác kiểm định chéo 5 lần lên đến 89\%, vượt trội PHACTS và PhagePred lần lượt khoảng 30\% và 10\%, đồng thời nhanh hơn 245--810 lần về thời gian tính toán~\cite{wu2021deephage}. DeePhage cũng thiết lập bốn nhóm độ dài contig A--D (100--1800 bp) làm chuẩn đánh giá cho các nghiên cứu tiếp theo. Hạn chế chính của DeePhage là huấn luyện mạng nơ-ron tích chập từ đầu (from scratch) mà không sử dụng huấn luyện trước, do đó không tận dụng được tri thức hệ gen tổng quát từ kho ngữ liệu lớn.
+
+\textbf{PhaTYP}~\cite{shang2023phatyp} là phương pháp dựa trên BERT đầu tiên, kết hợp học tự giám sát và tinh chỉnh BERT trên chuỗi protein, sử dụng Prodigal~\cite{hyatt2010prodigal} để dự đoán khung đọc mở (ORF). PhaTYP đạt hiệu năng mạnh trên contig dài (Nhóm D: độ nhạy 92,29\%, độ đặc hiệu 89,75\%, độ chính xác 91,02\%), nhưng phụ thuộc hoàn toàn vào Prodigal---một công cụ được thiết kế cho bộ gen hoàn chỉnh với hiệu suất giảm mạnh trên DNA dưới 200 bp~\cite{trimble2012short}. Điều này dẫn đến PhaTYP bị hạn chế đáng kể trên các contig ngắn và phân mảnh.
+
+\textbf{DeepPL}~\cite{zhang2024deeppl} sử dụng DNABERT (phân tách k-mer có chồng lấp, thường $k=6$) cho phân loại lối sống phage, không phụ thuộc vào dự đoán gen. Tuy nhiên, DeepPL kế thừa các hạn chế của DNABERT gốc, đặc biệt là giới hạn độ dài chuỗi tối đa 512 token do biểu diễn vị trí học được---tương đương khoảng 500 bp với $k=6$. Do hạn chế này, DeepPL không thể đánh giá trên các contig dài hơn trong bộ chuẩn của nghiên cứu này (lên đến 1800 bp) và do đó bị loại khỏi so sánh trực tiếp~\cite{zhou2023dnabert}.
+
+\textbf{ProkBERT}~\cite{ligeti2024prokbert} là họ mô hình ngôn ngữ hệ gen sử dụng phân tách token nhận thức ngữ cảnh cục bộ (Local Context-Aware --- LCA)---một biến thể của k-mer có chồng lấp, do đó vẫn gặp vấn đề rò rỉ thông tin tương tự DNABERT~\cite{zhou2023dnabert,ligeti2024prokbert}. Trong thực nghiệm của nghiên cứu này, ProkBERT đạt độ chính xác từ 80,68\% đến 85,35\%, với hiện tượng đáng chú ý là \textit{trì trệ hiệu năng} (performance stagnation) trên contig dài: độ chính xác đạt đỉnh ở Nhóm B (85,35\%) rồi giảm xuống khoảng 84\% ở Nhóm C và D, cho thấy hạn chế trong việc nắm bắt phụ thuộc dài hạn hoặc các mẫu phức tạp trong các đoạn hệ gen dài hơn.
 
 \subsection{DNABERT}
 \label{subsec:dnabert1}
@@ -158,41 +190,40 @@ Kho ngữ liệu huấn luyện & Hệ gen người & Đa loài \\
 \end{tabular}
 \end{table}
 
-% =====================================================================
-\section{Học chuyển giao trong tin sinh học}
-\label{sec:transfer_learning}
+\subsection{Các phương pháp phân tách token trong phân tích hệ gen}
+\label{subsec:tokenization_methods}
 
-Học chuyển giao (transfer learning) là mô hình học máy trong đó một mô hình được \textbf{huấn luyện trước} trên một tác vụ hoặc kho ngữ liệu lớn, sau đó được \textbf{tinh chỉnh} trên tác vụ mục tiêu cụ thể với dữ liệu có nhãn hạn chế hơn~\cite{pan2009survey}. Mô hình này đặc biệt phù hợp với tin sinh học, nơi dữ liệu có nhãn thường khan hiếm và tốn kém, trong khi dữ liệu chuỗi hệ gen không nhãn rất phong phú trong các cơ sở dữ liệu công khai.
+Phân tách token (tokenization) là bước tiền xử lý quan trọng trong phân tích chuỗi hệ gen bằng học sâu, quyết định cách biểu diễn chuỗi DNA thô thành các đơn vị rời rạc mà mô hình có thể xử lý. Lựa chọn phương pháp phân tách token ảnh hưởng trực tiếp đến hiệu năng mô hình, hiệu quả tính toán, và khả năng nắm bắt các mẫu sinh học có ý nghĩa. Các công trình liên quan về phân loại lối sống phage đã sử dụng bốn phương pháp phân tách token chính: mã hóa one-hot, k-mer có chồng lấp, Word2Vec trên k-mer, và mã hóa cặp byte (BPE).
 
-Có ba chiến lược tinh chỉnh chính. \textbf{Trích xuất đặc trưng} (feature extraction) đóng băng toàn bộ mạng nền (backbone) và chỉ huấn luyện các lớp đặc thù tác vụ, bảo toàn hoàn toàn tri thức huấn luyện trước nhưng hạn chế khả năng thích nghi. \textbf{Tinh chỉnh toàn bộ} (full fine-tuning) cập nhật toàn bộ tham số, cho phép thích nghi tối đa nhưng có nguy cơ \textbf{quá khớp} (overfitting) khi dữ liệu có nhãn ít. \textbf{Tinh chỉnh phân biệt} (discriminative fine-tuning)~\cite{howard2018universal} áp dụng tốc độ học khác nhau cho các nhóm tham số---tốc độ học thấp cho mạng nền để bảo toàn tri thức huấn luyện trước, tốc độ học cao hơn cho các lớp đặc thù tác vụ để thích nghi nhanh. Chiến lược này cân bằng giữa bảo toàn tri thức tổng quát và thích nghi đặc thù của bài toán.
+\textbf{Mã hóa one-hot.} DeePhage~\cite{wu2021deephage} sử dụng mã hóa one-hot để biểu diễn trực tiếp chuỗi DNA thô. Mỗi nucleotide được mã hóa thành vector nhị phân 4 chiều: A = [1,0,0,0], T = [0,1,0,0], G = [0,0,1,0], C = [0,0,0,1]. Với chuỗi DNA độ dài $L$, biểu diễn one-hot tạo ra ma trận $L \times 4$. Ưu điểm của phương pháp này là đơn giản, không mất thông tin, và biểu diễn trực tiếp từng nucleotide mà không cần huấn luyện từ điển. Tuy nhiên, mã hóa one-hot có ba hạn chế: (1) biểu diễn thưa (sparse) với 75\% giá trị bằng 0, (2) không mang thông tin ngữ nghĩa về mối quan hệ giữa các nucleotide, và (3) chiều dài chuỗi đầu vào bằng chính xác độ dài chuỗi gốc, dẫn đến chi phí tính toán cao khi xử lý contig dài.
 
-Một thách thức quan trọng là \textbf{quên thảm khốc} (catastrophic forgetting)---hiện tượng mô hình quên tri thức đã học trong huấn luyện trước khi tinh chỉnh quá mạnh trên tác vụ cụ thể. Để giảm thiểu, các kỹ thuật như tốc độ học phân biệt, mở khóa dần dần (gradual unfreezing, dần mở khóa các lớp từ trên xuống dưới) và chính quy hóa (regularization: giảm trọng số, dropout) thường được kết hợp~\cite{howard2018universal}.
+\textbf{Phân tách k-mer có chồng lấp.} DNABERT~\cite{ji2021dnabert}, DeepPL~\cite{zhang2024deeppl}, và ProkBERT~\cite{ligeti2024prokbert} sử dụng phân tách k-mer có chồng lấp. Với giá trị $k$ cố định (thường $k=6$ trong DNABERT), chuỗi DNA được chia thành các đoạn con liên tiếp độ dài $k$, trong đó các token liền kề chia sẻ $k-1$ nucleotide. Ví dụ, với $k=3$, chuỗi ``ATCGATCG'' được phân tách thành ``ATC'', ``TCG'', ``CGA'', ``GAT'', ``ATC'', ``TCG''. Phương pháp này có ưu điểm là nắm bắt ngữ cảnh cục bộ và có kích thước từ điển cố định $4^k$. Tuy nhiên, phân tách k-mer có chồng lấp gặp ba vấn đề nghiêm trọng~\cite{zhou2023dnabert}: (1) \textbf{rò rỉ thông tin}---do các token liền kề chia sẻ $k-1$ nucleotide, mô hình có thể suy luận được nội dung của token bị che từ các token xung quanh trong mô hình hóa ngôn ngữ có mặt nạ, làm giảm hiệu quả học; (2) \textbf{kém hiệu quả tính toán}---số token xấp xỉ độ dài chuỗi gốc ($L - k + 1 \approx L$), dẫn đến chi phí tính toán cao; (3) \textbf{dư thừa thông tin}---mỗi nucleotide xuất hiện trong $k$ token khác nhau, tạo ra sự lặp lại không cần thiết.
 
-PhaBERT-CNN áp dụng chiến lược \textbf{tinh chỉnh hai giai đoạn}: giai đoạn đầu đóng băng mạng nền DNABERT-2 để khởi tạo ổn định các lớp đặc thù tác vụ mới (CNN, gộp chú ý); giai đoạn hai mở khóa toàn bộ với tốc độ học phân biệt---chi tiết được trình bày trong Chương~\ref{chap:method}.
+\textbf{Word2Vec trên k-mer.} PhageAI~\cite{tynecki2020phageai} áp dụng kỹ thuật xử lý ngôn ngữ tự nhiên cho dữ liệu hệ gen bằng cách chuyển đổi chuỗi DNA thành các k-mer, sau đó sử dụng Word2Vec để tạo biểu diễn embedding dày đặc. Phương pháp này có ưu điểm là nắm bắt mối quan hệ ngữ nghĩa giữa các k-mer dựa trên ngữ cảnh xuất hiện, tạo ra biểu diễn vector dày đặc thay vì thưa như one-hot. Tuy nhiên, Word2Vec trên k-mer vẫn kế thừa hạn chế của k-mer với giá trị $k$ cố định, đòi hỏi huấn luyện riêng bộ embedding Word2Vec trước khi áp dụng cho mô hình phân loại, và không giải quyết được vấn đề rò rỉ thông tin nếu sử dụng k-mer có chồng lấp.
 
-% =====================================================================
-\section{Các công trình liên quan}
-\label{sec:related_work}
+\textbf{Mã hóa cặp byte (BPE).} DNABERT-2~\cite{zhou2023dnabert} và PhaBERT-CNN (nghiên cứu này) sử dụng Byte Pair Encoding (BPE)~\cite{sennrich2015neural} thông qua bộ khung SentencePiece~\cite{kudo2018sentencepiece}. BPE xây dựng từ điển bằng cách lặp lại việc ghép các cặp ký tự liền kề xuất hiện thường xuyên nhất trong kho ngữ liệu, tạo ra các token có độ dài thay đổi. DNABERT-2 sử dụng từ điển 4.096 token với độ dài token trung bình khoảng 5 nucleotide, giảm độ dài chuỗi khoảng 5 lần so với DNABERT. BPE có bốn ưu điểm vượt trội: (1) \textbf{loại bỏ hoàn toàn rò rỉ thông tin}---các token không chồng lấp nhau, mỗi nucleotide chỉ thuộc về một token duy nhất; (2) \textbf{nén chuỗi hiệu quả}---giảm đáng kể số token cần xử lý, tăng tốc độ huấn luyện và suy luận; (3) \textbf{biến đổi mô hình hóa ngôn ngữ có mặt nạ thành bài toán dự đoán đoạn}---mô hình cần dự đoán cả số lượng nucleotide lẫn danh tính của chúng trong token bị che, được chứng minh giúp tăng hiệu quả học~\cite{raffel2020exploring}; (4) \textbf{thích nghi với tần số xuất hiện}---các đoạn DNA xuất hiện thường xuyên được mã hóa thành token duy nhất, trong khi các đoạn hiếm được chia nhỏ hơn, phản ánh cấu trúc thống kê tự nhiên của hệ gen.
 
-\subsection{Các phương pháp học máy truyền thống}
-\label{subsec:ml_methods}
+Bảng~\ref{tab:tokenization_comparison} so sánh bốn phương pháp phân tách token theo các tiêu chí chính.
 
-\textbf{PHACTS}~\cite{mcnair2012phacts} sử dụng rừng ngẫu nhiên kết hợp đặc trưng tương đồng protein, được mã hóa qua hai bước: xây dựng tập protein chuẩn và tạo vector tương đồng bằng công cụ FASTA. PHACTS đạt độ chính xác cao trên bộ gen phage hoàn chỉnh, nhưng hiệu năng giảm mạnh trên contig ngắn---chỉ đạt khoảng 50\% độ chính xác (tương đương dự đoán ngẫu nhiên) trên các nhóm contig từ 100--1800 bp~\cite{wu2021deephage}, do thiếu protein hoàn chỉnh để tạo tín hiệu tương đồng.
+\begin{table}[h]
+\centering
+\caption{So sánh các phương pháp phân tách token trong phân tích hệ gen}
+\label{tab:tokenization_comparison}
+\resizebox{\textwidth}{!}{%
+\begin{tabular}{lccccc}
+\toprule
+\textbf{Phương pháp} & \textbf{Rò rỉ thông tin} & \textbf{Nén chuỗi} & \textbf{Kích thước từ điển} & \textbf{Thông tin ngữ nghĩa} & \textbf{Công trình đại diện} \\
+\midrule
+Mã hóa one-hot & Không & Không ($L \times 4$) & 4 & Không & DeePhage~\cite{wu2021deephage} \\
+k-mer có chồng lấp & Có & Không ($\approx L$ token) & $4^k$ (64--4096) & Có (cục bộ) & DNABERT~\cite{ji2021dnabert}, DeepPL~\cite{zhang2024deeppl} \\
+Word2Vec trên k-mer & Phụ thuộc k-mer & Không ($\approx L$ token) & $4^k$ & Có (ngữ cảnh) & PhageAI~\cite{tynecki2020phageai} \\
+BPE & Không & Có ($\approx L/5$ token) & 4.096 & Có (thống kê) & DNABERT-2~\cite{zhou2023dnabert}, PhaBERT-CNN \\
+\bottomrule
+\end{tabular}%
+}
+\end{table}
 
-\textbf{PhageAI}~\cite{tynecki2020phageai} ứng dụng kỹ thuật xử lý ngôn ngữ tự nhiên cho dữ liệu di truyền, sử dụng k-mer để chuyển đổi chuỗi gen sang dạng văn bản và Word2Vec để tạo biểu diễn đặc trưng. Kết hợp với loại bỏ đặc trưng đệ quy có kiểm định chéo (Recursive Feature Elimination with Cross-Validation --- RFECV) và máy vector hỗ trợ, PhageAI đạt hiệu năng tốt trên bộ gen hoàn chỉnh nhưng bị hạn chế trên contig ngắn do tín hiệu ngữ cảnh không đủ.
-
-\textbf{BACPHLIP}~\cite{hockenberry2021bacphlip} tập trung khai thác các miền protein bảo tồn kết hợp với rừng ngẫu nhiên. Tương tự PHACTS, BACPHLIP không hoạt động hiệu quả khi các miền protein không hoàn chỉnh trong các contig phân mảnh. Hạn chế chung của cả ba phương pháp truyền thống là chúng được thiết kế và tối ưu hóa cho bộ gen phage hoàn chỉnh, không phù hợp với bối cảnh siêu hệ gen thực tế.
-
-\subsection{Các phương pháp học sâu}
-\label{subsec:dl_methods}
-
-\textbf{DeePhage}~\cite{wu2021deephage} là phương pháp học sâu đầu tiên cho bài toán phân loại lối sống phage, sử dụng mạng nơ-ron tích chập với mã hóa one-hot trực tiếp trên chuỗi DNA thô. DeePhage không phụ thuộc vào dự đoán gen, có thể xử lý contig ngắn, đạt độ chính xác kiểm định chéo 5 lần lên đến 89\%, vượt trội PHACTS và PhagePred lần lượt khoảng 30\% và 10\%, đồng thời nhanh hơn 245--810 lần về thời gian tính toán~\cite{wu2021deephage}. DeePhage cũng thiết lập bốn nhóm độ dài contig A--D (100--1800 bp) làm chuẩn đánh giá cho các nghiên cứu tiếp theo. Hạn chế chính của DeePhage là huấn luyện mạng nơ-ron tích chập từ đầu (from scratch) mà không sử dụng huấn luyện trước, do đó không tận dụng được tri thức hệ gen tổng quát từ kho ngữ liệu lớn.
-
-\textbf{PhaTYP}~\cite{shang2023phatyp} là phương pháp dựa trên BERT đầu tiên, kết hợp học tự giám sát và tinh chỉnh BERT trên chuỗi protein, sử dụng Prodigal~\cite{hyatt2010prodigal} để dự đoán khung đọc mở (ORF). PhaTYP đạt hiệu năng mạnh trên contig dài (Nhóm D: độ nhạy 92,29\%, độ đặc hiệu 89,75\%, độ chính xác 91,02\%), nhưng phụ thuộc hoàn toàn vào Prodigal---một công cụ được thiết kế cho bộ gen hoàn chỉnh với hiệu suất giảm mạnh trên DNA dưới 200 bp~\cite{trimble2012short}. Điều này dẫn đến PhaTYP bị hạn chế đáng kể trên các contig ngắn và phân mảnh.
-
-\textbf{DeepPL}~\cite{zhang2024deeppl} sử dụng DNABERT (phân tách k-mer có chồng lấp, thường $k=6$) cho phân loại lối sống phage, không phụ thuộc vào dự đoán gen. Tuy nhiên, DeepPL kế thừa các hạn chế của DNABERT gốc, đặc biệt là giới hạn độ dài chuỗi tối đa 512 token do biểu diễn vị trí học được---tương đương khoảng 500 bp với $k=6$. Do hạn chế này, DeepPL không thể đánh giá trên các contig dài hơn trong bộ chuẩn của nghiên cứu này (lên đến 1800 bp) và do đó bị loại khỏi so sánh trực tiếp~\cite{zhou2023dnabert}.
-
-\textbf{ProkBERT}~\cite{ligeti2024prokbert} là họ mô hình ngôn ngữ hệ gen sử dụng phân tách token nhận thức ngữ cảnh cục bộ (Local Context-Aware --- LCA)---một biến thể của k-mer có chồng lấp, do đó vẫn gặp vấn đề rò rỉ thông tin tương tự DNABERT~\cite{zhou2023dnabert,ligeti2024prokbert}. Trong thực nghiệm của nghiên cứu này, ProkBERT đạt độ chính xác từ 80,68\% đến 85,35\%, với hiện tượng đáng chú ý là \textit{trì trệ hiệu năng} (performance stagnation) trên contig dài: độ chính xác đạt đỉnh ở Nhóm B (85,35\%) rồi giảm xuống khoảng 84\% ở Nhóm C và D, cho thấy hạn chế trong việc nắm bắt phụ thuộc dài hạn hoặc các mẫu phức tạp trong các đoạn hệ gen dài hơn.
+Sự phát triển từ mã hóa one-hot đơn giản đến BPE phức tạp phản ánh xu hướng chung trong phân tích hệ gen: từ biểu diễn trực tiếp, cố định sang biểu diễn thích nghi, hiệu quả, và loại bỏ các hạn chế về rò rỉ thông tin. PhaBERT-CNN lựa chọn BPE thông qua DNABERT-2 để tận dụng các ưu điểm này, đặc biệt là khả năng xử lý contig có độ dài đa dạng mà không gặp vấn đề rò rỉ thông tin hay giới hạn độ dài chuỗi.
 
 \subsection{Tổng hợp và khoảng trống nghiên cứu}
 \label{subsec:research_gap}

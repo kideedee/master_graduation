@@ -34,7 +34,25 @@ Examples:
      - The year/author mentioned in text contradicts the bib entry
      - The claim in text appears inconsistent with what the cited work is about (based on title/abstract)
      - The same concept is cited inconsistently across the chapter (e.g., different keys used for the same source)
-9. **Verify numbers** — cross-check every number (accuracy, F1, dataset sizes, parameter counts) against `document/phabert_cnn.tex` or the cited paper (use WebFetch if needed)
+9. **Verify claims with actual papers using WebFetch**
+   - For each citation that makes a specific claim (accuracy, F1, method description, dataset size, etc.):
+     - Extract the DOI or arXiv ID from `references.bib`
+     - Use WebFetch to retrieve the actual paper:
+       - DOI: `https://doi.org/<doi_value>`
+       - arXiv: `https://arxiv.org/abs/<eprint_value>`
+       - PubMed: `https://pmc.ncbi.nlm.nih.gov/articles/<pmcid>/`
+     - Verify the claim in the thesis matches what the paper actually says
+     - Check specific numbers (accuracy, F1, dataset sizes, parameter counts)
+     - Confirm method descriptions are accurate
+   - Report verification results:
+     - ✓ VERIFIED: claim matches paper content
+     - ✗ MISMATCH: describe the discrepancy specifically (e.g., "thesis claims 94.2% but paper reports 93.8%")
+     - ⚠ UNABLE TO VERIFY: paper not accessible or claim not found in paper
+   - Prioritize verifying:
+     - All numerical claims (accuracy, F1, precision, recall, dataset sizes)
+     - Method descriptions and architectural details
+     - Comparisons with other methods
+     - Claims about "first", "best", "state-of-the-art"
 
 ## Output Format
 **Terminology Issues:**
@@ -55,6 +73,16 @@ Examples:
 - Line 102: `\cite{lecun1998}` — text claims "proposed in 2001" but bib entry year is 1998
 - Line 156: `\cite{vaswani2017}` — cited to support a CNN claim, but entry is about Transformers; verify intent
 - Line 203: Same concept cited as `\cite{devlin2019}` here but `\cite{devlin2018}` on line 89 — check for duplicate entries
+
+**Claim Verification Results:**
+- Line 145: `\cite{zhou2023dnabert2}` claims "94.2% accuracy on promoter prediction"
+  - ✓ VERIFIED: Paper reports 94.2% accuracy on promoter prediction task (Table 3, page 7)
+- Line 189: `\cite{krizhevsky2012}` claims "reduced error rate by 50%"
+  - ✗ MISMATCH: Paper reports top-5 error rate reduced from 25.8% to 16.4% (36% reduction, not 50%)
+- Line 234: `\cite{vaswani2017attention}` claims "8 attention heads"
+  - ✓ VERIFIED: Paper uses 8 parallel attention heads in base model (Section 3.2.2)
+- Line 278: `\cite{devlin2019bert}` claims "trained on 3.3B words"
+  - ⚠ UNABLE TO VERIFY: Paper mentions BooksCorpus (800M words) + English Wikipedia (2.5B words) = 3.3B total, but this is word count before tokenization; actual token count differs
 
 ## Example Usage
 "Review chapter 3 for consistency"

@@ -45,6 +45,7 @@ This file contains Vietnamese ↔ English technical terminology mapping for the 
 | Kích thước ẩn | Hidden size |
 | Trọng số | Weight |
 | Lớp tuyến tính | Linear layer |
+| Kích thước cửa sổ tích chập | Kernel |
 
 ## Usage Guidelines
 

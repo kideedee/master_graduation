@@ -33,7 +33,13 @@
       "Bash(grep -o '\\\\\\\\cite{[^}]*}' \"e:\\\\master\\\\documentation\\\\graduation\\\\chapters\\\\c2\\\\co_so_ly_thuyet.tex\")",
       "Bash(git add chapters/c2/chapter_2.tex chapters/c4/chapter_4.tex chapters/c5/chapter_5.tex)",
       "Bash(git add -A)",
-      "Bash(git commit:*)"
+      "Bash(git commit:*)",
+      "WebFetch(domain:arxiv.org)",
+      "WebFetch(domain:academic.oup.com)",
+      "Bash(grep -o '\\\\\\\\cite{[^}]*}' \"e:\\\\master\\\\documentation\\\\graduation\\\\chapters\\\\c4\\\\chapter_4.tex\")",
+      "Bash(python3 -c \"print\\(f''{91.02 - 90.69:.2f}%''\\)\")",
+      "Bash(bc)",
+      "Bash(grep -o '\\\\\\\\cite{[^}]*}' \"e:\\\\master\\\\documentation\\\\graduation\\\\chapters\\\\c3\\\\chapter_3.tex\")"
     ]
   }
 }
