@@ -70,7 +70,8 @@
       "Bash(dos2unix chapters/c2/chapter_2.tex)",
       "Bash(grep \"\\\\\\\\ref{chap:thuc_nghiem_danh_gia}\" chapters/c2/chapter_2.tex)",
       "Bash(xxd)",
-      "Bash(dos2unix -f chapters/c2/chapter_2.tex)"
+      "Bash(dos2unix -f chapters/c2/chapter_2.tex)",
+      "Bash(grep -o '\\\\\\\\cite{[^}]*}' chapters/c2/section_2.4_consolidated.tex)"
     ]
   }
 }

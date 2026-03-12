@@ -40,6 +40,10 @@ This file contains Vietnamese ↔ English technical terminology mapping for the 
 | Mạng nơ-ron tích chập | Convolutional Neural Network (CNN) |
 | Cơ chế chú ý | Attention mechanism |
 | Lối sống | Lifestyle (temperate/virulent) |
+| Thực khuẩn thể độc lực | Virulent phage |
+| Thực khuẩn thể ôn hòa | Temperate phage |
+| Chu trình tiềm tan | Lysogenic cycle |
+| Chu trình tan | Lytic cycle |
 | Chuỗi DNA thô | Raw DNA sequence |
 | Đầu phân loại | Classification head |
 | Kích thước ẩn | Hidden size |
