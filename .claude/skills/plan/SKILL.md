@@ -1,9 +1,12 @@
 ---
 name: plan
 description: >
-  Quick shortcut to invoke the thesis-planner agent.
-  Use when user says "/plan" followed by a chapter/section description.
+  Create a writing plan for thesis chapter sections. Use when user says 
+  "/plan", "plan section", "lập kế hoạch viết", or before writing new content.
   Example: "/plan c3 phương pháp đề xuất"
+context: fork
+agent: thesis-planner
+allowed-tools: Read, Grep, Glob, Bash, Write
 ---
 
 # /plan — Invoke Thesis Planner

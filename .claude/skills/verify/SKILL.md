@@ -1,9 +1,12 @@
 ---
 name: verify
 description: >
-  Quick shortcut to invoke the citation-verifier agent.
-  Use when user says "/verify" to check citations and claims.
-  Example: "/verify chapters/c3/chapter_3.tex"
+  Verify citation keys and claims in thesis files. Use when user says
+  "/verify", "check citations", "kiểm tra trích dẫn".
+  Example: /verify chapters/c3/chapter_3.tex
+context: fork
+agent: citation-verifier
+allowed-tools: Read, Grep, Glob, WebFetch, WebSearch
 ---
 
 # /verify — Invoke Citation Verifier
