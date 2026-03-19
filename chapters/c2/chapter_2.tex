@@ -19,7 +19,7 @@ Gen là đơn vị cơ bản của thông tin di truyền, một đoạn DNA mã
 
 Thực khuẩn thể (bacteriophage), hay gọi tắt là phage, là các virus có khả năng xâm nhiễm và nhân lên bên trong tế bào vi khuẩn. Thực khuẩn thể được xem là dạng thực thể sinh học phong phú nhất trên Trái Đất, với số lượng ước tính vượt $10^{30}$ cá thể chỉ riêng trong môi trường đại dương~\cite{suttle2007marine}, và hiện diện ở hầu hết mọi môi trường có vi khuẩn sinh sống. Thực khuẩn thể đóng vai trò thiết yếu trong sinh thái vi sinh vật thông qua việc điều hòa quần thể vi khuẩn, đồng thời là tác nhân trung gian quan trọng trong quá trình chuyển gen ngang giữa các vi khuẩn~\cite{koskella2014bacteria}.
 
-Dựa trên chiến lược nhân lên, thực khuẩn thể được phân loại thành hai nhóm chính~\cite{mcnair2012phacts,wu2021deephage}. \textbf{Thực khuẩn thể độc lực} chỉ thực hiện chu trình tan. Sau khi xâm nhiễm, thực khuẩn thể độc lực chiếm đoạt bộ máy tổng hợp của tế bào chủ để nhân bản hệ gen và tổng hợp các thành phần cấu trúc, lắp ráp thành các hạt virus con, rồi phá vỡ tế bào vi khuẩn để giải phóng thế hệ thực khuẩn thể mới. \textbf{Thực khuẩn thể ôn hòa} có khả năng thực hiện cả chu trình tan lẫn chu trình tiềm tan. Trong chu trình tiềm tan, DNA thực khuẩn được tích hợp vào nhiễm sắc thể vi khuẩn thông qua quá trình tái tổ hợp đặc hiệu vị trí được xúc tác bởi enzyme integrase, trở thành prophage. Prophage tồn tại ở trạng thái im lặng và được nhân lên cùng với hệ gen vi khuẩn qua nhiều thế hệ~\cite{howard2017lysogeny}. Khi tiếp xúc với các tác nhân như bức xạ tử ngoại (UV) hoặc tổn thương DNA, prophage được hoạt hóa thông qua phản ứng SOS của tế bào chủ, tách ra khỏi nhiễm sắc thể vi khuẩn và chuyển sang thực hiện chu trình tan~\cite{howard2017lysogeny}.
+Dựa trên chiến lược nhân lên, thực khuẩn thể được phân loại thành hai nhóm chính~\cite{mcnair2012phacts,wu2021deephage}. Thực khuẩn thể độc lực chỉ thực hiện chu trình tan. Sau khi xâm nhiễm, thực khuẩn thể độc lực chiếm đoạt bộ máy tổng hợp của tế bào chủ để nhân bản hệ gen và tổng hợp các thành phần cấu trúc, lắp ráp thành các hạt virus con, rồi phá vỡ tế bào vi khuẩn để giải phóng thế hệ thực khuẩn thể mới. Thực khuẩn thể ôn hòa có khả năng thực hiện cả chu trình tan lẫn chu trình tiềm tan. Trong chu trình tiềm tan, DNA thực khuẩn được tích hợp vào nhiễm sắc thể vi khuẩn thông qua quá trình tái tổ hợp đặc hiệu vị trí được xúc tác bởi enzyme integrase, trở thành prophage. Prophage tồn tại ở trạng thái im lặng và được nhân lên cùng với hệ gen vi khuẩn qua nhiều thế hệ~\cite{howard2017lysogeny}. Khi tế bào chủ tiếp xúc với các tác nhân gây tổn thương ADN như bức xạ tử ngoại (UV), prophage có thể được cảm ứng, tách ra khỏi nhiễm sắc thể vi khuẩn và chuyển sang thực hiện chu trình tan~\cite{howard2017lysogeny}.
 
 Việc phân loại chính xác hệ gen thực khuẩn có ý nghĩa thực tiễn quan trọng trong nhiều lĩnh vực ứng dụng. Trong liệu pháp sử dụng thực khuẩn để điều trị các bệnh nhiễm khuẩn kháng kháng sinh~\cite{gordillo2019phage}, chỉ thực khuẩn thể độc lực mới được xem là phù hợp vì chúng tiêu diệt vi khuẩn hiệu quả mà không tích hợp vào hệ gen tế bào chủ~\cite{gordillo2019phage,kortright2019phage}. Ngược lại, thực khuẩn thể ôn hòa tiềm ẩn nguy cơ truyền các gen độc lực hoặc gen kháng kháng sinh sang vi khuẩn bệnh nguyên thông qua biến đổi tiềm tan~\cite{brussow2004phages}.
 
@@ -28,54 +28,20 @@ Tuy nhiên, xác định hệ gen thực khuẩn bằng phương pháp thực ng
 \subsection{Dữ liệu metagenomics và bài toán phân loại trên contig}
 \label{sec:metagenomics}
 
-Metagenomics là phương pháp nghiên cứu vật liệu di truyền được thu thập trực tiếp
-từ các mẫu môi trường, cho phép phân tích toàn bộ cộng đồng vi sinh vật mà không
-cần nuôi cấy từng loài riêng lẻ~\cite{mokili2012metagenomics}. Phương pháp này đặc
-biệt quan trọng vì phần lớn vi sinh vật trong tự nhiên không thể nuôi cấy được
-trong điều kiện phòng thí nghiệm. Một nhánh chuyên biệt gọi là \textit{viral
-metagenomics} (hay \textit{metaviromics}) tập trung vào thành phần virus trong mẫu
-môi trường. Dữ liệu thu được từ metaviromics cung cấp cái nhìn toàn diện về sự đa
-dạng và phân bố của các cộng đồng phage trong các hệ sinh thái từ đại dương, đất,
-đến ruột người~\cite{emerson2012dynamic,hayes2017metagenomic}. Chính nhờ dữ liệu
-này, phần lớn sự đa dạng của thực khuẩn thể trong tự nhiên mới được hé lộ, trong
-khi các phương pháp phân lập truyền thống chỉ tiếp cận được một phần nhỏ của quần
-thể virus thực sự tồn tại trong môi trường~\cite{mokili2012metagenomics}.
+Metagenomics (siêu hệ gen hay hệ gen môi trường) là lĩnh vực nghiên cứu vật liệu di truyền được thu thập trực tiếp từ các mẫu môi trường, cho phép phân tích toàn bộ cộng đồng vi sinh vật mà không cần nuôi cấy từng loài riêng lẻ~\cite{mokili2012metagenomics}. Phương pháp này đặc biệt quan trọng vì phần lớn vi sinh vật trong tự nhiên không thể nuôi cấy trong điều kiện phòng thí nghiệm. Một nhánh chuyên biệt gọi là \textit{viral metagenomics} (hay \textit{metaviromics}) tập trung vào thành phần virus trong mẫu môi trường. Dữ liệu thu được từ metaviromics cung cấp cái nhìn toàn diện về sự đa dạng và phân bố của các cộng đồng phage trong nhiều hệ sinh thái khác nhau, từ đại dương, đất đến ruột người~\cite{emerson2012dynamic,hayes2017metagenomic}. Chính nhờ đó, phần lớn sự đa dạng của thực khuẩn thể trong tự nhiên mới được hé lộ, trong khi các phương pháp phân lập truyền thống chỉ tiếp cận được một phần nhỏ quần thể virus thực sự tồn tại trong môi trường~\cite{mokili2012metagenomics}.
 
-Trong phân tích metagenomics, dữ liệu thô từ giải trình tự thế hệ mới
-(Next-Generation Sequencing, NGS) là các đoạn trình tự ngắn gọi là \textit{read},
-mỗi read thường có độ dài từ vài chục đến vài trăm cặp bazơ tùy công nghệ sử dụng.
-Các read này được lắp ráp lại bằng thuật toán \textit{assembly} dựa trên vùng
-chồng lấp giữa chúng, tạo thành các đoạn trình tự dài hơn gọi là \textit{contig}
-(contiguous sequence)~\cite{ghurye2016metagenomic}. Contig đại diện cho một vùng
-liên tục của bộ gen được tái tạo từ dữ liệu trình tự, song thường chưa đầy đủ do
-độ phủ không đồng đều, các vùng lặp lại, hoặc sai số kỹ thuật. Ở mức độ lắp ráp
-cao hơn, các contig được sắp xếp và định hướng tương đối với nhau dựa trên thông
-tin ghép cặp đầu đọc (paired-end reads) hoặc đọc dài (long reads), tạo thành
-\textit{scaffold}; khoảng cách giữa các contig trong scaffold thường được điền bằng
-ký tự ``N'' để biểu thị vùng trình tự chưa xác định~\cite{setubal2021metagenome}.
-Chuỗi phân cấp từ read, contig, scaffold đến bộ gen hoàn chỉnh phản ánh mức độ
-đầy đủ ngày càng tăng của dữ liệu trình tự thu được (Hình~\ref{fig:assembly_hierarchy}).
+Trong phân tích siêu hệ gen (metagenomics), dữ liệu thô từ giải trình tự thế hệ mới là các đoạn đọc ngắn gọi là \textit{read}, mỗi read thường có độ dài từ vài chục đến vài trăm cặp bazơ tùy công nghệ sử dụng. Các đoạn đọc này được lắp ráp lại bằng thuật toán lắp ráp trình tự dựa trên vùng chồng lấp giữa chúng, tạo thành các đoạn trình tự dài hơn gọi là \textit{contig} (trình tự liên tục)~\cite{ghurye2016metagenomic}. Contig đại diện cho một vùng liên tục của bộ gen được tái tạo từ dữ liệu trình tự, song thường chưa đầy đủ do độ phủ không đồng đều, các vùng lặp lại, hoặc sai số kỹ thuật. Ở mức độ lắp ráp cao hơn, các contig được sắp xếp và định hướng tương đối với nhau dựa trên thông tin đọc ghép đôi đầu (paired-end reads) hoặc đọc dài (long reads), tạo thành \textit{scaffold}; khoảng cách giữa các contig trong scaffold thường được điền bằng ký tự ``N'' để biểu thị vùng trình tự chưa xác định~\cite{setubal2021metagenome}. Chuỗi phân cấp từ đoạn đọc, contig, scaffold đến bộ gen hoàn chỉnh phản ánh mức độ đầy đủ ngày càng tăng của dữ liệu trình tự thu được (Hình~\ref{fig:assembly_hierarchy}).
 
-Trong bối cảnh dự đoán hệ gen thực khuẩn thể, phần lớn dữ liệu đầu vào thực tế
-tồn tại ở dạng contig, các đoạn bộ gen không hoàn chỉnh với độ dài và mức độ
-đại diện rất khác nhau. Để đánh giá hiệu năng trên các contig có độ dài điển hình
-trong dữ liệu metavirome, các nghiên cứu
-DeePhage~\cite{wu2021deephage} và
-PhaTYP~\cite{shang2023phatyp} đã thống nhất sử dụng bốn nhóm độ dài: Nhóm~A
-(100--400~bp), Nhóm~B (400--800~bp), Nhóm~C (800--1200~bp), và Nhóm~D
-(1200--1800~bp). Nhóm~A bao phủ độ dài điển hình của các read thô từ giải trình tự
-Illumina (thường 75--300~bp); Nhóm~B--C bao phủ phần lớn contig ngắn thường gặp
-sau lắp ráp; và Nhóm~D đại diện cho các contig trung bình vẫn còn phân mảnh so với
-bộ gen phage hoàn chỉnh (thường 15--200~kb). Nghiên cứu này kế thừa cùng phân chia
-nhóm độ dài để đảm bảo khả năng so sánh trực tiếp với các phương pháp tiền nhiệm.
+\begin{figure}[h]
+  \centering
+  \includegraphics[width=0.9\textwidth]{imgs/hierachy_contig.png}
+  \caption{Chuỗi phân cấp lắp ráp hệ gen từ read, contig, scaffold đến bộ gen hoàn chỉnh}
+  \label{fig:assembly_hierarchy}
+\end{figure}
 
-Các contig ngắn, đặc biệt dưới 400~bp, đặt ra thách thức đặc biệt cho phân loại
-bởi chúng thường không chứa gen hoàn chỉnh, khiến các công cụ dự đoán gen như
-Prodigal hoặc các công cụ tương đương giảm độ chính xác đáng kể trên các đoạn DNA
-ngắn có chứa lỗi giải trình tự~\cite{trimble2012short}. Đây là một trong những
-động lực chính cho việc phát triển các phương pháp học sâu hoạt động trực tiếp
-trên chuỗi DNA thô thay vì dựa vào đặc trưng protein, điển hình như mô hình
-PhaBERT-CNN được đề xuất trong luận văn này.
+Trong bối cảnh dự đoán hệ gen thực khuẩn thể, phần lớn dữ liệu đầu vào thực tế tồn tại ở dạng contig, các đoạn bộ gen không hoàn chỉnh với độ dài và mức độ đại diện rất khác nhau. Để đánh giá hiệu năng trên các contig có độ dài điển hình trong dữ liệu metavirome, các nghiên cứu DeePhage~\cite{wu2021deephage} và PhaTYP~\cite{shang2023phatyp} đã thống nhất sử dụng bốn nhóm độ dài: Nhóm~A (100--400~bp), Nhóm~B (400--800~bp), Nhóm~C (800--1200~bp), và Nhóm~D (1200--1800~bp). Nhóm~A bao phủ độ dài điển hình của các read thô từ giải trình tự Illumina (thường 75--300~bp); Nhóm~B--C bao phủ phần lớn contig ngắn thường gặp sau lắp ráp; và Nhóm~D đại diện cho các contig trung bình vẫn còn phân mảnh so với bộ gen phage hoàn chỉnh (thường 15--200~kb). Nghiên cứu này kế thừa cùng phân chia nhóm độ dài để đảm bảo khả năng so sánh trực tiếp với các phương pháp tiền nhiệm.
+
+Các contig ngắn, đặc biệt dưới 400~bp, đặt ra thách thức đặc biệt cho phân loại bởi chúng thường không chứa gen hoàn chỉnh, khiến các công cụ dự đoán gen như Prodigal hoặc các công cụ tương đương giảm độ chính xác đáng kể trên các đoạn DNA ngắn có chứa lỗi giải trình tự~\cite{trimble2012short}. Đây là một trong những động lực chính cho việc phát triển các phương pháp học sâu hoạt động trực tiếp trên chuỗi DNA thô thay vì dựa vào đặc trưng protein, điển hình như mô hình PhaBERT-CNN được đề xuất trong luận văn này.
 
 % =====================================================================
 \section{Các phương pháp tính toán cho phân loại lối sống thực khuẩn}
@@ -99,7 +65,7 @@ Sự phát triển của công nghệ tính toán song song đã cho phép phát
 
 \textbf{DeePhage}~\cite{wu2021deephage} là phương pháp học sâu đầu tiên được đề xuất cho bài toán phân loại lối sống phage trên dữ liệu metagenomics. Nguồn dữ liệu của DeePhage là các contig metagenomic với độ dài từ 100 đến 1800~bp, được chia thành bốn nhóm: Nhóm~A (100--400~bp), Nhóm~B (400--800~bp), Nhóm~C (800--1200~bp), và Nhóm~D (1200--1800~bp). Phương pháp phân tách token của DeePhage là mã hóa one-hot trực tiếp trên chuỗi DNA thô, trong đó mỗi nucleotide được mã hóa thành vector nhị phân 4 chiều: A~=~[0,0,0,1], C~=~[0,0,1,0], G~=~[0,1,0,0], T~=~[1,0,0,0]. Thuật toán sử dụng là mạng nơ-ron tích chập (CNN) được huấn luyện từ đầu (from scratch) mà không sử dụng huấn luyện trước. DeePhage không phụ thuộc vào dự đoán gen, có khả năng xử lý contig ngắn, đạt độ chính xác kiểm định chéo 5 lần lên đến 89\%---vượt trội so với PHACTS và PhagePred lần lượt khoảng 30\% và 10\%---đồng thời nhanh hơn 810 lần về thời gian tính toán so với PHACTS~\cite{wu2021deephage}. Bộ chuẩn đánh giá gồm bốn nhóm độ dài contig A--D do DeePhage thiết lập cũng được sử dụng rộng rãi trong các nghiên cứu tiếp theo. Hạn chế chính của DeePhage là mô hình được huấn luyện từ đầu mà không tận dụng được tri thức hệ gen tổng quát từ kho ngữ liệu lớn, và mã hóa one-hot tạo ra biểu diễn thưa (sparse) không mang thông tin ngữ nghĩa.
 
-\textbf{PhaTYP}~\cite{shang2023phatyp} là phương pháp đầu tiên ứng dụng kiến trúc BERT cho bài toán phân loại lối sống phage. Nguồn dữ liệu của PhaTYP là bộ gen thực khuẩn hoàn chỉnh và contig. Phương pháp phân tách token của PhaTYP hoạt động ở cấp độ protein: genome thực khuẩn được dịch mã thành các protein thông qua công cụ dự đoán gen Prodigal~\cite{hyatt2010prodigal}, sau đó các protein đồng nhất được nhóm lại thành các cluster, mỗi cluster được coi là một token. Mỗi genome thực khuẩn trở thành một "câu" gồm các token là protein cluster. Thuật toán sử dụng là BERT (Transformer encoder) được huấn luyện trước bằng học tự giám sát trên chuỗi protein, sau đó tinh chỉnh cho tác vụ phân loại lối sống. PhaTYP đạt hiệu năng mạnh trên contig dài, đặc biệt là Nhóm~D (1200--1800~bp) với 92.29\% độ nhạy, 89.75\% độ đặc hiệu, và 91.02\% độ chính xác. Tuy nhiên, PhaTYP phụ thuộc vào bước dự đoán gen trung gian---Prodigal vốn có hiệu suất giảm mạnh trên các đoạn DNA ngắn hơn 200~bp~\cite{trimble2012short}---dẫn đến hạn chế đáng kể trên contig ngắn và phân mảnh~\cite{shang2023phatyp}.
+\textbf{PhaTYP}~\cite{shang2023phatyp} là phương pháp đầu tiên ứng dụng kiến trúc BERT cho bài toán phân loại lối sống phage. Nguồn dữ liệu của PhaTYP là bộ gen thực khuẩn hoàn chỉnh và contig. Phương pháp phân tách token của PhaTYP hoạt động ở cấp độ protein: genome thực khuẩn được dịch mã thành các protein thông qua công cụ dự đoán gen Prodigal~\cite{hyatt2010prodigal}, sau đó các protein đồng nhất được nhóm lại thành các cluster, mỗi cluster được coi là một token. Mỗi genome thực khuẩn được coi là một "câu" gồm các token là protein cluster. Thuật toán sử dụng là BERT (Transformer encoder) được huấn luyện trước bằng học tự giám sát trên chuỗi protein, sau đó tinh chỉnh cho tác vụ phân loại lối sống. PhaTYP đạt hiệu năng mạnh trên contig dài, đặc biệt là Nhóm~D (1200--1800~bp) với 92.29\% độ nhạy, 89.75\% độ đặc hiệu, và 91.02\% độ chính xác. Tuy nhiên, PhaTYP phụ thuộc vào bước dự đoán gen trung gian---Prodigal vốn có hiệu suất giảm mạnh trên các đoạn DNA ngắn hơn 200~bp~\cite{trimble2012short}---dẫn đến hạn chế đáng kể trên contig ngắn và phân mảnh~\cite{shang2023phatyp}.
 
 \textbf{DeepPL}~\cite{zhang2024deeppl} sử dụng DNABERT~\cite{ji2021dnabert} để mã hóa chuỗi DNA cho phân loại lối sống phage. Nguồn dữ liệu là các contig metagenomic. Phương pháp phân tách token của DeepPL là k-mer có chồng lấp (overlapping k-mer), thường với $k=6$, trong đó các token liền kề chia sẻ $k-1$ nucleotide. Thuật toán sử dụng là DNABERT, một mô hình BERT được huấn luyện trước trên hệ gen người. DeepPL không phụ thuộc vào dự đoán gen, hoạt động trực tiếp trên chuỗi DNA. Tuy nhiên, DeepPL kế thừa hạn chế của DNABERT gốc về giới hạn độ dài chuỗi tối đa 512 token do sử dụng biểu diễn vị trí học được (learned positional embedding)~\cite{ji2021dnabert}---tương đương khoảng 500~bp với $k=6$. Do hạn chế này, DeepPL không thể xử lý contig dài hơn trong bộ chuẩn của nghiên cứu (lên đến 1800~bp) và do đó bị loại khỏi so sánh trực tiếp. Ngoài ra, phân tách k-mer có chồng lấp gây ra hiện tượng rò rỉ thông tin trong quá trình học có mặt nạ và kém hiệu quả tính toán do số token xấp xỉ độ dài chuỗi gốc.
 
