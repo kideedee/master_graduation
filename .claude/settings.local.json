@@ -32,7 +32,9 @@
       "WebFetch(domain:docs.anthropic.com)",
       "WebFetch(domain:code.claude.com)",
       "Bash(rm -f \"e:/master/documentation/graduation/.claude/hooks/check-citations.sh\" \"e:/master/documentation/graduation/.claude/hooks/check-terminology.sh\")",
-      "Bash(rmdir \"e:/master/documentation/graduation/.claude/hooks\")"
+      "Bash(rmdir \"e:/master/documentation/graduation/.claude/hooks\")",
+      "Bash(grep -oP '@\\\\w+\\\\{\\([^,]+\\)' /Users/sonvuquang/Projects/master_graduation/references.bib)",
+      "Bash(tr -d '{}')"
     ],
     "deny": [
       "Bash(git *)"

@@ -6,7 +6,7 @@ description: >
   Triggers for: "write from plan", "execute plan", "viết theo kế hoạch",
   or when thesis-writing skill delegates Step 2.
 tools: Read, Grep, Glob, Edit, Write, Bash
-model: sonnet
+model: claude-sonnet-4-6
 maxTurns: 30
 memory: project
 ---

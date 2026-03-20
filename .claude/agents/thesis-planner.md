@@ -7,7 +7,7 @@ description: >
   "plan section", "create writing plan", "lập kế hoạch viết",
   or when thesis-writing skill delegates Step 1 planning.
 tools: Read, Grep, Glob, Bash, Write
-model: sonnet
+model: claude-opus-4-6
 maxTurns: 20
 memory: project
 ---
