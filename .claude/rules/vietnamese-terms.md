@@ -50,6 +50,7 @@ This file contains Vietnamese ↔ English technical terminology mapping for the 
 | Trọng số | Weight |
 | Lớp tuyến tính | Linear layer |
 | Kích thước cửa sổ tích chập | Kernel |
+| Mạng nền | Backbone |
 
 ## Usage Guidelines
 
@@ -74,7 +75,6 @@ The following terms **must stay in English** — do not translate or substitute.
 | batch | In context of "batch size", "mini-batch" |
 | dropout | Specific technical name |
 | pooling | In context of "max pooling", "attention pooling" |
-| backbone | In context of model architecture |
 | benchmark | Specific technical name |
 | pipeline | In context of processing workflow |
 | BPE | Byte Pair Encoding — technical abbreviation |
