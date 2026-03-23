@@ -51,6 +51,20 @@ This file contains Vietnamese ↔ English technical terminology mapping for the 
 | Lớp tuyến tính | Linear layer |
 | Kích thước cửa sổ tích chập | Kernel |
 | Mạng nền | Backbone |
+| Tiền thực khuẩn thể | Prophage |
+| Chuyển gen ngang | Horizontal gene transfer |
+| Kiểm định chéo | Cross-validation |
+| Phân tầng | Stratified |
+| Tốc độ học phân biệt | Discriminative learning rate |
+| Nghiên cứu loại bỏ thành phần | Ablation study |
+| Mô hình cơ sở | Baseline |
+| Cửa sổ trượt | Sliding window |
+| Nhiễm mãn tính | Chronic infection |
+| Mô hình nền tảng | Foundation model |
+| Mô hình nền tảng hệ gen | Genome foundation model |
+| Liệu pháp phage | Phage therapy |
+| Biến đổi tiềm tan | Lysogenic conversion |
+| Gen đánh dấu | Marker gene |
 
 ## Usage Guidelines
 
@@ -83,4 +97,9 @@ The following terms **must stay in English** — do not translate or substitute.
 | contig | Bioinformatics term |
 | metagenomic | Bioinformatics term |
 | DNABERT-2, PhaBERT-CNN, BERT, CNN, SVM, Random Forest | Model/algorithm names |
+| MKCA | Specific module name (Multi-Kernel Convolutional Attention) |
+| prophage | Standard bioinformatics term, widely used as-is in Vietnamese literature |
+| cross-validation | Widely used as-is in Vietnamese ML literature (alongside "kiểm định chéo") |
+| ablation study | Widely used as-is in Vietnamese ML literature |
+| baseline | Widely used as-is in Vietnamese ML literature |
 
