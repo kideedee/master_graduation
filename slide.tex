@@ -1,144 +1,354 @@
-% SLIDE MẪU: https://www.overleaf.com/read/fchtwnwbvdfn
-\documentclass[11pt]{beamer} % STEP 1: Chon template
+% \documentclass[11pt,aspectratio=169]{beamer}
 
+% \usetheme{Madrid}
+% \usecolortheme{default}
 
-% STEP 2: Chon theme 
-% 	\usetheme{default}
-% 	\usetheme{AnnArbor}
-% 	\usetheme{Antibes}
-% 	\usetheme{Bergen}
-% 	\usetheme{Berkeley}
-% 	\usetheme{Berlin}
-% 	\usetheme{Boadilla}
-% \usetheme{CambridgeUS}
-% 	\usetheme{Copenhagen}
-% 	\usetheme{Darmstadt}
-% 	\usetheme{Dresden}
-% 	\usetheme{Frankfurt}
-% 	\usetheme{Goettingen}
-	\usetheme{Hannover}
-% 	\usetheme{Ilmenau}
-% 	\usetheme{JuanLesPins}
-% 	\usetheme{Luebeck}
-% 	\usetheme{Madrid}
-% 	\usetheme{Malmoe}
-% 	\usetheme{Marburg}
-% 	\usetheme{Montpellier}
-%\usetheme{PaloAlto}
-%\usetheme{Pittsburgh}
-%\usetheme{Rochester}
-%\usetheme{Singapore}
-%\usetheme{Szeged}
-%\usetheme{Warsaw}
- 
-\usetheme{default}
-\usepackage[utf8]{inputenc}
-\usepackage{amsmath}
-\usepackage{amsfonts}
-\usepackage{amssymb}
-\usepackage{graphicx}
-\usepackage{caption}
-\usepackage{booktabs}
+% \usepackage[utf8]{inputenc}
+% \usepackage[utf8]{vietnam}
+% \usepackage{amsmath}
+% \usepackage{amsfonts}
+% \usepackage{amssymb}
+% \usepackage{graphicx}
+% \usepackage{caption}
+% \usepackage{booktabs}
+% \usepackage{multirow}
+% \usepackage{tikz}
+% \usepackage{array}
 
-%
-\author{ONG, Hong Xuan}
-\title{LaTex Thesis Template}
-\institute{Japan Advanced Institute of Science And Technology} 
+% % Colors
+% \definecolor{uetblue}{RGB}{0,83,159}
+% \definecolor{accent}{RGB}{200,50,50}
 
-%
-\setbeamertemplate{caption}[numbered]
-\setbeamertemplate{footline}[frame number]
+% \setbeamercolor{title}{fg=white,bg=uetblue}
+% \setbeamercolor{frametitle}{fg=white,bg=uetblue}
+% \setbeamercolor{structure}{fg=uetblue}
+% \setbeamercolor{block title}{bg=uetblue,fg=white}
 
-%
-\newcommand{\argmax}{\arg\!\max} %\renewcommand
+% \setbeamertemplate{caption}[numbered]
+% \setbeamertemplate{navigation symbols}{}
+% \setbeamertemplate{footline}{%
+%   \leavevmode%
+%   \hbox{%
+%     \begin{beamercolorbox}[wd=.5\paperwidth,ht=2.5ex,dp=1ex,left]{author in head/foot}%
+%       \hspace*{2ex}\insertshortauthor
+%     \end{beamercolorbox}%
+%     \begin{beamercolorbox}[wd=.5\paperwidth,ht=2.5ex,dp=1ex,right]{date in head/foot}%
+%       \insertframenumber{}/\inserttotalframenumber\hspace*{2ex}
+%     \end{beamercolorbox}%
+%   }%
+% }
 
-\begin{document}
+% \author{Vũ Quang Sơn}
+% \title{Phân loại lối sống thực khuẩn thể\\dựa trên phương pháp học sâu}
+% \subtitle{Báo cáo tiến độ Luận văn Thạc sĩ}
+% \institute{Trường Đại học Công nghệ -- ĐHQGHN\\[0.3em]
+% \small Hướng dẫn: TS. Điệp Thị Hoàng}
+% \date{Tháng 3/2026}
 
-\begin{frame}
-\titlepage % STEP 4: 
-\end{frame}
+% \begin{document}
 
-\begin{frame}{Contents} 
-\tableofcontents % \section{...} - chương 1, \subsection{...} - chương 1.1, \subsubsection{...}
-\end{frame}
+% % ============================================================
+% % TRANG BÌA
+% % ============================================================
+% \begin{frame}
+% \titlepage
+% \end{frame}
 
-\section{Introduction} % STEP 5: mục lục
-\begin{frame}{Introduction} % STEP 6: \begin{frame}...\end{frame}
-	\begin{itemize}
-		\item Introduction 1
-		\item Introduction 2
-		\item Introduction 3
-	\end{itemize}
-\end{frame}
+% % ============================================================
+% % NỘI DUNG
+% % ============================================================
+% \begin{frame}{Nội dung báo cáo}
+% \tableofcontents
+% \end{frame}
 
-\subsection{Related works}
-\begin{frame}{Related works}
+% % ============================================================
+% % SLIDE 1: BÀI TOÁN & ĐỘNG LỰC NGHIÊN CỨU
+% % ============================================================
+% \section{Bài toán \& Động lực nghiên cứu}
+% \begin{frame}{Bài toán \& Động lực nghiên cứu}
+% \small
+% \begin{columns}[T]
+% \begin{column}{0.55\textwidth}
+% \textbf{Bài toán:} Phân loại lối sống thực khuẩn thể (phage)
+% \begin{itemize}\setlength{\itemsep}{1pt}
+%     \item \textcolor{accent}{\textbf{Độc lực (virulent)}}: chỉ thực hiện chu trình tan
+%     \item \textcolor{uetblue}{\textbf{Ôn hòa (temperate)}}: có thể tích hợp vào hệ gen vật chủ
+% \end{itemize}
 
-	\begin{figure}[h!]
-	  \includegraphics[width=0.9\linewidth]{charts/writing-thesis.png}
-	  \caption{Caption of this graph.}
-	  \label{fig:writing-thesis}
-	\end{figure}
-\end{frame}
+% \vspace{0.3em}
+% \textbf{Tầm quan trọng:}
+% \begin{itemize}\setlength{\itemsep}{1pt}
+%     \item Liệu pháp phage: chỉ dùng phage độc lực
+%     \item Phage ôn hòa có thể truyền gen kháng kháng sinh
+% \end{itemize}
+% \end{column}
 
-\section{Background}
-\begin{frame}{Background}
-\begin{center} %\begin{table} + \centering
+% \begin{column}{0.42\textwidth}
+% \textbf{Thách thức hiện tại:}
+% \begin{enumerate}\setlength{\itemsep}{1pt}
+%     \item Contig ngắn (100--1800 bp) từ metagenomic assembly
+%     \item Phụ thuộc công cụ dự đoán gen -- thất bại trên trình tự ngắn
+%     \item Rò rỉ thông tin từ k-mer tokenization chồng lấn
+%     \item Không có gen đánh dấu phổ quát cho phage
+% \end{enumerate}
+% \end{column}
+% \end{columns}
 
-\captionof{table}{Caption of this table %%% CAPTION
-\label{table:table-template}} 
+% \vspace{0.3em}
+% \begin{block}{Mục tiêu}
+% Phát triển phương pháp phân loại \textbf{trực tiếp từ chuỗi contig thô}, không phụ thuộc công cụ phát hiện gen, hiệu quả trên contig ngắn.
+% \end{block}
 
-  \begin{tabular} {l l l l l}
-  \toprule
-  \it Column 1 & \it Column 2 & \it Column 3 & \it Column 4 \\
-  \midrule
+% \end{frame}
 
-  Row 1.1 & Row 1.2 & Row 1.3 & Row 1.4 \\
-  Row 2.1 & Row 2.2 & Row 2.3 & Row 2.4 \\  
-          
-  \bottomrule
-  \end{tabular}
+% % ============================================================
+% % SLIDE 2: DỮ LIỆU & TIỀN XỬ LÝ
+% % ============================================================
+% \section{Dữ liệu \& Tiền xử lý}
+% \begin{frame}{Dữ liệu \& Tiền xử lý}
+% \small
+% \begin{columns}[T]
+% \begin{column}{0.48\textwidth}
+% \textbf{Nguồn dữ liệu:}
+% \begin{itemize}\setlength{\itemsep}{1pt}
+%     \item Tổng hợp từ DeePhage \& DeepPL
+%     \item \textbf{2.241} hệ gen phage hoàn chỉnh
+%     \item 707 ôn hòa + 1.534 độc lực ($\approx$1:2)
+%     \item Đánh giá: stratified \textbf{5-fold cross-validation}
+% \end{itemize}
 
+% \vspace{0.3em}
+% \textbf{Quy trình tiền xử lý (3 bước):}
+% \begin{enumerate}\setlength{\itemsep}{1pt}
+%     \item \textbf{Cửa sổ trượt} -- tạo contig mô phỏng metagenomic\\
+%     {\scriptsize 4 nhóm: A (100--400bp), B (400--800bp), C (800--1200bp), D (1200--1800bp)}
+%     \item \textbf{Đảo ngược bổ sung} -- tăng gấp đôi dữ liệu\\
+%     {\scriptsize Tận dụng cấu trúc sợi đôi DNA: $A\!\leftrightarrow\!T$, $C\!\leftrightarrow\!G$}
+%     \item \textbf{Random Undersampling} -- cân bằng lớp 1:1\\
+%     {\scriptsize Chỉ áp dụng trên tập huấn luyện}
+% \end{enumerate}
+% \end{column}
 
-\end{center}
-\end{frame}
+% \begin{column}{0.50\textwidth}
+% \centering
+% \includegraphics[width=\textwidth,height=0.72\textheight,keepaspectratio]{figures/data_preparation.png}\\
+% {\scriptsize Hình: Quy trình tiền xử lý dữ liệu}
+% \end{column}
+% \end{columns}
 
-\section{Proposed method} % cho vao muc luc \tableofcontents
-\begin{frame}{Proposed method}
-	Some mathematics formula $$F(x) = \argmax_{y \in GEN(x)} w \cdot f(x, y)$$
-\end{frame}
+% \end{frame}
 
+% % ============================================================
+% % SLIDE 3: MÔ HÌNH ĐỀ XUẤT & ĐÓNG GÓP KỸ THUẬT
+% % ============================================================
+% \section{Mô hình đề xuất \& Đóng góp kỹ thuật}
+% \begin{frame}{Mô hình PhaBERT-CNN}
+% \footnotesize
+% \begin{columns}[T]
+% \begin{column}{0.45\textwidth}
+% \textbf{Kiến trúc 3 thành phần:}
+% \begin{enumerate}\setlength{\itemsep}{1pt}
+%     \item \textbf{DNABERT-2} -- mô hình nền tảng hệ gen\\
+%     {\scriptsize BPE tokenization: giảm 5$\times$ chiều dài, loại bỏ rò rỉ thông tin}
+%     \item \textbf{MKCA} (Multi-Kernel Conv. Attention)\\
+%     {\scriptsize Nhánh CNN (kernel 3,5,7) + Attention Pooling}
+%     \item \textbf{Đầu phân loại} -- dự đoán nhị phân
+% \end{enumerate}
 
-\section{Evaluation}
-\begin{frame}{Evaluation}
-	\begin{itemize}
-		\item Evaluation 1
-		\item Evaluation 2
-		\item Evaluation 3
-	\end{itemize}
-\end{frame}
+% \vspace{0.2em}
+% \textbf{Huấn luyện 2 giai đoạn:}
+% \begin{itemize}\setlength{\itemsep}{0pt}
+%     \item GĐ1: Đóng băng backbone, huấn luyện MKCA
+%     \item GĐ2: Mở khóa toàn bộ, tốc độ học phân biệt
+% \end{itemize}
+% \end{column}
 
+% \begin{column}{0.53\textwidth}
+% \centering
+% \includegraphics[width=\textwidth,height=0.72\textheight,keepaspectratio]{figures/phabert-cnn.png}\\
+% {\scriptsize Hình: Kiến trúc PhaBERT-CNN}
+% \end{column}
+% \end{columns}
 
-\section{Conclusion}
-\begin{frame}{Conclusion}
-	\begin{itemize}
-		\item Conclusion 1
-		\item Conclusion 2
-		\item Conclusion 3
-	\end{itemize}
-\end{frame}
+% \end{frame}
 
-\begin{frame}{Q\&A}
-	\begin{center}
-		\Huge Thank You
-	\end{center}
-\end{frame}
+% % ============================================================
+% % SLIDE 4: KẾT QUẢ THỰC NGHIỆM
+% % ============================================================
+% \section{Kết quả thực nghiệm}
+% \begin{frame}{Kết quả thực nghiệm}
+% \small
+% \textbf{Dữ liệu:} 2.241 hệ gen phage (707 ôn hòa, 1.534 độc lực) -- 5-fold cross-validation
 
-\begin{frame}{References}
-	\begin{itemize}
-		\item Mario Baroni, Simon Maguire, and William Drabkin. The concept of musical grammar.\textit{Music Analysis}, 1983.
-		\item References 2
-		\item References 3
-	\end{itemize}
-\end{frame}
-\end{document}
+% \vspace{0.2em}
+% \begin{table}[h]
+% \centering
+% \footnotesize
+% \caption{So sánh Accuracy (\%) trên 4 nhóm độ dài contig}
+% \begin{tabular}{l c c c c}
+% \toprule
+% \textbf{Phương pháp} & \textbf{A (100-400bp)} & \textbf{B (400-800bp)} & \textbf{C (800-1200bp)} & \textbf{D (1200-1800bp)} \\
+% \midrule
+% \textbf{PhaBERT-CNN} & \textbf{81.59} & \textbf{87.91} & \textbf{90.01} & 90.69 \\
+% PhaTYP               & 78.92 & 85.90 & 88.87 & \textbf{91.02} \\
+% DeePhage             & 78.07 & 84.17 & 87.40 & 89.09 \\
+% ProkBERT             & 80.68 & 85.35 & 84.03 & 84.73 \\
+% DNABERT-2 (baseline) & 81.52 & 85.56 & 87.25 & 87.26 \\
+% \bottomrule
+% \end{tabular}
+% \end{table}
+
+% \vspace{0.2em}
+% \begin{columns}[T]
+% \begin{column}{0.48\textwidth}
+% \textbf{Kết quả nổi bật:}
+% \begin{itemize}\setlength{\itemsep}{1pt}
+%     \item \textcolor{accent}{\textbf{Tốt nhất}} trên nhóm A, B, C
+%     \item Cải thiện \textbf{0.91--5.98\%} so với SOTA
+%     \item Sensitivity: 82.00--91.12\%
+% \end{itemize}
+% \end{column}
+% \begin{column}{0.48\textwidth}
+% \textbf{Nhận xét:}
+% \begin{itemize}\setlength{\itemsep}{1pt}
+%     \item Nhóm D: PhaTYP nhỉnh hơn 0.34\% nhờ đặc trưng protein
+%     \item ProkBERT stagnation từ nhóm B do k-mer chồng lấn
+%     \item PhaBERT-CNN ổn định nhất trên mọi nhóm
+% \end{itemize}
+% \end{column}
+% \end{columns}
+
+% \end{frame}
+
+% % ============================================================
+% % SLIDE 4b: PHÂN TÍCH ĐÓNG GÓP CỦA MKCA
+% % ============================================================
+% \begin{frame}{Phân tích đóng góp của MKCA (Ablation Study)}
+% \small
+
+% \begin{columns}[T]
+% \begin{column}{0.48\textwidth}
+% \textbf{DNABERT-2 vs PhaBERT-CNN:}
+
+% \vspace{0.2em}
+% {\footnotesize
+% \begin{tabular}{l c c c}
+% \toprule
+% \textbf{Nhóm} & \textbf{DNABERT-2} & \textbf{PhaBERT-CNN} & \textbf{$\Delta$acc} \\
+% \midrule
+% A & 81.52 & \textbf{81.59} & +0.07 \\
+% B & 85.56 & \textbf{87.91} & +2.35 \\
+% C & 87.25 & \textbf{90.01} & +2.76 \\
+% D & 87.26 & \textbf{90.69} & +3.43 \\
+% \bottomrule
+% \end{tabular}
+% }
+
+% \vspace{0.3em}
+% \textbf{Xu hướng:}
+% \begin{itemize}\setlength{\itemsep}{1pt}
+%     \item Đóng góp MKCA \textbf{tăng dần} theo độ dài contig
+%     \item Specificity cải thiện tới \textbf{+6.90\%} (Nhóm A)
+%     \item Contig dài $\rightarrow$ motif hoàn chỉnh hơn $\rightarrow$ CNN hiệu quả hơn
+% \end{itemize}
+% \end{column}
+
+% \begin{column}{0.50\textwidth}
+% \centering
+% \includegraphics[width=\textwidth,height=0.72\textheight,keepaspectratio]{figures/dnabert2_vs_phabertcnn.png}\\
+% {\scriptsize Hình: So sánh DNABERT-2 vs PhaBERT-CNN}
+% \end{column}
+% \end{columns}
+
+% \vspace{0.2em}
+% \begin{block}{\footnotesize Kết luận}
+% \footnotesize
+% MKCA (CNN đa kernel + Attention Pooling) bổ sung hiệu quả cho DNABERT-2: nhánh CNN trích xuất đặc trưng cục bộ đa tỷ lệ, attention pooling tổng hợp ngữ cảnh toàn cục có trọng số.
+% \end{block}
+
+% \end{frame}
+
+% % ============================================================
+% % SLIDE 6: KẾ HOẠCH & TIẾN ĐỘ LUẬN VĂN
+% % ============================================================
+% \section{Kế hoạch \& Tiến độ luận văn}
+% \begin{frame}{Kế hoạch \& Tiến độ luận văn}
+% \small
+
+% \begin{columns}[T]
+% \begin{column}{0.55\textwidth}
+% \textbf{Tiến độ viết luận văn:}
+
+% \vspace{0.2em}
+% {\footnotesize
+% \begin{tabular}{l l c}
+% \toprule
+% \textbf{Chương} & \textbf{Nội dung} & \textbf{Tiến độ} \\
+% \midrule
+% Chương 1 & Giới thiệu & 95\% \\
+% Chương 2 & Cơ sở lý thuyết & 95\% \\
+% Chương 3 & Phương pháp đề xuất & 85\% \\
+% Chương 4 & Thực nghiệm \& Đánh giá & 95\% \\
+% Chương 5 & Kết luận & 90\% \\
+% \midrule
+% \multicolumn{2}{l}{\textbf{Tổng thể}} & \textbf{$\sim$92\%} \\
+% \bottomrule
+% \end{tabular}
+% }
+
+% \vspace{0.3em}
+% \textbf{Đã hoàn thành thêm:}
+% \begin{itemize}\setlength{\itemsep}{0pt}
+%     \item[$\checkmark$] Trang bìa, lời cam đoan, tóm tắt Việt/Anh
+%     \item[$\checkmark$] Danh mục hình, bảng, thuật ngữ, tài liệu tham khảo
+% \end{itemize}
+% \end{column}
+
+% \begin{column}{0.42\textwidth}
+% \textbf{Công việc còn lại:}
+% \begin{itemize}\setlength{\itemsep}{1pt}
+%     \item Rà soát thuật ngữ tiếng Việt xuyên suốt
+%     \item Hoàn thiện hình vẽ minh họa pipeline
+%     \item Hiệu đính và định dạng theo quy định
+%     \item Kiểm tra trích dẫn và tài liệu tham khảo
+% \end{itemize}
+
+% \vspace{0.3em}
+% \textbf{Timeline:}
+
+% \vspace{0.2em}
+% {\footnotesize
+% \begin{tabular}{@{}p{1.6cm} p{3.6cm}@{}}
+% \toprule
+% \textbf{Thời gian} & \textbf{Công việc} \\
+% \midrule
+% T3/2026 & Hoàn thiện Chương 3 \\
+% T4/2026 & Rà soát Chương 1, 2, 4 \\
+% T4/2026 & Hiệu đính toàn bộ \\
+% T5/2026 & Nộp \& bảo vệ luận văn \\
+% \bottomrule
+% \end{tabular}
+% }
+% \end{column}
+% \end{columns}
+
+% \end{frame}
+
+% % ============================================================
+% % Q&A
+% % ============================================================
+% \begin{frame}{}
+% \begin{center}
+% \vspace{2em}
+% {\Huge\color{uetblue} Cảm ơn thầy cô!}
+
+% \vspace{1.5em}
+% {\Large Phần hỏi đáp}
+
+% \vspace{1.5em}
+% \textbf{Vũ Quang Sơn}\\
+% Trường Đại học Công nghệ -- ĐHQGHN
+% \end{center}
+% \end{frame}
+
+% \end{document}

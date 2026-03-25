@@ -45,6 +45,28 @@ Các contig ngắn, đặc biệt dưới 400~bp, đặt ra thách thức đặc
 
 % =====================================================================
 \section{Nền tảng học sâu}
+
+\subsection{Mạng nơ-ron nhân tạo}
+\label{subsec:ann}
+
+Mạng nơ-ron nhân tạo là mô hình tính toán lấy cảm hứng từ cấu trúc và cơ chế hoạt động của hệ thần kinh sinh học, trong đó các đơn vị tính toán cơ bản (nơ-ron nhân tạo) được tổ chức thành các lớp và kết nối với nhau thông qua các trọng số có thể học được~\cite{lecun2015deep}. Một mạng nơ-ron truyền thẳng điển hình bao gồm ba thành phần: lớp đầu vào tiếp nhận dữ liệu, một hoặc nhiều lớp ẩn thực hiện các phép biến đổi phi tuyến, và lớp đầu ra tạo kết quả dự đoán (Hình~\ref{fig:neural_network}).
+
+Tại mỗi nơ-ron trong lớp ẩn hoặc lớp đầu ra, tín hiệu đầu vào được tổng hợp bằng tổ hợp tuyến tính có trọng số:
+\begin{equation}
+z = \sum_{i=1}^{n} w_i x_i + b
+\label{eq:linear_combination}
+\end{equation}
+trong đó $x_i$ là các giá trị đầu vào, $w_i$ là các trọng số tương ứng, $b$ là hệ số lệch (bias), và $n$ là số đầu vào. Kết quả $z$ sau đó được đưa qua hàm kích hoạt phi tuyến $f$ để tạo đầu ra $a = f(z)$ của nơ-ron. Hàm kích hoạt đóng vai trò then chốt trong việc cho phép mạng biểu diễn các ánh xạ phi tuyến phức tạp; nếu thiếu thành phần này, toàn bộ mạng nhiều lớp sẽ tương đương với một phép biến đổi tuyến tính duy nhất~\cite{goodfellow2016deep}. Các hàm kích hoạt phổ biến bao gồm hàm sigmoid $\sigma(z) = 1/(1 + e^{-z})$, hàm tanh, và đặc biệt là hàm ReLU $f(z) = \max(0, z)$~\cite{nair2010rectified}, được ưa chuộng nhờ tính đơn giản và khả năng giảm thiểu vấn đề triệt tiêu gradient trong các mạng sâu.
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.45\textwidth]{figures/neural_network.png}
+    \caption{Minh họa mạng nơ-ron truyền thẳng gồm ba lớp đầu vào ($x_1, x_2, x_3$), bốn nơ-ron lớp ẩn với hàm kích hoạt ReLU ($h_1, h_2, h_3, h_4$), và hai nơ-ron đầu ra ($y_1, y_2$). Các đường nối biểu diễn kết nối đầy đủ (fully connected) giữa các lớp liền kề, mỗi kết nối gắn với một trọng số có thể học được.}
+    \label{fig:neural_network}
+\end{figure}
+
+Quá trình huấn luyện mạng nơ-ron dựa trên nguyên lý tối ưu hóa hàm mất mát, đo lường sai lệch giữa đầu ra dự đoán và nhãn thực tế. Thuật toán lan truyền ngược~\cite{rumelhart1986learning} tính toán gradient của hàm mất mát theo từng trọng số bằng quy tắc chuỗi, sau đó các thuật toán tối ưu dựa trên gradient như giảm gradient ngẫu nhiên (Stochastic Gradient Descent --- SGD) hoặc các biến thể thích ứng như Adam~\cite{kingma2015adam} cập nhật trọng số theo hướng giảm thiểu hàm mất mát. Nhờ khả năng xấp xỉ hàm phổ quát~\cite{hornik1989multilayer}, mạng nơ-ron với ít nhất một lớp ẩn có đủ số nơ-ron về nguyên tắc có thể xấp xỉ bất kỳ hàm liên tục nào với độ chính xác tùy ý, tạo nền tảng lý thuyết cho các kiến trúc học sâu phức tạp hơn.
+
 \label{sec:deep_learning_foundation}
 
 \subsection{Mạng nơ-ron tích chập}
@@ -61,19 +83,26 @@ Trong phân tích chuỗi sinh học, CNN có khả năng phát hiện các mẫ
 \subsection{Kiến trúc Transformer và cơ chế chú ý}
 \label{subsec:transformer}
 
-Kiến trúc Transformer được đề xuất bởi Vaswani và cộng sự~\cite{vaswani2017attention} đã tạo ra bước đột phá trong xử lý ngôn ngữ tự nhiên và sau đó được mở rộng sang nhiều lĩnh vực khác, bao gồm phân tích chuỗi sinh học. Khác với các kiến trúc hồi quy (RNN, LSTM) xử lý chuỗi tuần tự từng phần tử, Transformer xử lý toàn bộ chuỗi đồng thời thông qua cơ chế chú ý (attention mechanism), cho phép song song hóa tính toán và nắm bắt hiệu quả các phụ thuộc dài hạn trong chuỗi.
+Kiến trúc Transformer được đề xuất bởi Vaswani và cộng sự~\cite{vaswani2017attention} đã tạo ra bước đột phá trong xử lý ngôn ngữ tự nhiên và sau đó được mở rộng sang nhiều lĩnh vực khác, bao gồm phân tích chuỗi sinh học. Khác với các kiến trúc hồi quy (RNN, LSTM) xử lý chuỗi tuần tự từng phần tử, Transformer xử lý toàn bộ chuỗi đồng thời thông qua cơ chế chú ý, cho phép song song hóa tính toán và nắm bắt hiệu quả các phụ thuộc dài hạn trong chuỗi (Hình~\ref{fig:transformer_architecture}).
 
-Thành phần cốt lõi của Transformer là cơ chế tự chú ý (self-attention). Cho một chuỗi đầu vào gồm $n$ vector biểu diễn, cơ chế tự chú ý tính toán ba ma trận: truy vấn (Query $Q$), khóa (Key $K$), và giá trị (Value $V$) thông qua các phép biến đổi tuyến tính. Điểm chú ý giữa mỗi cặp vị trí được tính bằng tích vô hướng giữa vector truy vấn và vector khóa tương ứng, chia cho hệ số chuẩn hóa $\sqrt{d_k}$ (với $d_k$ là chiều của vector khóa), sau đó áp dụng hàm softmax để thu được trọng số chú ý:
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.5\textwidth]{figures/transformer.png}
+    \caption{Kiến trúc Transformer~\cite{vaswani2017attention} với hai thành phần chính: bộ mã hóa (trái) xử lý chuỗi nguồn qua $n$ lớp gồm cơ chế chú ý đa đầu và mạng truyền thẳng theo vị trí với kết nối tắt; bộ giải mã (phải) tổng hợp đặc trưng từ bộ mã hóa để sinh chuỗi đích thông qua cơ chế chú ý đa đầu có mặt nạ và cơ chế chú ý chéo.}
+    \label{fig:transformer_architecture}
+\end{figure}
+
+Thành phần cốt lõi của Transformer là cơ chế tự chú ý. Cho một chuỗi đầu vào gồm $n$ vector biểu diễn, cơ chế tự chú ý tính toán ba ma trận: truy vấn ($Q$), khóa ($K$), và giá trị ($V$) thông qua các phép biến đổi tuyến tính. Điểm chú ý giữa mỗi cặp vị trí được tính bằng tích vô hướng giữa vector truy vấn và vector khóa tương ứng, chia cho hệ số chuẩn hóa $\sqrt{d_k}$ (với $d_k$ là chiều của vector khóa), sau đó áp dụng hàm softmax để thu được trọng số chú ý:
 \begin{equation}
 \text{Attention}(Q, K, V) = \text{softmax}\left(\frac{QK^T}{\sqrt{d_k}}\right)V
 \label{eq:attention}
 \end{equation}
 
-Cơ chế chú ý đa đầu (multi-head attention) mở rộng tự chú ý bằng cách thực hiện song song nhiều phép tự chú ý với các phép chiếu tuyến tính khác nhau, cho phép mô hình đồng thời nắm bắt các kiểu quan hệ khác nhau giữa các vị trí trong chuỗi. Kết quả từ các đầu chú ý được nối lại và chiếu qua một lớp tuyến tính để tạo đầu ra cuối cùng.
+Cơ chế chú ý đa đầu mở rộng tự chú ý bằng cách thực hiện song song nhiều phép tự chú ý với các phép chiếu tuyến tính khác nhau, cho phép mô hình đồng thời nắm bắt các kiểu quan hệ khác nhau giữa các vị trí trong chuỗi. Kết quả từ các đầu chú ý được nối lại và chiếu qua một lớp tuyến tính để tạo đầu ra cuối cùng.
 
-Do cơ chế tự chú ý không có khái niệm về thứ tự vị trí, Transformer cần bổ sung thông tin vị trí cho các phần tử trong chuỗi. Phương pháp ban đầu sử dụng mã hóa vị trí dạng hàm sin (sinusoidal positional encoding)~\cite{vaswani2017attention}. Các biến thể sau này bao gồm biểu diễn vị trí học được (learned positional embedding), trong đó vector vị trí được huấn luyện cùng mô hình nhưng bị giới hạn bởi độ dài tối đa đã định trước, và ALiBi (Attention with Linear Biases)~\cite{press2021train}, phương pháp thêm độ lệch tuyến tính vào điểm chú ý dựa trên khoảng cách giữa các vị trí, cho phép mô hình xử lý chuỗi có độ dài tùy ý mà không cần huấn luyện lại.
+Do cơ chế tự chú ý không có khái niệm về thứ tự vị trí, Transformer cần bổ sung thông tin vị trí cho các phần tử trong chuỗi. Phương pháp gốc sử dụng mã hóa vị trí dạng hàm sin~\cite{vaswani2017attention}, trong đó vị trí của mỗi phần tử được biểu diễn bằng tổ hợp các hàm sin và cosin với tần số khác nhau, cho phép mô hình suy luận tương đối về khoảng cách giữa các vị trí.
 
-Mỗi lớp Transformer bao gồm một khối chú ý đa đầu và một mạng truyền thẳng (feed-forward network) gồm hai lớp tuyến tính với hàm kích hoạt phi tuyến ở giữa. Chuẩn hóa lớp (layer normalization) và kết nối tắt (residual connection) được áp dụng xung quanh mỗi khối con để ổn định quá trình huấn luyện và tạo điều kiện cho gradient lan truyền qua nhiều lớp.
+Mỗi lớp Transformer bao gồm một khối chú ý đa đầu và một mạng truyền thẳng gồm hai lớp tuyến tính với hàm kích hoạt phi tuyến ở giữa. Chuẩn hóa lớp và kết nối tắt được áp dụng xung quanh mỗi khối con để ổn định quá trình huấn luyện và tạo điều kiện cho gradient lan truyền qua nhiều lớp.
 
 \subsection{BERT và mô hình ngôn ngữ có mặt nạ}
 \label{subsec:bert}

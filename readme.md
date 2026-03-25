@@ -153,3 +153,4 @@ mkdir -p plans
 3. **settings.json** — nếu bạn đã có settings.json riêng, merge thủ công phần hooks.
 4. **Gotchas section** — cập nhật thường xuyên khi phát hiện lỗi mới. Đây là phần quan trọng nhất.
 5. **Skill descriptions** — nếu skill không auto-trigger đúng, chỉnh description cho "pushy" hơn.
+
