@@ -34,7 +34,11 @@
       "Bash(rm -f \"e:/master/documentation/graduation/.claude/hooks/check-citations.sh\" \"e:/master/documentation/graduation/.claude/hooks/check-terminology.sh\")",
       "Bash(rmdir \"e:/master/documentation/graduation/.claude/hooks\")",
       "Bash(grep -oP '@\\\\w+\\\\{\\([^,]+\\)' /Users/sonvuquang/Projects/master_graduation/references.bib)",
-      "Bash(tr -d '{}')"
+      "Bash(tr -d '{}')",
+      "WebFetch(domain:aclanthology.org)",
+      "WebFetch(domain:liner.com)",
+      "WebFetch(domain:github.com)",
+      "WebFetch(domain:acl.ldc.upenn.edu)"
     ],
     "deny": [
       "Bash(git *)"

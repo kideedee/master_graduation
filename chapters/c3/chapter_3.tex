@@ -1,82 +1,87 @@
 ﻿\chapter{Phương pháp đề xuất}
 \label{chap:method}
 
-Chương này trình bày chi tiết phương pháp PhaBERT-CNN được đề xuất để dự đoán hệ gen của  thực khuẩn thể được mô phỏng giống như dữ liệu di truyền trong metagenomic. Phương pháp kết hợp mô hình nền tảng DNABERT-2 với kiến trúc chuyên biệt bao gồm mạng nơ-ron tích chập đa cửa sổ kết hợp với lớp gộp chú ý. Chương được tổ chức thành các phần chính: Phần \ref{sec:overview} giới thiệu tổng quan về phương pháp PhaBERT-CNN, bao gồm động lực thiết kế và quy trình xử lý tổng thể từ đầu vào với contig đến đầu ra dự đoán hệ gen thực khuẩn; Phần \ref{sec:data_preprocessing} mô tả quy trình thu thập và tiền xử lý dữ liệu, bao gồm nguồn dữ liệu, phương pháp tạo contig bằng phương pháp cửa sổ trượt, tăng cường dữ liệu với chuỗi bổ sung đảo ngược, và xử lý mất cân bằng dữ liệu; Phần \ref{sec:architecture} trình bày chi tiết kiến trúc PhaBERT-CNN với ba thành phần chính: mô hình nền DNABERT-2, mô đun mạng tích chập đa cửa số kết hợp với lớp gộp chú ý, đầu phân loại.
+Chương này trình bày chi tiết phương pháp PhaBERT-CNN được đề xuất để dự đoán lối sống của thực khuẩn thể từ các đoạn hệ gen được mô phỏng theo đặc điểm dữ liệu di truyền trong phân tích hệ metagenome. Phương pháp kết hợp mô hình nền tảng DNABERT-2 với kiến trúc chuyên biệt bao gồm nhánh CNN đa kernel và gộp trung bình có mặt nạ toàn cục. Chương được tổ chức thành các phần chính: Phần~\ref{sec:overview} giới thiệu tổng quan về phương pháp PhaBERT-CNN, bao gồm động lực thiết kế và quy trình xử lý tổng thể từ đầu vào contig đến đầu ra dự đoán lối sống thực khuẩn thể; Phần~\ref{sec:data_preprocessing} mô tả quy trình thu thập và tiền xử lý dữ liệu, bao gồm nguồn dữ liệu, phương pháp tạo contig bằng cửa sổ trượt, tăng cường dữ liệu bằng chuỗi bổ sung đảo ngược và xử lý mất cân bằng lớp; Phần~\ref{sec:architecture} trình bày chi tiết kiến trúc PhaBERT-CNN với ba thành phần chính: mô hình nền DNABERT-2, mô-đun tích chập đa kernel kết hợp gộp trung bình có mặt nạ toàn cục và đầu phân loại.
 
 \section{Tổng quan phương pháp}
 \label{sec:overview}
 
-Như đã phân tích tại Mục~\ref{subsec:comparison_gaps}, các phương pháp hiện có cho dự đoán lối sống thực khuẩn thể gặp ba hạn chế chính khi áp dụng trên dữ liệu metagenomic: (1) phụ thuộc vào công cụ phát hiện gen hoặc dữ liệu bộ gen hoàn chỉnh, dẫn đến hiệu suất giảm mạnh trên các đoạn DNA ngắn; (2) rò rỉ thông tin từ phương pháp tokenization k-mer chồng lấp, ảnh hưởng đến chất lượng biểu diễn học được; và (3) chưa tận dụng tri thức từ các mô hình tiền huấn luyện trên dữ liệu đa loài, hạn chế khả năng tổng quát hóa trên các chuỗi hệ gen đa dạng.
+Như đã phân tích tại Mục~\ref{subsec:comparison_gaps}, các phương pháp hiện có cho bài toán dự đoán lối sống thực khuẩn thể gặp ba hạn chế chính khi áp dụng trên dữ liệu hệ metagenome: (1)~phụ thuộc vào công cụ dự đoán gene hoặc dữ liệu hệ gen hoàn chỉnh, dẫn đến hiệu suất giảm mạnh trên các đoạn DNA ngắn; (2)~rò rỉ thông tin từ phương pháp mã hóa k-mer chồng lấn, ảnh hưởng đến chất lượng biểu diễn học được; và (3)~chưa tận dụng tri thức từ các mô hình tiền huấn luyện trên dữ liệu đa loài, hạn chế khả năng tổng quát hóa trên các trình tự hệ gen đa dạng.
 
-Để giải quyết các hạn chế trên, học viên đề xuất PhaBERT-CNN, một phương pháp học sâu kết hợp mô hình nền tảng DNABERT-2\cite{zhou2023dnabert} kết hợp với kiến trúc MKCA (Multi-Kernel Convolutional Attention). Phương pháp được thiết kế với bốn ưu điểm chính: 
-(1) \textbf{Độc lập với công cụ phát hiện gen}—hoạt động trực tiếp trên chuỗi DNA đầu vào thông qua BPE tokenization, không phụ thuộc vào công cụ phát hiện gen, cho phép dự đoán chính xác ngay cả trên các contig ngắn thiếu vùng mã hóa protein hoàn chỉnh; (2) \textbf{Khắc phục rò rỉ thông tin}—BPE tokenization tạo ra các token con không chồng lấn với độ dài biến đổi, giảm độ dài chuỗi khoảng 5 lần và loại bỏ hoàn toàn tình trạng lộ lọt thông tin vốn có trong các phương pháp k-mer chồng lấn; (3) \textbf{Tận dụng đặc trưng di truyền tiền huấn luyện}—DNABERT-2 đã được tiền huấn luyện trên kho dữ liệu di truyền đa loài, cho phép mô hình nắm bắt các đặc trưng phức tạp mà không cần dữ liệu huấn luyện quy mô lớn cho tác vụ cụ thể.
+Để giải quyết các hạn chế trên, học viên đề xuất PhaBERT-CNN, một phương pháp học sâu kết hợp mô hình nền tảng DNABERT-2~\cite{zhou2023dnabert} với kiến trúc MKC. Phương pháp được thiết kế với ba ưu điểm chính:
+(1)~\textbf{Độc lập với công cụ dự đoán gene}, hoạt động trực tiếp trên chuỗi DNA đầu vào thông qua mã hóa BPE, không phụ thuộc vào công cụ dự đoán gene, cho phép dự đoán chính xác ngay cả trên các contig ngắn thiếu vùng mã hóa protein hoàn chỉnh;
+(2)~\textbf{Khắc phục rò rỉ thông tin}, mã hóa BPE tạo ra các token con không chồng lấn với độ dài biến đổi, giảm độ dài chuỗi khoảng 5 lần và loại bỏ hoàn toàn hiện tượng rò rỉ thông tin vốn có trong các phương pháp k-mer chồng lấn;
+(3)~\textbf{Tận dụng tri thức tiền huấn luyện}, DNABERT-2 đã được tiền huấn luyện trên tập dữ liệu di truyền đa loài quy mô lớn, cho phép mô hình nắm bắt các đặc trưng phức tạp mà không cần dữ liệu huấn luyện quy mô lớn cho tác vụ cụ thể.
 
-Hình~\ref{fig:architecture_detail} minh họa quy trình xử
- lý tổng thể của PhaBERT-CNN, bao gồm bốn giai đoạn chính. Đầu tiên, contig đầu vào được nén bởi BPE. Tiếp theo, DNABERT-2 chuyển đổi chuỗi token thành các biểu diễn 768 chiều cho mỗi vị trí. Các biểu diễn này sau đó được xử lý bởi MKCA, được điều chỉnh từ kiến trúc TextCNN~\cite{kim2014convolutional} với các nhánh tích chập song song có kích thước kernel khác nhau để trích xuất đa dạng các đặc trưng cục bộ; trong khi nhánh Attention Pooling~\cite{lin2017structured} tổng hợp thông tin toàn cục có trọng số. Cuối cùng, đầu ra của MKCA đưa vào lớp phân loại để tạo ra dự đoán là thực khuẩn thể độc lực hay thực khuẩn thể ôn hòa. Chi tiết kiến trúc của PhaBERT-CNN được trình bày trong Phần \ref{sec:architecture}.
+Hình~\ref{fig:architecture_detail} minh họa quy trình xử lý tổng thể của PhaBERT-CNN, bao gồm bốn giai đoạn chính. Đầu tiên, contig đầu vào được mã hóa bằng BPE. Tiếp theo, DNABERT-2 chuyển đổi chuỗi token thành các biểu diễn 768 chiều cho mỗi vị trí. Các biểu diễn này sau đó được xử lý bởi mô-đun MKC, được điều chỉnh từ kiến trúc TextCNN~\cite{kim2014convolutional}, với các nhánh tích chập song song có kích thước kernel khác nhau để trích xuất đặc trưng cục bộ đa tỷ lệ, đồng thời gộp trung bình có mặt nạ tổng hợp thông tin toàn cục từ tất cả các vị trí trong chuỗi. Cuối cùng, đầu ra của mô-đun MKC được đưa vào bộ phân loại để tạo ra dự đoán thực khuẩn thể thuộc lớp độc lực hay ôn hòa. Chi tiết kiến trúc của PhaBERT-CNN được trình bày trong Phần~\ref{sec:architecture}.
 
-Về chiến lược huấn luyện, PhaBERT-CNN áp dụng quy trình hai giai đoạn nhằm tận dụng tối đa tri thức tiền huấn luyện của DNABERT-2 trong khi tránh hiện tượng quên tri thức tiền huấn luyện. Trong giai đoạn khởi động, toàn bộ tham số của DNABERT-2 được đóng băng và chỉ các lớp cho tác vụ phía sau được huấn luyện, giúp khởi tạo ổn định các thành phần mới trước khi tinh chỉnh toàn bộ mô hình. Giai đoạn tiếp theo mở khóa mạng nền và áp dụng tốc độ học phân biệt, tốc độ học thấp hơn cho DNABERT-2 và cao hơn cho các lớp tác vụ phía sau, để bảo toàn tri thức tiền huấn luyện của DNABERT-2 trong khi thích nghi với tác vụ phân loại lối sống. Chi tiết chiến lược huấn luyện được trình bày trong Phần \ref{sec:training_strategy}.
+Về chiến lược huấn luyện, PhaBERT-CNN áp dụng quy trình hai giai đoạn nhằm tận dụng tối đa tri thức tiền huấn luyện của DNABERT-2 đồng thời tránh hiện tượng quên thảm họa. Trong giai đoạn khởi động, toàn bộ tham số của DNABERT-2 được đóng băng và chỉ các lớp phía sau dành cho tác vụ được huấn luyện, giúp khởi tạo ổn định các thành phần mới trước khi tinh chỉnh toàn bộ mô hình. Giai đoạn tiếp theo mở khóa mạng nền và áp dụng tốc độ học phân biệt, tốc độ học thấp hơn cho DNABERT-2 và cao hơn cho các lớp tác vụ, nhằm bảo toàn tri thức tiền huấn luyện trong khi thích nghi với tác vụ phân loại lối sống. Chi tiết chiến lược huấn luyện được trình bày trong Phần~\ref{sec:training_strategy}.
 
 \section{Thu thập dữ liệu và tiền xử lý}
 \label{sec:data_preprocessing}
 
-Tập dữ liệu huấn luyện được xây dựng bằng cách tích hợp và tinh chỉnh các bộ hệ gen từ hai nghiên cứu trước về phân loại lối sống thực khuẩn thể. DeePhage~\cite{wu2021deephage} cung cấp tập dữ liệu gồm 2 phần, phần 1 là tập được kiểm duyệt thủ công được xác minh qua đối chiếu tài liệu thực nghiệm, phần 2 là dữ liệu thu thập được từ NCBI, sử dụng phương pháp tin sinh học của Mavrich và Hatfull~\cite{mavrich2017bacteriophage} để gán nhãn. DeepPL~\cite{zhang2024deeppl} tiếp đó thực hiện tinh chỉnh và thu thập thêm dữ liệu từ NCBI. Sau khi tổng hợp, tập dữ liệu kết hợp bao gồm 2,241 hệ gen phage hoàn chỉnh, trong đó 707 phage thuộc lớp temperate (nhãn 0) và 1,534 phage thuộc lớp virulent (nhãn 1). Tỷ lệ nhãn 1:0 là $\approx$ 2:1 cho thấy sự mất cân bằng nhẹ và cần được xử lý trong quá trình huấn luyện. Để đảm bảo kết quả đánh giá, học viên sử dụng stratified 5-fold cross-validation với tỷ lệ dữ liệu trong tập huấn luyện và kiểm thử là 8:2 trong mỗi fold, đảm bảo phân phối lớp được duy trì nhất quán qua các lần chia.
+Tập dữ liệu huấn luyện được xây dựng bằng cách tích hợp và tinh chỉnh các bộ hệ gen từ hai nghiên cứu trước về phân loại lối sống thực khuẩn thể. DeePhage~\cite{wu2021deephage} cung cấp tập dữ liệu gồm hai phần: phần thứ nhất là tập được kiểm duyệt thủ công, xác minh qua đối chiếu tài liệu thực nghiệm; phần thứ hai là dữ liệu thu thập từ NCBI, sử dụng phương pháp tin sinh học của Mavrich và Hatfull~\cite{mavrich2017bacteriophage} để gán nhãn. DeepPL~\cite{zhang2024deeppl} tiếp đó thực hiện tinh chỉnh và thu thập thêm dữ liệu từ NCBI. Sau khi tổng hợp, tập dữ liệu kết hợp bao gồm 2.241 hệ gen thực khuẩn thể hoàn chỉnh, trong đó 707 hệ gen thuộc lớp ôn hòa (nhãn 0) và 1.534 hệ gen thuộc lớp độc lực (nhãn 1). Tỷ lệ giữa hai lớp xấp xỉ 2:1 cho thấy sự mất cân bằng nhẹ cần được xử lý trong quá trình huấn luyện. Để đảm bảo tính tin cậy của kết quả đánh giá, học viên sử dụng phương pháp kiểm chứng chéo phân tầng 5 phần với tỷ lệ huấn luyện:kiểm định là 8:2 trong mỗi phần, đảm bảo phân bố lớp được duy trì nhất quán qua các lần chia.
 
-Quy trình tiền xử lý dữ liệu bao gồm ba bước liên tiếp: tạo contig bằng cửa sổ trượt, tăng cường dữ liệu với đảo ngược chuỗi, và xử lý mất cân bằng dữ liệu với phương pháp Random Sampling. Hình~\ref{fig:data_preparation} minh họa tổng quan quy trình này.
+Quy trình tiền xử lý dữ liệu bao gồm ba bước liên tiếp: tạo contig bằng cửa sổ trượt, tăng cường dữ liệu bằng chuỗi bổ sung đảo ngược và xử lý mất cân bằng lớp bằng phương pháp lấy mẫu giảm ngẫu nhiên. Hình~\ref{fig:data_preparation} minh họa tổng quan quy trình này.
 
 \begin{figure}[h]
     \centering
     \includegraphics[width=0.9\textwidth]{figures/data_preparation.png}
-    \caption{Quy trình tiền xử lý dữ liệu: tạo contig bằng cửa sổ trượt, tăng cường dữ liệu bằng đảo ngược bổ sung, và cân bằng lớp bằng Random Undersampling}
+    \caption{Quy trình tiền xử lý dữ liệu: tạo contig bằng cửa sổ trượt, tăng cường dữ liệu bằng chuỗi bổ sung đảo ngược và cân bằng lớp bằng lấy mẫu giảm ngẫu nhiên}
     \label{fig:data_preparation}
 \end{figure}
 
-Bước 1, học viên tạo contig bằng phương pháp cửa sổ trượt. Trong thực tế, dữ liệu thực khuẩn thu được từ metagenomic thường ở dạng các đoạn DNA ngắn không hoàn chỉnh. Để mô phỏng kịch bản này, học viên tạo contig từ bộ gen thực khuẩn hoàn chỉnh bằng phương pháp cửa sổ trượt: với mỗi hệ gen, độ dài cửa sổ được lấy mẫu ngẫu nhiên từ phân phối chuẩn $\mathcal{N}(\mu_{\text{group}}, \sigma_{\text{group}}^2)$ và được giới hạn trong phạm vi của nhóm tương ứng; vị trí bắt đầu của cửa sổ tiếp theo được tính bằng $\text{pos} \leftarrow \text{pos} + \text{length} \times (1 - \text{overlap\_ratio}_{\text{group}})$, tạo ra sự chồng lấn có kiểm soát giữa các contig liên tiếp. Học viên chia contig thành bốn nhóm độ dài A (100--400 bp), B (400--800 bp), C (800--1200 bp), và D (1200--1800 bp) với tham số được trình bày trong Bảng~\ref{tab:sliding_window_params}. Overlap ratio tăng dần theo độ dài nhóm: nhóm ngắn (A) dùng overlap thấp để tránh tạo quá nhiều contig tương tự và giảm dư thừa, trong khi nhóm dài (D) dùng overlap cao hơn để tăng số lượng mẫu và đa dạng hóa dữ liệu, đặc biệt quan trọng vì contig dài tự nhiên ít hơn. Bước 2, học viên thực hiện tăng cường dữ liệu với đảo ngược chuỗi bổ sung. DNA có cấu trúc sợi đôi, trong đó cả hai hướng đọc đều mang thông tin sinh học tương đương. Tận dụng đặc tính này, với mỗi contig học viên tạo thêm chuỗi đảo ngược với quy tắc bổ sung: $A \leftrightarrow T$, $C \leftrightarrow G$. Nếu trong chuỗi có $U$ thì sẽ xử lý như là với $T$. Ví dụ:
+\textbf{Bước 1: Tạo contig bằng phương pháp cửa sổ trượt.} Trong thực tế, dữ liệu thực khuẩn thể thu được từ phân tích hệ metagenome thường ở dạng các đoạn DNA ngắn không hoàn chỉnh. Để mô phỏng kịch bản này, học viên tạo contig từ hệ gen thực khuẩn thể hoàn chỉnh bằng phương pháp cửa sổ trượt: với mỗi hệ gen, độ dài cửa sổ được lấy mẫu ngẫu nhiên từ phân phối chuẩn $\mathcal{N}(\mu_{\text{group}}, \sigma_{\text{group}}^2)$ và được giới hạn trong phạm vi của nhóm tương ứng; vị trí bắt đầu của cửa sổ tiếp theo được tính bằng $\text{pos} \leftarrow \text{pos} + \text{length} \times (1 - \text{overlap\_ratio}_{\text{group}})$, tạo ra sự chồng lấn có kiểm soát giữa các contig liên tiếp. Học viên chia contig thành bốn nhóm độ dài: A (100--400 bp), B (400--800 bp), C (800--1.200 bp) và D (1.200--1.800 bp) với các tham số được trình bày trong Bảng~\ref{tab:sliding_window_params}. Tỷ lệ chồng lấn tăng dần theo độ dài nhóm: nhóm ngắn (A) sử dụng tỷ lệ chồng lấn thấp để tránh tạo quá nhiều contig tương tự và giảm dư thừa, trong khi nhóm dài (D) sử dụng tỷ lệ chồng lấn cao hơn để tăng số lượng mẫu và đa dạng hóa dữ liệu, đặc biệt quan trọng vì contig dài tự nhiên có số lượng ít hơn.
+
+\textbf{Bước 2: Tăng cường dữ liệu bằng chuỗi bổ sung đảo ngược.} DNA có cấu trúc sợi đôi, trong đó cả hai hướng đọc đều mang thông tin sinh học tương đương. Tận dụng đặc tính này, với mỗi contig học viên tạo thêm chuỗi bổ sung đảo ngược theo quy tắc bổ sung: $A \leftrightarrow T$, $C \leftrightarrow G$ (nếu trong chuỗi có $U$ thì được xử lý tương tự $T$). Ví dụ:
 \begin{align*}
     \text{Chuỗi gốc:}          & \quad \text{ATCGATCG} \\
     \text{Chuỗi bổ sung:}      & \quad \text{TAGCTAGC} \\
-    \text{Đảo ngược bổ sung:}  & \quad \text{CGATCGAT}
+    \text{Chuỗi bổ sung đảo ngược:}  & \quad \text{CGATCGAT}
 \end{align*}
-Phép biến đổi này tăng gấp đôi kích thước bộ dữ liệu mà không cần thu thập thêm dữ liệu, đồng thời giúp mô hình học được tính bất biến theo hướng đọc, phản ánh thực tế dữ liệu có thể đến từ cả hai sợi của DNA. Bước 3, học viên xử lý mất cân bằng dữ liệu bằng Random Undersampling. Sau khi thực hiện tăng cường dữ liệu, số lượng contig của 2 lớp bị chênh lệch lớn ảnh hưởng tới quá trình huấn luyện. Để giải quyết vấn đề này, học viên áp dụng phương pháp Random Undersampling trên tập huấn luyện: giữ nguyên toàn bộ mẫu của lớp thiểu số (temperate) và ngẫu nhiên chọn số lượng mẫu tương đương từ lớp đa số (virulent), tạo ra tập huấn luyện cân bằng với tỷ lệ 1:1. Phương pháp này được chọn vì đơn giản, hiệu quả, và phù hợp lượng contig được sinh ra sau khi thực hiện bước 1 và 2. Quan trọng là Random Undersampling chỉ được áp dụng trên tập huấn luyện; tập kiểm định giữ nguyên phân phối gốc để đánh giá hiệu suất trên phân phối thực tế. Bảng~\ref{tab:dataset_statistics} tổng hợp thống kê số lượng contig sau tăng cường dữ liệu (trước Random Undersampling).
+Phép biến đổi này tăng gấp đôi kích thước tập dữ liệu mà không cần thu thập thêm dữ liệu, đồng thời giúp mô hình học được tính bất biến theo hướng đọc, phản ánh thực tế rằng dữ liệu giải trình tự có thể đến từ cả hai sợi của phân tử DNA.
+
+\textbf{Bước 3: Xử lý mất cân bằng lớp bằng lấy mẫu giảm ngẫu nhiên.} Sau khi thực hiện tăng cường dữ liệu, số lượng contig giữa hai lớp bị chênh lệch đáng kể, ảnh hưởng đến quá trình huấn luyện. Để giải quyết vấn đề này, học viên áp dụng phương pháp lấy mẫu giảm ngẫu nhiên trên tập huấn luyện: giữ nguyên toàn bộ mẫu của lớp thiểu số (ôn hòa) và chọn ngẫu nhiên số lượng mẫu tương đương từ lớp đa số (độc lực), tạo ra tập huấn luyện cân bằng với tỷ lệ 1:1. Phương pháp này được lựa chọn vì tính đơn giản, hiệu quả và phù hợp với số lượng contig được sinh ra sau bước 1 và bước 2. Điều quan trọng là phương pháp lấy mẫu giảm ngẫu nhiên chỉ được áp dụng trên tập huấn luyện; tập kiểm định giữ nguyên phân bố gốc để đánh giá hiệu suất trên phân bố thực tế. Bảng~\ref{tab:dataset_statistics} tổng hợp thống kê số lượng contig sau tăng cường dữ liệu (trước khi áp dụng lấy mẫu giảm ngẫu nhiên).
 
 \begin{table}[h]
     \centering
-    \caption{Tham số sliding window cho các nhóm độ dài contig}
+    \caption{Tham số cửa sổ trượt cho các nhóm độ dài contig}
     \label{tab:sliding_window_params}
     \begin{tabular}{lcccc}
         \toprule
-        \textbf{Nhóm} & \textbf{Phạm vi (bp)} & \textbf{$\mu$ (bp)} & \textbf{$\sigma$ (bp)} & \textbf{Overlap ratio} \\
+        \textbf{Nhóm} & \textbf{Phạm vi (bp)} & \textbf{$\mu$ (bp)} & \textbf{$\sigma$ (bp)} & \textbf{Tỷ lệ chồng lấn} \\
         \midrule
         A             & 100--400              & 250                 & 75                     & 10\%                   \\
         B             & 400--800              & 600                 & 100                    & 20\%                   \\
-        C             & 800--1200             & 1000                & 100                    & 30\%                   \\
-        D             & 1200--1800            & 1500                & 150                    & 40\%                   \\
+        C             & 800--1.200            & 1.000               & 100                    & 30\%                   \\
+        D             & 1.200--1.800          & 1.500               & 150                    & 40\%                   \\
         \bottomrule
     \end{tabular}
 \end{table}
 
 \begin{table}[h]
     \centering
-    \caption{Thống kê số lượng contig}
+    \caption{Thống kê số lượng contig sau tăng cường dữ liệu}
     \label{tab:dataset_statistics}
     \begin{tabular}{llrrr}
         \toprule
-        \textbf{Nhóm} & \textbf{Tập} & \textbf{Temperate} & \textbf{Virulent} & \textbf{Total} \\
+        \textbf{Nhóm} & \textbf{Tập} & \textbf{Ôn hòa} & \textbf{Độc lực} & \textbf{Tổng} \\
         \midrule
         \multirow{2}{*}{A (100--400 bp)}
-            & Train & 230.156 & 230.156 & 460.312 \\
-            & Val   & 57.366  & 215.054 & 272.420 \\
+            & Huấn luyện & 230.156 & 230.156 & 460.312 \\
+            & Kiểm định  & 57.366  & 215.054 & 272.420 \\
         \midrule
         \multirow{2}{*}{B (400--800 bp)}
-            & Train & 95.750  & 95.750  & 191.500 \\
-            & Val   & 23.804  & 89.404  & 113.208 \\
+            & Huấn luyện & 95.750  & 95.750  & 191.500 \\
+            & Kiểm định  & 23.804  & 89.404  & 113.208 \\
         \midrule
-        \multirow{2}{*}{C (800--1200 bp)}
-            & Train & 64.162  & 64.162  & 128.324 \\
-            & Val   & 15.992  & 60.148  & 76.140  \\
+        \multirow{2}{*}{C (800--1.200 bp)}
+            & Huấn luyện & 64.162  & 64.162  & 128.324 \\
+            & Kiểm định  & 15.992  & 60.148  & 76.140  \\
         \midrule
-        \multirow{2}{*}{D (1200--1800 bp)}
-            & Train & 48.626  & 48.626  & 97.252  \\
-            & Val   & 12.102  & 45.698  & 57.800  \\
+        \multirow{2}{*}{D (1.200--1.800 bp)}
+            & Huấn luyện & 48.626  & 48.626  & 97.252  \\
+            & Kiểm định  & 12.102  & 45.698  & 57.800  \\
         \bottomrule
     \end{tabular}
 \end{table}
@@ -84,7 +89,7 @@ Phép biến đổi này tăng gấp đôi kích thước bộ dữ liệu mà k
 \section{Kiến trúc PhaBERT-CNN}
 \label{sec:architecture}
 
-Kiến trúc PhaBERT-CNN được xây dựng từ ba thành phần chính hoạt động tuần tự: (1) mạng nền (backbone) DNABERT-2 đóng vai trò trích xuất đặc trưng ngữ cảnh từ chuỗi DNA, (2) Mô đun MKCA tiếp tục xử lý các biểu diễn đầu ra của DNABERT-2 và (3) bộ phân loại đưa ra dự đoán nhị phân. Hình~\ref{fig:architecture_detail} minh họa kiến trúc tổng thể của mô hình.
+Kiến trúc PhaBERT-CNN được xây dựng từ ba thành phần chính hoạt động tuần tự: (1)~mạng nền DNABERT-2 đóng vai trò trích xuất đặc trưng ngữ cảnh từ chuỗi DNA, (2)~mô-đun MKC tiếp tục xử lý các biểu diễn đầu ra của DNABERT-2 và (3)~bộ phân loại đưa ra dự đoán nhị phân. Hình~\ref{fig:architecture_detail} minh họa kiến trúc tổng thể của mô hình.
 
 \begin{figure}[h]
     \centering
@@ -95,31 +100,31 @@ Kiến trúc PhaBERT-CNN được xây dựng từ ba thành phần chính hoạ
 
 \subsection{Mạng nền DNABERT-2}
 
-DNABERT-2~\cite{zhou2023dnabert} đóng vai trò là mạng nền trích xuất đặc trưng, chuyển đổi chuỗi DNA thô thành các véc-tơ 768 chiều. Như đã trình bày chi tiết tại Mục~\ref{subsec:dnabert2}, DNABERT-2 sử dụng BPE tokenization~\cite{sennrich2015neural} để phân tách chuỗi DNA thành các token con không chồng lấp, giảm độ dài chuỗi khoảng 5 lần và loại bỏ rò rỉ thông tin vốn có trong các phương pháp k-mer chồng lấn. Chuỗi DNA đầu vào $S = \{s_1, s_2, \ldots, s_L\}$ với độ dài $L$ cặp ba-zơ được tokenize:
+DNABERT-2~\cite{zhou2023dnabert} đóng vai trò là mạng nền trích xuất đặc trưng, chuyển đổi chuỗi DNA thô thành các vector biểu diễn 768 chiều. Như đã trình bày chi tiết tại Mục~\ref{subsec:dnabert2}, DNABERT-2 sử dụng mã hóa BPE~\cite{sennrich2015neural} để phân tách chuỗi DNA thành các token con không chồng lấn, giảm độ dài chuỗi khoảng 5 lần và loại bỏ hiện tượng rò rỉ thông tin vốn có trong các phương pháp k-mer chồng lấn. Chuỗi DNA đầu vào $S = \{s_1, s_2, \ldots, s_L\}$ với độ dài $L$ nucleotide được mã hóa như sau:
 
 \begin{equation}
     T = \text{BPE}(S) = \{t_1, t_2, \ldots, t_n\}, \quad n \approx L/5
     \label{eq:bpe_tokenization}
 \end{equation}
 
-BPE tạo ra các token con không chồng lấn với độ dài biến đổi, giúp giảm độ dài chuỗi token khoảng 5 lần so với phương pháp k-mer truyền thống \cite{zhou2023dnabert}. Chuỗi token $T$ thu được sau đó được đưa qua DNABERT-2 để tạo ra các biểu diễn ngữ cảnh:
+Mã hóa BPE tạo ra các token con không chồng lấn với độ dài biến đổi, giúp giảm độ dài chuỗi token khoảng 5 lần so với phương pháp k-mer truyền thống~\cite{zhou2023dnabert}. Chuỗi token $T$ thu được sau đó được đưa qua DNABERT-2 để tạo ra các biểu diễn ngữ cảnh:
 
 \begin{equation}
     \mathbf{H} = \text{DNABERT-2}(T) = \{\mathbf{h}_1, \mathbf{h}_2, \ldots, \mathbf{h}_n\}, \quad \mathbf{h}_i \in \mathbb{R}^{768}
     \label{eq:dnabert2_encoding}
 \end{equation}
 
-trong đó mỗi vector $\mathbf{h}_i$ mã hóa thông tin của token tương ứng cùng mối quan hệ ngữ cảnh với các token xung quanh thông qua cơ chế tự chú ý. DNABERT-2 sử dụng Attention with Linear Biases (ALiBi)~\cite{press2021train} thay vì sử dụng biểu diễn vị trí cố định, cho phép mô hình xử lý các chuỗi có độ dài tùy ý mà không cần huấn luyện lại, đặc biệt quan trọng cho dữ liệu metagenomic với độ biến thiên độ dài lớn. Trong giai đoạn khởi động, toàn bộ tham số của DNABERT-2 được đóng băng; trong giai đoạn tinh chỉnh, mô hình nền DNABERT-2 được mở khóa và cập nhật với tốc độ học thấp để bảo toàn tri thức tiền huấn luyện.
+\noindent trong đó mỗi vector $\mathbf{h}_i$ mã hóa thông tin của token tương ứng cùng mối quan hệ ngữ cảnh với các token xung quanh thông qua cơ chế tự chú ý. DNABERT-2 sử dụng phương pháp chú ý với thiên lệch tuyến tính ALiBi~\cite{press2021train} thay vì biểu diễn vị trí cố định, cho phép mô hình xử lý các chuỗi có độ dài tùy ý mà không cần huấn luyện lại, đặc biệt quan trọng cho dữ liệu hệ metagenome với độ biến thiên về độ dài lớn. Trong giai đoạn khởi động, toàn bộ tham số của DNABERT-2 được đóng băng; trong giai đoạn tinh chỉnh, mô hình nền được mở khóa và cập nhật với tốc độ học thấp để bảo toàn tri thức tiền huấn luyện.
 
-\subsection{Mô-đun MKCA}
+\subsection{Mô-đun MKC}
 
-Từ các biểu diễn ngữ cảnh $\mathbf{H} = \{\mathbf{h}_1, \ldots, \mathbf{h}_n\} \in \mathbb{R}^{n \times 768}$ được trích xuất bởi DNABERT-2, mô-đun MKCA được thiết kế với hai nhánh song song có chức năng bổ trợ nhau: nhánh CNN đa kernel thực hiện trích xuất đặc trưng cục bộ đa kernel, trong khi nhánh Attention Pooling tổng hợp thông tin ngữ cảnh toàn cục thông qua cơ chế gán trọng số thích nghi theo tầm quan trọng của từng vị trí chuỗi.
+Từ các biểu diễn ngữ cảnh $\mathbf{H} = \{\mathbf{h}_1, \ldots, \mathbf{h}_n\} \in \mathbb{R}^{n \times 768}$ được trích xuất từ DNABERT-2, mô-đun MKC được thiết kế gồm hai nhánh xử lý song song với chức năng bổ trợ lẫn nhau: nhánh CNN đa kích thước cửa sổ thực hiện trích xuất đặc trưng cục bộ ở nhiều tỷ lệ khác nhau, trong khi nhánh gộp trung bình có mặt nạ tổng hợp thông tin toàn cục bằng cách tính giá trị trung bình trên toàn bộ các token thực, qua đó loại bỏ ảnh hưởng của các token đệm.
 
 \subsubsection{Nhánh CNN đa cửa sổ}
 
-Nhánh CNN đa kernel được điều chỉnh từ kiến trúc TextCNN~\cite{kim2014convolutional}, vốn được đề xuất cho bài toán phân loại văn bản với các bộ lọc tích chập song song có kích thước khác nhau. So với kiến trúc gốc áp dụng trực tiếp lên biểu diễn từ tĩnh, thiết kế trong nghiên cứu này thực hiện hai điều chỉnh chính: (1) thay thế đầu vào bằng các biểu diễn ngữ cảnh 768 chiều từ DNABERT-2, tận dụng tri thức tiền huấn luyện trên dữ liệu đa loài thay vì embedding ngẫu nhiên; (2) bổ sung một lớp tích chập xếp chồng cho mỗi nhánh con, tạo thành hai lớp Conv1d liên tiếp nhằm tăng cường khả năng trích xuất đặc trưng phân cấp từ các biểu diễn học được~\cite{johnson2017deep}. Thiết kế đa kernel song song kế thừa từ TextCNN~\cite{kim2014convolutional} cho phép mô hình đồng thời trích xuất các đặc trưng ở nhiều tỷ lệ không gian khác nhau trong một lần forward pass, thay vì phải chọn một kích thước cửa sổ cố định.
+Nhánh mạng nơ-ron tích chập đa cửa sổ được điều chỉnh từ kiến trúc TextCNN~\cite{kim2014convolutional}, vốn được đề xuất cho bài toán phân loại văn bản với các bộ lọc tích chập song song có kích thước khác nhau. So với kiến trúc gốc vốn áp dụng trực tiếp lên các biểu diễn từ tĩnh, thiết kế trong nghiên cứu này thực hiện hai điều chỉnh chính: (1)~thay thế đầu vào bằng các biểu diễn ngữ cảnh 768 chiều từ DNABERT-2, qua đó tận dụng tri thức tiền huấn luyện trên dữ liệu đa loài thay vì sử dụng embedding khởi tạo ngẫu nhiên; và (2)~bổ sung thêm một lớp tích chập xếp chồng cho mỗi nhánh con, tạo thành hai lớp Conv1d liên tiếp nhằm tăng cường khả năng trích xuất đặc trưng phân cấp~\cite{johnson2017deep}. Thiết kế đa kích thước cửa sổ song song kế thừa từ TextCNN cho phép mô hình đồng thời nắm bắt các đặc trưng ở nhiều tỷ lệ không gian khác nhau trong một lượt lan truyền thuận, thay vì phụ thuộc vào một kích thước cửa sổ cố định duy nhất.
 
-Cụ thể, nhánh này sử dụng ba nhánh con tích chập song song với kích thước cửa sổ $k \in \{3, 5, 7\}$. Mỗi nhánh con nhận đầu vào là ma trận $\mathbf{H}^T \in \mathbb{R}^{768 \times n}$ (chuyển vị để phù hợp với định dạng Conv1d) và xử lý qua hai lớp tích chập xếp chồng với padding tương ứng $\lfloor k/2 \rfloor$ nhằm bảo toàn chiều dài chuỗi:
+Cụ thể, nhánh này sử dụng ba nhánh con tích chập song song với các kích thước cửa sổ $k \in \{3, 5, 7\}$. Mỗi nhánh con nhận đầu vào là ma trận chuyển vị $\mathbf{H}^\top \in \mathbb{R}^{768 \times n}$ (nhằm phù hợp với định dạng đầu vào của Conv1d) và xử lý qua hai lớp tích chập xếp chồng với giá trị padding tương ứng $\lfloor k/2 \rfloor$ để bảo toàn chiều dài chuỗi:
 
 \begin{align}
     \mathbf{X}^{(k)}_1 &= \text{ReLU}\!\left(\text{BN}\!\left(\text{Conv1d}_{k,\,768 \to 256}(\mathbf{H}^T)\right)\right) \in \mathbb{R}^{256 \times n} \label{eq:cnn_layer1} \\
@@ -129,49 +134,41 @@ Cụ thể, nhánh này sử dụng ba nhánh con tích chập song song với k
 
 trong đó BN ký hiệu cho BatchNorm1d. Lớp tích chập thứ nhất giảm chiều từ 768 xuống 256 kênh; lớp thứ hai nén tiếp xuống 128 kênh. BatchNorm1d và ReLU được áp dụng sau mỗi lớp tích chập nhằm ổn định quá trình huấn luyện. AdaptiveMaxPool1d trích xuất đặc trưng nổi bật nhất theo chiều chuỗi, tạo ra vector đặc trưng cố định 128 chiều bất kể độ dài contig đầu vào.
 
-Ba kích thước kernel được lựa chọn để nắm bắt các mẫu ngữ nghĩa ở các tỷ lệ không gian khác nhau trên không gian biểu diễn của DNABERT-2. Kernel kích thước 3 tập trung vào các tương quan cục bộ giữa các token lân cận. Kernel kích thước 5 nắm bắt các mẫu tầm trung trải dài qua nhiều token hơn. Kernel kích thước 7 tổng hợp thông tin từ vùng ngữ cảnh rộng hơn trong không gian embedding. Cần lưu ý rằng do đầu vào của mô-đun CNN là các vector biểu diễn ngữ cảnh từ DNABERT-2 chứ không phải chuỗi nucleotide thô, kích thước kernel phản ánh phạm vi tương tác trong không gian đặc trưng học được, không tương ứng trực tiếp với số lượng nucleotide. Ba vector đặc trưng từ các nhánh con được ghép nối tạo thành biểu diễn CNN tổng hợp:
+Ba kích thước cửa sổ tích chập được lựa chọn nhằm nắm bắt các mẫu đặc trưng ở các tỷ lệ không gian khác nhau trên không gian biểu diễn của DNABERT-2. Cụ thể, cửa số tích chập kích thước 3 tập trung vào các tương quan cục bộ giữa các token lân cận, cửa số tích chập kích thước 5 mở rộng phạm vi tiếp nhận sang các mẫu tầm trung trải dài qua nhiều token hơn, và cửa số tích chập kích thước 7 tổng hợp thông tin từ vùng ngữ cảnh rộng hơn. Cần lưu ý rằng do đầu vào của mô-đun CNN là các biểu diễn ngữ cảnh từ DNABERT-2 chứ không phải chuỗi nucleotide thô, kích thước cửa sổ tích chập ở đây phản ánh phạm vi tương tác trong không gian đặc trưng học được và không tương ứng trực tiếp với số lượng nucleotide trên trình tự gốc. Ba vector đặc trưng thu được từ các nhánh con được ghép nối tạo thành biểu diễn CNN tổng hợp:
 
 \begin{equation}
     \mathbf{f}_{\text{CNN}} = \left[\mathbf{f}^{(3)};\, \mathbf{f}^{(5)};\, \mathbf{f}^{(7)}\right] \in \mathbb{R}^{384}
     \label{eq:cnn_concat}
 \end{equation}
 
-\subsubsection{Nhánh Attention Pooling toàn cục}
+\subsubsection{Nhánh Masked Mean Pooling toàn cục}
 
-Nhánh thứ hai áp dụng cơ chế Attention Pooling~\cite{lin2017structured} để tổng hợp thông tin mức chuỗi từ các biểu diễn được sinh ra từ DNABERT-2, tự động gán trọng số phản ánh tầm quan trọng của từng vị trí trên chuỗi. Cho tập hidden states $\mathbf{H} = \{\mathbf{h}_1, \ldots, \mathbf{h}_n\}$ từ DNABERT-2, điểm chú ý cho mỗi vị trí $t$ được tính qua hai lớp tuyến tính liên tiếp:
-
-\begin{align}
-    \mathbf{e}_t &= \tanh(\mathbf{W}_a \mathbf{h}_t + \mathbf{b}_a), \quad \mathbf{e}_t \in \mathbb{R}^{64} \label{eq:attn_hidden} \\
-    s_t &= \mathbf{w}_s^T \mathbf{e}_t + b_s, \quad s_t \in \mathbb{R} \label{eq:attn_score} \\
-    \alpha_t &= \frac{\exp(s_t)}{\sum_{t'=1}^{n} \exp(s_{t'})}, \quad \alpha_t \in [0, 1],\;\; \sum_{t=1}^{n} \alpha_t = 1 \label{eq:attn_weights}
-\end{align}
-
-trong đó $\mathbf{W}_a \in \mathbb{R}^{64 \times 768}$, $\mathbf{b}_a \in \mathbb{R}^{64}$ là tham số của lớp chiếu ẩn, và $\mathbf{w}_s \in \mathbb{R}^{64}$, $b_s \in \mathbb{R}$ là tham số của lớp tính điểm scalar. Biểu diễn chuỗi toàn cục được tổng hợp bằng tổng có trọng số chú ý:
+Nhánh thứ hai áp dụng phương pháp gộp trung bình có mặt nạ để tổng hợp thông tin ở mức toàn chuỗi từ các trạng thái ẩn của DNABERT-2. Lớp gộp trung bình có mặt nạ tính giá trị trung bình cộng trên tất cả các token thực, qua đó đảm bảo tính tất định của phép tổng hợp và giảm nguy cơ quá khớp trên tập huấn luyện có kích thước hạn chế. Cho tập các trạng thái ẩn $\mathbf{H} = \{\mathbf{h}_1, \ldots, \mathbf{h}_n\}$ từ DNABERT-2 và mặt nạ chú ý $\mathbf{m} \in \{0, 1\}^n$ (trong đó $m_t = 1$ ứng với token thực và $m_t = 0$ ứng với token đệm), biểu diễn toàn cục được tính như sau:
 
 \begin{equation}
-    \mathbf{v} = \sum_{t=1}^{n} \alpha_t \mathbf{h}_t \in \mathbb{R}^{768}
-    \label{eq:attn_aggregate}
+    \mathbf{g} = \frac{\sum_{t=1}^{n} m_t \cdot \mathbf{h}_t}{\sum_{t=1}^{n} m_t} \in \mathbb{R}^{768}
+    \label{eq:mean_pooling}
 \end{equation}
 
-Biểu diễn tổng hợp $\mathbf{v}$ sau đó được chiếu tuyến tính xuống không gian đặc trưng compact:
+Vector biểu diễn tổng hợp $\mathbf{g}$ sau đó được chiếu xuống không gian đặc trưng có số chiều thấp hơn thông qua một lớp tuyến tính kết hợp hàm kích hoạt và điều chuẩn:
 
 \begin{equation}
-    \mathbf{f}_{\text{attn}} = \text{Dropout}\!\left(\text{ReLU}(\mathbf{W}_p \mathbf{v} + \mathbf{b}_p)\right) \in \mathbb{R}^{128}
-    \label{eq:attn_proj}
+    \mathbf{f}_{\text{global}} = \text{Dropout}\!\left(\text{ReLU}(\mathbf{W}_g \mathbf{g} + \mathbf{b}_g)\right) \in \mathbb{R}^{128}
+    \label{eq:global_proj}
 \end{equation}
 
-trong đó $\mathbf{W}_p \in \mathbb{R}^{128 \times 768}$, $\mathbf{b}_p \in \mathbb{R}^{128}$, và tỷ lệ dropout bằng 0.1. So với các phương pháp tổng hợp thông thường như max pooling hay average pooling, attention pooling mang lại ưu điểm về trọng số thích nghi---cơ chế chú ý học cách phân bổ trọng số dựa trên ngữ cảnh chuỗi thay vì xử lý đồng đều mọi vị trí, giúp mô hình tập trung vào các vùng biểu diễn quan trọng nhất cho tác vụ phân loại.
+\noindent trong đó $\mathbf{W}_g \in \mathbb{R}^{128 \times 768}$ và $\mathbf{b}_g \in \mathbb{R}^{128}$ lần lượt là ma trận trọng số và vector hệ số dịch của phép chiếu tuyến tính, tỷ lệ dropout được đặt bằng 0{,}1. Việc sử dụng mặt nạ trong phép gộp trung bình nhằm loại bỏ ảnh hưởng của các token đệm, vốn được thêm vào do các chuỗi trong cùng một batch có độ dài khác nhau, đảm bảo rằng chỉ các token thực sự mang thông tin sinh học mới đóng góp vào biểu diễn toàn cục của chuỗi.
 
 \subsection{Kết Hợp Đặc Trưng và Đầu Phân Loại}
 
 Đầu ra từ cả hai nhánh được ghép nối để tạo biểu diễn tổng hợp:
 
 \begin{equation}
-    \mathbf{f}_{\text{combined}} = [\mathbf{f}_{\text{attn}}; \mathbf{f}_{\text{CNN}}] = [\mathbf{f}_{\text{attn}}; \mathbf{f}^{(3)}; \mathbf{f}^{(5)}; \mathbf{f}^{(7)}] \in \mathbb{R}^{512}
+    \mathbf{f}_{\text{combined}} = [\mathbf{f}_{\text{global}}; \mathbf{f}_{\text{CNN}}] = [\mathbf{f}_{\text{global}}; \mathbf{f}^{(3)}; \mathbf{f}^{(5)}; \mathbf{f}^{(7)}] \in \mathbb{R}^{512}
     \label{eq:feature_fusion}
 \end{equation}
 
-Vector 512 chiều này kết hợp cả ngữ cảnh toàn cục từ nhánh attention (128 chiều) và đặc trưng cục bộ đa kernel từ các nhánh CNN (384 chiều). Biểu diễn tổng hợp được đưa qua đầu phân loại gồm ba lớp tuyến tính với kích thước giảm dần $512 \to 256 \to 64 \to 2$:
+Vector 512 chiều này kết hợp biểu diễn toàn cục từ masked mean pooling (128 chiều) và đặc trưng cục bộ đa kernel từ các nhánh CNN (384 chiều). Biểu diễn tổng hợp được đưa qua đầu phân loại gồm ba lớp tuyến tính với kích thước giảm dần $512 \to 256 \to 64 \to 2$:
 
 \begin{align}
     \mathbf{z}_1 &= \text{Dropout}(\text{ReLU}(\text{LayerNorm}(\mathbf{W}_1 \mathbf{f}_{\text{combined}} + \mathbf{b}_1))), \quad \mathbf{z}_1 \in \mathbb{R}^{256} \label{eq:cls_layer1} \\
@@ -191,15 +188,15 @@ Dự đoán cuối cùng là $\hat{y} = \argmax(\operatorname{softmax}(\mathbf{z
 \section{Chiến lược huấn luyện và tinh chỉnh}
 \label{sec:training_strategy}
 
-Việc tinh chỉnh một mô hình tiền huấn luyện với các lớp đặc thù cho tác vụ được khởi tạo ngẫu nhiên có thể gây ra bất ổn định trong quá trình huấn luyện do sự không tương thích gradient giữa các trọng số tiền huấn luyện và các trọng số ngẫu nhiên. Để giải quyết vấn đề này, học viên áp dụng chiến lược tinh chỉnh hai giai đoạn: giai đoạn khởi động khởi tạo tham số cho các lớp thuộc MKCA trước, sau đó giai đoạn tinh chỉnh toàn bộ mô hình với tốc độ học phân biệt tối ưu hóa toàn bộ kiến trúc.
+Việc tinh chỉnh một mô hình tiền huấn luyện với các lớp đặc thù cho tác vụ được khởi tạo ngẫu nhiên có thể gây ra bất ổn định trong quá trình huấn luyện do sự không tương thích gradient giữa các trọng số tiền huấn luyện và các trọng số ngẫu nhiên. Để giải quyết vấn đề này, học viên áp dụng chiến lược tinh chỉnh hai giai đoạn: giai đoạn khởi động khởi tạo tham số cho các lớp thuộc MKC trước, sau đó giai đoạn tinh chỉnh toàn bộ mô hình với tốc độ học phân biệt tối ưu hóa toàn bộ kiến trúc.
 
 \subsection{Giai Đoạn 1: Khởi Động}
 
-Trong giai đoạn khởi động, toàn bộ tham số của DNABERT-2 (117M tham số) được đóng băng, chỉ các lớp thuộc MKCA được huấn luyện trong 1 epoch. Mục đích của giai đoạn này là cho phép các lớp được khởi tạo ngẫu nhiên học được cấu hình tham số phù hợp với các biểu diễn DNABERT-2 đã đóng băng trước khi thực hiện bất kỳ cập nhật nào lên các trọng số tiền huấn luyện. Việc đóng băng mô hình nền ngăn chặn các gradient lớn từ các lớp ngẫu nhiên lan truyền ngược qua DNABERT-2, bảo toàn tri thức genomic đã học. Các lớp đặc thù cho tác vụ được tối ưu hóa bằng AdamW~\cite{loshchilov2017decoupled} với tốc độ học $2 \times 10^{-3}$, hệ số suy giảm trọng số $1 \times 10^{-4}$, và các hệ số momentum $\beta_1 = 0.9$, $\beta_2 = 0.999$. Tốc độ học tuân theo lịch trình one-cycle~\cite{smith2019super} với 30\% giai đoạn khởi động, hệ số chia ban đầu bằng 5 và hệ số chia cuối bằng 10.
+Trong giai đoạn khởi động, toàn bộ tham số của DNABERT-2 (117M tham số) được đóng băng, chỉ các lớp thuộc MKC được huấn luyện trong 1 epoch. Mục đích của giai đoạn này là cho phép các lớp được khởi tạo ngẫu nhiên học được cấu hình tham số phù hợp với các biểu diễn DNABERT-2 đã đóng băng trước khi thực hiện bất kỳ cập nhật nào lên các trọng số tiền huấn luyện. Việc đóng băng mô hình nền ngăn chặn các gradient lớn từ các lớp ngẫu nhiên lan truyền ngược qua DNABERT-2, bảo toàn tri thức genomic đã học. Các lớp đặc thù cho tác vụ được tối ưu hóa bằng AdamW~\cite{loshchilov2017decoupled} với tốc độ học $2 \times 10^{-3}$, hệ số suy giảm trọng số $1 \times 10^{-4}$, và các hệ số momentum $\beta_1 = 0.9$, $\beta_2 = 0.999$. Tốc độ học tuân theo lịch trình one-cycle~\cite{smith2019super} với 30\% giai đoạn khởi động, hệ số chia ban đầu bằng 5 và hệ số chia cuối bằng 10.
 
 \subsection{Giai Đoạn 2: Tinh Chỉnh Đầy Đủ}
 
-Sau giai đoạn khởi động, toàn bộ kiến trúc được mở khóa và tối ưu hóa với tốc độ học phân biệt—chiến lược áp dụng tốc độ học khác nhau cho các thành phần khác nhau của mô hình~\cite{howard2018universal}. Cụ thể, các tham số DNABERT-2 được cập nhật với tốc độ học $1 \times 10^{-5}$ và hệ số suy giảm trọng số $1 \times 10^{-5}$ để cho phép thích nghi nhẹ nhàng với tác vụ phân loại thực khuẩn thể mà không làm mất các tri thức học trong quá trình tiền huấn luyện. Trong khi đó, các lớp đặc thù cho tác vụ (CNN, attention, lớp phân loại) nhận tốc độ học $1 \times 10^{-4}$ với hệ số suy giảm trọng số $1 \times 10^{-4}$, cao gấp 10 lần so với mô hình DNABERT-2, để cho phép tối ưu hóa tích cực hơn nhằm nắm bắt các đặc trưng đặc thù của lối sống thực khuẩn. Cả hai nhóm tham số đều sử dụng AdamW~\cite{loshchilov2017decoupled} với $\beta_1 = 0.9$, $\beta_2 = 0.999$, $\epsilon = 10^{-6}$. Giai đoạn tinh chỉnh sử dụng lịch trình one-cycle~\cite{smith2019super} với 10\% giai đoạn khởi động, hệ số chia ban đầu bằng 5 và hệ số chia cuối bằng 50, kéo dài tối đa 10 epoch. Học viên áp dụng chiến lược dừng sớm dựa trên độ chính xác trên tập kiểm định với ngưỡng kiên nhẫn 3 epoch để ngăn hiện tượng quá khớp.
+Sau giai đoạn khởi động, toàn bộ kiến trúc được mở khóa và tối ưu hóa với tốc độ học phân biệt—chiến lược áp dụng tốc độ học khác nhau cho các thành phần khác nhau của mô hình~\cite{howard2018universal}. Cụ thể, các tham số DNABERT-2 được cập nhật với tốc độ học $1 \times 10^{-5}$ và hệ số suy giảm trọng số $1 \times 10^{-5}$ để cho phép thích nghi nhẹ nhàng với tác vụ phân loại thực khuẩn thể mà không làm mất các tri thức học trong quá trình tiền huấn luyện. Trong khi đó, các lớp đặc thù cho tác vụ (CNN, global pooling, lớp phân loại) nhận tốc độ học $1 \times 10^{-4}$ với hệ số suy giảm trọng số $1 \times 10^{-4}$, cao gấp 10 lần so với mô hình DNABERT-2, để cho phép tối ưu hóa tích cực hơn nhằm nắm bắt các đặc trưng đặc thù của lối sống thực khuẩn. Cả hai nhóm tham số đều sử dụng AdamW~\cite{loshchilov2017decoupled} với $\beta_1 = 0.9$, $\beta_2 = 0.999$, $\epsilon = 10^{-6}$. Giai đoạn tinh chỉnh sử dụng lịch trình one-cycle~\cite{smith2019super} với 10\% giai đoạn khởi động, hệ số chia ban đầu bằng 5 và hệ số chia cuối bằng 50, kéo dài tối đa 10 epoch. Học viên áp dụng chiến lược dừng sớm dựa trên độ chính xác trên tập kiểm định với ngưỡng kiên nhẫn 3 epoch để ngăn hiện tượng quá khớp.
 
 \subsection{Hàm mục tiêu và kỹ thuật Regularization}
 
@@ -210,7 +207,7 @@ Học viên sử dụng hàm binary cross-entropy làm mục tiêu tối ưu hó
     \label{eq:bce_loss}
 \end{equation}
 
-trong đó $N$ là batch size, $y_i \in \{0, 1\}$ là nhãn thực (0 = temperate, 1 = virulent), và $\hat{y}_i = P(\text{virulent} | S_i)$ là xác suất dự đoán. Để ngăn hiện tượng quá khớp, học viên kết hợp nhiều kỹ thuật regularization: \textbf{Suy Giảm Trọng Số} thông qua AdamW với $\lambda = 1 \times 10^{-4}$ cho các lớp đặc thù cho tác vụ và $\lambda = 1 \times 10^{-5}$ cho DNABERT-2; \textbf{Dropout} với rate = 0.1 được áp dụng sau attention pooling và trong đầu phân loại; \textbf{Layer Normalization} ổn định quá trình huấn luyện và cải thiện khả năng tổng quát hóa; và \textbf{Dừng Sớm} dừng huấn luyện khi validation performance không cải thiện sau 3 epoch liên tiếp. 
+trong đó $N$ là batch size, $y_i \in \{0, 1\}$ là nhãn thực (0 = temperate, 1 = virulent), và $\hat{y}_i = P(\text{virulent} | S_i)$ là xác suất dự đoán. Để ngăn hiện tượng quá khớp, học viên kết hợp nhiều kỹ thuật regularization: \textbf{Suy Giảm Trọng Số} thông qua AdamW với $\lambda = 1 \times 10^{-4}$ cho các lớp đặc thù cho tác vụ và $\lambda = 1 \times 10^{-5}$ cho DNABERT-2; \textbf{Dropout} với rate = 0.1 được áp dụng sau global pooling và trong đầu phân loại; \textbf{Layer Normalization} ổn định quá trình huấn luyện và cải thiện khả năng tổng quát hóa; và \textbf{Dừng Sớm} dừng huấn luyện khi validation performance không cải thiện sau 3 epoch liên tiếp. 
 
 %Ngoài ra, học viên sử dụng Automatic Mixed Precision (AMP) để giảm tiêu thụ bộ nhớ và tăng tốc tính toán, kết hợp với tích lũy gradient (4 bước, batch size vật lý 8 mẫu/GPU) để mô phỏng effective batch size 32 trên bộ nhớ GPU hạn chế.
 
@@ -243,4 +240,4 @@ Bảng~\ref{tab:hyperparameters} tổng hợp các siêu tham số huấn luyệ
 
 \section{Kết luận}
 
-Chương này đã trình bày phương pháp PhaBERT-CNN cho bài toán dự đoán lối sống thực khuẩn thể từ contig metagenomic. Phương pháp kết hợp mô hình nền tảng DNABERT-2 với mô-đun MKCA gồm nhánh CNN đa kernel và nhánh attention pooling, hoạt động trực tiếp trên chuỗi DNA thô mà không phụ thuộc vào công cụ dự đoán gen. Chiến lược huấn luyện hai giai đoạn với tốc độ học phân biệt cho phép bảo toàn tri thức tiền huấn luyện trong khi thích nghi hiệu quả với tác vụ phân loại. Chương tiếp theo trình bày thiết kế thực nghiệm và đánh giá hiệu suất của PhaBERT-CNN so với các phương pháp tiên tiến trên bốn nhóm độ dài contig.
+Chương này đã trình bày phương pháp PhaBERT-CNN cho bài toán dự đoán lối sống thực khuẩn thể từ contig metagenomic. Phương pháp kết hợp mô hình nền tảng DNABERT-2 với mô-đun MKC gồm nhánh CNN đa kernel và masked mean pooling toàn cục, hoạt động trực tiếp trên chuỗi DNA thô mà không phụ thuộc vào công cụ dự đoán gen. Chiến lược huấn luyện hai giai đoạn với tốc độ học phân biệt cho phép bảo toàn tri thức tiền huấn luyện trong khi thích nghi hiệu quả với tác vụ phân loại. Chương tiếp theo trình bày thiết kế thực nghiệm và đánh giá hiệu suất của PhaBERT-CNN so với các phương pháp tiên tiến trên bốn nhóm độ dài contig.
