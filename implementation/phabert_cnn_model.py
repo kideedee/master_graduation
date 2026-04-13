@@ -18,9 +18,15 @@ def create_custom_config():
     return config
 
 
-class Dnabert2CnnModel(PreTrainedModel):
+class Dnabert2CnnModelNoAttention(PreTrainedModel):
+    """
+    Ablation variant: PhaBERT-CNN without attention-based pooling.
+    Attention pooling is replaced by masked mean pooling for global
+    transformer feature aggregation.
+    """
+
     def __init__(self, config, dropout_rate=0.1, num_classes=2):
-        super(Dnabert2CnnModel, self).__init__(config)
+        super(Dnabert2CnnModelNoAttention, self).__init__(config)
 
         # Load DNABERT-2 pre-trained model
         self.dnabert = AutoModel.from_pretrained(
@@ -65,22 +71,18 @@ class Dnabert2CnnModel(PreTrainedModel):
             )
         ])
 
-        # Global pooling for transformer features
+        # Global pooling for transformer features (NO attention pooling)
+        # Mean-pooled features are projected through this layer
         self.global_pooling = nn.Sequential(
             nn.Linear(768, 128),
             nn.ReLU(),
             nn.Dropout(0.1)
         )
 
-        # Attention-based pooling for sequence representation
-        self.attention_pooling = nn.Sequential(
-            nn.Linear(768, 64),
-            nn.Tanh(),
-            nn.Linear(64, 1),
-            nn.Softmax(dim=1)
-        )
+        # NOTE: self.attention_pooling is REMOVED in this ablation variant.
+        # Instead, masked mean pooling is used directly in forward().
 
-        # Final classifier
+        # Final classifier (same architecture as full model)
         total_features = 128 * 3 + 128  # CNN features + global features
         classifier_dropout = getattr(config, 'classifier_dropout', 0.1)
 
@@ -107,37 +109,31 @@ class Dnabert2CnnModel(PreTrainedModel):
         # Extract features từ DNABERT-2
         with torch.set_grad_enabled(self.dnabert.training and any(p.requires_grad for p in self.dnabert.parameters())):
             outputs = self.dnabert(input_ids=input_ids, attention_mask=attention_mask)
-            # Shape: [batch_size, seq_len, 768]
-            # hidden_states = dnabert_outputs.last_hidden_state
             if hasattr(outputs, 'last_hidden_state'):
                 hidden_states = outputs.last_hidden_state
             elif isinstance(outputs, tuple):
-                hidden_states = outputs[0]  # Usually the first element
+                hidden_states = outputs[0]
             else:
                 hidden_states = outputs['last_hidden_state']
 
-        # # Transpose cho Conv1D: [batch_size, seq_len, 768] -> [batch_size, 768, seq_len]
-        # hidden_states = hidden_states.transpose(1, 2)
-        #
-        # # Pass qua CNN layers
-        # conv_output = self.conv_layers(hidden_states)  # [batch_size, 64, seq_len]
-        #
-        # # Global pooling
-        # avg_pool = self.global_avg_pool(conv_output).squeeze(-1)  # [batch_size, 64]
-        # max_pool = self.global_max_pool(conv_output).squeeze(-1)  # [batch_size, 64]
-        #
-        # # Concatenate pooled features
-        # pooled_features = torch.cat([avg_pool, max_pool], dim=1)  # [batch_size, 128]
-        #
-        # # Classification
-        # logits = self.classifier(pooled_features)
+        # ============================================================
+        # ABLATION: Masked mean pooling (replaces attention pooling)
+        # ============================================================
+        if attention_mask is not None:
+            # Expand mask: [batch_size, seq_len] -> [batch_size, seq_len, 1]
+            mask_expanded = attention_mask.unsqueeze(-1).float()
+            # Sum of hidden states weighted by mask
+            sum_hidden = torch.sum(hidden_states * mask_expanded, dim=1)  # [batch_size, 768]
+            # Count of non-padding tokens
+            count = torch.clamp(mask_expanded.sum(dim=1), min=1e-9)  # [batch_size, 1]
+            global_features = sum_hidden / count  # [batch_size, 768]
+        else:
+            # Fallback: simple mean pooling without mask
+            global_features = torch.mean(hidden_states, dim=1)  # [batch_size, 768]
 
-        # Global transformer features with attention-based pooling
-        attention_weights = self.attention_pooling(hidden_states)  # [batch_size, seq_len, 1]
-        global_features = torch.sum(hidden_states * attention_weights, dim=1)  # [batch_size, 768]
-        global_features = self.global_pooling(global_features)
+        global_features = self.global_pooling(global_features)  # [batch_size, 128]
 
-        # CNN features (transpose for Conv1d: [batch_size, channels, seq_len])
+        # CNN features (same as full model)
         cnn_input = hidden_states.transpose(1, 2)  # [batch_size, 768, seq_len]
 
         cnn_features = []
