@@ -185,24 +185,24 @@ DNABERT~\cite{ji2021dnabert} là mô hình nền tảng đầu tiên áp dụng 
 \subsection{So sánh tổng hợp và khoảng trống nghiên cứu}
 \label{subsec:comparison_gaps}
 
-Bảng~\ref{tab:comprehensive_method_comparison} tổng hợp so sánh các phương pháp phân loại lối sống thực khuẩn theo các tiêu chí chính: nguồn dữ liệu, phương pháp phân tách token, thuật toán áp dụng, sử dụng huấn luyện trước, và hiệu năng trên contig ngắn.
+Bảng~\ref{tab:comprehensive_method_comparison} tổng hợp so sánh các phương pháp phân loại lối sống thực khuẩn theo các tiêu chí chính: nguồn dữ liệu, phương pháp phân tách token, thuật toán áp dụng và sử dụng mô hình tiền huấn luyện.
 
 \begin{table}[h]
 \centering
 \caption{So sánh tổng hợp các phương pháp phân loại lối sống thực khuẩn}
 \label{tab:comprehensive_method_comparison}
 \resizebox{\textwidth}{!}{%
-\begin{tabular}{lccccc}
+\begin{tabular}{lcccc}
 \toprule
-\textbf{Phương pháp} & \textbf{Nguồn dữ liệu} & \textbf{Phân tách token} & \textbf{Thuật toán} & \textbf{Huấn luyện trước} & \textbf{Contig ngắn} \\
+\textbf{Phương pháp} & \textbf{Nguồn dữ liệu} & \textbf{Phân tách token} & \textbf{Thuật toán} & \textbf{Huấn luyện trước} \\
 \midrule
-PHACTS~\cite{mcnair2012phacts} & Bộ gen hoàn chỉnh & Vector tương đồng protein & Random Forest & Không & Yếu ($\sim$50\%) \\
-PhageAI~\cite{tynecki2020phageai} & Bộ gen hoàn chỉnh & Word2Vec (k-mer) & SVM & Có & Trung bình \\
-BACPHLIP~\cite{hockenberry2021bacphlip} & Bộ gen hoàn chỉnh & Miền protein bảo tồn & Random Forest & Không & Yếu (lỗi) \\
-DeePhage~\cite{wu2021deephage} & Contig (100--1800 bp) & Mã hóa one-hot & CNN & Không & Trung bình (89\%) \\
-PhaTYP~\cite{shang2023phatyp} & Bộ gen và contig & Protein cluster & BERT & Có & Yếu (<200 bp) \\
-DeepPL~\cite{zhang2024deeppl} & Contig & k-mer có chồng lấp & DNABERT & Có & Bị loại ($\leq$500 bp) \\
-ProkBERT~\cite{ligeti2024prokbert} & Hệ gen vi sinh & LCA k-mer & BERT & Có & Trung bình (trì trệ) \\
+PHACTS~\cite{mcnair2012phacts} & Bộ gen hoàn chỉnh & Vector tương đồng protein & Random Forest & Không \\
+PhageAI~\cite{tynecki2020phageai} & Bộ gen hoàn chỉnh & Word2Vec (k-mer) & SVM & Có \\
+BACPHLIP~\cite{hockenberry2021bacphlip} & Bộ gen hoàn chỉnh & Miền protein bảo tồn & Random Forest & Không \\
+DeePhage~\cite{wu2021deephage} & Contig (100--1800 bp) & Mã hóa one-hot & CNN & Không \\
+PhaTYP~\cite{shang2023phatyp} & Bộ gen và contig & Protein cluster & BERT & Có \\
+DeepPL~\cite{zhang2024deeppl} & Contig & k-mer có chồng lấp & DNABERT & Có \\
+ProkBERT~\cite{ligeti2024prokbert} & Hệ gen vi sinh & LCA k-mer & BERT & Có \\
 \bottomrule
 \end{tabular}%
 }

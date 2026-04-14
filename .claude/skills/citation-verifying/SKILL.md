@@ -13,12 +13,6 @@ This skill addresses the most critical recurring issue: Claude hallucinating cit
 
 ## Phase 1 — Key Existence Check
 
-### Current citation keys used in thesis
-!`grep -rohP '\\cite[tp]?\{[^}]+\}' chapters/*/chapter_*.tex 2>/dev/null | grep -oP '\{[^}]+\}' | tr ',' '\n' | sed 's/[{}]//g;s/^ *//;s/ *$//' | sort -u | head -50`
-
-### Available bibliography keys
-!`grep -oP '@\w+\{([^,]+)' references.bib | sed 's/@\w\+{//' | sort | head -50`
-
 For the target file(s), extract all `\cite{...}` keys and verify each exists:
 
 ```bash
