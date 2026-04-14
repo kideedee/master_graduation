@@ -11,6 +11,7 @@ disallowedTools: Edit
 model: sonnet
 maxTurns: 15
 memory: project
+skills: writing-style-guide
 ---
 
 # Thesis Writing Planner

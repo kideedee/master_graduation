@@ -36,7 +36,16 @@ Report: list of ✓ found / ✗ missing keys.
 Delegate to the `citation-verifier` agent:
 > "Use the citation-verifier agent to verify claims in [file(s)]"
 
-The agent runs in isolated context with WebFetch/WebSearch access, verifies numerical claims against actual papers, cross-checks our results against `document/phabert_cnn.tex`, and returns a structured verification report.
+The agent runs in isolated context with WebFetch/WebSearch access and follows a **multi-step fallback chain**:
+
+1. **Landing page** — fetch abstract/DOI page for quick verification
+2. **Full paper** — if abstract lacks detail, fetch arXiv HTML (`arxiv.org/html/ID`) or PMC full text with targeted prompts to find exact numbers in Results/Tables
+3. **Broad search** — WebSearch for secondary sources (Semantic Scholar, PapersWithCode, reviews), then WebFetch the best result
+4. **Final determination** — only mark `⚠ UNABLE TO VERIFY` after exhausting all steps
+
+The agent also handles arXiv IDs embedded in `journal` fields (e.g., `journal={arXiv preprint arXiv:2306.15006}`) which are common in this bibliography.
+
+Cross-checks our results against `document/phabert_cnn.tex` (ground truth).
 
 ## Phase 3 — Cross-Reference Consistency
 
@@ -46,9 +55,11 @@ The agent runs in isolated context with WebFetch/WebSearch access, verifies nume
 
 ## Verification Labels
 
-- `✓ VERIFIED` — claim matches paper exactly
+- `✓ VERIFIED` — claim matches paper exactly (from landing page)
+- `✓ VERIFIED (via full paper)` — verified by reading full paper content, not just abstract
+- `✓ VERIFIED (via secondary source)` — verified through Semantic Scholar, review article, etc.
 - `✗ MISMATCH` — specific discrepancy described (e.g., "thesis says 94.2% but paper reports 93.8%")
-- `⚠ UNABLE TO VERIFY` — paper not accessible; note what partial info was found
+- `⚠ UNABLE TO VERIFY` — exhausted all steps (landing page → full paper → search); must list what was attempted
 
 ## Output Format
 

@@ -9,6 +9,7 @@ tools: Read, Grep, Glob, Edit, Write
 model: sonnet
 maxTurns: 20
 memory: project
+skills: writing-style-guide
 ---
 
 # Thesis Writer

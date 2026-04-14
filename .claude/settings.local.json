@@ -42,7 +42,11 @@
       "WebFetch(domain:dotclaude.com)",
       "WebFetch(domain:automateanddeploy.com)",
       "WebFetch(domain:blog.vincentqiao.com)",
-      "WebFetch(domain:aiengineerguide.com)"
+      "WebFetch(domain:aiengineerguide.com)",
+      "WebFetch(domain:pm.st.cs.uni-sb.de)",
+      "WebFetch(domain:www.plai.ifi.lmu.de)",
+      "WebFetch(domain:wordnest.org)",
+      "WebFetch(domain:gradcoach.com)"
     ],
     "deny": [
       "Bash(git *)"
