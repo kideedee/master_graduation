@@ -4,9 +4,10 @@ description: >
   Create a writing plan for thesis chapter sections. Use when user says 
   "/plan", "plan section", "lập kế hoạch viết", or before writing new content.
   Example: "/plan c3 phương pháp đề xuất"
+argument-hint: "<chapter> <section>"
 context: fork
 agent: thesis-planner
-allowed-tools: Read, Grep, Glob, Bash, Write
+allowed-tools: Read, Grep, Glob, Write
 ---
 
 # /plan — Invoke Thesis Planner

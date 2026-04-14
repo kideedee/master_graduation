@@ -6,9 +6,10 @@ description: >
   existing content, references, and terminology. Triggers for:
   "plan section", "create writing plan", "lập kế hoạch viết",
   or when thesis-writing skill delegates Step 1 planning.
-tools: Read, Grep, Glob, Bash, Write
-model: claude-opus-4-6
-maxTurns: 20
+tools: Read, Grep, Glob, Write
+disallowedTools: Edit
+model: sonnet
+maxTurns: 15
 memory: project
 ---
 

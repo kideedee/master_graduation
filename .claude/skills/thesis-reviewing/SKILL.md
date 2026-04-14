@@ -67,3 +67,10 @@ Comprehensive review of a chapter or file covering 5 dimensions.
 2. [WARNING] ...
 3. [SUGGESTION] ...
 ```
+
+## Gotchas
+- Do NOT report "Forbidden Substitution" terms as terminology errors (embedding, fine-tuning, attention, tokenization, dropout, pooling, backbone, benchmark, pipeline, BPE, k-mer, contig, metagenomic, etc.)
+- Vietnamese metric terms: use "do nhay" (sensitivity), "do dac hieu" (specificity) in Vietnamese text, not English equivalents
+- Don't flag standard LaTeX macros as undefined — check the preamble first
+- Cross-chapter term check: same English term must map to same Vietnamese translation everywhere
+- Do NOT suggest adding citations for common knowledge claims (e.g., "DNA consists of four nucleotides")

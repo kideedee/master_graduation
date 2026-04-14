@@ -4,6 +4,9 @@ description: >
   Quick shortcut to invoke the thesis-writer agent.
   Use when user says "/implement" to write LaTeX from a confirmed plan.
   Example: "/implement plans/c3_method_plan.md"
+argument-hint: "[plan-file-path]"
+agent: thesis-writer
+allowed-tools: Read, Grep, Glob, Edit, Write
 ---
 
 # /implement — Invoke Thesis Writer

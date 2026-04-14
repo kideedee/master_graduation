@@ -4,6 +4,7 @@ description: >
   Verify citation keys and claims in thesis files. Use when user says
   "/verify", "check citations", "kiểm tra trích dẫn".
   Example: /verify chapters/c3/chapter_3.tex
+argument-hint: "<file-path>"
 context: fork
 agent: citation-verifier
 allowed-tools: Read, Grep, Glob, WebFetch, WebSearch

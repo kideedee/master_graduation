@@ -5,9 +5,9 @@ description: >
   thesis-planner creates a plan and user confirms it.
   Triggers for: "write from plan", "execute plan", "viết theo kế hoạch",
   or when thesis-writing skill delegates Step 2.
-tools: Read, Grep, Glob, Edit, Write, Bash
-model: claude-sonnet-4-6
-maxTurns: 30
+tools: Read, Grep, Glob, Edit, Write
+model: sonnet
+maxTurns: 20
 memory: project
 ---
 

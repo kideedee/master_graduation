@@ -37,6 +37,12 @@ The agent checks citation keys, verifies numerical claims via WebFetch, and cros
 
 Fix ALL reported issues before presenting final output.
 
+## Validation Loop
+After Step 3, ALWAYS verify:
+1. `grep -oP '\\cite[tp]?\{[^}]+\}' <file> | sort -u` → check all keys exist in references.bib
+2. `pdflatex thesis.tex` → verify compilable without errors
+3. If issues found: fix and re-validate. Do NOT report success until both pass.
+
 ## Gotchas
 
 - Do NOT invent citation keys — only use keys that exist in `references.bib`.

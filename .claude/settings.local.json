@@ -31,14 +31,18 @@
       "WebFetch(domain:www.researchgate.net)",
       "WebFetch(domain:docs.anthropic.com)",
       "WebFetch(domain:code.claude.com)",
-      "Bash(rm -f \"e:/master/documentation/graduation/.claude/hooks/check-citations.sh\" \"e:/master/documentation/graduation/.claude/hooks/check-terminology.sh\")",
-      "Bash(rmdir \"e:/master/documentation/graduation/.claude/hooks\")",
-      "Bash(grep -oP '@\\\\w+\\\\{\\([^,]+\\)' /Users/sonvuquang/Projects/master_graduation/references.bib)",
-      "Bash(tr -d '{}')",
       "WebFetch(domain:aclanthology.org)",
       "WebFetch(domain:liner.com)",
       "WebFetch(domain:github.com)",
-      "WebFetch(domain:acl.ldc.upenn.edu)"
+      "WebFetch(domain:acl.ldc.upenn.edu)",
+      "mcp__perplexity__perplexity_search",
+      "mcp__perplexity__perplexity_ask",
+      "WebFetch(domain:repovive.com)",
+      "WebFetch(domain:blakecrosley.com)",
+      "WebFetch(domain:dotclaude.com)",
+      "WebFetch(domain:automateanddeploy.com)",
+      "WebFetch(domain:blog.vincentqiao.com)",
+      "WebFetch(domain:aiengineerguide.com)"
     ],
     "deny": [
       "Bash(git *)"
