@@ -46,7 +46,16 @@
       "WebFetch(domain:pm.st.cs.uni-sb.de)",
       "WebFetch(domain:www.plai.ifi.lmu.de)",
       "WebFetch(domain:wordnest.org)",
-      "WebFetch(domain:gradcoach.com)"
+      "WebFetch(domain:gradcoach.com)",
+      "WebFetch(domain:www.iup.edu)",
+      "WebFetch(domain:www.quora.com)",
+      "WebFetch(domain:www.pontbot.hu)",
+      "WebFetch(domain:www.pontbot.com)",
+      "WebFetch(domain:www.ncbi.nlm.nih.gov)",
+      "WebFetch(domain:journals.asm.org)",
+      "WebFetch(domain:www.dovepress.com)",
+      "WebFetch(domain:linkinghub.elsevier.com)",
+      "WebFetch(domain:gentext.ai)"
     ],
     "deny": [
       "Bash(git *)"

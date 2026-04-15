@@ -1,7 +1,7 @@
 \chapter{Cơ sở lý thuyết}
 \label{chap:theory}
 
-Chương này trình bày các kiến thức nền tảng cần thiết cho việc hiểu và đánh giá các phương pháp phân loại lối sống thực khuẩn thể từ dữ liệu metagenomics. Nội dung bao gồm các khái niệm sinh học phân tử và tin sinh học liên quan đến thực khuẩn thể và dữ liệu hệ gen, các kiến trúc học sâu được sử dụng rộng rãi trong phân tích chuỗi sinh học, cơ sở lý thuyết về học chuyển giao, và tổng quan các công trình nghiên cứu liên quan trong lĩnh vực phân loại lối sống phage.
+Chương này trình bày các kiến thức nền tảng cần thiết cho việc hiểu và đánh giá các phương pháp phân loại hệ gen thực khuẩn thể từ dữ liệu metagenomics. Nội dung bao gồm các khái niệm sinh học phân tử và tin sinh học liên quan đến thực khuẩn thể và dữ liệu hệ gen, các kiến trúc học sâu được sử dụng rộng rãi trong phân tích chuỗi sinh học, cơ sở lý thuyết về học chuyển giao, và tổng quan các công trình nghiên cứu liên quan trong lĩnh vực phân loại hệ gen phage.
 
 % =====================================================================
 \section{Nền tảng sinh học phân tử và tin sinh học}
@@ -146,15 +146,15 @@ Có ba chiến lược tinh chỉnh chính, mỗi chiến lược cân bằng kh
 Một thách thức quan trọng trong tinh chỉnh là quên thảm khốc (catastrophic forgetting)---hiện tượng mô hình mất đi tri thức đã học trong giai đoạn huấn luyện trước khi tinh chỉnh quá mạnh trên tác vụ cụ thể. Để giảm thiểu hiện tượng này, các kỹ thuật thường được kết hợp bao gồm: tốc độ học phân biệt giữa các lớp, mở khóa dần dần (gradual unfreezing) trong đó các lớp được mở khóa từ trên xuống dưới qua các epoch huấn luyện, và các phương pháp chính quy hóa (regularization) như giảm trọng số (weight decay) và dropout~\cite{howard2018universal}.
 
 % =====================================================================
-\section{Các phương pháp tính toán cho phân loại lối sống thực khuẩn}
+\section{Các phương pháp tính toán cho phân loại hệ gen thực khuẩn}
 \label{sec:phage_classification_methods}
 
-Nhận thức được tầm quan trọng của bài toán phân loại lối sống thực khuẩn, nhiều phương pháp tính toán đã được phát triển trong thập kỷ qua. Các phương pháp này có thể được phân loại theo ba giai đoạn phát triển: các kỹ thuật học máy truyền thống dựa trên đặc trưng thủ công, các mô hình học sâu với khả năng tự động học biểu diễn, và các mô hình nền tảng hệ gen tận dụng học chuyển giao từ kho ngữ liệu quy mô lớn.
+Nhận thức được tầm quan trọng của bài toán phân loại hệ gen thực khuẩn, nhiều phương pháp tính toán đã được phát triển trong thập kỷ qua. Các phương pháp này có thể được phân loại theo ba giai đoạn phát triển: các kỹ thuật học máy truyền thống dựa trên đặc trưng thủ công, các mô hình học sâu với khả năng tự động học biểu diễn, và các mô hình nền tảng hệ gen tận dụng học chuyển giao từ kho ngữ liệu quy mô lớn.
 
 \subsection{Các phương pháp học máy truyền thống}
 \label{subsec:traditional_ml}
 
-Các phương pháp học máy truyền thống tiếp cận bài toán phân loại lối sống phage bằng cách trích xuất đặc trưng thủ công từ bộ gen thực khuẩn, sau đó sử dụng các thuật toán phân loại kinh điển. Mặc dù đạt hiệu năng cao trên bộ gen hoàn chỉnh, các phương pháp này gặp hạn chế đáng kể khi áp dụng cho dữ liệu contig phân mảnh từ metagenomics.
+Các phương pháp học máy truyền thống tiếp cận bài toán phân loại hệ gen phage bằng cách trích xuất đặc trưng thủ công từ bộ gen thực khuẩn, sau đó sử dụng các thuật toán phân loại kinh điển. Mặc dù đạt hiệu năng cao trên bộ gen hoàn chỉnh, các phương pháp này gặp hạn chế đáng kể khi áp dụng cho dữ liệu contig phân mảnh từ metagenomics.
 
 PHACTS~\cite{mcnair2012phacts} là một trong những công cụ tính toán đầu tiên cho bài toán này, sử dụng thuật toán Random Forest kết hợp với đặc trưng tương đồng protein. Phương pháp xây dựng một tập protein chuẩn có chú thích lối sống, sau đó mã hóa proteome của thực khuẩn cần phân loại thành vector tương đồng thông qua công cụ FASTA35. PHACTS đạt độ chính xác xấp xỉ 90\% trên bộ gen hoàn chỉnh, nhưng hiệu năng giảm mạnh trên contig ngắn---chỉ đạt khoảng 50\% trên các đoạn 100--1800~bp~\cite{wu2021deephage}---do các contig ngắn thiếu vùng mã hóa protein hoàn chỉnh để tạo tín hiệu tương đồng đủ tin cậy.
 
@@ -165,15 +165,15 @@ BACPHLIP~\cite{hockenberry2021bacphlip} khai thác sự hiện diện của các
 \subsection{Các phương pháp học sâu}
 \label{subsec:deep_learning_methods}
 
-Sự phát triển của công nghệ tính toán song song đã cho phép áp dụng các mô hình học sâu cho bài toán phân loại lối sống phage, mang lại cải thiện đáng kể về hiệu năng, đặc biệt trên dữ liệu contig phân mảnh.
+Sự phát triển của công nghệ tính toán song song đã cho phép áp dụng các mô hình học sâu cho bài toán phân loại hệ gen phage, mang lại cải thiện đáng kể về hiệu năng, đặc biệt trên dữ liệu contig phân mảnh.
 
 DeePhage~\cite{wu2021deephage} là phương pháp học sâu đầu tiên cho bài toán này, sử dụng mạng nơ-ron tích chập (CNN) huấn luyện từ đầu trên các contig metagenomic có độ dài từ 100 đến 1800~bp. Chuỗi DNA được mã hóa trực tiếp bằng phương pháp one-hot, trong đó mỗi nucleotide được biểu diễn thành vector nhị phân 4 chiều. DeePhage không phụ thuộc vào dự đoán gen và đạt độ chính xác kiểm định chéo 5 lần lên đến 89\%, vượt trội so với PHACTS khoảng 30\% trên cùng bộ dữ liệu~\cite{wu2021deephage}. Bộ chuẩn đánh giá gồm bốn nhóm độ dài contig A--D do DeePhage thiết lập cũng được sử dụng rộng rãi trong các nghiên cứu tiếp theo. Tuy nhiên, mô hình được huấn luyện từ đầu mà không tận dụng tri thức hệ gen tổng quát từ kho ngữ liệu lớn, và mã hóa one-hot tạo ra biểu diễn thưa không mang thông tin ngữ nghĩa.
 
-PhaTYP~\cite{shang2023phatyp} là phương pháp đầu tiên ứng dụng kiến trúc BERT cho phân loại lối sống phage. Phương pháp hoạt động ở cấp độ protein: bộ gen thực khuẩn được dịch mã thành các protein thông qua công cụ dự đoán gen Prodigal~\cite{hyatt2010prodigal}, các protein đồng nhất được nhóm thành cluster, và mỗi cluster được coi là một token đầu vào cho mô hình BERT. PhaTYP đạt hiệu năng mạnh trên contig dài, đặc biệt Nhóm~D (1200--1800~bp) với 93\% độ nhạy và 94\% độ chính xác. Tuy nhiên, sự phụ thuộc vào Prodigal---vốn có hiệu suất giảm mạnh trên các đoạn DNA ngắn hơn 200~bp~\cite{trimble2012short}---dẫn đến hạn chế đáng kể trên contig ngắn và phân mảnh.
+PhaTYP~\cite{shang2023phatyp} là phương pháp đầu tiên ứng dụng kiến trúc BERT cho phân loại hệ gen phage. Phương pháp hoạt động ở cấp độ protein: bộ gen thực khuẩn được dịch mã thành các protein thông qua công cụ dự đoán gen Prodigal~\cite{hyatt2010prodigal}, các protein đồng nhất được nhóm thành cluster, và mỗi cluster được coi là một token đầu vào cho mô hình BERT. PhaTYP đạt hiệu năng mạnh trên contig dài, đặc biệt Nhóm~D (1200--1800~bp) với 93\% độ nhạy và 94\% độ chính xác. Tuy nhiên, sự phụ thuộc vào Prodigal---vốn có hiệu suất giảm mạnh trên các đoạn DNA ngắn hơn 200~bp~\cite{trimble2012short}---dẫn đến hạn chế đáng kể trên contig ngắn và phân mảnh.
 
-DeepPL~\cite{zhang2024deeppl} sử dụng DNABERT~\cite{ji2021dnabert} để mã hóa chuỗi DNA trực tiếp cho phân loại lối sống phage, không phụ thuộc vào dự đoán gen. Phương pháp áp dụng phân tách k-mer có chồng lấp ($k=6$), trong đó các token liền kề chia sẻ $k-1$ nucleotide. Tuy nhiên, DeepPL kế thừa giới hạn 512 token của DNABERT gốc do sử dụng biểu diễn vị trí học được, tương đương khoảng 500~bp, khiến phương pháp không thể xử lý contig dài hơn trong bộ chuẩn (lên đến 1800~bp) và bị loại khỏi so sánh trực tiếp. Ngoài ra, phân tách k-mer có chồng lấp gây ra rò rỉ thông tin trong quá trình học có mặt nạ.
+DeepPL~\cite{zhang2024deeppl} sử dụng DNABERT~\cite{ji2021dnabert} để mã hóa chuỗi DNA trực tiếp cho phân loại hệ gen phage, không phụ thuộc vào dự đoán gen. Phương pháp áp dụng phân tách k-mer có chồng lấp ($k=6$), trong đó các token liền kề chia sẻ $k-1$ nucleotide. Tuy nhiên, DeepPL kế thừa giới hạn 512 token của DNABERT gốc do sử dụng biểu diễn vị trí học được, tương đương khoảng 500~bp, khiến phương pháp không thể xử lý contig dài hơn trong bộ chuẩn (lên đến 1800~bp) và bị loại khỏi so sánh trực tiếp. Ngoài ra, phân tách k-mer có chồng lấp gây ra rò rỉ thông tin trong quá trình học có mặt nạ.
 
-ProkBERT~\cite{ligeti2024prokbert} là họ mô hình ngôn ngữ hệ gen vi sinh, được huấn luyện trước trên hệ gen vi khuẩn đa loài. Phương pháp sử dụng cơ chế phân tách token nhận thức ngữ cảnh cục bộ (Local Context-Aware --- LCA), một biến thể k-mer có chồng lấp với độ dịch chuyển điều chỉnh được. ProkBERT đạt độ chính xác dao động từ 80,68\% đến 85,35\% trên các nhóm contig A--D trong bộ chuẩn phân loại lối sống phage. Đáng chú ý, khác với các phương pháp khác có xu hướng cải thiện khi độ dài contig tăng, ProkBERT cho thấy hiện tượng trì trệ hiệu năng trên contig dài hơn, với độ chính xác đạt đỉnh 85,35\% ở Nhóm~B rồi giảm xuống khoảng 84\% ở Nhóm~C và D, gợi ý những hạn chế trong khả năng nắm bắt phụ thuộc dài hạn.
+ProkBERT~\cite{ligeti2024prokbert} là họ mô hình ngôn ngữ hệ gen vi sinh, được huấn luyện trước trên hệ gen vi khuẩn đa loài. Phương pháp sử dụng cơ chế phân tách token nhận thức ngữ cảnh cục bộ (Local Context-Aware --- LCA), một biến thể k-mer có chồng lấp với độ dịch chuyển điều chỉnh được. ProkBERT đạt độ chính xác dao động từ 80,68\% đến 85,35\% trên các nhóm contig A--D trong bộ chuẩn phân loại hệ gen phage. Đáng chú ý, khác với các phương pháp khác có xu hướng cải thiện khi độ dài contig tăng, ProkBERT cho thấy hiện tượng trì trệ hiệu năng trên contig dài hơn, với độ chính xác đạt đỉnh 85,35\% ở Nhóm~B rồi giảm xuống khoảng 84\% ở Nhóm~C và D, gợi ý những hạn chế trong khả năng nắm bắt phụ thuộc dài hạn.
 
 \subsection{Các mô hình nền tảng hệ gen}
 \label{subsec:foundation_models}
@@ -185,11 +185,11 @@ DNABERT~\cite{ji2021dnabert} là mô hình nền tảng đầu tiên áp dụng 
 \subsection{So sánh tổng hợp và khoảng trống nghiên cứu}
 \label{subsec:comparison_gaps}
 
-Bảng~\ref{tab:comprehensive_method_comparison} tổng hợp so sánh các phương pháp phân loại lối sống thực khuẩn theo các tiêu chí chính: nguồn dữ liệu, phương pháp phân tách token, thuật toán áp dụng và sử dụng mô hình tiền huấn luyện.
+Bảng~\ref{tab:comprehensive_method_comparison} tổng hợp so sánh các phương pháp phân loại hệ gen thực khuẩn theo các tiêu chí chính: nguồn dữ liệu, phương pháp phân tách token, thuật toán áp dụng và sử dụng mô hình tiền huấn luyện.
 
 \begin{table}[h]
 \centering
-\caption{So sánh tổng hợp các phương pháp phân loại lối sống thực khuẩn}
+\caption{So sánh tổng hợp các phương pháp phân loại hệ gen thực khuẩn}
 \label{tab:comprehensive_method_comparison}
 \resizebox{\textwidth}{!}{%
 \begin{tabular}{lcccc}
@@ -208,7 +208,7 @@ ProkBERT~\cite{ligeti2024prokbert} & Hệ gen vi sinh & LCA k-mer & BERT & Có \
 }
 \end{table}
 
-Qua tổng quan các công trình liên quan, có thể nhận diện một số khoảng trống nghiên cứu chính trong lĩnh vực phân loại lối sống thực khuẩn từ dữ liệu metagenomics.
+Qua tổng quan các công trình liên quan, có thể nhận diện một số khoảng trống nghiên cứu chính trong lĩnh vực phân loại hệ gen thực khuẩn từ dữ liệu metagenomics.
 
 Khoảng trống đầu tiên liên quan đến sự phụ thuộc vào dự đoán gen. PhaTYP~\cite{shang2023phatyp} phụ thuộc vào Prodigal~\cite{hyatt2010prodigal} để phát hiện protein, dẫn đến thất bại trên contig ngắn vì các công cụ dự đoán gen có hiệu suất giảm mạnh trên các đoạn DNA ngắn hơn 200~bp~\cite{trimble2012short}. Các contig ngắn thường không chứa gen hoàn chỉnh, khiến phương pháp dựa trên protein không khả thi cho phần lớn dữ liệu metagenomic thực tế.
 

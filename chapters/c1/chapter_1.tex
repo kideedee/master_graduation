@@ -8,7 +8,7 @@ Thực khuẩn thể, thường được gọi tắt là phage, là các virus x
 
 Các phương pháp thực nghiệm truyền thống để xác định lối sống phage đòi hỏi nuôi cấy trong phòng thí nghiệm, tốn thời gian và không áp dụng được cho phần lớn phage chưa được phân lập trong các mẫu môi trường~\cite{shang2023phatyp}. Với sự phát triển của công nghệ giải trình tự thế hệ mới, metagenomics đã trở thành công cụ quan trọng để nghiên cứu đa dạng sinh học phage mà không cần nuôi cấy~\cite{mokili2012metagenomics}. Trong phân tích metagenomic, hệ gen phage thường được phục hồi dưới dạng các contig với độ dài biến thiên lớn và thường bị phân mảnh, đặt ra thách thức đặc thù cho các phương pháp phân loại tự động.
 
-Khối lượng dữ liệu metagenomic ngày càng tăng nhanh đặt ra nhu cầu cấp thiết cho các phương pháp tính toán có khả năng phân loại lối sống thực khuẩn thể một cách tự động, chính xác, và hoạt động hiệu quả trên các contig ngắn, phân mảnh mà không phụ thuộc vào nuôi cấy phòng thí nghiệm. Tuy nhiên, việc xây dựng một phương pháp như vậy đối mặt với nhiều thách thức cả về mặt sinh học lẫn kỹ thuật tính toán.
+Khối lượng dữ liệu metagenomic ngày càng tăng nhanh đặt ra nhu cầu cấp thiết cho các phương pháp tính toán có khả năng phân loại hệ gen thực khuẩn thể một cách tự động, chính xác, và hoạt động hiệu quả trên các contig ngắn, phân mảnh mà không phụ thuộc vào nuôi cấy phòng thí nghiệm. Tuy nhiên, việc xây dựng một phương pháp như vậy đối mặt với nhiều thách thức cả về mặt sinh học lẫn kỹ thuật tính toán.
 
 \section{Thách thức nghiên cứu}
 \label{sec:challenges}
@@ -20,11 +20,11 @@ Bên cạnh các thách thức sinh học, các phương pháp tính toán hiệ
 \section{Mục tiêu nghiên cứu}
 \label{sec:objectives}
 
-Mục tiêu chính của luận văn là phát triển PhaBERT-CNN, một phương pháp học sâu lai kết hợp mô hình nền tảng hệ gen DNABERT-2~\cite{zhou2023dnabert} với mô đun MKC để phân loại lối sống thực khuẩn thể từ các contig metagenomic. Cụ thể, luận văn hướng đến bốn mục tiêu:
+Mục tiêu chính của luận văn là phát triển PhaBERT-CNN, một phương pháp học sâu lai kết hợp mô hình nền tảng hệ gen DNABERT-2~\cite{zhou2023dnabert} với mô đun MKC để phân loại hệ gen thực khuẩn thể từ các contig metagenomic. Cụ thể, luận văn hướng đến bốn mục tiêu:
 
 \begin{enumerate}
     \item Thiết kế kiến trúc PhaBERT-CNN với hai nhánh song song: nhánh CNN đa kernel để trích xuất đặc trưng cục bộ ở nhiều tỷ lệ không gian, và nhánh gộp trung bình có mặt nạ để tổng hợp biểu diễn ngữ cảnh toàn cục từ các token embeddings.
-    \item Phát triển pipeline phân loại lối sống phage hoạt động trực tiếp trên chuỗi DNA thô thông qua BPE tokenization, loại bỏ sự phụ thuộc vào các công cụ dự đoán gen bên ngoài.
+    \item Phát triển pipeline phân loại hệ gen phage hoạt động trực tiếp trên chuỗi DNA thô thông qua BPE tokenization, loại bỏ sự phụ thuộc vào các công cụ dự đoán gen bên ngoài.
     \item Xây dựng chiến lược huấn luyện hai giai đoạn với tốc độ học phân biệt để tối ưu hóa hiệu quả cả biểu diễn tiền huấn luyện và các thành phần chuyên biệt cho tác vụ.
     \item Đánh giá có hệ thống hiệu suất PhaBERT-CNN so với các phương pháp tiên tiến trên bốn nhóm độ dài contig (100--1800 bp) thông qua kiểm định chéo 5 phần phân tầng.
 \end{enumerate}
@@ -38,7 +38,7 @@ Luận văn đóng góp vào lĩnh vực sinh tin học thông qua bốn đóng 
 
 \begin{enumerate}
     \item \textbf{Về kiến trúc:} Đề xuất PhaBERT-CNN với mô đun MKC gồm nhánh CNN đa kernel (kích thước 3, 5, 7) kết hợp masked mean pooling toàn cục, cho phép đồng thời trích xuất đặc trưng cục bộ đa tỷ lệ và biểu diễn toàn cục từ tất cả vị trí chuỗi.
-    \item \textbf{Về phương pháp:} Phát triển pipeline phân loại lối sống phage không phụ thuộc công cụ dự đoán gen, hoạt động trực tiếp trên chuỗi DNA thô thông qua BPE tokenization, đặc biệt phù hợp với các contig ngắn thiếu vùng mã hóa protein hoàn chỉnh.
+    \item \textbf{Về phương pháp:} Phát triển pipeline phân loại hệ gen phage không phụ thuộc công cụ dự đoán gen, hoạt động trực tiếp trên chuỗi DNA thô thông qua BPE tokenization, đặc biệt phù hợp với các contig ngắn thiếu vùng mã hóa protein hoàn chỉnh.
     \item \textbf{Về thực nghiệm:} Đánh giá toàn diện trên bốn nhóm độ dài contig cho thấy PhaBERT-CNN đạt độ chính xác cao nhất trên tất cả bốn nhóm với 82,26--91,34\%, cải thiện 0,32--6,61\% so với các phương pháp tiên tiến.
     \item \textbf{Về phân tích:} Cung cấp nghiên cứu loại bỏ thành phần so sánh trực tiếp PhaBERT-CNN với mô hình cơ sở DNABERT-2, phân tích chi tiết điểm mạnh, hạn chế, và hướng phát triển của phương pháp.
 \end{enumerate}
@@ -55,4 +55,4 @@ Luận văn giới hạn ở phân loại nhị phân (virulent/temperate) và c
 \section{Bố cục luận văn}
 \label{sec:organization}
 
-Luận văn được tổ chức thành năm chương theo mạch logic từ nền tảng lý thuyết đến thiết kế phương pháp, thực nghiệm, và tổng kết. Chương~\ref{chap:introduction} (chương hiện tại) đặt vấn đề, xác định thách thức, và trình bày mục tiêu cùng đóng góp của luận văn. Chương~\ref{chap:theory} xây dựng nền tảng lý thuyết cần thiết, bao gồm sinh học thực khuẩn thể, metagenomics, các kiến trúc học sâu CNN và Transformer, học chuyển giao, và tổng quan các phương pháp phân loại lối sống phage hiện có; chương này kết thúc bằng phân tích khoảng trống nghiên cứu, tạo cơ sở trực tiếp cho phương pháp đề xuất. Chương~\ref{chap:method} trình bày chi tiết PhaBERT-CNN: quy trình xây dựng dữ liệu, kiến trúc mô hình với mạng nền DNABERT-2 và mô đun MKC, cùng chiến lược huấn luyện hai giai đoạn. Chương~\ref{chap:thuc_nghiem_danh_gia} đánh giá PhaBERT-CNN qua các thực nghiệm có hệ thống, so sánh với các phương pháp tiên tiến trên bốn nhóm độ dài contig và phân tích chi tiết kết quả. Cuối cùng, Chương~\ref{chap:conclusion} tổng kết các phát hiện chính, thảo luận hạn chế, và đề xuất hướng nghiên cứu tương lai.
+Luận văn được tổ chức thành năm chương theo mạch logic từ nền tảng lý thuyết đến thiết kế phương pháp, thực nghiệm, và tổng kết. Chương~\ref{chap:introduction} (chương hiện tại) đặt vấn đề, xác định thách thức, và trình bày mục tiêu cùng đóng góp của luận văn. Chương~\ref{chap:theory} xây dựng nền tảng lý thuyết cần thiết, bao gồm sinh học thực khuẩn thể, metagenomics, các kiến trúc học sâu CNN và Transformer, học chuyển giao, và tổng quan các phương pháp phân loại hệ gen phage hiện có; chương này kết thúc bằng phân tích khoảng trống nghiên cứu, tạo cơ sở trực tiếp cho phương pháp đề xuất. Chương~\ref{chap:method} trình bày chi tiết PhaBERT-CNN: quy trình xây dựng dữ liệu, kiến trúc mô hình với mạng nền DNABERT-2 và mô đun MKC, cùng chiến lược huấn luyện hai giai đoạn. Chương~\ref{chap:thuc_nghiem_danh_gia} đánh giá PhaBERT-CNN qua các thực nghiệm có hệ thống, so sánh với các phương pháp tiên tiến trên bốn nhóm độ dài contig và phân tích chi tiết kết quả. Cuối cùng, Chương~\ref{chap:conclusion} tổng kết các phát hiện chính, thảo luận hạn chế, và đề xuất hướng nghiên cứu tương lai.

@@ -1,6 +1,6 @@
 ---
 name: Project Model State
-description: Current state of PhaBERT-CNN model architecture — attention pooling removed in favor of masked mean pooling
+description: Current state of PhaBERT-CNN model architecture — attention pooling removed in favor of masked mean pooling; abstract rewrite needed
 type: project
 ---
 
@@ -26,3 +26,21 @@ Architecture now:
 6. eq:feature_fusion: change f_attn → f_global, update explanation (line 174)
 7. Regularization sentence (line 213): "attention pooling" → "global pooling"
 8. Conclusion (line 246): update MKCA description
+
+## Abstract rewrite needed (as of 2026-04-15)
+
+Both `chapters/abtract_vi.tex` and `chapters/abtract_en.tex` contain stale numbers from
+the PhaBERT-CNN-AP ablation variant. A rewrite plan exists at `plans/abstract_rewrite_plan.md`.
+
+Correct PhaBERT-CNN numbers (from `chapters/c4/chapter_4.tex` tab:main_results):
+- Accuracy: 82.26%, 87.38%, 90.01%, 91.34% (Groups A–D)
+- Sensitivity: 82.54%–92.31%
+- Specificity: 81.30%–87.71%
+- Improvement vs. state-of-the-art: 0.32–6.61%
+- MKC over DNABERT-2 baseline: 0.74–4.09%
+
+Wrong numbers currently in abstract (DO NOT USE):
+- Accuracy: 81.59%, 87.91%, 90.01%, 90.69% — these are PhaBERT-CNN-AP numbers
+- Sensitivity: 82.00%–91.12% — PhaBERT-CNN-AP
+- Specificity: 80.15%–90.95% — PhaBERT-CNN-AP
+- Improvement: 0.91–5.98% — computed from wrong baseline

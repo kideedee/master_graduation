@@ -18,6 +18,7 @@ Comprehensive review of a chapter or file covering 5 dimensions.
 - Paragraphs flow with transitions
 - No orphan sections (subsection without parent)
 - Chapter length is proportionate to importance
+- **Chapter introduction consistency**: The introductory paragraph of each chapter must accurately describe ALL sections/subsections that follow. If new content was added (e.g., a new Discussion section), verify the chapter intro mentions it. Flag any mismatch between promised content and actual sections.
 
 ### 2. Vietnamese Terminology
 - Read `.claude/rules/vietnamese-terms.md` FIRST
