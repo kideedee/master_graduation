@@ -1,28 +1,53 @@
 ---
 name: Project Model State
-description: Current state of PhaBERT-CNN model architecture — attention pooling removed in favor of masked mean pooling
+description: Current state of PhaBERT model naming, ablation study configuration, and architecture — as of 2026-05-02 revision request
 type: project
 ---
 
-The model in `implementation/phabert_cnn_model.py` has been revised (as of 2026-04-13). The class is now `Dnabert2CnnModelNoAttention`.
+## Model Naming (as of 2026-05-02)
 
-Key architectural change: **Attention pooling (nhánh Attention Pooling) has been removed.** It is replaced by **masked mean pooling** for global transformer feature aggregation.
+The proposed model has been renamed: **PhaBERT-CNN → PhaBERT**.
 
-Architecture now:
-- DNABERT-2 backbone (frozen in warmup, unfrozen in fine-tuning)
-- 3 parallel CNN branches with kernels {3, 5, 7}: 768→256→128 channels, AdaptiveMaxPool1d → f_CNN ∈ R^384
-- Global pooling via masked mean pooling → Linear(768→128) → ReLU → Dropout(0.1) → f_global ∈ R^128
-- Combined features: [f_global; f_CNN] ∈ R^512
-- Classifier: 512→256→64→2 (LayerNorm after first layer)
+All chapters (c1–c5), abstracts, and glossary need updating. A detailed plan exists at `plans/c4_ablation_phabert_revision_plan.md`.
 
-**Why:** The attention pooling was removed as part of an ablation study variant. The masked mean pooling is simpler and deterministic.
+## New Ablation Study (4 Configurations)
 
-**How to apply:** A detailed revision plan exists at `plans/c3_mkca_revision_plan.md`. Chapter 3 changes required:
-1. Intro paragraph (line 4): remove "lớp gộp chú ý"
-2. sec:overview (line 15): replace "Attention Pooling\cite{lin2017structured}" → "masked mean pooling"
-3. MKCA subsec intro (line 116): update two-branch description
-4. Delete entire subsubsec "Nhánh Attention Pooling toàn cục" (lines 139–163), removing eq:attn_hidden through eq:attn_proj and \cite{lin2017structured}
-5. Add new subsubsec "Nhánh Masked Mean Pooling toàn cục" with eq:mean_pooling and eq:global_proj
-6. eq:feature_fusion: change f_attn → f_global, update explanation (line 174)
-7. Regularization sentence (line 213): "attention pooling" → "global pooling"
-8. Conclusion (line 246): update MKCA description
+The ablation study now has **4 configurations** instead of the previous 3:
+
+1. **DNABERT-2** — baseline, linear classifier head only
+2. **PhaBERT** — proposed full model (DNABERT-2 + CNN + global branch)
+3. **DNABERT-2-CNN** — ablation: CNN branch only, no global branch
+4. **DNABERT-2-AP** — ablation: Attention Pooling branch only, no CNN
+
+The old configurations ("PhaBERT-CNN-AP" and "PhaBERT-CNN") are no longer used.
+
+## Architecture Ambiguity (UNRESOLVED — needs user confirmation)
+
+It is unclear whether the full **PhaBERT** model uses **Attention Pooling** or **Masked Mean Pooling** as its global branch. Chapter 3 currently describes masked mean pooling. The 4-config ablation structure implies AP might be in the full model. User confirmation required before implementing Chapter 3 changes.
+
+## New Ablation Data (Sn / Sp / Acc in %)
+
+| Model | Group A | Group B | Group C | Group D |
+|---|---|---|---|---|
+| DNABERT-2 | 83,68 / 73,25 / 81,52 | 87,24 / 79,27 / 85,56 | 87,68 / 85,75 / 87,25 | 87,68 / 85,75 / 87,25 |
+| PhaBERT | 82,68 / 80,44 / 82,18 | 88,11 / 84,63 / 87,36 | 91,21 / 86,25 / 90,16 | 91,75 / 88,58 / 91,07 |
+| DNABERT-2-CNN | 83,33 / 79,77 / 82,56 | 88,50 / 84,33 / 87,59 | 90,60 / 87,96 / 90,04 | 92,38 / **47,88** / 91,34 |
+| DNABERT-2-AP | 85,12 / 77,65 / 83,54 | 89,04 / 84,49 / 87,63 | 90,84 / 86,30 / 89,88 | 91,72 / 88,74 / 91,08 |
+
+**Flags requiring user confirmation:**
+- DNABERT-2-CNN Group D Sp = 47,88% — likely typo (87,88%?)
+- DNABERT-2 Group C and Group D are identical — is this correct?
+
+## Main Results (tab:main_results) — PhaBERT New Numbers
+
+| Metric | Group A | Group B | Group C | Group D |
+|---|---|---|---|---|
+| Sn | 82,68 | 88,11 | 91,21 | 91,75 |
+| Sp | 80,44 | 84,63 | 86,25 | 88,58 |
+| Acc | 82,18 | 87,36 | 90,16 | 91,07 |
+
+Old PhaBERT-CNN numbers (now obsolete): Acc = 82,26 / 87,38 / 90,01 / 91,34
+
+**Why:** User provided new experimental results with a restructured ablation study and model rename as part of thesis revision in May 2026.
+
+**How to apply:** Before writing any section referencing model performance, use the new PhaBERT numbers above. Do not use the old PhaBERT-CNN numbers. Always check this memory before citing accuracy figures.

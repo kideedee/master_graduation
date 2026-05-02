@@ -46,7 +46,16 @@
       "WebFetch(domain:pm.st.cs.uni-sb.de)",
       "WebFetch(domain:www.plai.ifi.lmu.de)",
       "WebFetch(domain:wordnest.org)",
-      "WebFetch(domain:gradcoach.com)"
+      "WebFetch(domain:gradcoach.com)",
+      "WebFetch(domain:peerj.com)",
+      "WebFetch(domain:pypi.org)",
+      "WebFetch(domain:bmcmicrobiol.biomedcentral.com)",
+      "WebFetch(domain:www.scoop.it)",
+      "WebFetch(domain:public-pages-files-2025.frontiersin.org)",
+      "WebFetch(domain:raw.githubusercontent.com)",
+      "WebFetch(domain:www.osti.gov)",
+      "Skill(plan)",
+      "Skill(plan:*)"
     ],
     "deny": [
       "Bash(git *)"

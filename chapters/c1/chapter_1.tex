@@ -17,6 +17,32 @@ Các phương pháp tính toán để dự đoán lối sống thực khuẩn th
 
 Bên cạnh các thách thức sinh học, các phương pháp tính toán hiện có cũng đối mặt với những đánh đổi kỹ thuật quan trọng: yêu cầu hệ gen hoàn chỉnh làm hạn chế ứng dụng trên contig phân mảnh, phụ thuộc vào công cụ dự đoán gen làm giảm hiệu suất trên contig ngắn, và các chiến lược tokenization dựa trên k-mer chồng lấp dẫn đến rò rỉ thông tin trong quá trình tiền huấn luyện. Như sẽ được phân tích trong Chương~\ref{chap:theory}, những hạn chế này tạo ra khoảng trống nghiên cứu mà PhaBERT-CNN hướng đến giải quyết.
 
+\section{Phát biểu bài toán}
+\label{sec:problem_formulation}
+
+Trong toàn bộ các nghiên cứu liên quan, từ các phương pháp dựa trên đặc trưng thủ công như PHACTS~\cite{mcnair2012phacts} và BACPHLIP~\cite{hockenberry2021bacphlip} đến các mô hình học sâu như DeePhage~\cite{wu2021deephage}, PhaTYP~\cite{shang2023phatyp} và DeepPL~\cite{zhang2024deeppl}, bài toán dự đoán lối sống thực khuẩn thể đều được đặt dưới dạng \textbf{phân loại nhị phân}. Sự đồng thuận này có cơ sở sinh học rõ ràng: hai chiến lược nhân lên chính --- chu trình tan và chu trình tiềm tan --- dẫn đến hai nhóm lối sống phân biệt về mặt chức năng, trong đó chỉ thực khuẩn thể độc lực mới phù hợp cho liệu pháp phage. Luận văn áp dụng cùng khung phân loại nhị phân này.
+
+\textbf{Không gian đầu vào.} Mỗi mẫu đầu vào là một chuỗi DNA (contig) được phục hồi từ dữ liệu metagenomic. Gọi $\mathcal{A} = \{A, T, G, C\}$ là bảng chữ cái nucleotide, không gian đầu vào được định nghĩa:
+\begin{equation}
+    s = (s_1, s_2, \ldots, s_L) \in \mathcal{A}^L, \quad L \in [100,\; 1800]
+    \label{eq:input_space}
+\end{equation}
+trong đó $L$ là độ dài chuỗi tính bằng cặp base (bp). Phạm vi $L \in [100, 1800]$ phản ánh điều kiện thực tế của dữ liệu metagenomic: các contig thường ngắn và phân mảnh, không phải hệ gen phage hoàn chỉnh.
+
+\textbf{Phân nhóm theo độ dài.} Do hiệu suất phân loại phụ thuộc mạnh vào độ dài contig~\cite{wu2021deephage,shang2023phatyp}, toàn bộ không gian đầu vào được phân hoạch thành bốn nhóm không giao nhau theo độ dài:
+\begin{equation}
+    \mathcal{S}_g = \{s \in \mathcal{A}^L \mid L \in R_g\}, \quad g \in \{A, B, C, D\}
+    \label{eq:length_groups}
+\end{equation}
+với $R_A = [100, 400]$, $R_B = [400, 800]$, $R_C = [800, 1200]$, $R_D = [1200, 1800]$ (đơn vị bp). Cách phân nhóm này được đề xuất bởi DeePhage~\cite{wu2021deephage} với lý do thực tiễn: bốn dải độ dài phủ khoảng độ dài raw reads và độ dài trung bình contigs lắp ráp từ công nghệ giải trình tự thế hệ mới. Mỗi nhóm $g$ tương ứng với một mô hình $f_{\theta_g}$ được huấn luyện riêng biệt trên tập dữ liệu của nhóm đó. Quy ước phân nhóm này đã được các nghiên cứu tiếp theo kế thừa~\cite{shang2023phatyp,zhang2024deeppl}, cho phép so sánh công bằng giữa các phương pháp trên từng dải độ dài.
+
+\textbf{Không gian nhãn và hàm phân loại.} Không gian nhãn gồm hai lớp rời rạc $y \in \{0, 1\}$, trong đó $y = 0$ biểu thị thực khuẩn thể ôn hòa (temperate) và $y = 1$ biểu thị thực khuẩn thể độc lực (virulent). Với mỗi nhóm $g$, bài toán yêu cầu xây dựng một hàm phân loại:
+\begin{equation}
+    f_{\theta_g}: \mathcal{S}_g \rightarrow \{0, 1\}
+    \label{eq:classification_func}
+\end{equation}
+với $\theta_g$ là tập tham số riêng của mô hình nhóm $g$, sao cho $f_{\theta_g}$ tối đa hóa xác suất dự đoán đúng nhãn trên phân phối dữ liệu của nhóm tương ứng.
+
 \section{Mục tiêu nghiên cứu}
 \label{sec:objectives}
 
