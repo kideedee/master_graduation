@@ -6,30 +6,21 @@
 
 Thực khuẩn thể, thường được gọi tắt là phage, là các virus xâm nhiễm và nhân lên bên trong tế bào vi khuẩn. Với số lượng ước tính lên tới $10^{30}$ cá thể~\cite{suttle2007marine}, thực khuẩn thể là dạng sống phong phú nhất trên Trái Đất và đóng vai trò trung tâm trong việc điều hòa quần thể vi khuẩn cũng như thúc đẩy quá trình chuyển gen ngang~\cite{koskella2014bacteria}. Dựa trên chiến lược nhân lên, thực khuẩn thể được phân thành hai nhóm chính: thực khuẩn thể độc lực chỉ thực hiện chu trình tan, và thực khuẩn thể ôn hòa có khả năng tích hợp hệ gen vào nhiễm sắc thể vi khuẩn ở trạng thái tiền thực khuẩn thể~\cite{howard2017lysogeny}. Việc phân loại chính xác lối sống thực khuẩn thể có ý nghĩa quan trọng trong cả nghiên cứu vi sinh vật học lẫn ứng dụng y sinh học. Trong bối cảnh kháng kháng sinh ngày càng gia tăng, liệu pháp phage đang được xem xét như một giải pháp thay thế đầy hứa hẹn~\cite{gorski2016phage}; tuy nhiên, chỉ có thực khuẩn thể độc lực mới phù hợp cho liệu pháp này, vì thực khuẩn thể ôn hòa tiềm ẩn nguy cơ truyền gen kháng kháng sinh sang vi khuẩn bệnh nguyên thông qua biến đổi tiềm tan~\cite{cobian2016viruses}.
 
-Các phương pháp thực nghiệm truyền thống để xác định lối sống phage đòi hỏi nuôi cấy trong phòng thí nghiệm, tốn thời gian và không áp dụng được cho phần lớn phage chưa được phân lập trong các mẫu môi trường~\cite{shang2023phatyp}. Với sự phát triển của công nghệ giải trình tự thế hệ mới, metagenomics đã trở thành công cụ quan trọng để nghiên cứu đa dạng sinh học phage mà không cần nuôi cấy~\cite{mokili2012metagenomics}. Trong phân tích metagenomic, hệ gen phage thường được phục hồi dưới dạng các contig với độ dài biến thiên lớn và thường bị phân mảnh, đặt ra thách thức đặc thù cho các phương pháp phân loại tự động.
+Các phương pháp thực nghiệm truyền thống để xác định lối sống phage đòi hỏi nuôi cấy trong phòng thí nghiệm, tốn thời gian và không áp dụng được cho phần lớn phage chưa được phân lập trong các mẫu môi trường~\cite{shang2023phatyp}. Với sự phát triển của công nghệ giải trình tự thế hệ mới, dữ liệu hệ gen môi trường đã trở thành công cụ quan trọng để nghiên cứu đa dạng sinh học thực khuẩn mà không cần nuôi cấy~\cite{mokili2012metagenomics}. Trong phân tích hệ gen môi trường, dữ liệu di truyền của thực khuẩn thường được phục hồi dưới dạng các contig với độ dài biến thiên lớn và thường bị phân mảnh, đặt ra thách thức đặc thù cho các phương pháp phân loại tự động.
 
-Khối lượng dữ liệu metagenomic ngày càng tăng nhanh đặt ra nhu cầu cấp thiết cho các phương pháp tính toán có khả năng phân loại hệ gen thực khuẩn thể một cách tự động, chính xác, và hoạt động hiệu quả trên các contig ngắn, phân mảnh mà không phụ thuộc vào nuôi cấy phòng thí nghiệm. Tuy nhiên, việc xây dựng một phương pháp như vậy đối mặt với nhiều thách thức cả về mặt sinh học lẫn kỹ thuật tính toán.
+Khối lượng dữ liệu hệ gen môi trường ngày càng tăng nhanh đặt ra nhu cầu cấp thiết cho các phương pháp tính toán có khả năng phân loại hệ gen thực khuẩn thể một cách tự động, chính xác, và hoạt động hiệu quả trên các contig ngắn, phân mảnh mà không phụ thuộc vào nuôi cấy phòng thí nghiệm. Tuy nhiên, việc xây dựng một phương pháp như vậy đối mặt với nhiều thách thức cả về mặt sinh học lẫn kỹ thuật tính toán.
 
 \section{Thách thức nghiên cứu}
 \label{sec:challenges}
 
-Các phương pháp tính toán để dự đoán lối sống thực khuẩn thể phải đối mặt với bốn thách thức cơ bản. Thứ nhất, cơ sở dữ liệu hệ gen phage hiện có vẫn còn rất hạn chế so với sự đa dạng khổng lồ của phage trong tự nhiên~\cite{hayes2017metagenomic}. Thứ hai, thực khuẩn thể không có gen đánh dấu phổ quát như gen 16S rRNA của vi khuẩn~\cite{mokili2012metagenomics}, khiến các phương pháp phân loại dựa trên gen đánh dấu không khả thi. Thứ ba, dữ liệu metagenomic thường chứa nhiều contig ngắn, không hoàn chỉnh, thiếu các gen chức năng cần thiết cho các chiến lược phân loại dựa trên đặc trưng sinh học. Thứ tư, thực khuẩn thể có thể chia sẻ trình tự gen với vi khuẩn chủ thông qua chuyển gen ngang, dẫn đến nhầm lẫn trong quá trình phân loại.
+Các phương pháp tính toán để dự đoán lối sống thực khuẩn thể phải đối mặt với bốn thách thức cơ bản. Thứ nhất, cơ sở dữ liệu hệ gen thực khuẩn hiện có vẫn còn rất hạn chế so với sự đa dạng khổng lồ của thực khuẩn trong tự nhiên~\cite{hayes2017metagenomic}. Thứ hai, thực khuẩn thể không có gen đánh dấu phổ quát như gen 16S rRNA của vi khuẩn~\cite{mokili2012metagenomics}, khiến các phương pháp phân loại dựa trên gen đánh dấu không khả thi. Thứ ba, dữ liệu hệ gen môi trường thường chứa nhiều contig ngắn, không hoàn chỉnh, thiếu các gen chức năng cần thiết cho các chiến lược phân loại dựa trên đặc trưng sinh học. Thứ tư, thực khuẩn thể có thể chia sẻ trình tự gen với vi khuẩn chủ thông qua chuyển gen ngang, dẫn đến nhầm lẫn trong quá trình phân loại.
 
 Bên cạnh các thách thức sinh học, các phương pháp tính toán hiện có cũng đối mặt với những đánh đổi kỹ thuật quan trọng: yêu cầu hệ gen hoàn chỉnh làm hạn chế ứng dụng trên contig phân mảnh, phụ thuộc vào công cụ dự đoán gen làm giảm hiệu suất trên contig ngắn, và các chiến lược tokenization dựa trên k-mer chồng lấp dẫn đến rò rỉ thông tin trong quá trình tiền huấn luyện. Như sẽ được phân tích trong Chương~\ref{chap:theory}, những hạn chế này tạo ra khoảng trống nghiên cứu mà PhaBERT-CNN hướng đến giải quyết.
 
 \section{Mục tiêu nghiên cứu}
 \label{sec:objectives}
 
-Mục tiêu chính của luận văn là phát triển PhaBERT-CNN, một phương pháp học sâu lai kết hợp mô hình nền tảng hệ gen DNABERT-2~\cite{zhou2023dnabert} với mô đun MKC để phân loại hệ gen thực khuẩn thể từ các contig metagenomic. Cụ thể, luận văn hướng đến bốn mục tiêu:
-
-\begin{enumerate}
-    \item Thiết kế kiến trúc PhaBERT-CNN với hai nhánh song song: nhánh CNN đa kernel để trích xuất đặc trưng cục bộ ở nhiều tỷ lệ không gian, và nhánh gộp trung bình có mặt nạ để tổng hợp biểu diễn ngữ cảnh toàn cục từ các token embeddings.
-    \item Phát triển pipeline phân loại hệ gen phage hoạt động trực tiếp trên chuỗi DNA thô thông qua BPE tokenization, loại bỏ sự phụ thuộc vào các công cụ dự đoán gen bên ngoài.
-    \item Xây dựng chiến lược huấn luyện hai giai đoạn với tốc độ học phân biệt để tối ưu hóa hiệu quả cả biểu diễn tiền huấn luyện và các thành phần chuyên biệt cho tác vụ.
-    \item Đánh giá có hệ thống hiệu suất PhaBERT-CNN so với các phương pháp tiên tiến trên bốn nhóm độ dài contig (100--1800 bp) thông qua kiểm định chéo 5 phần phân tầng.
-\end{enumerate}
-
-Bốn mục tiêu này tương ứng với bốn đóng góp chính mà luận văn đạt được.
+Mục tiêu của luận văn là phát triển một phương pháp học sâu để phân loại lối sống thực khuẩn thể (virulent/temperate) từ các contig ngắn trong dữ liệu hệ gen môi trường. Phương pháp đề xuất, PhaBERT-CNN, kết hợp mô hình nền tảng hệ gen DNABERT-2~\cite{zhou2023dnabert} với mô-đun CNN chuyên biệt (MKC), khai thác đồng thời biểu diễn ngữ cảnh toàn cục từ mô hình tiền huấn luyện và đặc trưng cục bộ đa tỷ lệ từ CNN. Luận văn đánh giá hiệu suất PhaBERT-CNN so với các phương pháp tiên tiến trên bốn nhóm độ dài contig (100--1800 bp) thông qua kiểm định chéo 5 phần phân tầng.
 
 \section{Đóng góp của luận văn}
 \label{sec:contributions}
@@ -45,12 +36,12 @@ Luận văn đóng góp vào lĩnh vực sinh tin học thông qua bốn đóng 
 
 Các đóng góp này được thực hiện trong phạm vi và điều kiện thực nghiệm xác định như sau.
 
-\section{Phạm vi nghiên cứu}
-\label{sec:scope}
+% \section{Phạm vi nghiên cứu}
+% \label{sec:scope}
 
-Luận văn tập trung vào bài toán phân loại nhị phân lối sống thực khuẩn thể (virulent/temperate) từ các contig DNA trong phạm vi độ dài 100--1800 bp, được chia thành bốn nhóm theo độ dài. Phương pháp hoạt động trực tiếp trên chuỗi DNA thô, sử dụng DNABERT-2 làm mô hình nền tảng hệ gen, và được đánh giá thông qua kiểm định chéo 5 phần phân tầng trên tập dữ liệu gồm 2.241 hệ gen phage hoàn chỉnh. Các contig đầu vào được giả định đã được xác định là có nguồn gốc từ phage thông qua các công cụ nhận dạng phage, vì bước nhận dạng phage từ dữ liệu metagenomic thô là một tác vụ riêng biệt nằm ngoài phạm vi nghiên cứu này.
+% Luận văn tập trung vào bài toán phân loại nhị phân lối sống thực khuẩn thể (virulent/temperate) từ các contig DNA trong phạm vi độ dài 100--1800 bp, được chia thành bốn nhóm theo độ dài. Phương pháp hoạt động trực tiếp trên chuỗi DNA thô, sử dụng DNABERT-2 làm mô hình nền tảng hệ gen, và được đánh giá thông qua kiểm định chéo 5 phần phân tầng trên tập dữ liệu gồm 2.241 hệ gen phage hoàn chỉnh. Các contig đầu vào được giả định đã được xác định là có nguồn gốc từ phage thông qua các công cụ nhận dạng phage, vì bước nhận dạng phage từ dữ liệu metagenomic thô là một tác vụ riêng biệt nằm ngoài phạm vi nghiên cứu này.
 
-Luận văn giới hạn ở phân loại nhị phân (virulent/temperate) và chưa mở rộng sang các dạng lối sống phức tạp hơn như nhiễm mãn tính. Tập dữ liệu sử dụng hệ gen phage hoàn chỉnh từ cơ sở dữ liệu công khai, do đó có thể chưa phản ánh toàn bộ sự đa dạng của phage trong tự nhiên; phạm vi này là phù hợp với mục tiêu đánh giá phương pháp trong điều kiện kiểm soát được trước khi mở rộng sang dữ liệu thực tế. Cấu trúc luận văn dưới đây phản ánh trực tiếp phạm vi và mục tiêu nghiên cứu này.
+% Luận văn giới hạn ở phân loại nhị phân (virulent/temperate) và chưa mở rộng sang các dạng lối sống phức tạp hơn như nhiễm mãn tính. Tập dữ liệu sử dụng hệ gen phage hoàn chỉnh từ cơ sở dữ liệu công khai, do đó có thể chưa phản ánh toàn bộ sự đa dạng của phage trong tự nhiên; phạm vi này là phù hợp với mục tiêu đánh giá phương pháp trong điều kiện kiểm soát được trước khi mở rộng sang dữ liệu thực tế. Cấu trúc luận văn dưới đây phản ánh trực tiếp phạm vi và mục tiêu nghiên cứu này.
 
 \section{Bố cục luận văn}
 \label{sec:organization}

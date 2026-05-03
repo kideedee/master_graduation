@@ -32,6 +32,7 @@ This file contains Vietnamese ↔ English technical terminology mapping for the 
 | Tập dữ liệu | Dataset |
 | Contig | Contig (DNA fragment) |
 | Metagenomic | Metagenomic |
+| Hệ gen môi trường | Metagenome (preferred over "siêu hệ gen") |
 | Rò rỉ thông tin | Information leakage |
 | Mã hóa cặp byte (BPE) | Byte Pair Encoding |
 | Embedding ngữ cảnh | Contextualized embeddings |
