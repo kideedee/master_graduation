@@ -1,21 +1,21 @@
 \chapter{Phương pháp đề xuất}
 \label{chap:method}
 
-Chương này trình bày chi tiết phương pháp PhaBERT-CNN được đề xuất để dự đoán lối sống của thực khuẩn thể từ các đoạn hệ gen được mô phỏng theo đặc điểm dữ liệu di truyền trong phân tích hệ metagenome. Phương pháp kết hợp mô hình nền tảng DNABERT-2 với kiến trúc chuyên biệt bao gồm nhánh CNN đa kernel và gộp trung bình có mặt nạ toàn cục. Chương trình bày tuần tự từ tổng quan phương pháp và động lực thiết kế, qua quy trình xây dựng dữ liệu huấn luyện, đến kiến trúc mô hình và chiến lược huấn luyện hai giai đoạn.
+Chương này trình bày chi tiết phương pháp PhaBERT được đề xuất để dự đoán lối sống của thực khuẩn thể từ các đoạn hệ gen được mô phỏng theo đặc điểm dữ liệu di truyền trong phân tích hệ metagenome. Phương pháp kết hợp mô hình nền tảng DNABERT-2 với kiến trúc chuyên biệt bao gồm nhánh CNN đa kernel và gộp trung bình có mặt nạ toàn cục. Chương trình bày tuần tự từ tổng quan phương pháp và động lực thiết kế, qua quy trình xây dựng dữ liệu huấn luyện, đến kiến trúc mô hình và chiến lược huấn luyện hai giai đoạn.
 
 \section{Tổng quan phương pháp}
 \label{sec:overview}
 
 Như đã phân tích tại Mục~\ref{subsec:comparison_gaps}, các phương pháp hiện có cho bài toán dự đoán lối sống thực khuẩn thể gặp ba hạn chế chính khi áp dụng trên dữ liệu hệ metagenome: (1)~phụ thuộc vào công cụ dự đoán gen hoặc dữ liệu hệ gen hoàn chỉnh, dẫn đến hiệu suất giảm mạnh trên các đoạn DNA ngắn; (2)~rò rỉ thông tin từ phương pháp mã hóa k-mer chồng lấn, ảnh hưởng đến chất lượng biểu diễn học được; và (3)~chưa tận dụng tri thức từ các mô hình tiền huấn luyện trên dữ liệu đa loài, hạn chế khả năng tổng quát hóa trên các trình tự hệ gen đa dạng.
 
-Để giải quyết các hạn chế trên, học viên đề xuất PhaBERT-CNN, một phương pháp học sâu kết hợp mô hình nền tảng DNABERT-2~\cite{zhou2023dnabert} với kiến trúc MKC. Phương pháp được thiết kế với ba ưu điểm chính:
+Để giải quyết các hạn chế trên, học viên đề xuất PhaBERT, một phương pháp học sâu kết hợp mô hình nền tảng DNABERT-2~\cite{zhou2023dnabert} với kiến trúc MKC. Phương pháp được thiết kế với ba ưu điểm chính:
 (1)~\textbf{Độc lập với công cụ dự đoán gen}, hoạt động trực tiếp trên chuỗi DNA đầu vào thông qua mã hóa BPE, không phụ thuộc vào công cụ dự đoán gen, cho phép dự đoán chính xác ngay cả trên các contig ngắn thiếu vùng mã hóa protein hoàn chỉnh;
 (2)~\textbf{Khắc phục rò rỉ thông tin}, mã hóa BPE tạo ra các token con không chồng lấn với độ dài biến đổi, giảm độ dài chuỗi khoảng 5 lần và loại bỏ hoàn toàn hiện tượng rò rỉ thông tin vốn có trong các phương pháp k-mer chồng lấn;
 (3)~\textbf{Tận dụng tri thức tiền huấn luyện}, DNABERT-2 đã được tiền huấn luyện trên tập dữ liệu di truyền đa loài quy mô lớn, cho phép mô hình nắm bắt các đặc trưng phức tạp mà không cần dữ liệu huấn luyện quy mô lớn cho tác vụ cụ thể.
 
-Hình~\ref{fig:architecture_detail} minh họa quy trình xử lý tổng thể của PhaBERT-CNN, bao gồm bốn giai đoạn chính. Đầu tiên, contig đầu vào được mã hóa bằng BPE. Tiếp theo, DNABERT-2 chuyển đổi chuỗi token thành các biểu diễn 768 chiều cho mỗi vị trí. Các biểu diễn này sau đó được xử lý bởi mô-đun MKC, được điều chỉnh từ kiến trúc TextCNN~\cite{kim2014convolutional}, với các nhánh tích chập song song có kích thước kernel khác nhau để trích xuất đặc trưng cục bộ đa tỷ lệ, đồng thời gộp trung bình có mặt nạ tổng hợp thông tin toàn cục từ tất cả các vị trí trong chuỗi. Cuối cùng, đầu ra của mô-đun MKC được đưa vào bộ phân loại để tạo ra dự đoán thực khuẩn thể thuộc lớp độc lực hay ôn hòa.
+Hình~\ref{fig:architecture_detail} minh họa quy trình xử lý tổng thể của PhaBERT, bao gồm bốn giai đoạn chính. Đầu tiên, contig đầu vào được mã hóa bằng BPE. Tiếp theo, DNABERT-2 chuyển đổi chuỗi token thành các biểu diễn 768 chiều cho mỗi vị trí. Các biểu diễn này sau đó được xử lý bởi mô-đun MKC, được điều chỉnh từ kiến trúc TextCNN~\cite{kim2014convolutional}, với các nhánh tích chập song song có kích thước kernel khác nhau để trích xuất đặc trưng cục bộ đa tỷ lệ, đồng thời gộp trung bình có mặt nạ tổng hợp thông tin toàn cục từ tất cả các vị trí trong chuỗi. Cuối cùng, đầu ra của mô-đun MKC được đưa vào bộ phân loại để tạo ra dự đoán thực khuẩn thể thuộc lớp độc lực hay ôn hòa.
 
-Về chiến lược huấn luyện, PhaBERT-CNN áp dụng quy trình hai giai đoạn nhằm tận dụng tối đa tri thức tiền huấn luyện của DNABERT-2 đồng thời tránh hiện tượng quên thảm họa. Trong giai đoạn khởi động, toàn bộ tham số của DNABERT-2 được đóng băng và chỉ các lớp phía sau dành cho tác vụ được huấn luyện, giúp khởi tạo ổn định các thành phần mới trước khi tinh chỉnh toàn bộ mô hình. Giai đoạn tiếp theo mở khóa mạng nền và áp dụng tốc độ học phân biệt, tốc độ học thấp hơn cho DNABERT-2 và cao hơn cho các lớp tác vụ, nhằm bảo toàn tri thức tiền huấn luyện trong khi thích nghi với tác vụ phân loại lối sống. Nền tảng cho toàn bộ quy trình trên là tập dữ liệu huấn luyện được xây dựng từ các hệ gen thực khuẩn thể hoàn chỉnh, như được trình bày dưới đây.
+Về chiến lược huấn luyện, PhaBERT áp dụng quy trình hai giai đoạn nhằm tận dụng tối đa tri thức tiền huấn luyện của DNABERT-2 đồng thời tránh hiện tượng quên thảm họa. Trong giai đoạn khởi động, toàn bộ tham số của DNABERT-2 được đóng băng và chỉ các lớp phía sau dành cho tác vụ được huấn luyện, giúp khởi tạo ổn định các thành phần mới trước khi tinh chỉnh toàn bộ mô hình. Giai đoạn tiếp theo mở khóa mạng nền và áp dụng tốc độ học phân biệt, tốc độ học thấp hơn cho DNABERT-2 và cao hơn cho các lớp tác vụ, nhằm bảo toàn tri thức tiền huấn luyện trong khi thích nghi với tác vụ phân loại lối sống. Nền tảng cho toàn bộ quy trình trên là tập dữ liệu huấn luyện được xây dựng từ các hệ gen thực khuẩn thể hoàn chỉnh, như được trình bày dưới đây.
 
 \section{Thu thập dữ liệu và tiền xử lý}
 \label{sec:data_preprocessing}
@@ -86,15 +86,15 @@ Phép biến đổi này tăng gấp đôi kích thước tập dữ liệu mà 
     \end{tabular}
 \end{table}
 
-\section{Kiến trúc PhaBERT-CNN}
+\section{Kiến trúc PhaBERT}
 \label{sec:architecture}
 
-Kiến trúc PhaBERT-CNN được xây dựng từ ba thành phần chính hoạt động tuần tự: (1)~mạng nền DNABERT-2 đóng vai trò trích xuất đặc trưng ngữ cảnh từ chuỗi DNA, (2)~mô-đun MKC tiếp tục xử lý các biểu diễn đầu ra của DNABERT-2 và (3)~bộ phân loại đưa ra dự đoán nhị phân. Hình~\ref{fig:architecture_detail} minh họa kiến trúc tổng thể của mô hình.
+Kiến trúc PhaBERT được xây dựng từ ba thành phần chính hoạt động tuần tự: (1)~mạng nền DNABERT-2 đóng vai trò trích xuất đặc trưng ngữ cảnh từ chuỗi DNA, (2)~mô-đun MKC tiếp tục xử lý các biểu diễn đầu ra của DNABERT-2 và (3)~bộ phân loại đưa ra dự đoán nhị phân. Hình~\ref{fig:architecture_detail} minh họa kiến trúc tổng thể của mô hình.
 
 \begin{figure}[h]
     \centering
     \includegraphics[width=1.0\textwidth]{figures/phabert-cnn.png}
-    \caption{Kiến trúc chi tiết của PhaBERT-CNN}
+    \caption{Kiến trúc chi tiết của PhaBERT}
     \label{fig:architecture_detail}
 \end{figure}
 
@@ -240,4 +240,4 @@ Bảng~\ref{tab:hyperparameters} tổng hợp các siêu tham số huấn luyệ
 
 \section{Kết luận}
 
-Chương này đã trình bày phương pháp PhaBERT-CNN cho bài toán dự đoán lối sống thực khuẩn thể từ contig metagenomic. Phương pháp kết hợp mô hình nền tảng DNABERT-2 với mô-đun MKC gồm nhánh CNN đa kernel và masked mean pooling toàn cục, hoạt động trực tiếp trên chuỗi DNA thô mà không phụ thuộc vào công cụ dự đoán gen. Chiến lược huấn luyện hai giai đoạn với tốc độ học phân biệt cho phép bảo toàn tri thức tiền huấn luyện trong khi thích nghi hiệu quả với tác vụ phân loại. Chương tiếp theo đánh giá hiệu suất của PhaBERT-CNN thông qua kiểm định chéo 5 phần phân tầng, so sánh với các phương pháp tiên tiến PhaTYP, DeePhage và ProkBERT trên bốn nhóm độ dài contig từ 100 đến 1.800 bp.
+Chương này đã trình bày phương pháp PhaBERT cho bài toán dự đoán lối sống thực khuẩn thể từ contig metagenomic. Phương pháp kết hợp mô hình nền tảng DNABERT-2 với mô-đun MKC gồm nhánh CNN đa kernel và masked mean pooling toàn cục, hoạt động trực tiếp trên chuỗi DNA thô mà không phụ thuộc vào công cụ dự đoán gen. Chiến lược huấn luyện hai giai đoạn với tốc độ học phân biệt cho phép bảo toàn tri thức tiền huấn luyện trong khi thích nghi hiệu quả với tác vụ phân loại. Chương tiếp theo đánh giá hiệu suất của PhaBERT thông qua kiểm định chéo 5 phần phân tầng, so sánh với các phương pháp tiên tiến PhaTYP, DeePhage và ProkBERT trên bốn nhóm độ dài contig từ 100 đến 1.800 bp.
