@@ -55,7 +55,7 @@
       "WebFetch(domain:raw.githubusercontent.com)",
       "WebFetch(domain:www.osti.gov)",
       "Skill(plan)",
-      "Skill(plan:*)"
+      "Skill(plan:*)",
       "WebFetch(domain:gradcoach.com)",
       "WebFetch(domain:www.iup.edu)",
       "WebFetch(domain:www.quora.com)",
@@ -65,7 +65,10 @@
       "WebFetch(domain:journals.asm.org)",
       "WebFetch(domain:www.dovepress.com)",
       "WebFetch(domain:linkinghub.elsevier.com)",
-      "WebFetch(domain:gentext.ai)"
+      "WebFetch(domain:gentext.ai)",
+      "Bash(node -e ' *)",
+      "Bash(cat)",
+      "Bash(node /tmp/test2.js)"
     ],
     "deny": [
       "Bash(git *)"
