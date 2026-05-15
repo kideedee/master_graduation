@@ -20,7 +20,7 @@ Bên cạnh các thách thức sinh học, các phương pháp tính toán hiệ
 \section{Phát biểu bài toán}
 \label{sec:problem_formulation}
 
-Trong toàn bộ các nghiên cứu liên quan, từ các phương pháp dựa trên đặc trưng thủ công như PHACTS~\cite{mcnair2012phacts} và BACPHLIP~\cite{hockenberry2021bacphlip} đến các mô hình học sâu như DeePhage~\cite{wu2021deephage}, PhaTYP~\cite{shang2023phatyp} và DeepPL~\cite{zhang2024deeppl}, bài toán dự đoán lối sống thực khuẩn thể đều được đặt dưới dạng \textbf{phân loại nhị phân}. Sự đồng thuận này có cơ sở sinh học rõ ràng: hai chiến lược nhân lên chính --- chu trình tan và chu trình tiềm tan --- dẫn đến hai nhóm lối sống phân biệt về mặt chức năng, trong đó chỉ thực khuẩn thể độc lực mới phù hợp cho liệu pháp phage. Luận văn áp dụng cùng khung phân loại nhị phân này.
+Trong toàn bộ các nghiên cứu liên quan, từ các phương pháp dựa trên đặc trưng thủ công như PHACTS~\cite{mcnair2012phacts} và BACPHLIP~\cite{hockenberry2021bacphlip} đến các mô hình học sâu như DeePhage~\cite{wu2021deephage}, PhaTYP~\cite{shang2023phatyp} và DeepPL~\cite{zhang2024deeppl}, bài toán dự đoán lối sống thực khuẩn thể đều được đặt dưới dạng \textbf{phân loại nhị phân}. Sự đồng thuận này có cơ sở sinh học rõ ràng: hai chiến lược nhân lên chính, chu trình tan và chu trình tiềm tan, dẫn đến hai nhóm lối sống phân biệt về mặt chức năng, trong đó chỉ thực khuẩn thể độc lực mới phù hợp cho liệu pháp phage. Luận văn áp dụng cùng khung phân loại nhị phân này.
 
 \textbf{Không gian đầu vào.} Mỗi mẫu đầu vào là một chuỗi DNA (contig) được phục hồi từ dữ liệu metagenomic. Gọi $\mathcal{A} = \{A, T, G, C\}$ là bảng chữ cái nucleotide, không gian đầu vào được định nghĩa:
 \begin{equation}
