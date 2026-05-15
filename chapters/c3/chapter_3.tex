@@ -178,7 +178,7 @@ Vector 512 chiều này kết hợp biểu diễn toàn cục từ masked mean p
     \mathbf{z}_3 &= \mathbf{W}_3 \mathbf{z}_2 + \mathbf{b}_3 \in \mathbb{R}^{2} \label{eq:cls_output}
 \end{align}
 
-trong đó $\mathbf{W}_1 \in \mathbb{R}^{256 \times 512}$, $\mathbf{W}_2 \in \mathbb{R}^{64 \times 256}$, $\mathbf{W}_3 \in \mathbb{R}^{2 \times 64}$ là các ma trận trọng số, và dropout rate = 0.1 được áp dụng sau mỗi lớp ẩn để regularization. Layer Normalization sau lớp đầu tiên ổn định quá trình huấn luyện. Logit nhị phân $\mathbf{z}_3 = [z_{\text{temp}}, z_{\text{vir}}]$ được chuyển thành xác suất qua softmax:
+trong đó $\mathbf{W}_1 \in \mathbb{R}^{256 \times 512}$, $\mathbf{W}_2 \in \mathbb{R}^{64 \times 256}$, $\mathbf{W}_3 \in \mathbb{R}^{2 \times 64}$ là các ma trận trọng số, và dropout rate = 0.1 được áp dụng sau mỗi lớp ẩn để chính quy hóa. Layer Normalization sau lớp đầu tiên ổn định quá trình huấn luyện. Logit nhị phân $\mathbf{z}_3 = [z_{\text{temp}}, z_{\text{vir}}]$ được chuyển thành xác suất qua softmax:
 
 \begin{equation}
     P(\text{virulent} | S) = \frac{\exp(z_{\text{vir}})}{\exp(z_{\text{temp}}) + \exp(z_{\text{vir}})}
@@ -200,7 +200,7 @@ Trong giai đoạn khởi động, toàn bộ tham số của DNABERT-2 (117M th
 
 Sau giai đoạn khởi động, toàn bộ kiến trúc được mở khóa và tối ưu hóa với tốc độ học phân biệt—chiến lược áp dụng tốc độ học khác nhau cho các thành phần khác nhau của mô hình~\cite{howard2018universal}. Cụ thể, các tham số DNABERT-2 được cập nhật với tốc độ học $1 \times 10^{-5}$ và hệ số suy giảm trọng số $1 \times 10^{-5}$ để cho phép thích nghi nhẹ nhàng với tác vụ phân loại thực khuẩn thể mà không làm mất các tri thức học trong quá trình tiền huấn luyện. Trong khi đó, các lớp đặc thù cho tác vụ (CNN, global pooling, lớp phân loại) nhận tốc độ học $1 \times 10^{-4}$ với hệ số suy giảm trọng số $1 \times 10^{-4}$, cao gấp 10 lần so với mô hình DNABERT-2, để cho phép tối ưu hóa tích cực hơn nhằm nắm bắt các đặc trưng đặc thù của hệ gen thực khuẩn. Cả hai nhóm tham số đều sử dụng AdamW~\cite{loshchilov2017decoupled} với $\beta_1 = 0.9$, $\beta_2 = 0.999$, $\epsilon = 10^{-6}$. Giai đoạn tinh chỉnh sử dụng lịch trình one-cycle~\cite{smith2019super} với 10\% giai đoạn khởi động, hệ số chia ban đầu bằng 5 và hệ số chia cuối bằng 50, kéo dài tối đa 10 epoch. Học viên áp dụng chiến lược dừng sớm dựa trên độ chính xác trên tập kiểm định với ngưỡng kiên nhẫn 3 epoch để ngăn hiện tượng quá khớp.
 
-\subsection{Hàm mục tiêu và kỹ thuật regularization}
+\subsection{Hàm mục tiêu và kỹ thuật chính quy hóa}
 
 Học viên sử dụng hàm binary cross-entropy làm mục tiêu tối ưu hóa cho tác vụ phân loại nhị phân:
 
@@ -209,7 +209,7 @@ Học viên sử dụng hàm binary cross-entropy làm mục tiêu tối ưu hó
     \label{eq:bce_loss}
 \end{equation}
 
-trong đó $N$ là batch size, $y_i \in \{0, 1\}$ là nhãn thực (0 = temperate, 1 = virulent), và $\hat{y}_i = P(\text{virulent} | S_i)$ là xác suất dự đoán. Để ngăn hiện tượng quá khớp, học viên kết hợp nhiều kỹ thuật regularization: \textbf{Suy Giảm Trọng Số} thông qua AdamW với $\lambda = 1 \times 10^{-4}$ cho các lớp đặc thù cho tác vụ và $\lambda = 1 \times 10^{-5}$ cho DNABERT-2; \textbf{Dropout} với rate = 0.1 được áp dụng sau global pooling và trong đầu phân loại; \textbf{Layer Normalization} ổn định quá trình huấn luyện và cải thiện khả năng tổng quát hóa; và \textbf{Dừng Sớm} dừng huấn luyện khi validation performance không cải thiện sau 3 epoch liên tiếp. 
+trong đó $N$ là batch size, $y_i \in \{0, 1\}$ là nhãn thực (0 = temperate, 1 = virulent), và $\hat{y}_i = P(\text{virulent} | S_i)$ là xác suất dự đoán. Để ngăn hiện tượng quá khớp, học viên kết hợp nhiều kỹ thuật chính quy hóa: \textbf{Suy Giảm Trọng Số} thông qua AdamW với $\lambda = 1 \times 10^{-4}$ cho các lớp đặc thù cho tác vụ và $\lambda = 1 \times 10^{-5}$ cho DNABERT-2; \textbf{Dropout} với rate = 0.1 được áp dụng sau global pooling và trong đầu phân loại; \textbf{Layer Normalization} ổn định quá trình huấn luyện và cải thiện khả năng tổng quát hóa; và \textbf{Dừng Sớm} dừng huấn luyện khi hiệu suất kiểm định không cải thiện sau 3 epoch liên tiếp.
 
 %Ngoài ra, học viên sử dụng Automatic Mixed Precision (AMP) để giảm tiêu thụ bộ nhớ và tăng tốc tính toán, kết hợp với tích lũy gradient (4 bước, batch size vật lý 8 mẫu/GPU) để mô phỏng effective batch size 32 trên bộ nhớ GPU hạn chế.
 
@@ -227,9 +227,9 @@ Bảng~\ref{tab:hyperparameters} tổng hợp các siêu tham số huấn luyệ
         Số epoch tối đa & 1 & 10 \\
         Optimizer & AdamW & AdamW \\
         Tốc độ học (mạng nền) & --- (đóng băng) & $1 \times 10^{-5}$ \\
-        Tốc độ học (task-specific) & $2 \times 10^{-3}$ & $1 \times 10^{-4}$ \\
+        Tốc độ học (đặc thù tác vụ) & $2 \times 10^{-3}$ & $1 \times 10^{-4}$ \\
         Suy giảm trọng số (mạng nền) & --- & $1 \times 10^{-5}$ \\
-        Suy giảm trọng số (task-specific) & $1 \times 10^{-4}$ & $1 \times 10^{-4}$ \\
+        Suy giảm trọng số (đặc thù tác vụ) & $1 \times 10^{-4}$ & $1 \times 10^{-4}$ \\
         $\beta_1$, $\beta_2$ & 0.9, 0.999 & 0.9, 0.999 \\
         Lịch trình tốc độ học & One-cycle (30\% warmup) & One-cycle (10\% warmup) \\
         Dropout rate & 0.1 & 0.1 \\
@@ -242,4 +242,4 @@ Bảng~\ref{tab:hyperparameters} tổng hợp các siêu tham số huấn luyệ
 
 \section{Kết luận}
 
-Chương này đã trình bày phương pháp PhaBERT cho bài toán dự đoán hệ gen thực khuẩn thể từ contig metagenomic. Phương pháp kết hợp mô hình nền tảng DNABERT-2 với mô-đun MKC gồm nhánh CNN đa kernel và masked mean pooling toàn cục, hoạt động trực tiếp trên chuỗi DNA thô mà không phụ thuộc vào công cụ dự đoán gen. Chiến lược huấn luyện hai giai đoạn với tốc độ học phân biệt cho phép bảo toàn tri thức tiền huấn luyện trong khi thích nghi hiệu quả với tác vụ phân loại. Chương tiếp theo đánh giá hiệu suất của PhaBERT thông qua kiểm định chéo 5 phần phân tầng, so sánh với các phương pháp tiên tiến PhaTYP, DeePhage và ProkBERT trên bốn nhóm độ dài contig từ 100 đến 1.800 bp.
+Chương này đã trình bày phương pháp PhaBERT cho bài toán dự đoán hệ gen thực khuẩn thể từ contig metagenomic. Phương pháp kết hợp mô hình nền tảng DNABERT-2 với mô-đun MKC gồm nhánh CNN đa kernel và gộp trung bình có mặt nạ toàn cục, hoạt động trực tiếp trên chuỗi DNA thô mà không phụ thuộc vào công cụ dự đoán gen. Chiến lược huấn luyện hai giai đoạn với tốc độ học phân biệt cho phép bảo toàn tri thức tiền huấn luyện trong khi thích nghi hiệu quả với tác vụ phân loại. Chương tiếp theo đánh giá hiệu suất của PhaBERT thông qua kiểm định chéo 5 phần phân tầng, so sánh với các phương pháp tiên tiến PhaTYP, DeePhage và ProkBERT trên bốn nhóm độ dài contig từ 100 đến 1.800 bp.

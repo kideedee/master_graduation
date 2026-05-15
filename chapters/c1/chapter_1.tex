@@ -46,30 +46,20 @@ với $\theta_g$ là tập tham số riêng của mô hình nhóm $g$, sao cho $
 \section{Mục tiêu nghiên cứu}
 \label{sec:objectives}
 
-Mục tiêu của luận văn là phát triển một phương pháp học sâu để phân loại lối sống thực khuẩn thể (virulent/temperate) từ các contig ngắn trong dữ liệu hệ gen môi trường. Phương pháp đề xuất, PhaBERT-CNN, kết hợp mô hình nền tảng hệ gen DNABERT-2~\cite{zhou2023dnabert} với mô-đun CNN chuyên biệt (MKC), khai thác đồng thời biểu diễn ngữ cảnh toàn cục từ mô hình tiền huấn luyện và đặc trưng cục bộ đa tỷ lệ từ CNN. Luận văn đánh giá hiệu suất PhaBERT-CNN so với các phương pháp tiên tiến trên bốn nhóm độ dài contig (100--1800 bp) thông qua kiểm định chéo 5 phần phân tầng.
+Mục tiêu của luận văn là phát triển một phương pháp học sâu để phân loại hệ gen thực khuẩn thuộc thể có độc lực hay ôn hòa từ các contig ngắn trong dữ liệu hệ gen môi trường. Phương pháp đề xuất, PhaBERT-CNN, kết hợp mô hình nền tảng hệ gen DNABERT-2~\cite{zhou2023dnabert} với mô-đun CNN chuyên biệt (MKC), khai thác đồng thời biểu diễn ngữ cảnh toàn cục từ mô hình tiền huấn luyện và đặc trưng cục bộ đa tỷ lệ từ CNN. Luận văn đánh giá hiệu suất PhaBERT-CNN so với các phương pháp tiên tiến trên bốn nhóm độ dài contig (100--1800 bp) thông qua kiểm định chéo 5 phần phân tầng.
 
 \section{Đóng góp của luận văn}
 \label{sec:contributions}
 
-Luận văn đóng góp vào lĩnh vực sinh tin học thông qua bốn đóng góp chính:
+Luận văn đóng góp vào lĩnh vực sinh tin học thông qua ba đóng góp chính:
 
 \begin{enumerate}
-    \item \textbf{Về kiến trúc:} Đề xuất PhaBERT với mô đun MKC gồm nhánh CNN đa kernel (kích thước 3, 5, 7) kết hợp masked mean pooling toàn cục, cho phép đồng thời trích xuất đặc trưng cục bộ đa tỷ lệ và biểu diễn toàn cục từ tất cả vị trí chuỗi.
-    \item \textbf{Về phương pháp:} Phát triển pipeline phân loại hệ gen phage không phụ thuộc công cụ dự đoán gen, hoạt động trực tiếp trên chuỗi DNA thô thông qua BPE tokenization, đặc biệt phù hợp với các contig ngắn thiếu vùng mã hóa protein hoàn chỉnh.
-    \item \textbf{Về thực nghiệm:} Đánh giá toàn diện trên bốn nhóm độ dài contig cho thấy PhaBERT đạt độ chính xác cao nhất trên tất cả bốn nhóm với 82,01--91,38\%, cải thiện 0,36--6,65\% so với các phương pháp tiên tiến.
-    \item \textbf{Về phân tích:} Cung cấp nghiên cứu loại bỏ thành phần so sánh trực tiếp PhaBERT với mô hình cơ sở DNABERT-2, phân tích chi tiết điểm mạnh, hạn chế, và hướng phát triển của phương pháp.
+    \item \textbf{Đề xuất kiến trúc PhaBERT:} Xây dựng mô hình học sâu kết hợp mô hình nền tảng hệ gen DNABERT-2 với mô đun MKC (Multi-Kernel Convolutional) gồm nhánh CNN đa cửa sổ tích chập (kích thước 3, 5, 7) và nhánh gộp trung bình có mặt nạ toàn cục, cho bài toán dự đoán lối sống thực khuẩn thể từ contig đầu vào. Phương pháp hoạt động trực tiếp trên chuỗi DNA thô thông qua mã hóa BPE, không phụ thuộc công cụ dự đoán gen, cho phép xử lý hiệu quả các contig ngắn thiếu vùng mã hóa protein hoàn chỉnh.
+    \item \textbf{Đánh giá thực nghiệm toàn diện:} Đánh giá trên bốn nhóm độ dài contig (100--1800~bp) thông qua kiểm định chéo phân tầng 5 phần, cho thấy PhaBERT đạt độ chính xác cao nhất trên tất cả bốn nhóm với 82,01--91,38\%, cải thiện 0,36--6,65\% so với các phương pháp tiên tiến.
+    \item \textbf{Phân tích loại bỏ thành phần:} Thực hiện nghiên cứu loại bỏ thành phần với bảy cấu hình, chứng minh mô đun MKC đóng góp cải thiện 0,49--3,02\% độ chính xác tùy theo độ dài contig.
 \end{enumerate}
-
-Các đóng góp này được thực hiện trong phạm vi và điều kiện thực nghiệm xác định như sau.
-
-% \section{Phạm vi nghiên cứu}
-% \label{sec:scope}
-
-% Luận văn tập trung vào bài toán phân loại nhị phân lối sống thực khuẩn thể (virulent/temperate) từ các contig DNA trong phạm vi độ dài 100--1800 bp, được chia thành bốn nhóm theo độ dài. Phương pháp hoạt động trực tiếp trên chuỗi DNA thô, sử dụng DNABERT-2 làm mô hình nền tảng hệ gen, và được đánh giá thông qua kiểm định chéo 5 phần phân tầng trên tập dữ liệu gồm 2.241 hệ gen phage hoàn chỉnh. Các contig đầu vào được giả định đã được xác định là có nguồn gốc từ phage thông qua các công cụ nhận dạng phage, vì bước nhận dạng phage từ dữ liệu metagenomic thô là một tác vụ riêng biệt nằm ngoài phạm vi nghiên cứu này.
-
-% Luận văn giới hạn ở phân loại nhị phân (virulent/temperate) và chưa mở rộng sang các dạng lối sống phức tạp hơn như nhiễm mãn tính. Tập dữ liệu sử dụng hệ gen phage hoàn chỉnh từ cơ sở dữ liệu công khai, do đó có thể chưa phản ánh toàn bộ sự đa dạng của phage trong tự nhiên; phạm vi này là phù hợp với mục tiêu đánh giá phương pháp trong điều kiện kiểm soát được trước khi mở rộng sang dữ liệu thực tế. Cấu trúc luận văn dưới đây phản ánh trực tiếp phạm vi và mục tiêu nghiên cứu này.
 
 \section{Bố cục luận văn}
 \label{sec:organization}
 
-Luận văn được tổ chức thành năm chương theo mạch logic từ nền tảng lý thuyết đến thiết kế phương pháp, thực nghiệm, và tổng kết. Chương~\ref{chap:introduction} (chương hiện tại) đặt vấn đề, xác định thách thức, và trình bày mục tiêu cùng đóng góp của luận văn. Chương~\ref{chap:theory} xây dựng nền tảng lý thuyết cần thiết, bao gồm sinh học thực khuẩn thể, metagenomics, các kiến trúc học sâu CNN và Transformer, học chuyển giao, và tổng quan các phương pháp phân loại hệ gen phage hiện có; chương này kết thúc bằng phân tích khoảng trống nghiên cứu, tạo cơ sở trực tiếp cho phương pháp đề xuất. Chương~\ref{chap:method} trình bày chi tiết PhaBERT: quy trình xây dựng dữ liệu, kiến trúc mô hình với mạng nền DNABERT-2 và mô đun MKC, cùng chiến lược huấn luyện hai giai đoạn. Chương~\ref{chap:thuc_nghiem_danh_gia} đánh giá PhaBERT qua các thực nghiệm có hệ thống, so sánh với các phương pháp tiên tiến trên bốn nhóm độ dài contig và phân tích chi tiết kết quả. Cuối cùng, Chương~\ref{chap:conclusion} tổng kết các phát hiện chính, thảo luận hạn chế, và đề xuất hướng nghiên cứu tương lai.
+Luận văn gồm năm chương. Chương~\ref{chap:introduction} đặt vấn đề và trình bày mục tiêu nghiên cứu. Chương~\ref{chap:theory} trình bày cơ sở lý thuyết về sinh học thực khuẩn thể, các kiến trúc học sâu, và tổng quan các phương pháp phân loại hệ gen phage hiện có. Chương~\ref{chap:method} mô tả chi tiết phương pháp PhaBERT được đề xuất. Chương~\ref{chap:thuc_nghiem_danh_gia} đánh giá thực nghiệm và phân tích kết quả. Chương~\ref{chap:conclusion} tổng kết và đề xuất hướng phát triển.

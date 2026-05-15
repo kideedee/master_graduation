@@ -68,7 +68,17 @@
       "WebFetch(domain:www.mdpi.com)",
       "WebFetch(domain:plos.org)",
       "WebFetch(domain:explore.plos.org)",
-      "WebFetch(domain:mitcommlab.mit.edu)"
+      "WebFetch(domain:mitcommlab.mit.edu)",
+      "WebFetch(domain:www.biorxiv.org)",
+      "WebFetch(domain:journals.plos.org)",
+      "WebFetch(domain:metricgate.com)",
+      "WebFetch(domain:lena-voita.github.io)",
+      "WebFetch(domain:www.frontiersin.org)",
+      "WebFetch(domain:www.jmlr.org)",
+      "WebFetch(domain:en.wikipedia.org)",
+      "WebFetch(domain:d2l.ai)",
+      "Bash(pdflatex -interaction=nonstopmode thesis.tex)",
+      "Bash(bibtex thesis *)"
     ]
   }
 }

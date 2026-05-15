@@ -26,6 +26,11 @@ BOUNDARIES
 - Work with the context provided in your instructions — don't assume missing info
 - Cite sources — every claim should trace back to a URL
 
+SEARCH TOOL SELECTION
+
+- Default: use the built-in `WebSearch` tool for all web searches
+- Use `mcp__perplexity__perplexity_search` or `mcp__perplexity__perplexity_ask` ONLY when the orchestrator's instructions explicitly contain: "perplexity", "dùng perplexity", or "search with perplexity"
+
 SEARCH PATTERNS
 
 | Domain | Query Pattern |
