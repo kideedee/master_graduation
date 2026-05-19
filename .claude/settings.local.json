@@ -33,8 +33,6 @@
       "WebFetch(domain:dometrain.com)",
       "WebFetch(domain:comet.perplexity.ai)",
       "Bash(claude mcp *)",
-      "mcp__perplexity__perplexity_search",
-      "mcp__perplexity__perplexity_ask",
       "Bash(npm search *)",
       "Bash(uv --version)",
       "Bash(powershell -Command \"irm https://astral.sh/uv/install.ps1 | iex\")",
@@ -58,27 +56,8 @@
       "Bash(gh repo *)",
       "Bash(gh api *)",
       "WebFetch(domain:quarkus.io)",
-      "WebFetch(domain:arxiv.org)",
-      "WebFetch(domain:pmc.ncbi.nlm.nih.gov)",
-      "WebFetch(domain:peerj.com)",
-      "WebFetch(domain:aclanthology.org)",
-      "WebFetch(domain:www.nature.com)",
       "WebFetch(domain:academic.oup.com)",
-      "WebFetch(domain:ar5iv.labs.arxiv.org)",
-      "WebFetch(domain:www.mdpi.com)",
-      "WebFetch(domain:plos.org)",
-      "WebFetch(domain:explore.plos.org)",
-      "WebFetch(domain:mitcommlab.mit.edu)",
-      "WebFetch(domain:www.biorxiv.org)",
-      "WebFetch(domain:journals.plos.org)",
-      "WebFetch(domain:metricgate.com)",
-      "WebFetch(domain:lena-voita.github.io)",
-      "WebFetch(domain:www.frontiersin.org)",
-      "WebFetch(domain:www.jmlr.org)",
-      "WebFetch(domain:en.wikipedia.org)",
-      "WebFetch(domain:d2l.ai)",
-      "Bash(pdflatex -interaction=nonstopmode thesis.tex)",
-      "Bash(bibtex thesis *)"
+      "WebFetch(domain:pmc.ncbi.nlm.nih.gov)"
     ]
   }
 }
