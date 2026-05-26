@@ -1,0 +1,8 @@
+{
+  "mcpServers": {
+    "notebooklm": {
+      "command": "/Users/sonvuquang/.local/bin/notebooklm-mcp",
+      "args": []
+    }
+  }
+}
