@@ -1,354 +1,386 @@
-% \documentclass[11pt,aspectratio=169]{beamer}
+\documentclass[11pt,aspectratio=169]{beamer}
 
-% \usetheme{Madrid}
-% \usecolortheme{default}
+\usetheme{Madrid}
+\usecolortheme{default}
 
-% \usepackage[utf8]{inputenc}
-% \usepackage[utf8]{vietnam}
-% \usepackage{amsmath}
-% \usepackage{amsfonts}
-% \usepackage{amssymb}
-% \usepackage{graphicx}
-% \usepackage{caption}
-% \usepackage{booktabs}
-% \usepackage{multirow}
-% \usepackage{tikz}
-% \usepackage{array}
+\usepackage[utf8]{inputenc}
+\usepackage[utf8]{vietnam}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{tikz}
+\usepackage{array}
 
-% % Colors
-% \definecolor{uetblue}{RGB}{0,83,159}
-% \definecolor{accent}{RGB}{200,50,50}
+% Colors
+\definecolor{uetblue}{RGB}{0,83,159}
+\definecolor{accent}{RGB}{200,50,50}
+\definecolor{lightgray}{RGB}{245,245,245}
 
-% \setbeamercolor{title}{fg=white,bg=uetblue}
-% \setbeamercolor{frametitle}{fg=white,bg=uetblue}
-% \setbeamercolor{structure}{fg=uetblue}
-% \setbeamercolor{block title}{bg=uetblue,fg=white}
+\setbeamercolor{title}{fg=white,bg=uetblue}
+\setbeamercolor{frametitle}{fg=white,bg=uetblue}
+\setbeamercolor{structure}{fg=uetblue}
+\setbeamercolor{block title}{bg=uetblue,fg=white}
 
-% \setbeamertemplate{caption}[numbered]
-% \setbeamertemplate{navigation symbols}{}
-% \setbeamertemplate{footline}{%
-%   \leavevmode%
-%   \hbox{%
-%     \begin{beamercolorbox}[wd=.5\paperwidth,ht=2.5ex,dp=1ex,left]{author in head/foot}%
-%       \hspace*{2ex}\insertshortauthor
-%     \end{beamercolorbox}%
-%     \begin{beamercolorbox}[wd=.5\paperwidth,ht=2.5ex,dp=1ex,right]{date in head/foot}%
-%       \insertframenumber{}/\inserttotalframenumber\hspace*{2ex}
-%     \end{beamercolorbox}%
-%   }%
-% }
+\setbeamertemplate{caption}[numbered]
+\setbeamertemplate{navigation symbols}{}
+\setbeamertemplate{footline}{%
+  \leavevmode%
+  \hbox{%
+    \begin{beamercolorbox}[wd=.5\paperwidth,ht=2.5ex,dp=1ex,left]{author in head/foot}%
+      \hspace*{2ex}\insertshortauthor
+    \end{beamercolorbox}%
+    \begin{beamercolorbox}[wd=.5\paperwidth,ht=2.5ex,dp=1ex,right]{date in head/foot}%
+      \insertframenumber{}/\inserttotalframenumber\hspace*{2ex}
+    \end{beamercolorbox}%
+  }%
+}
 
-% \author{Vũ Quang Sơn}
-% \title{Phân loại lối sống thực khuẩn thể\\dựa trên phương pháp học sâu}
-% \subtitle{Báo cáo tiến độ Luận văn Thạc sĩ}
-% \institute{Trường Đại học Công nghệ -- ĐHQGHN\\[0.3em]
-% \small Hướng dẫn: TS. Điệp Thị Hoàng}
-% \date{Tháng 3/2026}
+\author{Vũ Quang Sơn}
+\title{Phân loại hệ gen thực khuẩn\\dựa trên phương pháp học sâu}
+\subtitle{Luận văn Thạc sĩ Công nghệ thông tin}
+\institute{Trường Đại học Công nghệ -- ĐHQGHN\\[0.3em]
+\small Hướng dẫn: TS. Điệp Thị Hoàng}
+\date{2026}
 
-% \begin{document}
+\begin{document}
 
-% % ============================================================
-% % TRANG BÌA
-% % ============================================================
-% \begin{frame}
-% \titlepage
-% \end{frame}
+% ============================================================
+\begin{frame}
+\titlepage
+\end{frame}
 
-% % ============================================================
-% % NỘI DUNG
-% % ============================================================
-% \begin{frame}{Nội dung báo cáo}
-% \tableofcontents
-% \end{frame}
+% ============================================================
+\begin{frame}{Nội dung trình bày}
+\tableofcontents
+\end{frame}
 
-% % ============================================================
-% % SLIDE 1: BÀI TOÁN & ĐỘNG LỰC NGHIÊN CỨU
-% % ============================================================
-% \section{Bài toán \& Động lực nghiên cứu}
-% \begin{frame}{Bài toán \& Động lực nghiên cứu}
-% \small
-% \begin{columns}[T]
-% \begin{column}{0.55\textwidth}
-% \textbf{Bài toán:} Phân loại lối sống thực khuẩn thể (phage)
-% \begin{itemize}\setlength{\itemsep}{1pt}
-%     \item \textcolor{accent}{\textbf{Độc lực (virulent)}}: chỉ thực hiện chu trình tan
-%     \item \textcolor{uetblue}{\textbf{Ôn hòa (temperate)}}: có thể tích hợp vào hệ gen vật chủ
-% \end{itemize}
+% ============================================================
+\section{Động lực nghiên cứu}
+\begin{frame}{Động lực nghiên cứu}
 
-% \vspace{0.3em}
-% \textbf{Tầm quan trọng:}
-% \begin{itemize}\setlength{\itemsep}{1pt}
-%     \item Liệu pháp phage: chỉ dùng phage độc lực
-%     \item Phage ôn hòa có thể truyền gen kháng kháng sinh
-% \end{itemize}
-% \end{column}
+\begin{columns}[T]
+\begin{column}{0.45\textwidth}
+\vspace{1em}
 
-% \begin{column}{0.42\textwidth}
-% \textbf{Thách thức hiện tại:}
-% \begin{enumerate}\setlength{\itemsep}{1pt}
-%     \item Contig ngắn (100--1800 bp) từ metagenomic assembly
-%     \item Phụ thuộc công cụ dự đoán gen -- thất bại trên trình tự ngắn
-%     \item Rò rỉ thông tin từ k-mer tokenization chồng lấn
-%     \item Không có gen đánh dấu phổ quát cho phage
-% \end{enumerate}
-% \end{column}
-% \end{columns}
+\textbf{\large Thực khuẩn thể (phage)}
 
-% \vspace{0.3em}
-% \begin{block}{Mục tiêu}
-% Phát triển phương pháp phân loại \textbf{trực tiếp từ chuỗi contig thô}, không phụ thuộc công cụ phát hiện gen, hiệu quả trên contig ngắn.
-% \end{block}
+\vspace{0.5em}
+\begin{itemize}\setlength{\itemsep}{6pt}
+    \item \textcolor{accent}{\textbf{Độc lực}} $\rightarrow$ chu trình tan
+    \item \textcolor{uetblue}{\textbf{Ôn hòa}} $\rightarrow$ tích hợp hệ gen vật chủ
+\end{itemize}
 
-% \end{frame}
+\vspace{1em}
+\textbf{\large Tại sao cần phân loại?}
 
-% % ============================================================
-% % SLIDE 2: DỮ LIỆU & TIỀN XỬ LÝ
-% % ============================================================
-% \section{Dữ liệu \& Tiền xử lý}
-% \begin{frame}{Dữ liệu \& Tiền xử lý}
-% \small
-% \begin{columns}[T]
-% \begin{column}{0.48\textwidth}
-% \textbf{Nguồn dữ liệu:}
-% \begin{itemize}\setlength{\itemsep}{1pt}
-%     \item Tổng hợp từ DeePhage \& DeepPL
-%     \item \textbf{2.241} hệ gen phage hoàn chỉnh
-%     \item 707 ôn hòa + 1.534 độc lực ($\approx$1:2)
-%     \item Đánh giá: stratified \textbf{5-fold cross-validation}
-% \end{itemize}
+\vspace{0.5em}
+\begin{itemize}\setlength{\itemsep}{6pt}
+    \item Liệu pháp phage: \textbf{chỉ dùng độc lực}
+    \item Ôn hòa $\rightarrow$ truyền gen kháng kháng sinh
+\end{itemize}
+\end{column}
 
-% \vspace{0.3em}
-% \textbf{Quy trình tiền xử lý (3 bước):}
-% \begin{enumerate}\setlength{\itemsep}{1pt}
-%     \item \textbf{Cửa sổ trượt} -- tạo contig mô phỏng metagenomic\\
-%     {\scriptsize 4 nhóm: A (100--400bp), B (400--800bp), C (800--1200bp), D (1200--1800bp)}
-%     \item \textbf{Đảo ngược bổ sung} -- tăng gấp đôi dữ liệu\\
-%     {\scriptsize Tận dụng cấu trúc sợi đôi DNA: $A\!\leftrightarrow\!T$, $C\!\leftrightarrow\!G$}
-%     \item \textbf{Random Undersampling} -- cân bằng lớp 1:1\\
-%     {\scriptsize Chỉ áp dụng trên tập huấn luyện}
-% \end{enumerate}
-% \end{column}
+\begin{column}{0.50\textwidth}
+\vspace{1em}
 
-% \begin{column}{0.50\textwidth}
-% \centering
-% \includegraphics[width=\textwidth,height=0.72\textheight,keepaspectratio]{figures/data_preparation.png}\\
-% {\scriptsize Hình: Quy trình tiền xử lý dữ liệu}
-% \end{column}
-% \end{columns}
+\textbf{\large Thách thức}
 
-% \end{frame}
+\vspace{0.5em}
+\begin{tikzpicture}[
+    challenge/.style={draw=uetblue, rounded corners, fill=lightgray,
+                     text width=5.5cm, minimum height=0.8cm, align=left,
+                     font=\small}
+]
+\node[challenge] at (0,0) {1. Contig ngắn (100--1800 bp)};
+\node[challenge] at (0,-1.1) {2. Phụ thuộc công cụ dự đoán gen};
+\node[challenge] at (0,-2.2) {3. Rò rỉ thông tin (k-mer chồng lấn)};
+\node[challenge] at (0,-3.3) {4. Không có gen đánh dấu phổ quát};
+\end{tikzpicture}
+\end{column}
+\end{columns}
 
-% % ============================================================
-% % SLIDE 3: MÔ HÌNH ĐỀ XUẤT & ĐÓNG GÓP KỸ THUẬT
-% % ============================================================
-% \section{Mô hình đề xuất \& Đóng góp kỹ thuật}
-% \begin{frame}{Mô hình PhaBERT-CNN}
-% \footnotesize
-% \begin{columns}[T]
-% \begin{column}{0.45\textwidth}
-% \textbf{Kiến trúc 3 thành phần:}
-% \begin{enumerate}\setlength{\itemsep}{1pt}
-%     \item \textbf{DNABERT-2} -- mô hình nền tảng hệ gen\\
-%     {\scriptsize BPE tokenization: giảm 5$\times$ chiều dài, loại bỏ rò rỉ thông tin}
-%     \item \textbf{MKCA} (Multi-Kernel Conv. Attention)\\
-%     {\scriptsize Nhánh CNN (kernel 3,5,7) + Attention Pooling}
-%     \item \textbf{Đầu phân loại} -- dự đoán nhị phân
-% \end{enumerate}
+\end{frame}
 
-% \vspace{0.2em}
-% \textbf{Huấn luyện 2 giai đoạn:}
-% \begin{itemize}\setlength{\itemsep}{0pt}
-%     \item GĐ1: Đóng băng backbone, huấn luyện MKCA
-%     \item GĐ2: Mở khóa toàn bộ, tốc độ học phân biệt
-% \end{itemize}
-% \end{column}
+% ============================================================
+\section{Phát biểu bài toán}
+\begin{frame}{Phát biểu bài toán}
 
-% \begin{column}{0.53\textwidth}
-% \centering
-% \includegraphics[width=\textwidth,height=0.72\textheight,keepaspectratio]{figures/phabert-cnn.png}\\
-% {\scriptsize Hình: Kiến trúc PhaBERT-CNN}
-% \end{column}
-% \end{columns}
+\begin{center}
+\begin{tikzpicture}[
+    box/.style={draw=uetblue, rounded corners, fill=lightgray,
+                minimum height=1.1cm, align=center, font=\small},
+    arrow/.style={->, thick, uetblue}
+]
 
-% \end{frame}
+% Input
+\node[box, text width=3.5cm] (input) at (0,0) {
+    \textbf{Đầu vào}\\[2pt]
+    $s \in \{A,T,G,C\}^L$\\
+    $L \in [100,\; 1800]$ bp
+};
 
-% % ============================================================
-% % SLIDE 4: KẾT QUẢ THỰC NGHIỆM
-% % ============================================================
-% \section{Kết quả thực nghiệm}
-% \begin{frame}{Kết quả thực nghiệm}
-% \small
-% \textbf{Dữ liệu:} 2.241 hệ gen phage (707 ôn hòa, 1.534 độc lực) -- 5-fold cross-validation
+% Model
+\node[box, text width=3.2cm] (model) at (5,0) {
+    \textbf{Mô hình}\\[2pt]
+    $f_{\theta_g}: \mathcal{S}_g \rightarrow \{0,1\}$
+};
 
-% \vspace{0.2em}
-% \begin{table}[h]
-% \centering
-% \footnotesize
-% \caption{So sánh Accuracy (\%) trên 4 nhóm độ dài contig}
-% \begin{tabular}{l c c c c}
-% \toprule
-% \textbf{Phương pháp} & \textbf{A (100-400bp)} & \textbf{B (400-800bp)} & \textbf{C (800-1200bp)} & \textbf{D (1200-1800bp)} \\
-% \midrule
-% \textbf{PhaBERT-CNN} & \textbf{81.59} & \textbf{87.91} & \textbf{90.01} & 90.69 \\
-% PhaTYP               & 78.92 & 85.90 & 88.87 & \textbf{91.02} \\
-% DeePhage             & 78.07 & 84.17 & 87.40 & 89.09 \\
-% ProkBERT             & 80.68 & 85.35 & 84.03 & 84.73 \\
-% DNABERT-2 (baseline) & 81.52 & 85.56 & 87.25 & 87.26 \\
-% \bottomrule
-% \end{tabular}
-% \end{table}
+% Output
+\node[box, text width=3.2cm] (output) at (9.8,0) {
+    \textbf{Đầu ra}\\[2pt]
+    $y=0$: Ôn hòa\\
+    $y=1$: Độc lực
+};
 
-% \vspace{0.2em}
-% \begin{columns}[T]
-% \begin{column}{0.48\textwidth}
-% \textbf{Kết quả nổi bật:}
-% \begin{itemize}\setlength{\itemsep}{1pt}
-%     \item \textcolor{accent}{\textbf{Tốt nhất}} trên nhóm A, B, C
-%     \item Cải thiện \textbf{0.91--5.98\%} so với SOTA
-%     \item Sensitivity: 82.00--91.12\%
-% \end{itemize}
-% \end{column}
-% \begin{column}{0.48\textwidth}
-% \textbf{Nhận xét:}
-% \begin{itemize}\setlength{\itemsep}{1pt}
-%     \item Nhóm D: PhaTYP nhỉnh hơn 0.34\% nhờ đặc trưng protein
-%     \item ProkBERT stagnation từ nhóm B do k-mer chồng lấn
-%     \item PhaBERT-CNN ổn định nhất trên mọi nhóm
-% \end{itemize}
-% \end{column}
-% \end{columns}
+% Arrows
+\draw[arrow] (input) -- (model);
+\draw[arrow] (model) -- (output);
 
-% \end{frame}
+% Length groups below
+\node[draw=uetblue!60, rounded corners, fill=uetblue!8,
+      text width=11cm, align=center, font=\small] at (4.9,-2.2) {
+    \textbf{4 nhóm:}\;
+    A: 100--400\;|\;
+    B: 400--800\;|\;
+    C: 800--1200\;|\;
+    D: 1200--1800 (bp)\\[3pt]
+    Mỗi nhóm $g$ có mô hình $f_{\theta_g}$ riêng biệt
+};
 
-% % ============================================================
-% % SLIDE 4b: PHÂN TÍCH ĐÓNG GÓP CỦA MKCA
-% % ============================================================
-% \begin{frame}{Phân tích đóng góp của MKCA (Ablation Study)}
-% \small
+\end{tikzpicture}
+\end{center}
 
-% \begin{columns}[T]
-% \begin{column}{0.48\textwidth}
-% \textbf{DNABERT-2 vs PhaBERT-CNN:}
+\end{frame}
 
-% \vspace{0.2em}
-% {\footnotesize
-% \begin{tabular}{l c c c}
-% \toprule
-% \textbf{Nhóm} & \textbf{DNABERT-2} & \textbf{PhaBERT-CNN} & \textbf{$\Delta$acc} \\
-% \midrule
-% A & 81.52 & \textbf{81.59} & +0.07 \\
-% B & 85.56 & \textbf{87.91} & +2.35 \\
-% C & 87.25 & \textbf{90.01} & +2.76 \\
-% D & 87.26 & \textbf{90.69} & +3.43 \\
-% \bottomrule
-% \end{tabular}
-% }
+% ============================================================
+\section{Đóng góp của luận văn}
+\begin{frame}{Đóng góp của luận văn}
 
-% \vspace{0.3em}
-% \textbf{Xu hướng:}
-% \begin{itemize}\setlength{\itemsep}{1pt}
-%     \item Đóng góp MKCA \textbf{tăng dần} theo độ dài contig
-%     \item Specificity cải thiện tới \textbf{+6.90\%} (Nhóm A)
-%     \item Contig dài $\rightarrow$ motif hoàn chỉnh hơn $\rightarrow$ CNN hiệu quả hơn
-% \end{itemize}
-% \end{column}
+\vspace{0.5em}
+\begin{enumerate}\setlength{\itemsep}{12pt}
+    \item[\textcolor{uetblue}{\textbf{1}}] \textbf{Kiến trúc PhaBERT-CNN}\\[3pt]
+    DNABERT-2 + MKC (CNN kernel 3,5,7 + gộp trung bình có mặt nạ)\\
+    {\small $\rightarrow$ Trực tiếp trên chuỗi DNA thô, không cần dự đoán gen}
 
-% \begin{column}{0.50\textwidth}
-% \centering
-% \includegraphics[width=\textwidth,height=0.72\textheight,keepaspectratio]{figures/dnabert2_vs_phabertcnn.png}\\
-% {\scriptsize Hình: So sánh DNABERT-2 vs PhaBERT-CNN}
-% \end{column}
-% \end{columns}
+    \item[\textcolor{uetblue}{\textbf{2}}] \textbf{Đánh giá toàn diện}\\[3pt]
+    5-fold CV $\times$ 4 nhóm độ dài\\
+    {\small $\rightarrow$ \textbf{82,01--91,38\%} accuracy, cải thiện \textbf{0,36--6,65\%} vs SOTA}
 
-% \vspace{0.2em}
-% \begin{block}{\footnotesize Kết luận}
-% \footnotesize
-% MKCA (CNN đa kernel + Attention Pooling) bổ sung hiệu quả cho DNABERT-2: nhánh CNN trích xuất đặc trưng cục bộ đa tỷ lệ, attention pooling tổng hợp ngữ cảnh toàn cục có trọng số.
-% \end{block}
+    \item[\textcolor{uetblue}{\textbf{3}}] \textbf{Ablation study (7 cấu hình)}\\[3pt]
+    {\small $\rightarrow$ MKC đóng góp \textbf{+0,49 -- +4,12\%} accuracy}
+\end{enumerate}
 
-% \end{frame}
+\end{frame}
 
-% % ============================================================
-% % SLIDE 6: KẾ HOẠCH & TIẾN ĐỘ LUẬN VĂN
-% % ============================================================
-% \section{Kế hoạch \& Tiến độ luận văn}
-% \begin{frame}{Kế hoạch \& Tiến độ luận văn}
-% \small
+% ============================================================
+\section{Dữ liệu \& Tiền xử lý}
+\begin{frame}{Dữ liệu \& Tiền xử lý}
 
-% \begin{columns}[T]
-% \begin{column}{0.55\textwidth}
-% \textbf{Tiến độ viết luận văn:}
+\begin{columns}[T]
+\begin{column}{0.35\textwidth}
+\vspace{0.5em}
 
-% \vspace{0.2em}
-% {\footnotesize
-% \begin{tabular}{l l c}
-% \toprule
-% \textbf{Chương} & \textbf{Nội dung} & \textbf{Tiến độ} \\
-% \midrule
-% Chương 1 & Giới thiệu & 95\% \\
-% Chương 2 & Cơ sở lý thuyết & 95\% \\
-% Chương 3 & Phương pháp đề xuất & 85\% \\
-% Chương 4 & Thực nghiệm \& Đánh giá & 95\% \\
-% Chương 5 & Kết luận & 90\% \\
-% \midrule
-% \multicolumn{2}{l}{\textbf{Tổng thể}} & \textbf{$\sim$92\%} \\
-% \bottomrule
-% \end{tabular}
-% }
+\textbf{2.241} hệ gen phage\\[4pt]
+707 ôn hòa + 1.534 độc lực\\[4pt]
+5-fold cross-validation
 
-% \vspace{0.3em}
-% \textbf{Đã hoàn thành thêm:}
-% \begin{itemize}\setlength{\itemsep}{0pt}
-%     \item[$\checkmark$] Trang bìa, lời cam đoan, tóm tắt Việt/Anh
-%     \item[$\checkmark$] Danh mục hình, bảng, thuật ngữ, tài liệu tham khảo
-% \end{itemize}
-% \end{column}
+\vspace{1em}
+\textbf{3 bước xử lý:}
+\begin{enumerate}\setlength{\itemsep}{4pt}
+    \item Cửa sổ trượt
+    \item Đảo ngược bổ sung
+    \item Undersampling 1:1
+\end{enumerate}
+\end{column}
 
-% \begin{column}{0.42\textwidth}
-% \textbf{Công việc còn lại:}
-% \begin{itemize}\setlength{\itemsep}{1pt}
-%     \item Rà soát thuật ngữ tiếng Việt xuyên suốt
-%     \item Hoàn thiện hình vẽ minh họa pipeline
-%     \item Hiệu đính và định dạng theo quy định
-%     \item Kiểm tra trích dẫn và tài liệu tham khảo
-% \end{itemize}
+\begin{column}{0.63\textwidth}
+\centering
+\includegraphics[width=\textwidth,height=0.78\textheight,keepaspectratio]{figures/data_preparation.png}
+\end{column}
+\end{columns}
 
-% \vspace{0.3em}
-% \textbf{Timeline:}
+\end{frame}
 
-% \vspace{0.2em}
-% {\footnotesize
-% \begin{tabular}{@{}p{1.6cm} p{3.6cm}@{}}
-% \toprule
-% \textbf{Thời gian} & \textbf{Công việc} \\
-% \midrule
-% T3/2026 & Hoàn thiện Chương 3 \\
-% T4/2026 & Rà soát Chương 1, 2, 4 \\
-% T4/2026 & Hiệu đính toàn bộ \\
-% T5/2026 & Nộp \& bảo vệ luận văn \\
-% \bottomrule
-% \end{tabular}
-% }
-% \end{column}
-% \end{columns}
+% ============================================================
+\section{Mô hình đề xuất}
+\begin{frame}[plain]{Kiến trúc PhaBERT-CNN}
 
-% \end{frame}
+\begin{columns}[T]
+\begin{column}{0.30\textwidth}
+\vspace{1.5em}
 
-% % ============================================================
-% % Q&A
-% % ============================================================
-% \begin{frame}{}
-% \begin{center}
-% \vspace{2em}
-% {\Huge\color{uetblue} Cảm ơn thầy cô!}
+\textbf{3 thành phần:}
+\begin{enumerate}\setlength{\itemsep}{8pt}
+    \item DNABERT-2\\{\small (BPE tokenization)}
+    \item MKC\\{\small (CNN kernel 3,5,7\\+ masked avg pool)}
+    \item Classification head
+\end{enumerate}
 
-% \vspace{1.5em}
-% {\Large Phần hỏi đáp}
+\vspace{0.8em}
+\textbf{Huấn luyện 2 GĐ:}\\[3pt]
+{\small GĐ1: Freeze backbone\\
+GĐ2: Unfreeze + LR phân biệt}
+\end{column}
 
-% \vspace{1.5em}
-% \textbf{Vũ Quang Sơn}\\
-% Trường Đại học Công nghệ -- ĐHQGHN
-% \end{center}
-% \end{frame}
+\begin{column}{0.68\textwidth}
+\centering
+\includegraphics[width=\textwidth,height=0.85\textheight,keepaspectratio]{figures/phabert-cnn.png}
+\end{column}
+\end{columns}
 
-% \end{document}
+\end{frame}
+
+% ============================================================
+\section{Kết quả thực nghiệm}
+\begin{frame}{Kết quả thực nghiệm}
+
+\vspace{-0.2em}
+\begin{table}
+\centering
+\begin{tabular}{l c c c c}
+\toprule
+\textbf{Phương pháp} & \textbf{A} & \textbf{B} & \textbf{C} & \textbf{D} \\
+ & {\scriptsize 100-400bp} & {\scriptsize 400-800bp} & {\scriptsize 800-1200bp} & {\scriptsize 1200-1800bp} \\
+\midrule
+\textbf{PhaBERT-CNN} & \textbf{82,01} & \textbf{87,33} & \textbf{89,90} & \textbf{91,38} \\
+PhaTYP               & 78,92 & 85,90 & 88,87 & 91,02 \\
+DeePhage             & 78,07 & 84,17 & 87,40 & 89,09 \\
+ProkBERT             & 80,68 & 85,35 & 84,03 & 84,73 \\
+DNABERT-2            & 81,52 & 85,56 & 87,25 & 88,36 \\
+\bottomrule
+\multicolumn{5}{r}{\scriptsize Chỉ số: Accuracy (\%) -- 5-fold stratified cross-validation}
+\end{tabular}
+\end{table}
+
+\vspace{0.2em}
+{\small
+\begin{itemize}\setlength{\itemsep}{2pt}
+    \item Sn: 82--92\% (cao nhất mọi nhóm) $\rightarrow$ phát hiện tốt phage độc lực cho liệu pháp
+    \item PhaTYP Sp cao hơn nhóm C, D nhờ đặc trưng protein (87,65/89,75 vs 86,92/87,63)
+    \item DeePhage Sp thấp nhất (71--80\%) $\rightarrow$ thiên lệch phân loại độc lực
+\end{itemize}
+}
+
+\end{frame}
+
+% ============================================================
+\begin{frame}{Ablation Study -- Đóng góp của MKC}
+
+\begin{columns}[T]
+\begin{column}{0.43\textwidth}
+\vspace{0.3em}
+
+{\scriptsize
+\begin{tabular}{@{}l c c c c@{}}
+\toprule
+\textbf{Cấu hình} & \textbf{A} & \textbf{B} & \textbf{C} & \textbf{D} \\
+\midrule
+DNABERT-2        & 81,52 & 85,56 & 87,25 & 88,36 \\
+\;+ Pooling      & \textbf{83,54} & \textbf{87,63} & 89,88 & 91,08 \\
+\;+ CNN          & 82,18 & 87,36 & \textbf{90,16} & 91,07 \\
+PhaBERT          & 82,01 & 87,33 & 89,90 & \textbf{91,38} \\
+\bottomrule
+\multicolumn{5}{r}{\tiny Accuracy (\%) -- 5-fold CV}
+\end{tabular}
+}
+
+\vspace{0.8em}
+{\small
+\begin{itemize}\setlength{\itemsep}{5pt}
+    \item Pooling $\succ$ CNN ở contig ngắn (A, B)
+    \item CNN $\succ$ Pooling ở contig dài (C)
+    \item Kết hợp $\rightarrow$ tốt nhất ở D (\textbf{91,38\%})
+    \item Sp: \textbf{+8,61\%} nhóm A (73,25$\rightarrow$81,86)
+\end{itemize}
+}
+\end{column}
+
+\begin{column}{0.55\textwidth}
+\centering
+\includegraphics[width=\textwidth,height=0.82\textheight,keepaspectratio]{figures/dnabert2_vs_phabertcnn.png}
+\end{column}
+\end{columns}
+
+\end{frame}
+
+% ============================================================
+\section{Hạn chế \& Hướng phát triển}
+\begin{frame}{Hạn chế \& Hướng phát triển}
+
+\vspace{0.5em}
+\begin{columns}[T]
+\begin{column}{0.45\textwidth}
+
+\begin{tikzpicture}[
+    item/.style={draw=accent!60, rounded corners, fill=accent!5,
+                 text width=5cm, minimum height=1.2cm, align=left, font=\small}
+]
+\node[font=\large\bfseries] at (2.7,0.5) {Hạn chế};
+\node[item] at (2.7,-0.8) {\textbf{Random undersampling}\\Mất thông tin lớp đa số\\(class weighting, focal loss chưa cải thiện)};
+\node[item] at (2.7,-2.8) {\textbf{Chỉ dùng nucleotide}\\Chưa khai thác đặc trưng protein};
+\end{tikzpicture}
+
+\end{column}
+
+\begin{column}{0.45\textwidth}
+
+\begin{tikzpicture}[
+    item/.style={draw=uetblue!60, rounded corners, fill=uetblue!5,
+                 text width=5cm, minimum height=1.2cm, align=left, font=\small}
+]
+\node[font=\large\bfseries] at (2.7,0.5) {Hướng phát triển};
+\node[item] at (2.7,-0.8) {\textbf{Data augmentation}\\Đột biến ngẫu nhiên, mixup};
+\node[item] at (2.7,-2.8) {\textbf{Đa phương thức}\\DNABERT-2 + ESM-2/ProtBERT};
+\node[item] at (2.7,-4.8) {\textbf{Mở rộng ứng dụng}\\Dự đoán host, phát hiện prophage};
+\end{tikzpicture}
+
+\end{column}
+\end{columns}
+
+\end{frame}
+
+% ============================================================
+\section{Kết luận}
+\begin{frame}{Kết luận}
+
+\vspace{1em}
+\begin{center}
+\begin{tikzpicture}[
+    result/.style={draw=uetblue, rounded corners, fill=uetblue!8,
+                   text width=12cm, minimum height=1cm, align=center, font=\normalsize}
+]
+\node[result] at (0,0) {
+    \textbf{PhaBERT-CNN} = DNABERT-2 + MKC \quad$\rightarrow$\quad trực tiếp trên chuỗi DNA thô
+};
+\node[result] at (0,-1.8) {
+    Accuracy: \textbf{82,01 -- 91,38\%} trên 4 nhóm contig (100--1800 bp)
+};
+\node[result] at (0,-3.6) {
+    Cải thiện \textbf{0,36--6,65\%} so với SOTA \quad|\quad MKC: \textbf{+0,49 -- +4,12\%}
+};
+\node[result] at (0,-5.4) {
+    Không phụ thuộc công cụ dự đoán gen $\rightarrow$ phù hợp contig ngắn, phân mảnh
+};
+\end{tikzpicture}
+\end{center}
+
+\end{frame}
+
+% ============================================================
+\begin{frame}{}
+\begin{center}
+\vspace{2em}
+{\Huge\color{uetblue} Cảm ơn thầy cô!}
+
+\vspace{1.5em}
+{\Large Phần hỏi đáp}
+
+\vspace{1.5em}
+\textbf{Vũ Quang Sơn}\\
+Trường Đại học Công nghệ -- ĐHQGHN
+\end{center}
+\end{frame}
+
+\end{document}
