@@ -69,7 +69,7 @@ PhaBERT, kết hợp cả hai nhánh CNN đa cửa sổ và gộp trung bình c�
 
 Kết quả loại bỏ từng kích thước cửa sổ tích chập (PhaBERT-NO-K5, PhaBERT-NO-K3, PhaBERT-NO-K7) cho thấy mỗi nhánh tích chập đóng góp thực sự so với đường cơ sở DNABERT-2, nhưng thông tin giữa các nhánh chồng lấn đáng kể. Cụ thể, loại bỏ bất kỳ một kích thước cửa sổ nào chỉ làm thay đổi độ chính xác trong khoảng $\pm$0,3--1,5\% so với mô hình đầy đủ, nằm trong biên dao động của kiểm định chéo 5 phần. Trên contig ngắn (Nhóm A), các biến thể thiếu một nhánh thậm chí đạt độ chính xác cao hơn mô hình đầy đủ (83,56\% của PhaBERT-NO-K5 so với 82,01\% của PhaBERT), phản ánh hiệu ứng chính quy hóa: khi tín hiệu trình tự hạn chế, ít tham số hơn giúp mô hình tổng quát hóa tốt hơn do giảm nguy cơ quá khớp. Ngược lại, trên contig dài nhất (Nhóm D), mô hình đầy đủ đạt kết quả cao nhất (91,38\% so với 90,99--91,05\% của các biến thể NO-K), cho thấy lợi ích của việc khai thác đặc trưng đa tỷ lệ chỉ phát huy rõ ràng khi trình tự đủ dài để chứa các mô-típ chức năng đa dạng ở nhiều kích thước khác nhau.
 
-Điểm đáng chú ý là so sánh giữa DNABERT-2-CNN (ba nhánh CNN, không có gộp toàn cục, 384 chiều đặc trưng) với các biến thể PhaBERT-NO-K (hai nhánh CNN kết hợp gộp trung bình có mặt nạ, cũng 384 chiều đặc trưng): hai nhóm cấu hình này đạt hiệu suất gần tương đương trên hầu hết các nhóm. Kết quả này cho thấy việc thay thế một nhánh tích chập bằng nhánh gộp trung bình có mặt nạ mang lại hiệu quả tương đương, xác nhận rằng cả hai loại nhánh đều trích xuất thông tin phân loại ở mức tương đương từ biểu diễn ẩn của DNABERT-2. Nói cách khác, giá trị của kiến trúc MKC nằm ở việc cung cấp nhiều góc nhìn vào cùng một tín hiệu hệ gen, tạo biểu diễn ổn định hơn so với đường cơ sở---nhưng lợi ích biên giảm dần khi thêm nhiều nhánh, do thông tin giữa các nhánh chồng lấn đáng kể.
+Điểm đáng chú ý là so sánh giữa DNABERT-2-CNN (ba nhánh CNN, không có gộp toàn cục, 384 chiều đặc trưng) với các biến thể PhaBERT-NO-K (hai nhánh CNN kết hợp gộp trung bình có mặt nạ, cũng 384 chiều đặc trưng): hai nhóm cấu hình này đạt hiệu suất gần tương đương trên hầu hết các nhóm. Kết quả này cho thấy việc thay thế một nhánh tích chập bằng nhánh gộp trung bình có mặt nạ mang lại hiệu quả tương đương, xác nhận rằng cả hai loại nhánh đều trích xuất thông tin phân loại ở mức tương đương từ biểu diễn ẩn của DNABERT-2. Nói cách khác, giá trị của kiến trúc MKC nằm ở việc cung cấp nhiều góc nhìn vào cùng một tín hiệu hệ gen, tạo biểu diễn ổn định hơn so với đường cơ sở, nhưng lợi ích biên giảm dần khi thêm nhiều nhánh, do thông tin giữa các nhánh chồng lấn đáng kể.
 
 \subsection{So sánh với các phương pháp tiên tiến}
 
@@ -121,6 +121,71 @@ DeePhage~\cite{wu2021deephage} đạt độ chính xác từ 78,07\% đến 89,0
 
 ProkBERT~\cite{ligeti2024prokbert} thể hiện hiện tượng bão hòa: độ chính xác đạt cao nhất ở Nhóm B (85,35\%) rồi giảm xuống 84,03\% (Nhóm C) và 84,73\% (Nhóm D), trở thành phương pháp có hiệu suất thấp nhất trên contig dài. Hiện tượng này phản ánh hạn chế của chiến lược mã hóa LCA k-mer chồng lấn, gây rò rỉ thông tin trong quá trình tiền huấn luyện và tạo dư thừa token~\cite{zhou2023dnabert}. Ngược lại, mã hóa BPE~\cite{sennrich2015neural} trong PhaBERT loại bỏ hoàn toàn hiện tượng rò rỉ thông tin đồng thời giảm độ dài chuỗi token khoảng 5 lần, cho phép mô hình khai thác hiệu quả các trình tự dài hơn.
 
+\section{Phân tích lỗi}
+\label{sec:phan_tich_loi}
+
+Ngoài việc báo cáo các chỉ số hiệu suất tổng hợp, học viên tiến hành phân tích lỗi chi tiết nhằm làm rõ các điểm yếu của PhaBERT và định hướng cho các cải tiến trong tương lai. Khác với các con số hiệu năng trong Bảng~\ref{tab:main_results}, phân tích trong phần này gộp toàn bộ dự đoán trên tập kiểm định của cả năm phần rồi mới cắt theo từng lát (lớp nhãn, thành phần GC), do mỗi mẫu cần một dự đoán để gán vào lát tương ứng. Vì vậy, các số liệu dưới đây mang tính mô tả hành vi của mô hình trên tập kiểm định, bổ trợ cho các con số hiệu năng đã báo cáo.
+
+\subsection{Phân tích lỗi theo lớp nhãn}
+\label{sec:loi_theo_lop}
+
+Để xác định lỗi rơi vào lớp nào, học viên tách tỉ lệ lỗi theo nhãn thật của mỗi mẫu. Với lớp temperate, tỉ lệ lỗi chính là tỉ lệ dương tính giả (FPR, $\text{FPR} = \text{FP}/(\text{FP}+\text{TN})$), tức tỉ lệ thực khuẩn thể ôn hòa bị nhầm thành độc lực; với lớp virulent, tỉ lệ lỗi là tỉ lệ âm tính giả (FNR, $\text{FNR} = \text{FN}/(\text{FN}+\text{TP})$), tức tỉ lệ thực khuẩn thể độc lực bị nhầm thành ôn hòa. Bảng~\ref{tab:error_by_class} trình bày hai tỉ lệ này trên bốn nhóm độ dài, và Hình~\ref{fig:error_confusion_matrix} minh họa các ma trận nhầm lẫn tương ứng.
+
+\begin{table}[h]
+\centering
+\caption{Tỉ lệ lỗi theo lớp nhãn trên bốn nhóm độ dài contig (số liệu gộp trên tập kiểm định năm phần). FPR là tỉ lệ temperate bị nhầm thành virulent, FNR là tỉ lệ virulent bị nhầm thành temperate.}
+\label{tab:error_by_class}
+\begin{tabular}{lcccc}
+\toprule
+Nhóm độ dài & FPR (\%) & FNR (\%) & $n$ temperate & $n$ virulent \\
+\midrule
+Nhóm A (100--400 bp)    & 18,19 & 17,93 & 291.080 & 1.100.668 \\
+Nhóm B (400--800 bp)    & 15,55 & 11,91 & 120.762 & 457.798 \\
+Nhóm C (800--1.200 bp)  & 13,10 & 9,31  & 81.102  & 307.976 \\
+Nhóm D (1.200--1.800 bp) & 12,43 & 7,62  & 61.430  & 233.892 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.8\textwidth]{figures/error_confusion_matrix.png}
+    \caption{Ma trận nhầm lẫn của PhaBERT trên bốn nhóm độ dài contig (số liệu gộp trên tập kiểm định năm phần)}
+    \label{fig:error_confusion_matrix}
+\end{figure}
+
+Kết quả cho thấy lỗi phân bố không đồng đều giữa hai lớp. Trên cả bốn nhóm độ dài, FPR luôn cao hơn FNR, nghĩa là thực khuẩn thể ôn hòa, lớp thiểu số chiếm khoảng 21\% tập dữ liệu, là lớp bị phân loại sai nhiều hơn. Đây là hệ quả trực tiếp của việc mô hình học thiên về lớp đa số (virulent). Đáng chú ý, khoảng cách giữa hai tỉ lệ lỗi nới rộng theo độ dài contig: ở Nhóm A hai tỉ lệ gần tương đương (18,19\% so với 17,93\%), nhưng đến Nhóm D, FPR (12,43\%) cao gần gấp 1,6 lần FNR (7,62\%). Nói cách khác, khi contig đủ dài để mô hình phân loại chính xác hơn về tổng thể, phần lỗi còn lại có xu hướng dồn vào việc nhầm thực khuẩn thể ôn hòa thành độc lực. Hệ quả thực tiễn là nếu bài toán quan tâm đến việc phát hiện thực khuẩn thể ôn hòa, vốn tiềm ẩn rủi ro trong liệu pháp phage do khả năng biến đổi tiềm tan~\cite{feiner2015new}, thì cần lưu ý mô hình hiện đang phân loại sai nhóm này nhiều hơn.
+
+\subsection{Phân tích lỗi theo thành phần GC}
+\label{sec:loi_theo_gc}
+
+Bên cạnh độ dài, học viên khảo sát ảnh hưởng của thành phần GC (tỉ lệ phần trăm base G và C trong contig) đến tỉ lệ lỗi, một chiều phân tích chưa được các công cụ phân loại thực khuẩn thể hiện hành như DeePhage~\cite{wu2021deephage} và PhaTYP~\cite{shang2023phatyp} báo cáo. Các contig được chia thành bốn khoảng GC cố định theo sinh học: dưới 35\%, 35--45\%, 45--55\% và trên 55\%. Hình~\ref{fig:error_heatmap_gc} trình bày tỉ lệ lỗi theo từng khoảng GC trên cả bốn nhóm độ dài dưới dạng bản đồ nhiệt hai chiều độ dài $\times$ GC.
+
+% \begin{table}[h]
+% \centering
+% \caption{Tỉ lệ lỗi (\%) theo khoảng thành phần GC trên bốn nhóm độ dài contig (số liệu gộp trên tập kiểm định năm phần).}
+% \label{tab:error_by_gc}
+% \begin{tabular}{lccccc}
+% \toprule
+% Khoảng GC & Nhóm A & Nhóm B & Nhóm C & Nhóm D & Toàn cục \\
+% \midrule
+% \textless 35\%   & 23,00 & 16,82 & 13,17 & 11,94 & 19,20 \\
+% 35--45\%         & 13,91 & 9,48  & 6,94  & 5,80  & 10,90 \\
+% 45--55\%         & 13,24 & 8,90  & 7,14  & 5,51  & 10,59 \\
+% \textgreater 55\%        & 28,86 & 21,95 & 19,71 & 17,46 & 24,83 \\
+% \bottomrule
+% \end{tabular}
+% \end{table}
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.8\textwidth]{figures/error_heatmap_length_gc.png}
+    \caption{Bản đồ nhiệt tỉ lệ lỗi của PhaBERT theo lưới hai chiều nhóm độ dài $\times$ khoảng GC (số liệu gộp trên tập kiểm định năm phần)}
+    \label{fig:error_heatmap_gc}
+\end{figure}
+
+Tỉ lệ lỗi thể hiện quan hệ hình chữ U rõ rệt theo thành phần GC: mô hình mạnh nhất ở khoảng GC trung bình (35--55\%) và yếu hẳn ở hai cực, đặc biệt ở khoảng GC cao (trên 55\%). Trên toàn cục, tỉ lệ lỗi ở khoảng GC trên 55\% lên đến 24,83\%, cao hơn gấp đôi so với mức 10,59\% ở khoảng 45--55\%; ở các contig ngắn (Nhóm A), con số này còn lên đến 28,86\%. Ở cực còn lại, khoảng GC dưới 35\% cũng có tỉ lệ lỗi toàn cục tăng lên 19,20\%, cao hơn rõ rệt so với mức nền khoảng 10--11\% ở vùng GC trung bình, xác nhận cả hai nhánh của đường cong chữ U. Quan trọng hơn, mẫu hình chữ U này lặp lại nhất quán trên cả bốn nhóm độ dài (Hình~\ref{fig:error_heatmap_gc}), cho thấy đây là một đặc tính cố hữu của mô hình chứ không phải nhiễu thống kê do kích thước mẫu. Phát hiện này có ý nghĩa đóng góp: nó chỉ ra một điểm yếu chưa được báo cáo trong các nghiên cứu trước, đồng thời gợi mở rằng các trình tự có thành phần GC cực trị, thường gặp ở một số nhóm vi khuẩn chủ đặc thù, cần được quan tâm đặc biệt khi triển khai mô hình. Một lưu ý kỹ thuật khi diễn giải kết quả là ở các contig ngắn (100--400 bp), ước lượng thành phần GC có sai số lấy mẫu lớn hơn, do đó các khoảng GC cực trị ở nhóm này cần được diễn giải thận trọng.
+
 \section{Thảo luận}
 \label{sec:thao_luan}
 
@@ -129,7 +194,7 @@ Phần này phân tích các yếu tố đóng góp vào hiệu suất của Pha
 \subsection{Phân tích đóng góp kiến trúc}
 \label{sec:kien_truc_contribution}
 
-Hiệu suất vượt trội của PhaBERT trên tất cả bốn nhóm contig xuất phát từ ba yếu tố bổ trợ lẫn nhau. Thứ nhất, PhaBERT hoạt động trực tiếp trên chuỗi DNA thô thông qua mã hóa BPE~\cite{sennrich2015neural}, không phụ thuộc vào công cụ dự đoán gen như Prodigal~\cite{hyatt2010prodigal} mà PhaTYP yêu cầu. Trên các contig ngắn, Prodigal thường không phát hiện được các vùng mã hóa protein hoàn chỉnh do chuỗi quá ngắn để chứa các khung đọc mở đầy đủ~\cite{trimble2012short}, khiến PhaTYP mất đi nguồn thông tin chính; trong khi đó PhaBERT vẫn khai thác được tín hiệu từ trình tự nucleotide thô. Thứ hai, DNABERT-2 đã được tiền huấn luyện trên tập dữ liệu di truyền đa loài quy mô lớn~\cite{zhou2023dnabert}, cho phép mô hình tổng quát hóa tốt hơn so với DeePhage vốn được huấn luyện từ đầu trên tập dữ liệu có kích thước hạn chế---một ưu thế của học chuyển giao đã được chứng minh rộng rãi trong lĩnh vực xử lý ngôn ngữ tự nhiên~\cite{howard2018universal,devlin2019bert}. Thứ ba, kiến trúc MKC với ba nhánh tích chập song song có kích thước cửa sổ 3, 5, 7~\cite{kim2014convolutional} kết hợp với gộp trung bình có mặt nạ cho phép mô hình đồng thời nắm bắt các đặc trưng cục bộ ở nhiều tỷ lệ không gian và tổng hợp thông tin toàn cục, bổ sung hiệu quả cho biểu diễn ngữ cảnh từ bộ mã hóa transformer. Kết quả loại bỏ từng kích thước cửa sổ (Bảng~\ref{tab:ablation_results}) cho thấy các nhánh tích chập có mức đóng góp tương đương nhau và thông tin giữa chúng chồng lấn đáng kể---phù hợp với nhận định của Zhang và Wallace~\cite{zhang2017sensitivity} rằng hiệu suất của mạng tích chập đa cửa sổ ít nhạy cảm với việc lựa chọn kích thước bộ lọc cụ thể, mà phụ thuộc chủ yếu vào việc sử dụng đồng thời nhiều kích thước.
+Hiệu suất vượt trội của PhaBERT trên tất cả bốn nhóm contig xuất phát từ ba yếu tố bổ trợ lẫn nhau. Thứ nhất, PhaBERT hoạt động trực tiếp trên chuỗi DNA thô thông qua mã hóa BPE~\cite{sennrich2015neural}, không phụ thuộc vào công cụ dự đoán gen như Prodigal~\cite{hyatt2010prodigal} mà PhaTYP yêu cầu. Trên các contig ngắn, Prodigal thường không phát hiện được các vùng mã hóa protein hoàn chỉnh do chuỗi quá ngắn để chứa các khung đọc mở đầy đủ~\cite{trimble2012short}, khiến PhaTYP mất đi nguồn thông tin chính; trong khi đó PhaBERT vẫn khai thác được tín hiệu từ trình tự nucleotide thô. Thứ hai, DNABERT-2 đã được tiền huấn luyện trên tập dữ liệu di truyền đa loài quy mô lớn~\cite{zhou2023dnabert}, cho phép mô hình tổng quát hóa tốt hơn so với DeePhage vốn được huấn luyện từ đầu trên tập dữ liệu có kích thước hạn chế, một ưu thế của học chuyển giao đã được chứng minh rộng rãi trong lĩnh vực xử lý ngôn ngữ tự nhiên~\cite{howard2018universal,devlin2019bert}. Thứ ba, kiến trúc MKC với ba nhánh tích chập song song có kích thước cửa sổ 3, 5, 7~\cite{kim2014convolutional} kết hợp với gộp trung bình có mặt nạ cho phép mô hình đồng thời nắm bắt các đặc trưng cục bộ ở nhiều tỷ lệ không gian và tổng hợp thông tin toàn cục, bổ sung hiệu quả cho biểu diễn ngữ cảnh từ bộ mã hóa transformer. Kết quả loại bỏ từng kích thước cửa sổ (Bảng~\ref{tab:ablation_results}) cho thấy các nhánh tích chập có mức đóng góp tương đương nhau và thông tin giữa chúng chồng lấn đáng kể, phù hợp với nhận định của Zhang và Wallace~\cite{zhang2017sensitivity} rằng hiệu suất của mạng tích chập đa cửa sổ ít nhạy cảm với việc lựa chọn kích thước bộ lọc cụ thể, mà phụ thuộc chủ yếu vào việc sử dụng đồng thời nhiều kích thước.
 
 \subsection{Phân tích xu hướng theo độ dài contig}
 \label{sec:xu_huong_do_dai}
@@ -155,4 +220,4 @@ Trong bối cảnh liệu pháp phage, việc phân loại chính xác lối s�
 \section{Kết luận}
 \label{sec:ket_luan_c4}
 
-Chương này đã trình bày kết quả đánh giá toàn diện PhaBERT trên bốn nhóm độ dài contig thông qua kiểm định chéo phân tầng 5 phần, bao gồm nghiên cứu loại bỏ thành phần với bảy cấu hình (DNABERT-2, PhaBERT, DNABERT-2-CNN, DNABERT-2-P, PhaBERT-NO-K5, PhaBERT-NO-K3 và PhaBERT-NO-K7), cùng so sánh với ba phương pháp tiên tiến khác. Kết quả nghiên cứu loại bỏ thành phần cho thấy mô-đun MKC cải thiện độ chính xác từ 0,49\% đến 3,02\% so với đường cơ sở DNABERT-2, trong đó mức cải thiện độ đặc hiệu đặc biệt đáng kể (lên đến 8,61\% ở Nhóm A). So sánh các thành phần riêng lẻ cho thấy gộp chú ý (DNABERT-2-P) mang lại lợi thế trên contig ngắn, trong khi CNN đa cửa sổ (DNABERT-2-CNN) phát huy hiệu quả trên contig trung bình và dài; sự kết hợp cả hai nhánh trong PhaBERT mang lại hiệu suất cân bằng và ổn định nhất trên toàn phổ độ dài. Kết quả loại bỏ từng kích thước cửa sổ tích chập cho thấy các nhánh có mức đóng góp tương đương và thông tin chồng lấn đáng kể---lợi ích biên giảm dần khi thêm nhánh, nhưng sự kết hợp đa tỷ lệ vẫn mang lại tính ổn định cao hơn so với từng thành phần riêng lẻ, đặc biệt trên contig dài. Trong so sánh toàn diện với các phương pháp tiên tiến, PhaBERT đạt độ chính xác cao nhất trên tất cả bốn nhóm contig (100--1.800 bp) với khoảng từ 82,01\% đến 91,38\%, cải thiện từ 0,36 đến 6,65\% so với phương pháp tốt nhất tiếp theo. Phân tích cho thấy ba yếu tố chính đóng góp vào hiệu suất này: xử lý trực tiếp trên trình tự DNA thô thông qua mã hóa BPE, học chuyển giao từ mô hình nền tảng tiền huấn luyện trên dữ liệu đa loài, và trích xuất đặc trưng đa tỷ lệ từ mô-đun MKC. Chương tiếp theo tổng kết các đóng góp của nghiên cứu, thảo luận các hạn chế và đề xuất hướng phát triển trong tương lai.
+Chương này đã trình bày kết quả đánh giá toàn diện PhaBERT trên bốn nhóm độ dài contig thông qua kiểm định chéo phân tầng 5 phần, bao gồm nghiên cứu loại bỏ thành phần với bảy cấu hình (DNABERT-2, PhaBERT, DNABERT-2-CNN, DNABERT-2-P, PhaBERT-NO-K5, PhaBERT-NO-K3 và PhaBERT-NO-K7), cùng so sánh với ba phương pháp tiên tiến khác. Kết quả nghiên cứu loại bỏ thành phần cho thấy mô-đun MKC cải thiện độ chính xác từ 0,49\% đến 3,02\% so với đường cơ sở DNABERT-2, trong đó mức cải thiện độ đặc hiệu đặc biệt đáng kể (lên đến 8,61\% ở Nhóm A). So sánh các thành phần riêng lẻ cho thấy gộp chú ý (DNABERT-2-P) mang lại lợi thế trên contig ngắn, trong khi CNN đa cửa sổ (DNABERT-2-CNN) phát huy hiệu quả trên contig trung bình và dài; sự kết hợp cả hai nhánh trong PhaBERT mang lại hiệu suất cân bằng và ổn định nhất trên toàn phổ độ dài. Kết quả loại bỏ từng kích thước cửa sổ tích chập cho thấy các nhánh có mức đóng góp tương đương và thông tin chồng lấn đáng kể, lợi ích biên giảm dần khi thêm nhánh, nhưng sự kết hợp đa tỷ lệ vẫn mang lại tính ổn định cao hơn so với từng thành phần riêng lẻ, đặc biệt trên contig dài. Trong so sánh toàn diện với các phương pháp tiên tiến, PhaBERT đạt độ chính xác cao nhất trên tất cả bốn nhóm contig (100--1.800 bp) với khoảng từ 82,01\% đến 91,38\%, cải thiện từ 0,36 đến 6,65\% so với phương pháp tốt nhất tiếp theo. Phân tích cho thấy ba yếu tố chính đóng góp vào hiệu suất này: xử lý trực tiếp trên trình tự DNA thô thông qua mã hóa BPE, học chuyển giao từ mô hình nền tảng tiền huấn luyện trên dữ liệu đa loài, và trích xuất đặc trưng đa tỷ lệ từ mô-đun MKC. Ngoài ra, phân tích lỗi chi tiết (Phần~\ref{sec:phan_tich_loi}) làm rõ hai điểm yếu còn tồn tại của mô hình: xu hướng thiên lệch về lớp đa số khiến thực khuẩn thể ôn hòa bị phân loại sai nhiều hơn, và tỉ lệ lỗi tăng cao ở các contig có thành phần GC cực trị theo mẫu hình chữ U. Chương tiếp theo tổng kết các đóng góp của nghiên cứu, thảo luận các hạn chế và đề xuất hướng phát triển trong tương lai.
