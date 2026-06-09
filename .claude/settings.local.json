@@ -59,5 +59,9 @@
       "WebFetch(domain:academic.oup.com)",
       "WebFetch(domain:pmc.ncbi.nlm.nih.gov)"
     ]
-  }
+  },
+  "enabledMcpjsonServers": [
+    "notebooklm"
+  ],
+  "enableAllProjectMcpServers": true
 }
